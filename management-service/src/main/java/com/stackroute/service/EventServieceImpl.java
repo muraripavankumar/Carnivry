@@ -11,11 +11,11 @@ public class EventServieceImpl implements EventService{
     private EventRepository eventRepository;
     @Override
     public Event addEvent(Event event) {
-        return null;
+        return eventRepository.save(event);
     }
 
     @Override
     public Event updateEvent(Event event) {
-        return null;
+        return eventRepository.save(event);
     }
 }
