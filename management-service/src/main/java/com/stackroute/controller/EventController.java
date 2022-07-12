@@ -1,16 +1,30 @@
 package com.stackroute.controller;
 
+import com.stackroute.model.Event;
+import com.stackroute.service.EventService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/v1")
 public class EventController {
     //addEvent = POST
     //updateEvent = PATCH
+
+    @Autowired
+    private EventService eventService;
+
     @PostMapping("/")
-    public ResponseEntity<?> addEvent(@RequestParam())
+    public ResponseEntity<?> addEvent(@RequestParam("event") String eventText, @RequestParam("image") MultipartFile posterPic) throws IOException {
+        return new ResponseEntity<>(eventService.addEvent(eventText,posterPic), HttpStatus.CREATED) ;
+    }
+    @PatchMapping("/")
+    public ResponseEntity<?> updateEvent(@RequestParam MultipartFile posterPic, @RequestBody Event event){
+        return null;
+    }
 }
