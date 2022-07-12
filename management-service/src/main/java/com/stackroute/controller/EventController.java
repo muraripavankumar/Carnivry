@@ -13,8 +13,9 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/api/v1")
 public class EventController {
-    //addEvent = POST
-    //updateEvent = PATCH
+    //addEvent               = POST = /
+    //updateEvent            = PATCH = /
+    //getEventByEventId      = GET = /{eventId}
 
     @Autowired
     private EventService eventService;
@@ -24,7 +25,11 @@ public class EventController {
         return new ResponseEntity<>(eventService.addEvent(eventText,posterPic), HttpStatus.CREATED) ;
     }
     @PatchMapping("/")
-    public ResponseEntity<?> updateEvent(@RequestParam MultipartFile posterPic, @RequestBody Event event){
-        return null;
+    public ResponseEntity<?> updateEvent(@RequestParam("event") String eventText, @RequestParam("image") MultipartFile posterPic) throws IOException {
+        return new ResponseEntity<>(eventService.updateEvent(eventText,posterPic), HttpStatus.OK) ;
+    }
+    @GetMapping("/{eventId}")
+    public ResponseEntity<?> getEventByEventId(@PathVariable String eventId) throws Exception {
+        return new ResponseEntity<>(eventService.getEventById(eventId),HttpStatus.OK);
     }
 }

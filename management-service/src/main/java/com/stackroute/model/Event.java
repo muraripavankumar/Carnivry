@@ -46,4 +46,20 @@ public class Event {
         this.totalSeats = totalSeats;
         this.likes = likes;
     }
+
+    public Event(String title, String userEmailId, String eventDescription, List<String> artists, List<String> genre, List<String> languages, EventTiming eventTimings, Venue venue, double revenueGenerated, int ticketsSold, int totalSeats, List<Seat> seats, int likes) {
+        this.title = title;
+        this.userEmailId = userEmailId;
+        this.eventDescription = eventDescription;
+        this.artists = artists;
+        this.genre = genre;
+        this.languages = languages;
+        this.eventTimings = eventTimings;
+        this.venue = venue;
+        this.revenueGenerated = revenueGenerated;
+        this.ticketsSold = ticketsSold;
+        this.totalSeats = totalSeats;
+        this.seats = seats;
+        this.likes = likes;
+    }
 }

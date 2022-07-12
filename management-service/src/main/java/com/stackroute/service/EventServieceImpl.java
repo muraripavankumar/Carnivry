@@ -1,6 +1,5 @@
 package com.stackroute.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stackroute.model.Event;
 import com.stackroute.repository.EventRepository;
@@ -33,7 +32,17 @@ public class EventServieceImpl implements EventService{
     }
 
     @Override
-    public Event updateEvent(Event event) {
+    public Event updateEvent(String eventText, MultipartFile posterPic) throws IOException {
+        Event event=new ObjectMapper().readValue(eventText,Event.class);
+        String filename=StringUtils.cleanPath(Objects.requireNonNull(posterPic.getOriginalFilename()));
+        event.setPoster(new Binary(BsonBinarySubType.BINARY, posterPic.getBytes()));
+        event.setFileName(filename);
+        event.setFileType(posterPic.getContentType());
         return eventRepository.save(event);
+    }
+
+    @Override
+    public Event getEventById(String eventId) throws Exception {
+        return eventRepository.findById(eventId).orElseThrow(()->new Exception("Event not found"));
     }
 }
