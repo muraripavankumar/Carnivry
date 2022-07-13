@@ -7,6 +7,7 @@ import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Document
@@ -32,8 +33,9 @@ public class Event {
     private int totalSeats;
     private List<Seat> seats;
     private int likes;
-
-    public Event(String eventId, String title, String userEmailId, String eventDescription, List<String> artists, List<String> genre, List<String> languages, double revenueGenerated, int ticketsSold, int totalSeats, int likes) {
+    private List<String> emailOfUsersLikedEvent;
+    //constructor to be used for updating the event details
+    public Event(String eventId, String title, String userEmailId, String eventDescription, List<String> artists, List<String> genre, List<String> languages, double revenueGenerated, int ticketsSold, int totalSeats) {
         this.eventId = eventId;
         this.title = title;
         this.userEmailId = userEmailId;
@@ -44,10 +46,9 @@ public class Event {
         this.revenueGenerated = revenueGenerated;
         this.ticketsSold = ticketsSold;
         this.totalSeats = totalSeats;
-        this.likes = likes;
     }
-
-    public Event(String title, String userEmailId, String eventDescription, List<String> artists, List<String> genre, List<String> languages, EventTiming eventTimings, Venue venue, double revenueGenerated, int ticketsSold, int totalSeats, List<Seat> seats, int likes) {
+    //constructor to be used for creating new event
+    public Event(String title, String userEmailId, String eventDescription, List<String> artists, List<String> genre, List<String> languages, EventTiming eventTimings, Venue venue, double revenueGenerated, int ticketsSold, int totalSeats, List<Seat> seats) {
         this.title = title;
         this.userEmailId = userEmailId;
         this.eventDescription = eventDescription;
@@ -60,6 +61,7 @@ public class Event {
         this.ticketsSold = ticketsSold;
         this.totalSeats = totalSeats;
         this.seats = seats;
-        this.likes = likes;
+        likes=0;
+        emailOfUsersLikedEvent=new ArrayList<>();
     }
 }
