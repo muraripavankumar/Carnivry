@@ -1,1 +1,89 @@
-<p>host-event works!</p>
+
+  <mat-stepper  linear="true" #stepper>
+    <mat-step [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Event Details</ng-template>
+        <mat-form-field appearance="fill">
+          <mat-label>Event Title</mat-label>
+          <input matInput placeholder="Event title" formControlName="title" >
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Event Description</mat-label>
+          <textarea matInput placeholder="Event description (minimum 50 characters)" formControlName="eventDescription" ></textarea>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Artist</mat-label>
+          <mat-chip-list #chipList aria-label="Artist selection">
+            <mat-chip *ngFor="let artist of artists" (removed)="removeArtist(artist)">{{artist}}<button matChipRemove><mat-icon>cancel</mat-icon></button></mat-chip>
+            <input placeholder="New fruit..."
+           [matChipInputFor]="chipList"
+           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+           [matChipInputAddOnBlur]="addOnBlur"
+           (matChipInputTokenEnd)="addArtist($event)">
+          </mat-chip-list>
+        </mat-form-field>
+        <mat-form-field class="example-chip-list" appearance="fill">
+          <mat-label>Favorite Fruits</mat-label>
+          <mat-chip-list #chipList aria-label="Fruit selection">
+            <mat-chip
+              *ngFor="let fruit of fruits"
+              (removed)="removeGenre(fruit)">
+              {{fruit}}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+            <input
+              placeholder="New fruit..."
+              #fruitInput
+              [formControl]="fruitCtrl"
+              [matAutocomplete]="auto"
+              [matChipInputFor]="chipList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              (matChipInputTokenEnd)="addGenre($event)">
+          </mat-chip-list>
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+            <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+              {{fruit}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Languages</mat-label>
+          <mat-chip-list #chipList aria-label="Artist selection">
+            <mat-chip *ngFor="let artist of artists" (removed)="removeArtist(artist)">{{artist}}<button matChipRemove><mat-icon>cancel</mat-icon></button></mat-chip>
+            <input placeholder="New fruit..."
+           [matChipInputFor]="chipList"
+           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+           [matChipInputAddOnBlur]="addOnBlur"
+           (matChipInputTokenEnd)="addArtist($event)">
+          </mat-chip-list>
+        </mat-form-field>
+        
+        <div>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup" label="Venue Details">
+      <form [formGroup]="secondFormGroup">
+        <mat-form-field appearance="fill">
+          <mat-label>Address</mat-label>
+          <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
+                 required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      <p>You are now done.</p>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button (click)="stepper.reset()">Reset</button>
+      </div>
+    </mat-step>
+  </mat-stepper>
