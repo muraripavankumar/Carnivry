@@ -3,11 +3,9 @@ import { Validators, FormBuilder, FormArray } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
-// import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { ElementRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-// import {MatChipInputEvent} from '@angular/material/chips';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
@@ -22,11 +20,30 @@ interface Food {
   styleUrls: ['./host-event.component.css']
 })
 export class HostEventComponent implements OnInit {
+  event:Event;
+
+  constructor(private _formBuilder: FormBuilder) {
+    this.filteredGenre = this.firstFormGroup.get("genre").valueChanges.pipe(
+      startWith(null),
+      map((genre: string | null) => (genre ? this._filter(genre) : this.allGenres.slice())),
+    );
+
+    // this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+    //   startWith(null),
+    //   map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice())),
+    // );
+  }
+
+  ngOnInit(): void {
+  }
+
+
   firstFormGroup = this._formBuilder.group({
-    title: ['', Validators.required],
+    title: new FormControl('', Validators.required),
     eventDescription: ['',[ Validators.required, Validators.minLength(50)]],
     artist: [''],
-    genre: [''],
+    genre: new FormControl('', Validators.required),
+    languages: new FormControl('', Validators.required)
   });
   secondFormGroup = this._formBuilder.group({
     secondCtrl: ['', Validators.required],
@@ -40,50 +57,63 @@ export class HostEventComponent implements OnInit {
   });
   isLinear = false;
 
-  constructor(private _formBuilder: FormBuilder) {
-    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
-      startWith(null),
-      map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice())),
-    );
-  }
-
-  ngOnInit(): void {
-  }
-
+ 
   /////////////////////////////////////////////////////////
   addOnBlur = true;
   readonly separatorKeysCodes1 = [ENTER, COMMA] as const;
-  ffruits: string[] = ['Lemon'];
+  artists: string[] = ['Artist1'];
   // ffruits: FFruit[] = [{ name: 'Lemon' }, { name: 'Lime' }, { name: 'Apple' }];
 
-  add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-
+  addArtist(artist: MatChipInputEvent): void {
+    const value = (artist.value || '').trim();
     // Add our fruit
     if (value) {
       // this.ffruits.push({ name: value });
-      this.ffruits.push(value);
+      this.artists.push(value);
     }
-
     // Clear the input value
-    event.chipInput!.clear();
+    artist.chipInput!.clear();
   }
 
-  remove(fruit: string): void {
-    const index = this.fruits.indexOf(fruit);
-
+  removeArtist(artist: string): void {
+    const index = this.artists.indexOf(artist);
     if (index >= 0) {
-      this.fruits.splice(index, 1);
+      this.artists.splice(index, 1);
+    }
+  }
+  ///////////////////////////////////////////////////////
+  // addOnBlur = true;
+  readonly separatorKeysCodes3 = [ENTER, COMMA] as const;
+  languages: string[] = ['Language1'];
+  // ffruits: FFruit[] = [{ name: 'Lemon' }, { name: 'Lime' }, { name: 'Apple' }];
+
+  addLanguage(lang: MatChipInputEvent): void {
+    const value = (lang.value || '').trim();
+    // Add our fruit
+    if (value) {
+      // this.ffruits.push({ name: value });
+      this.languages.push(value);
+    }
+    // Clear the input value
+    lang.chipInput!.clear();
+  }
+
+  removeLanguage(lang: string): void {
+    const index = this.languages.indexOf(lang);
+    if (index >= 0) {
+      this.languages.splice(index, 1);
     }
   }
   ///////////////////////////////////////////////////////
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  fruitCtrl = new FormControl('');
-  filteredFruits: Observable<string[]>;
-  fruits: string[] = ['Lemon'];
-  allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+  // fruitCtrl = new FormControl('');
+  // filteredFruits: Observable<string[]>;
+  filteredGenre: Observable<string[]>;
+  genres: string[] = ['Drama'];
+  allGenres: string[] = ['Action', 'Adventure', 'Birthday', 'Wedding', 'Comedy'];
 
-  @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
+  @ViewChild('genreInput') genreInput: ElementRef<HTMLInputElement>;
+  // @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
 
   // constructor() {}
 
@@ -92,33 +122,33 @@ export class HostEventComponent implements OnInit {
 
     // Add our fruit
     if (value) {
-      this.fruits.push(value);
+      this.genres.push(value);
     }
 
     // Clear the input value
     event.chipInput!.clear();
 
-    this.fruitCtrl.setValue(null);
+    this.firstFormGroup.get('genre').setValue(null);
   }
 
-  removeGenre(fruit: string): void {
-    const index = this.fruits.indexOf(fruit);
+  removeGenre(g: string): void {
+    const index = this.genres.indexOf(g);
 
     if (index >= 0) {
-      this.fruits.splice(index, 1);
+      this.genres.splice(index, 1);
     }
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.fruits.push(event.option.viewValue);
-    this.fruitInput.nativeElement.value = '';
-    this.fruitCtrl.setValue(null);
+    this.genres.push(event.option.viewValue);
+    this.genreInput.nativeElement.value = '';
+    this.firstFormGroup.get('genre').setValue(null);
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.allFruits.filter(fruit => fruit.toLowerCase().includes(filterValue));
+    return this.allGenres.filter(g => g.toLowerCase().includes(filterValue));
   }
   /////////////////////////////////////////////////////////////
 

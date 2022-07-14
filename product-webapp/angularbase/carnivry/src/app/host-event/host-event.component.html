@@ -2,10 +2,12 @@
   <mat-step [stepControl]="firstFormGroup">
     <form [formGroup]="firstFormGroup">
       <ng-template matStepLabel>Event Details</ng-template>
+
       <mat-form-field appearance="fill">
         <mat-label>Event Title</mat-label>
         <input matInput placeholder="Event title" formControlName="title">
       </mat-form-field>
+
       <mat-form-field appearance="fill">
         <mat-label>Event Description</mat-label>
         <textarea matInput #description placeholder="Event description (minimum 50 characters)"
@@ -13,55 +15,55 @@
         <mat-hint align="end">Characters: {{description.value.length}}</mat-hint>
       </mat-form-field>
 
-      <mat-form-field class="example-chip-list" appearance="fill">
+      <mat-form-field appearance="fill">
         <mat-label>Artists</mat-label>
-        <mat-chip-list #chipList aria-label="Fruit selection">
-          <mat-chip *ngFor="let fruit of ffruits" (removed)="remove(fruit)">
+        <mat-chip-list #chipList1 aria-label="Artist selection">
+          <mat-chip *ngFor="let a of artists" (removed)="removeArtist(a)">
             <!-- {{fruit.name}} -->
-            {{fruit}}
+            {{a}}
             <button matChipRemove>
               <mat-icon>cancel</mat-icon>
             </button>
           </mat-chip>
-          <input placeholder="New fruit..." [matChipInputFor]="chipList"
+          <input placeholder="New artist/cast..." [matChipInputFor]="chipList1"
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes1" [matChipInputAddOnBlur]="addOnBlur"
-            (matChipInputTokenEnd)="add($event)">
+            (matChipInputTokenEnd)="addArtist($event)">
         </mat-chip-list>
       </mat-form-field>
 
-      <mat-form-field class="example-chip-list" appearance="fill">
+      <mat-form-field appearance="fill">
         <mat-label>Genres</mat-label>
-        <mat-chip-list #chipList aria-label="Fruit selection">
-          <mat-chip *ngFor="let fruit of fruits" (removed)="removeGenre(fruit)">
-            {{fruit}}
+        <mat-chip-list #chipList2 aria-label="Genre selection">
+          <mat-chip *ngFor="let g of genres" (removed)="removeGenre(g)">
+            {{g}}
             <button matChipRemove>
               <mat-icon>cancel</mat-icon>
             </button>
           </mat-chip>
-          <input placeholder="New fruit..." #fruitInput [formControl]="fruitCtrl" [matAutocomplete]="auto"
-            [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          <input placeholder="New genre..." #genreInput [formControl]="" [matAutocomplete]="auto"
+            [matChipInputFor]="chipList2" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
             (matChipInputTokenEnd)="addGenre($event)">
         </mat-chip-list>
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-          <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
-            {{fruit}}
+          <mat-option *ngFor="let gr of filteredGenre | async" [value]="gr">
+            {{gr}}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
 
-      <mat-form-field class="example-chip-list" appearance="fill">
+      <mat-form-field  appearance="fill">
         <mat-label>Languages</mat-label>
-        <mat-chip-list #chipList aria-label="Fruit selection">
-          <mat-chip *ngFor="let fruit of ffruits" (removed)="remove(fruit)">
+        <mat-chip-list #chipList3 aria-label="Language selection">
+          <mat-chip *ngFor="let l of languages" (removed)="removeLanguage(l)">
             <!-- {{fruit.name}} -->
-            {{fruit}}
+            {{l}}
             <button matChipRemove>
               <mat-icon>cancel</mat-icon>
             </button>
           </mat-chip>
-          <input placeholder="New fruit..." [matChipInputFor]="chipList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes1" [matChipInputAddOnBlur]="addOnBlur"
-            (matChipInputTokenEnd)="add($event)">
+          <input placeholder="New language..." [matChipInputFor]="chipList3"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes3" [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="addLanguage($event)">
         </mat-chip-list>
       </mat-form-field>
 
@@ -70,6 +72,7 @@
       </div>
     </form>
   </mat-step>
+  ////////----------------------------------///////////////////
   <mat-step [stepControl]="secondFormGroup" label="Venue Details">
     <h3>Select Event Type</h3>
     <mat-button-toggle-group name="eventType" aria-label="Event Type">
@@ -147,6 +150,7 @@
       </div>
     </form>
   </mat-step>
+  /////////////////-----------------------///////////////////////
   <mat-step [stepControl]="thirdFormGroup" label="Seating Arrangement">
     <!-- <div formArrayName="seats"> -->
     <form [formGroup]="thirdFormGroup">
@@ -176,6 +180,7 @@
     <!-- </div> -->
 
   </mat-step>
+  //////////////////////---------------------------//////////////////////
   <mat-step [stepControl]="fourthFormGroup" label="Poster">
     <form [formGroup]="fourthFormGroup">
       <!-- <mat-form-field appearance="fill">
@@ -190,6 +195,7 @@
     </form>
 
   </mat-step>
+  //////////////////---------------------/////////////////////
   <mat-step>
     <ng-template matStepLabel>Done</ng-template>
     <p>You are now done.</p>

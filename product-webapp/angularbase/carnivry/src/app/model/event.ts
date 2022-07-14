@@ -1,4 +1,3 @@
-import { Binary } from "@angular/compiler";
 import { EventTiming } from "./event-timing";
 import { Seat } from "./seat";
 import { Venue } from "./venue";
@@ -12,7 +11,7 @@ export class Event {
     public genre: string[];
     public languages: string[];
     public eventTimings: EventTiming;
-    public poster: Binary;
+    public poster: any;
     public fileName: string;
     public fileType: string;
     public venue: Venue;
