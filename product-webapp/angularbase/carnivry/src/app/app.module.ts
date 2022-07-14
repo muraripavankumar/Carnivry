@@ -4,7 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HostEventComponent } from './management-service/host-event/host-event.component';
 
 import {MatStepperModule} from '@angular/material/stepper';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -16,6 +15,9 @@ import { MatIconModule } from '@angular/material/icon';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatSelectModule} from '@angular/material/select';
+import { HostEventComponent } from './host-event/host-event.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import {MatSelectModule} from '@angular/material/select';
     MatIconModule,
     MatAutocompleteModule,
     MatButtonToggleModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [],
   bootstrap: [AppComponent]

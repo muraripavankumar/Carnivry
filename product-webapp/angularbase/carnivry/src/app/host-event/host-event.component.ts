@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormBuilder } from '@angular/forms';
+import { Validators, FormBuilder, FormArray } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
@@ -30,6 +30,13 @@ export class HostEventComponent implements OnInit {
   });
   secondFormGroup = this._formBuilder.group({
     secondCtrl: ['', Validators.required],
+  });
+  thirdFormGroup = this._formBuilder.group({
+    thirdCtrl: ['', Validators.required],
+    seats: new FormArray([])
+  });
+  fourthFormGroup = this._formBuilder.group({
+    fourthCtrl: ['', Validators.required],
   });
   isLinear = false;
 
@@ -120,4 +127,12 @@ export class HostEventComponent implements OnInit {
     {value: 'india', viewValue: 'India'},
     {value: 'pakistan', viewValue: 'Pakistan'},
   ];
+  //////////////////////////////////////////////////////////////
+  onAddMoreSeats(){
+    const seatControl=new FormControl('',Validators.required);
+    (<FormArray>this.thirdFormGroup.get('seats')).push(seatControl);
+  }
+  get seatingControls(){
+    return (<FormArray>this.thirdFormGroup.get('seats')).controls;
+  }
 }
