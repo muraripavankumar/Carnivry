@@ -4,12 +4,17 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
 // import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import { ElementRef, ViewChild} from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
+import { ElementRef, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 // import {MatChipInputEvent} from '@angular/material/chips';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+
+interface Food {
+  value: string;
+  viewValue: string;
+}
 
 @Component({
   selector: 'app-host-event',
@@ -19,7 +24,7 @@ import {map, startWith} from 'rxjs/operators';
 export class HostEventComponent implements OnInit {
   firstFormGroup = this._formBuilder.group({
     title: ['', Validators.required],
-    eventDescription: ['', Validators.required, Validators.minLength(50)],
+    eventDescription: ['',[ Validators.required, Validators.minLength(50)]],
     artist: [''],
     genre: [''],
   });
@@ -33,34 +38,35 @@ export class HostEventComponent implements OnInit {
       startWith(null),
       map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice())),
     );
-   }
+  }
 
   ngOnInit(): void {
   }
 
   /////////////////////////////////////////////////////////
   addOnBlur = true;
-  // readonly separatorKeysCodes = [ENTER, COMMA] as const;
-  // fruits: Fruit[] = [{name: 'Lemon'}, {name: 'Lime'}, {name: 'Apple'}];
-  artists: string[];
+  readonly separatorKeysCodes1 = [ENTER, COMMA] as const;
+  ffruits: string[] = ['Lemon'];
+  // ffruits: FFruit[] = [{ name: 'Lemon' }, { name: 'Lime' }, { name: 'Apple' }];
 
-  addArtist(event: MatChipInputEvent): void {
+  add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
-    // Add artist
+    // Add our fruit
     if (value) {
-      this.artists.push(value);
+      // this.ffruits.push({ name: value });
+      this.ffruits.push(value);
     }
 
     // Clear the input value
     event.chipInput!.clear();
   }
 
-  removeArtist(artist: string): void {
-    const index = this.artists.indexOf(artist);
+  remove(fruit: string): void {
+    const index = this.fruits.indexOf(fruit);
 
     if (index >= 0) {
-      this.artists.splice(index, 1);
+      this.fruits.splice(index, 1);
     }
   }
   ///////////////////////////////////////////////////////
@@ -108,4 +114,10 @@ export class HostEventComponent implements OnInit {
     return this.allFruits.filter(fruit => fruit.toLowerCase().includes(filterValue));
   }
   /////////////////////////////////////////////////////////////
+
+  foods: Food[] = [
+    {value: 'china', viewValue: 'China'},
+    {value: 'india', viewValue: 'India'},
+    {value: 'pakistan', viewValue: 'Pakistan'},
+  ];
 }
