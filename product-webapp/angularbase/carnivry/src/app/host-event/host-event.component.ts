@@ -28,10 +28,6 @@ export class HostEventComponent implements OnInit {
       map((genre: string | null) => (genre ? this._filter(genre) : this.allGenres.slice())),
     );
 
-    // this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
-    //   startWith(null),
-    //   map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice())),
-    // );
   }
 
   ngOnInit(): void {
@@ -47,6 +43,13 @@ export class HostEventComponent implements OnInit {
   });
   secondFormGroup = this._formBuilder.group({
     secondCtrl: ['', Validators.required],
+    venueName: new FormControl('',Validators.required),
+    house: new FormControl('',Validators.required),
+    street: new FormControl('',Validators.required),
+    landmark: new FormControl('',Validators.required),
+    city: new FormControl('',Validators.required),
+    state: new FormControl('',Validators.required),
+    pincode: new FormControl('',Validators.required),
   });
   thirdFormGroup = this._formBuilder.group({
     thirdCtrl: ['', Validators.required],
@@ -55,15 +58,12 @@ export class HostEventComponent implements OnInit {
   fourthFormGroup = this._formBuilder.group({
     fourthCtrl: ['', Validators.required],
   });
-  isLinear = false;
 
  
   /////////////////////////////////////////////////////////
   addOnBlur = true;
   readonly separatorKeysCodes1 = [ENTER, COMMA] as const;
   artists: string[] = ['Artist1'];
-  // ffruits: FFruit[] = [{ name: 'Lemon' }, { name: 'Lime' }, { name: 'Apple' }];
-
   addArtist(artist: MatChipInputEvent): void {
     const value = (artist.value || '').trim();
     // Add our fruit
@@ -82,11 +82,9 @@ export class HostEventComponent implements OnInit {
     }
   }
   ///////////////////////////////////////////////////////
-  // addOnBlur = true;
+
   readonly separatorKeysCodes3 = [ENTER, COMMA] as const;
   languages: string[] = ['Language1'];
-  // ffruits: FFruit[] = [{ name: 'Lemon' }, { name: 'Lime' }, { name: 'Apple' }];
-
   addLanguage(lang: MatChipInputEvent): void {
     const value = (lang.value || '').trim();
     // Add our fruit
@@ -106,17 +104,11 @@ export class HostEventComponent implements OnInit {
   }
   ///////////////////////////////////////////////////////
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  // fruitCtrl = new FormControl('');
-  // filteredFruits: Observable<string[]>;
   filteredGenre: Observable<string[]>;
   genres: string[] = ['Drama'];
-  allGenres: string[] = ['Action', 'Adventure', 'Birthday', 'Wedding', 'Comedy'];
+  allGenres: string[] = ['Action', 'Adventure', 'Birthday', 'Wedding', 'Comedy', 'Drama','RomCom'];
 
   @ViewChild('genreInput') genreInput: ElementRef<HTMLInputElement>;
-  // @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
-
-  // constructor() {}
-
   addGenre(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
@@ -166,3 +158,8 @@ export class HostEventComponent implements OnInit {
     return (<FormArray>this.thirdFormGroup.get('seats')).controls;
   }
 }
+///////////////////////////////////////******************************* */
+// ERRORS:
+/* 
+1. validators for Artist, Genre and Languages not working
+*/
