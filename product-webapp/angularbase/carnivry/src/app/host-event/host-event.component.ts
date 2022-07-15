@@ -159,12 +159,6 @@ export class HostEventComponent implements OnInit {
     return this.allGenres.filter(g => g.toLowerCase().includes(filterValue));
   }
   /////////////////////////////////////////////////////////////
-
-  // countries: Food[] = [
-  //   {value: 'china', viewValue: 'China'},
-  //   {value: 'india', viewValue: 'India'},
-  //   {value: 'pakistan', viewValue: 'Pakistan'},
-  // ];
   countries: string[] = ['China', 'Bangladesh', 'India', 'Pakistan'];
   //////////////////////////////////////////////////////////////
   onAddMoreSeats() {
@@ -187,41 +181,3 @@ export class HostEventComponent implements OnInit {
 
 
 }
-
-/////////////////////////////////////////////////////////////////////////
-
-///////////////////////////////////////******************************* */
-// ERRORS:
-/*
-1. validators for Artist, Genre and Languages not working
-*/
-
-
-  // firstFormGroup = this._formBuilder.group({
-  //   title: ['', Validators.required],
-  //   eventDescription: ['', [Validators.required, Validators.minLength(50)]],
-  //   artist: ['', Validators.required],
-  //   genre: ['', Validators.required],
-  //   languages: ['', Validators.required]
-  // });
-  // secondFormGroup = this._formBuilder.group({
-  //   venueName: ['', Validators.required],
-  //   house: ['', Validators.required],
-  //   street: ['', Validators.required],
-  //   landmark: ['', Validators.required],
-  //   city: ['', Validators.required],
-  //   state: ['', Validators.required],
-  //   country: ['', Validators.required],
-  //   pincode: ['', Validators.required],
-  //   startDate: ['', Validators.required],
-  //   startTime: ['', Validators.required],
-  //   endDate: ['', Validators.required],
-  //   endTime: ['', Validators.required],
-  // });
-  // thirdFormGroup = this._formBuilder.group({
-  //   thirdCtrl: ['', Validators.required],
-  //   seats: new FormArray([])
-  // });
-  // fourthFormGroup = this._formBuilder.group({
-  //   fourthCtrl: ['', Validators.required],
-  // });

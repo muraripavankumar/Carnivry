@@ -123,7 +123,7 @@
       <div formGroupName="eventTimings">
       <mat-form-field appearance="fill">
         <mat-label>Choose a Starting date</mat-label>
-        <input matInput [matDatepicker]="startpicker" formControlName="startDate">
+        <input matInput [matDatepicker]="startpicker" formControlName="startDate" #start>
         <mat-hint>MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle matSuffix [for]="startpicker"></mat-datepicker-toggle>
         <mat-datepicker #startpicker></mat-datepicker>
@@ -155,7 +155,7 @@
   </mat-step>
   /////////////////-----------------------///////////////////////
   <mat-step [stepControl]="hostEventForm" label="Seating Arrangement">
-    <!-- <form [formGroup]="hostEventForm">
+    <form [formGroup]="hostEventForm">
         <div *ngFor="let seating of seatingControls; let i=index">
           <mat-form-field appearance="fill">
             <mat-label>Rows</mat-label>
@@ -178,7 +178,7 @@
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext (click)="onNext()">Next</button>
         </div>
-      </form> -->
+      </form>
 
   </mat-step>
   //////////////////////---------------------------//////////////////////
