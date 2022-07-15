@@ -82,45 +82,45 @@
     <form [formGroup]="secondFormGroup">
       <mat-form-field appearance="fill">
         <mat-label>Venue Name</mat-label>
-        <input matInput formControlName="secondCtrl" placeholder="Venue name or URL" required>
+        <input matInput formControlName="venueName" placeholder="Venue name or URL" required>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>House No.</mat-label>
-        <input matInput formControlName="secondCtrl" placeholder="House number, Floor number, Building name " required>
+        <input matInput formControlName="house" placeholder="House number, Floor number, Building name " required>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Street</mat-label>
-        <input matInput formControlName="secondCtrl" placeholder="Street name or Street number" required>
+        <input matInput formControlName="street" placeholder="Street name or Street number" required>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Landmark</mat-label>
-        <input matInput formControlName="secondCtrl" placeholder="Landmark/Location of the venue" required>
+        <input matInput formControlName="landmark" placeholder="Landmark/Location of the venue" required>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>City</mat-label>
-        <input matInput formControlName="secondCtrl" placeholder="City name" required>
+        <input matInput formControlName="city" placeholder="City name" required>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>State</mat-label>
-        <input matInput formControlName="secondCtrl" placeholder="State name" required>
+        <input matInput formControlName="state" placeholder="State name" required>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Pincode</mat-label>
-        <input type="number" matInput formControlName="secondCtrl" placeholder="Pincode" required>
+        <input type="number" matInput formControlName="pincode" placeholder="Pincode" required>
       </mat-form-field>
-      <h4>Basic mat-select</h4>
+
       <mat-form-field appearance="fill">
         <mat-label>Country</mat-label>
-        <mat-select>
-          <mat-option *ngFor="let food of foods" [value]="food.value">
-            {{food.viewValue}}
+        <mat-select formControlName="country">
+          <mat-option *ngFor="let c of countries" [value]="c">
+            {{c}}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>Choose a Starting date</mat-label>
-        <input matInput [matDatepicker]="startpicker">
+        <input matInput [matDatepicker]="startpicker" formControlName="startDate">
         <mat-hint>MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle matSuffix [for]="startpicker"></mat-datepicker-toggle>
         <mat-datepicker #startpicker></mat-datepicker>
@@ -128,12 +128,12 @@
 
       <mat-form-field appearance="fill">
         <mat-label>Starting time</mat-label>
-        <input type="time" matInput formControlName="secondCtrl" placeholder="event starting time" required>
+        <input type="time" matInput  placeholder="event starting time" formControlName="startTime">
       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>Choose an Ending date</mat-label>
-        <input matInput [matDatepicker]="endpicker">
+        <input matInput [matDatepicker]="endpicker" formControlName="endDate">
         <mat-hint>MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle matSuffix [for]="endpicker"></mat-datepicker-toggle>
         <mat-datepicker #endpicker></mat-datepicker>
@@ -141,7 +141,7 @@
 
       <mat-form-field appearance="fill">
         <mat-label>Ending time</mat-label>
-        <input type="time" matInput formControlName="secondCtrl" placeholder="event ending time" required>
+        <input type="time" matInput formControlName="endTime" placeholder="event ending time" >
       </mat-form-field>
 
       <div>

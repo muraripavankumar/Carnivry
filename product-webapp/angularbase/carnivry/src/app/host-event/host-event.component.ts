@@ -49,7 +49,12 @@ export class HostEventComponent implements OnInit {
     landmark: new FormControl('',Validators.required),
     city: new FormControl('',Validators.required),
     state: new FormControl('',Validators.required),
+    country: new FormControl('',Validators.required),
     pincode: new FormControl('',Validators.required),
+    startDate: new FormControl('',Validators.required),
+    startTime: new FormControl('',Validators.required),
+    endDate: new FormControl('',Validators.required),
+    endTime: new FormControl('',Validators.required),
   });
   thirdFormGroup = this._formBuilder.group({
     thirdCtrl: ['', Validators.required],
@@ -89,7 +94,6 @@ export class HostEventComponent implements OnInit {
     const value = (lang.value || '').trim();
     // Add our fruit
     if (value) {
-      // this.ffruits.push({ name: value });
       this.languages.push(value);
     }
     // Clear the input value
@@ -144,11 +148,12 @@ export class HostEventComponent implements OnInit {
   }
   /////////////////////////////////////////////////////////////
 
-  foods: Food[] = [
-    {value: 'china', viewValue: 'China'},
-    {value: 'india', viewValue: 'India'},
-    {value: 'pakistan', viewValue: 'Pakistan'},
-  ];
+  // countries: Food[] = [
+  //   {value: 'china', viewValue: 'China'},
+  //   {value: 'india', viewValue: 'India'},
+  //   {value: 'pakistan', viewValue: 'Pakistan'},
+  // ];
+  countries: string[]=['China','Bangladesh','India','Pakistan'];
   //////////////////////////////////////////////////////////////
   onAddMoreSeats(){
     const seatControl=new FormControl('',Validators.required);
