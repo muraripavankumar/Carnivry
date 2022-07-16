@@ -121,32 +121,33 @@
         </div>
       </div>
       <div formGroupName="eventTimings">
-      <mat-form-field appearance="fill">
-        <mat-label>Choose a Starting date</mat-label>
-        <input matInput [matDatepicker]="startpicker" formControlName="startDate" #start>
-        <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle matSuffix [for]="startpicker"></mat-datepicker-toggle>
-        <mat-datepicker #startpicker></mat-datepicker>
-      </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Choose a Starting date</mat-label>
+          <input matInput #startDateInput [matDatepicker]="startpicker" formControlName="startDate"
+            (dateChange)="startDateChanged()">
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matSuffix [for]="startpicker"></mat-datepicker-toggle>
+          <mat-datepicker #startpicker></mat-datepicker>
+        </mat-form-field>
 
-      <mat-form-field appearance="fill">
-        <mat-label>Starting time</mat-label>
-        <input type="time" matInput placeholder="event starting time" formControlName="startTime">
-      </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Starting time</mat-label>
+          <input type="time" matInput placeholder="event starting time" formControlName="startTime">
+        </mat-form-field>
 
-      <mat-form-field appearance="fill">
-        <mat-label>Choose an Ending date</mat-label>
-        <input matInput [matDatepicker]="endpicker" formControlName="endDate">
-        <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle matSuffix [for]="endpicker"></mat-datepicker-toggle>
-        <mat-datepicker #endpicker></mat-datepicker>
-      </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Choose an Ending date</mat-label>
+          <input matInput [matDatepicker]="endpicker" formControlName="endDate" id="endDatePicker">
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matSuffix [for]="endpicker"></mat-datepicker-toggle>
+          <mat-datepicker #endpicker></mat-datepicker>
+        </mat-form-field>
 
-      <mat-form-field appearance="fill">
-        <mat-label>Ending time</mat-label>
-        <input type="time" matInput formControlName="endTime" placeholder="event ending time">
-      </mat-form-field>
-    </div>
+        <mat-form-field appearance="fill">
+          <mat-label>Ending time</mat-label>
+          <input type="time" matInput formControlName="endTime" placeholder="event ending time">
+        </mat-form-field>
+      </div>
       <div>
         <button mat-button matStepperPrevious>Back</button>
         <button mat-button matStepperNext (click)="onNext()">Next</button>
@@ -156,30 +157,33 @@
   /////////////////-----------------------///////////////////////
   <mat-step [stepControl]="hostEventForm" label="Seating Arrangement">
     <form [formGroup]="hostEventForm">
-        <div *ngFor="let seating of seatingControls; let i=index">
-          <mat-form-field appearance="fill">
-            <mat-label>Rows</mat-label>
-            <input type="number" matInput [formControlName]="i" placeholder="number of rows" required>
-          </mat-form-field>
-          <mat-form-field appearance="fill">
-            <mat-label>Columns</mat-label>
-            <input type="number" matInput [formControlName]="i" placeholder="number of rows" required>
-          </mat-form-field>
-          <mat-form-field appearance="fill">
-            <mat-label>Ticket Price</mat-label>
-            <input type="number" matInput [formControlName]="i" placeholder="number of rows" required>
-          </mat-form-field>
+      <div formArrayName="seats">
+        <div *ngFor="let s of seatingControls; let i=index">
+          <div [formGroupName]="i">
+            <mat-form-field appearance="fill">
+              <mat-label>Rows</mat-label>
+              <input type="number" matInput formControlName="row">
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+              <mat-label>Columns</mat-label>
+              <input type="number" matInput formControlName="colm">
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+              <mat-label>Ticket Price</mat-label>
+              <input type="number" matInput formControlName="seatPrice">
+            </mat-form-field>
+            <button (click)="removeSeating(i)">Remove</button>
+          </div>
         </div>
-        <div>
-          <button (click)="onAddMoreSeats()">Add More</button>
-        </div>
-
-        <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext (click)="onNext()">Next</button>
-        </div>
-      </form>
-
+      </div>
+      <div>
+        <button (click)="addSeatings()">Add More</button>
+      </div>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext (click)="onNext()">Next</button>
+      </div>
+    </form>
   </mat-step>
   //////////////////////---------------------------//////////////////////
   <mat-step [stepControl]="hostEventForm" label="Poster">

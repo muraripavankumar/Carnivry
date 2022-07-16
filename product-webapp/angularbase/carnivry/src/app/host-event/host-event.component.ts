@@ -6,8 +6,8 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { ElementRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import {  Observable } from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 
 
@@ -27,10 +27,13 @@ export class HostEventComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // (document.getElementById('endDatePicker')as HTMLFormElement).setAttribute('max', new Date().toISOString().split('T')[0]);
+    // (document.getElementById('endDatePicker')as HTMLFormElement).setAttribute('min',this.hostEventForm.get('eventTimings').get('startDate').value);
+    this.addSeatings();//initially adding a set of controls
   }
 
   hostEventForm = this.fb.group({
-    title: ['', Validators.required],
+    title: ['', [Validators.required, Validators.maxLength(100)]],
     eventDescription: ['', [Validators.required, Validators.minLength(5)]],
     artist: this.fb.array([]),
     genre: this.fb.array([]),
@@ -56,16 +59,25 @@ export class HostEventComponent implements OnInit {
         pincode: ['', Validators.required]
       }),
     }),
-    seats: this.fb.array([this.fb.group({
+    seats: this.fb.array([]),
+  });
+  /////////////////////////////////////////////////////////
+  addSeatings() {
+    const seatCtrl = this.fb.group({
       row: ['', Validators.required],
       colm: ['', Validators.required],
       seatPrice: ['', Validators.required]
-    })]),
-
-  });
-
-
-
+    });
+    (<FormArray>this.hostEventForm.get('seats')).push(seatCtrl);
+  }
+  get seatingControls() {
+    return (<FormArray>this.hostEventForm.get('seats')).controls;
+  }
+  removeSeating(index: number) {
+    if (index >= 0) {
+      (<FormArray>this.hostEventForm.get('seats')).removeAt(index);
+    }
+  }
   /////////////////////////////////////////////////////////
   addOnBlur = true;
   readonly separatorKeysCodes1 = [ENTER, COMMA] as const;
@@ -125,7 +137,7 @@ export class HostEventComponent implements OnInit {
 
     // Add our genre
     if (value) {
-      const gnCtrl=new FormControl(value,Validators.required);
+      const gnCtrl = new FormControl(value, Validators.required);
       this.genres.push(value);
       (<FormArray>this.hostEventForm.get('genre')).push(gnCtrl);
     }
@@ -149,7 +161,7 @@ export class HostEventComponent implements OnInit {
     this.genres.push(event.option.viewValue);
     this.genreInput.nativeElement.value = '';
     this.genreCtrl.setValue('');
-    const gnCtrl=new FormControl(event.option.viewValue,Validators.required);
+    const gnCtrl = new FormControl(event.option.viewValue, Validators.required);
     (<FormArray>this.hostEventForm.get('genre')).push(gnCtrl);
   }
 
@@ -160,21 +172,25 @@ export class HostEventComponent implements OnInit {
   }
   /////////////////////////////////////////////////////////////
   countries: string[] = ['China', 'Bangladesh', 'India', 'Pakistan'];
-  //////////////////////////////////////////////////////////////
-  onAddMoreSeats() {
-    const seatControl = new FormControl('', Validators.required);
-    (<FormArray>this.hostEventForm.get('seats')).push(seatControl);
-  }
-  get seatingControls() {
-    return (<FormArray>this.hostEventForm.get('seats')).controls;
-  }
+
 
   /////////////////////////////////////////////////////////////////////
+
+  // @ViewChild('startDateInput') startDateInput:ElementRef<HTMLInputElement>;
+
+  startDateChanged() {
+    this.ngOnInit();
+    console.log(this.hostEventForm.get('eventTimings').get('startDate').value);
+    (document.getElementById('endDatePicker') as HTMLFormElement).setAttribute('min', this.hostEventForm.get('eventTimings').get('startDate').value);
+  }
+  //////////////////////////////////////////////////////////////////////
   onSubmit() {
     console.log("Form submitted");
+    this.event = this.hostEventForm.value;
     console.log(this.event);
   }
   onNext() {
+    this.event = this.hostEventForm.value;
     console.log(this.event);
     console.log(this.hostEventForm.value);
   }
