@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormArray, NgForm } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { A, COMMA, ENTER } from '@angular/cdk/keycodes';
 
 import { ElementRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { ManagementService } from '../service/management.service';
 
 
 
@@ -19,7 +20,7 @@ import { map, startWith } from 'rxjs/operators';
 export class HostEventComponent implements OnInit {
   event: Event;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private managementService:ManagementService) {
     this.filteredGenres = this.genreCtrl.valueChanges.pipe(
       startWith(''),
       map((genre: string | '') => (genre ? this._filter(genre) : this.allGenres.slice())),
@@ -44,9 +45,6 @@ export class HostEventComponent implements OnInit {
       startTime: ['', Validators.required],
       endTime: ['', Validators.required]
     }),
-    poster: [''],
-    fileName: [''],
-    fileType: [''],
     venue: this.fb.group({
       venueName: ['', Validators.required],
       address: this.fb.group({
@@ -184,10 +182,36 @@ export class HostEventComponent implements OnInit {
     (document.getElementById('endDatePicker') as HTMLFormElement).setAttribute('min', this.hostEventForm.get('eventTimings').get('startDate').value);
   }
   //////////////////////////////////////////////////////////////////////
+  posterPic:any;
+  posterPicUrl:any;
+  onFileChange(event: any) {
+    this.posterPic = event.target.files[0];
+    var reader = new FileReader();
+    reader.readAsDataURL(this.posterPic);
+    reader.onload = (_event) => {
+      this.posterPicUrl=reader.result;
+    }
+    console.log(this.posterPic);
+    console.log(this.posterPicUrl);
+  }
+ 
+
+  /////////////////////////////////////////////////////////////
   onSubmit() {
     console.log("Form submitted");
     this.event = this.hostEventForm.value;
     console.log(this.event);
+    const formData=new FormData();
+    const article=this.hostEventForm.value;
+    formData.append('article',JSON.stringify(article));
+    formData.append('image',this.posterPic);
+    this.managementService.postHostEvent(formData).subscribe((data)=>{console.log(data);
+    if(data.status===201){
+      alert('Event Data Uploaded Successfully');
+    }
+    else
+    alert('sorry');
+  });
   }
   onNext() {
     this.event = this.hostEventForm.value;

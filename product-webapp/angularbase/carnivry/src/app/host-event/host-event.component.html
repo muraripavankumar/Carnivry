@@ -70,7 +70,7 @@
       </div>
     </form>
   </mat-step>
-  ////////----------------------------------///////////////////
+ <!-- //////////////////---------------------///////////////////// -->
   <mat-step [stepControl]="hostEventForm" label="Venue Details">
     <h3>Select Event Type</h3>
     <mat-button-toggle-group name="eventType" aria-label="Event Type">
@@ -154,7 +154,7 @@
       </div>
     </form>
   </mat-step>
-  /////////////////-----------------------///////////////////////
+  <!-- //////////////////---------------------///////////////////// -->
   <mat-step [stepControl]="hostEventForm" label="Seating Arrangement">
     <form [formGroup]="hostEventForm">
       <div formArrayName="seats">
@@ -185,18 +185,21 @@
       </div>
     </form>
   </mat-step>
-  //////////////////////---------------------------//////////////////////
+  <!-- //////////////////---------------------///////////////////// -->
   <mat-step [stepControl]="hostEventForm" label="Poster">
-    <!-- <form [formGroup]="hostEventForm">
-         <input type="file">
-        <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext (click)="onNext()">Next</button>
-        </div>
-      </form> -->
+    <form [formGroup]="hostEventForm">
+      <mat-label>Upload Event Poster</mat-label>
+      <input type="file" (change)="onFileChange($event)">
+      <br>
+      <img [src]="posterPicUrl" height="200" alt="no_img" *ngIf="posterPicUrl">
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext (click)="onNext()">Next</button>
+      </div>
+    </form>
 
   </mat-step>
-  //////////////////---------------------/////////////////////
+  <!-- //////////////////---------------------///////////////////// -->
   <mat-step>
     <ng-template matStepLabel>Done</ng-template>
     <p>You are now done.</p>
