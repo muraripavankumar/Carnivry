@@ -5,13 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Preferences {
 
-    List<Genre> likedGenres;
-    List<CarnivryUser> likedArtists;
+    Set<Genre> likedGenres;
+    Set<CarnivryUser> likedArtists;
+
 }
