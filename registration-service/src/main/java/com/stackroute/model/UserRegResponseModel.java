@@ -7,14 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Address {
+public class UserRegResponseModel {
 
-    String house;
-    String street;
-    String landmark;
-    String city;
-    String state;
-    String country;
-    int pincode;
-
+    String name, email;
 }

@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
@@ -20,27 +19,30 @@ import java.util.List;
 @NoArgsConstructor
 public class CarnivryUser {
     @Id
-    long id;
+    private String id;
 
-    @Transient
-    public static final String SEQUENCE_NAME= "Carnivry_User_sequence";
+    private String name, email, password, phone;
 
-    String email, password, phone;
+    private Date dob;
 
-    Date dob;
+    private Address address;
 
-    Address address;
+    private Preferences preferences;
 
-    Preferences preferences;
+    private List<Event> attendedEvents;
+    private List<Event> postedEvents;
 
-    List<Event> attendedEvents;
-    List<Event> postedEvents;
+    private List<Event> wishlist;
 
-    List<Event> wishlist;
+    private Binary profilePic;
 
+    private Boolean verified;
 
+    private String emailVerificationToken;
+    private Date evtExpTime;
 
-    Binary profilePic;
+    private String passwordVerificationToken;
+    private Date pvtExpTime;
 
 
 }
