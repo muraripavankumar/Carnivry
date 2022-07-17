@@ -48,7 +48,7 @@ public class Event {
         this.totalSeats = totalSeats;
     }
     //constructor to be used for creating new event
-    public Event(String title, String userEmailId, String eventDescription, List<String> artists, List<String> genre, List<String> languages, EventTiming eventTimings, Venue venue, double revenueGenerated, int ticketsSold, int totalSeats, List<Seat> seats) {
+    public Event(String title, String userEmailId, String eventDescription, List<String> artists, List<String> genre, List<String> languages, EventTiming eventTimings, Venue venue,  int totalSeats, List<Seat> seats) {
         this.title = title;
         this.userEmailId = userEmailId;
         this.eventDescription = eventDescription;
@@ -57,10 +57,10 @@ public class Event {
         this.languages = languages;
         this.eventTimings = eventTimings;
         this.venue = venue;
-        this.revenueGenerated = revenueGenerated;
-        this.ticketsSold = ticketsSold;
-        this.totalSeats = totalSeats;
         this.seats = seats;
+        this.totalSeats = totalSeats;
+        revenueGenerated = 0;
+        ticketsSold = 0;
         likes=0;
         emailOfUsersLikedEvent=new ArrayList<>();
     }

@@ -70,7 +70,7 @@
       </div>
     </form>
   </mat-step>
- <!-- //////////////////---------------------///////////////////// -->
+  <!-- //////////////////---------------------///////////////////// -->
   <mat-step [stepControl]="hostEventForm" label="Venue Details">
     <h3>Select Event Type</h3>
     <mat-button-toggle-group name="eventType" aria-label="Event Type">
@@ -162,11 +162,11 @@
           <div [formGroupName]="i">
             <mat-form-field appearance="fill">
               <mat-label>Rows</mat-label>
-              <input type="number" matInput formControlName="row">
+              <input type="number" matInput formControlName="row" (change)="calcTotalSeats()">
             </mat-form-field>
             <mat-form-field appearance="fill">
               <mat-label>Columns</mat-label>
-              <input type="number" matInput formControlName="colm">
+              <input type="number" matInput formControlName="colm" (change)="calcTotalSeats()">
             </mat-form-field>
             <mat-form-field appearance="fill">
               <mat-label>Ticket Price</mat-label>
@@ -179,6 +179,7 @@
       <div>
         <button (click)="addSeatings()">Add More</button>
       </div>
+      <div><h3>Total Seats :</h3>{{totalSeating}}</div>
       <div>
         <button mat-button matStepperPrevious>Back</button>
         <button mat-button matStepperNext (click)="onNext()">Next</button>
@@ -191,7 +192,7 @@
       <mat-label>Upload Event Poster</mat-label>
       <input type="file" (change)="onFileChange($event)">
       <br>
-      <img [src]="posterPicUrl" height="200" alt="no_img" *ngIf="posterPicUrl">
+      <img [src]="posterPicUrl" height="600" alt="no_img" *ngIf="posterPicUrl">
       <div>
         <button mat-button matStepperPrevious>Back</button>
         <button mat-button matStepperNext (click)="onNext()">Next</button>
