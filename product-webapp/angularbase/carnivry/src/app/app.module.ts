@@ -27,6 +27,8 @@ import { AddPreferenceComponent } from './add-preference/add-preference.componen
 import { AddHeaderInterceptor } from './interceptor/add-header.interceptor';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
+import { UpdateEventComponent } from './update-event/update-event.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import {MatButtonModule} from '@angular/material/button';
     HomeComponent,
     LoginComponent,
     EmailVerificationComponent,
-    AddPreferenceComponent
+    AddPreferenceComponent,
+    UpdateEventComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +60,8 @@ import {MatButtonModule} from '@angular/material/button';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSnackBarModule,
-    MatButtonModule
+    MatButtonModule,
+    MatCardModule
 
   ],
   providers: [{

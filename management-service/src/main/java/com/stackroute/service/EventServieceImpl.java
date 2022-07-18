@@ -33,13 +33,14 @@ public class EventServieceImpl implements EventService{
     }
 
     @Override
-    public Event updateEvent(String eventText, MultipartFile posterPic) throws IOException {
+    public boolean updateEvent(String eventText, MultipartFile posterPic) throws IOException {
         Event event=new ObjectMapper().readValue(eventText,Event.class);
         String filename=StringUtils.cleanPath(Objects.requireNonNull(posterPic.getOriginalFilename()));
         event.setPoster(new Binary(BsonBinarySubType.BINARY, posterPic.getBytes()));
         event.setFileName(filename);
         event.setFileType(posterPic.getContentType());
-        return eventRepository.save(event);
+        eventRepository.save(event);
+        return true;
     }
 
     @Override

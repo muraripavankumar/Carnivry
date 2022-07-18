@@ -1,27 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { Validators, FormBuilder, FormArray, NgForm } from '@angular/forms';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-
-import { ElementRef, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { ENTER, COMMA } from '@angular/cdk/keycodes';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import { ManagementService } from '../service/management.service';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
-
+import { startWith, map, Observable } from 'rxjs';
+import { ManagementService } from '../service/management.service';
+import { UpdateEventService } from '../service/update-event.service';
 
 @Component({
-  selector: 'app-host-event',
-  templateUrl: './host-event.component.html',
-  styleUrls: ['./host-event.component.css']
+  selector: 'app-update-event',
+  templateUrl: './update-event.component.html',
+  styleUrls: ['./update-event.component.css']
 })
-export class HostEventComponent implements OnInit {
-  // event: Event;
+export class UpdateEventComponent implements OnInit {
 
-  constructor(private fb: FormBuilder, private managementService: ManagementService, private snackbar: MatSnackBar) {
+  
+  constructor(private fb: FormBuilder, private managementService: ManagementService, private snackbar: MatSnackBar,private updateEventService: UpdateEventService ) {
     this.filteredGenres = this.genreCtrl.valueChanges.pipe(
       startWith(''),
       map((genre: string | '') => (genre ? this._filter(genre) : this.allGenres.slice())),
@@ -29,9 +24,10 @@ export class HostEventComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setDate();
+    this.updateEventService.updateEventCall('9f94074f-2500-41cc-803b-a196fa72fecf');
+    // this.setDate();
     // (document.getElementById('endDatePicker')as HTMLFormElement).setAttribute('min',this.hostEventForm.get('eventTimings').get('startDate').value);
-    this.addSeatings();//initially adding a set of controls
+    // this.addSeatings();//initially adding a set of controls
   }
 
   hostEventForm = this.fb.group({
@@ -87,7 +83,6 @@ export class HostEventComponent implements OnInit {
       var c: number = element.get('colm').value;
       this.totalSeating = this.totalSeating + (r * c);
     });
-  
     this.hostEventForm.controls['totalSeats'].setValue(this.totalSeating);
   }
 
@@ -144,26 +139,21 @@ export class HostEventComponent implements OnInit {
   allGenres: string[] = ['Adventure', 'Action', 'Drama', 'Party', 'Spiritual'];
 
   @ViewChild('genreInput') genreInput: ElementRef<HTMLInputElement>;
-
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-
     // Add our genre
     if (value) {
       const gnCtrl = new FormControl(value, Validators.required);
       this.genres.push(value);
       (<FormArray>this.hostEventForm.get('genre')).push(gnCtrl);
     }
-
     // Clear the input value
     event.chipInput!.clear();
-
     this.genreCtrl.setValue('');
   }
 
   remove(gr: string): void {
     const index = this.genres.indexOf(gr);
-
     if (index >= 0) {
       this.genres.splice(index, 1);
       (<FormArray>this.hostEventForm.get('genre')).removeAt(index);
@@ -180,7 +170,6 @@ export class HostEventComponent implements OnInit {
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-
     return this.allGenres.filter(g => g.toLowerCase().includes(filterValue));
   }
   /////////////////////////////////////////////////////////////
@@ -238,10 +227,3 @@ export class HostEventComponent implements OnInit {
     });
   }
 }
-
-
-////////////////////////////////////////////////////
-/*NOTES: 
-1. change the 'userEmailId' value to the actual emailId from the Session storage.
-2. put the validation for date and time
-*/

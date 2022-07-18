@@ -7,6 +7,6 @@ import java.io.IOException;
 
 public interface EventService {
     boolean addEvent(String eventText, MultipartFile posterPic) throws IOException;
-    Event updateEvent(String eventText, MultipartFile posterPic) throws IOException;
+    boolean updateEvent(String eventText, MultipartFile posterPic) throws IOException;
     Event getEventById(String eventId) throws Exception;
 }
