@@ -13,4 +13,9 @@ public class Seat {
     private int seatId;
     private double seatPrice;
 
+    public Seat(int row, int colm, double seatPrice) {
+        this.row = row;
+        this.colm = colm;
+        this.seatPrice = seatPrice;
+    }
 }

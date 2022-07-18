@@ -25,6 +25,7 @@ import { LoginComponent } from './login/login.component';
 import { EmailVerificationComponent } from './email-verification/email-verification.component';
 import { AddPreferenceComponent } from './add-preference/add-preference.component';
 import { AddHeaderInterceptor } from './interceptor/add-header.interceptor';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { AddHeaderInterceptor } from './interceptor/add-header.interceptor';
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    ReactiveFormsModule
+    MatSnackBarModule
+
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormArray, NgForm } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { A, COMMA, ENTER } from '@angular/cdk/keycodes';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
 import { ElementRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
@@ -9,6 +9,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ManagementService } from '../service/management.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 
@@ -18,9 +19,9 @@ import { ManagementService } from '../service/management.service';
   styleUrls: ['./host-event.component.css']
 })
 export class HostEventComponent implements OnInit {
-  event: Event;
+  // event: Event;
 
-  constructor(private fb: FormBuilder, private managementService:ManagementService) {
+  constructor(private fb: FormBuilder, private managementService: ManagementService, private snackbar: MatSnackBar) {
     this.filteredGenres = this.genreCtrl.valueChanges.pipe(
       startWith(''),
       map((genre: string | '') => (genre ? this._filter(genre) : this.allGenres.slice())),
@@ -36,7 +37,8 @@ export class HostEventComponent implements OnInit {
   hostEventForm = this.fb.group({
     title: ['', [Validators.required, Validators.maxLength(100)]],
     eventDescription: ['', [Validators.required, Validators.minLength(5)]],
-    artist: this.fb.array([]),
+    userEmailId: ['exampleHost@g.com'],
+    artists: this.fb.array([]),
     genre: this.fb.array([]),
     languages: this.fb.array([]),
     eventTimings: this.fb.group({
@@ -58,6 +60,7 @@ export class HostEventComponent implements OnInit {
       }),
     }),
     seats: this.fb.array([]),
+    totalSeats: ['', Validators.required]
   });
   /////////////////////////////////////////////////////////
   addSeatings() {
@@ -76,6 +79,21 @@ export class HostEventComponent implements OnInit {
       (<FormArray>this.hostEventForm.get('seats')).removeAt(index);
     }
   }
+  totalSeating: number = 0;
+  calcTotalSeats() {
+    this.totalSeating=0;
+    (<FormArray>this.hostEventForm.get('seats')).controls.forEach(element => {
+      var r: number = element.get('row').value;
+      var c: number = element.get('colm').value;
+      this.totalSeating = this.totalSeating + (r * c);
+    });
+    console.log('Total Seats ' + this.totalSeating);
+    this.hostEventForm.controls['totalSeats'].setValue(this.totalSeating);
+    // const totalSeatsCtrl=new FormControl(this.totalSeats,Validators.required);
+    // this.hostEventForm.get('totalSeats').a(totalSeatsCtrl);
+    // this.hostEventForm.get('totalSeats').controls.push(totalSeatsCtrl);
+  }
+
   /////////////////////////////////////////////////////////
   addOnBlur = true;
   readonly separatorKeysCodes1 = [ENTER, COMMA] as const;
@@ -85,7 +103,7 @@ export class HostEventComponent implements OnInit {
     // Add new artist
     if (value) {
       const artistCtrl = new FormControl(value, Validators.required);
-      (<FormArray>this.hostEventForm.get('artist')).push(artistCtrl);
+      (<FormArray>this.hostEventForm.get('artists')).push(artistCtrl);
       this.artists.push(value);
     }
     // Clear the input value
@@ -95,7 +113,7 @@ export class HostEventComponent implements OnInit {
     const index = this.artists.indexOf(artist);
     if (index >= 0) {
       this.artists.splice(index, 1);
-      (<FormArray>this.hostEventForm.get('artist')).removeAt(index);
+      (<FormArray>this.hostEventForm.get('artists')).removeAt(index);
     }
   }
   ///////////////////////////////////////////////////////
@@ -182,42 +200,39 @@ export class HostEventComponent implements OnInit {
     (document.getElementById('endDatePicker') as HTMLFormElement).setAttribute('min', this.hostEventForm.get('eventTimings').get('startDate').value);
   }
   //////////////////////////////////////////////////////////////////////
-  posterPic:any;
-  posterPicUrl:any;
+  posterPic: any;
+  posterPicUrl: any;
   onFileChange(event: any) {
     this.posterPic = event.target.files[0];
     var reader = new FileReader();
     reader.readAsDataURL(this.posterPic);
     reader.onload = (_event) => {
-      this.posterPicUrl=reader.result;
+      this.posterPicUrl = reader.result;
     }
-    console.log(this.posterPic);
-    console.log(this.posterPicUrl);
   }
- 
+
 
   /////////////////////////////////////////////////////////////
   onSubmit() {
     console.log("Form submitted");
-    this.event = this.hostEventForm.value;
-    console.log(this.event);
-    const formData=new FormData();
-    const article=this.hostEventForm.value;
-    formData.append('article',JSON.stringify(article));
-    formData.append('image',this.posterPic);
-    this.managementService.postHostEvent(formData).subscribe((data)=>{console.log(data);
-    if(data.status===201){
-      alert('Event Data Uploaded Successfully');
-    }
-    else
-    alert('sorry');
-  });
+    const formData = new FormData();
+    const article = this.hostEventForm.value;
+    console.log(JSON.stringify(article));
+    formData.append('event', JSON.stringify(article));
+    formData.append('image', this.posterPic);
+    this.managementService.postHostEvent(formData).subscribe((data) => {
+      if (data.status === 201) {
+        this.snackbar.open('Event Uploaded Successfully!', 'Undo', {
+          duration: 3000
+        });
+      }
+      else
+        alert('sorry');
+    });
   }
   onNext() {
-    this.event = this.hostEventForm.value;
-    console.log(this.event);
-    console.log(this.hostEventForm.value);
+    // this.event = this.hostEventForm.value;
+    // console.log(this.event);
+    // console.log(this.hostEventForm.value);
   }
-
-
 }
