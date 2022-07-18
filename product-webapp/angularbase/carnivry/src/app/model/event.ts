@@ -7,7 +7,7 @@ export class Event {
     public title: string;
     public userEmailId: string;
     public eventDescription: string;
-    public artist: string[];
+    public artists: string[];
     public genre: string[];
     public languages: string[];
     public eventTimings: EventTiming;
@@ -26,7 +26,7 @@ export class Event {
         this.eventId=eventId;
         this.title=title;
         this.eventDescription=eventDescription;
-        this.artist=artist;
+        this.artists=artist;
         this.genre=genre;
         this.languages=languages;
         this.eventTimings=eventTimings;

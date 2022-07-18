@@ -19,7 +19,7 @@ public class EventServieceImpl implements EventService{
     @Autowired
     private EventRepository eventRepository;
     @Override
-    public Event addEvent(String eventText, MultipartFile posterPic) throws IOException {
+    public boolean addEvent(String eventText, MultipartFile posterPic) throws IOException {
         //convert Json text to Event Object
         Event event=new ObjectMapper().readValue(eventText,Event.class);
         String filename= StringUtils.cleanPath(Objects.requireNonNull(posterPic.getOriginalFilename()));
@@ -28,7 +28,8 @@ public class EventServieceImpl implements EventService{
         event.setPoster(new Binary(BsonBinarySubType.BINARY, posterPic.getBytes()));
         event.setFileName(filename);
         event.setFileType(posterPic.getContentType());
-        return eventRepository.save(event);
+         eventRepository.save(event);
+         return true;
     }
 
     @Override

@@ -12,6 +12,6 @@ export class ManagementService {
   postHostEvent(formData: FormData){
     console.log("inside service");
     console.log(formData);
-    return this.httpClient.post<any>(this.managementUrl,formData);
+    return this.httpClient.post<any>(this.managementUrl,formData,{observe: 'response'});
   }
 }

@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 public interface EventService {
-    Event addEvent(String eventText, MultipartFile posterPic) throws IOException;
+    boolean addEvent(String eventText, MultipartFile posterPic) throws IOException;
     Event updateEvent(String eventText, MultipartFile posterPic) throws IOException;
     Event getEventById(String eventId) throws Exception;
 }

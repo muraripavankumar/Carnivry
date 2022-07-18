@@ -38,7 +38,7 @@ export class HostEventComponent implements OnInit {
     title: ['', [Validators.required, Validators.maxLength(100)]],
     eventDescription: ['', [Validators.required, Validators.minLength(5)]],
     userEmailId: ['exampleHost@g.com'],
-    artist: this.fb.array([]),
+    artists: this.fb.array([]),
     genre: this.fb.array([]),
     languages: this.fb.array([]),
     eventTimings: this.fb.group({
@@ -103,7 +103,7 @@ export class HostEventComponent implements OnInit {
     // Add new artist
     if (value) {
       const artistCtrl = new FormControl(value, Validators.required);
-      (<FormArray>this.hostEventForm.get('artist')).push(artistCtrl);
+      (<FormArray>this.hostEventForm.get('artists')).push(artistCtrl);
       this.artists.push(value);
     }
     // Clear the input value
@@ -113,7 +113,7 @@ export class HostEventComponent implements OnInit {
     const index = this.artists.indexOf(artist);
     if (index >= 0) {
       this.artists.splice(index, 1);
-      (<FormArray>this.hostEventForm.get('artist')).removeAt(index);
+      (<FormArray>this.hostEventForm.get('artists')).removeAt(index);
     }
   }
   ///////////////////////////////////////////////////////
@@ -217,6 +217,7 @@ export class HostEventComponent implements OnInit {
     console.log("Form submitted");
     const formData = new FormData();
     const article = this.hostEventForm.value;
+    console.log(JSON.stringify(article));
     formData.append('event', JSON.stringify(article));
     formData.append('image', this.posterPic);
     this.managementService.postHostEvent(formData).subscribe((data) => {
