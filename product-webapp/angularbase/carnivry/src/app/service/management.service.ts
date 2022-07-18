@@ -8,7 +8,7 @@ export class ManagementService {
 
   constructor(private httpClient:HttpClient) { }
   
-  managementUrl:"http://localhost:8081/api/v1/";
+  managementUrl:"http://localhost:8081/api/v1";
   postHostEvent(formData: FormData){
     console.log("inside service");
     console.log(formData);
