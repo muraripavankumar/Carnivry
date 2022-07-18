@@ -39,7 +39,7 @@ const routes: Routes = [ {
     path: "login",
     component: LoginComponent
   },{
-    path: "hostEvent",
+    path: "host-event",
     component: HostEventComponent
   }]
 },

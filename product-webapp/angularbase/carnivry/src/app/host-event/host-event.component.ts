@@ -29,9 +29,9 @@ export class HostEventComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // (document.getElementById('endDatePicker')as HTMLFormElement).setAttribute('max', new Date().toISOString().split('T')[0]);
+    // (document.getElementById('startDate')as HTMLFormElement).setAttribute('max', new Date().toISOString().split('T')[0]);
     // (document.getElementById('endDatePicker')as HTMLFormElement).setAttribute('min',this.hostEventForm.get('eventTimings').get('startDate').value);
-    // this.addSeatings();//initially adding a set of controls
+    this.addSeatings();//initially adding a set of controls
   }
 
   hostEventForm = this.fb.group({
@@ -182,7 +182,6 @@ export class HostEventComponent implements OnInit {
     const filterValue = value.toLowerCase();
 
     return this.allGenres.filter(g => g.toLowerCase().includes(filterValue));
-    // return [' ',' '];
   }
   /////////////////////////////////////////////////////////////
   countries: string[] = ['China', 'Bangladesh', 'India', 'Pakistan'];
@@ -212,30 +211,18 @@ export class HostEventComponent implements OnInit {
 
   /////////////////////////////////////////////////////////////
   onSubmit() {
-    console.log("Form submitted");
     const formData = new FormData();
     const article = this.hostEventForm.value;
-    console.log(JSON.stringify(article));
     formData.append('event', JSON.stringify(article));
     formData.append('image', this.posterPic);
     this.managementService.postHostEvent(formData).subscribe((data) => {
       if (data.status === 201) {
-        this.snackbar.open('Event Uploaded Successfully!', 'Undo', {
+        this.snackbar.open('Event Uploaded Successfully!', '', {
           duration: 3000
         });
       }
       else
         alert('sorry');
     });
-   
-    // Display the key/value pairs
-    for (const value of formData.values()) {
-      console.log(value);
-    }
-  }
-  onNext() {
-    // this.event = this.hostEventForm.value;
-    // console.log(this.event);
-    // console.log(this.hostEventForm.value);
   }
 }
