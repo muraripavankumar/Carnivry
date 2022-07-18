@@ -1,0 +1,82 @@
+<div class="container registration">
+    <h1 class="title mat-display-1">Registration</h1>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <h2 style="text-align: center;">Social Sign In </h2>
+            <div class="row ">
+                <button class="btn btn-light" (click)="signinGoogle()">
+                    <p><i class="fab fa-google"></i>&emsp;Sign In with Google</p>
+                </button>
+                <button class="btn btn-light" (click)="signinGithub()">
+                    <p><i class="fab fa-github"></i>&emsp;Sign In with Github</p>
+                </button>
+
+            </div>
+        </div>
+
+
+        <div class="col-sm-6" style="text-align: center;">
+            <h2>Application Sign In</h2>
+
+            <form [formGroup]="registerUserForm" (ngSubmit)="register()" class="userForm">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" formControlName="name" class="form-control"
+                        [ngClass]="{'is-invalid': f['name'].errors && f['name'].touched}" />
+                    <div *ngIf="f['name'].errors && (f['name'].touched || f['name'].dirty)" class="alert alert-danger"
+                        role="alert">
+                        <div *ngIf="f['name'].errors['required']">Name Required</div>
+                        <div *ngIf="f['name'].errors['minlength']">Name must be atleast 4 characters</div>
+
+                    </div>
+                </div>
+                <br>
+
+                <div class="form-group">
+                    <label for="email">Email Id </label>
+                    <input type="email" formControlName="email" class="form-control"
+                        [ngClass]="{'is-invalid': f['email'].errors && f['email'].touched}" />
+                    <div *ngIf="f['email'].errors && (f['email'].touched || f['email'].dirty)"
+                        class="alert alert-danger" role="alert">
+                        <div *ngIf="f['email'].errors['required']">Email Required</div>
+                        <div *ngIf="f['email'].errors['email']">Invalid Email</div>
+                    </div>
+                </div>
+                <br>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" formControlName="password" class="form-control"
+                        [ngClass]="{'is-invalid': f['password'].errors && f['password'].touched}" />
+                    <div *ngIf="f['password'].errors && (f['password'].touched || f['password'].dirty)"
+                        class="alert alert-danger" role="alert">
+                        <div *ngIf="f['password'].errors['required']">Password Required</div>
+
+                    </div>
+                </div>
+                <br>
+
+                <div class="form-group">
+                    <label for="matchingPassword">Confirm Password</label>
+                    <input type="password" formControlName="matchingPassword" class="form-control"
+                        [ngClass]="{'is-invalid': f['matchingPassword'].errors && f['matchingPassword'].touched}" />
+                    <div *ngIf="f['matchingPassword'].errors && (f['matchingPassword'].touched || f['matchingPassword'].dirty)"
+                        class="alert alert-danger" role="alert">
+                        <div *ngIf="f['matchingPassword'].errors['required']">Matching Password Required</div>
+                        <div *ngIf="f['matchingPassword'].errors['matching']">Password Not Matching</div>
+                    </div>
+                </div>
+                <br>
+
+                <button type="submit" class="btn btn-success" [disabled]="!registerUserForm.valid">Register</button>
+            </form>
+
+            <br>
+            <div *ngIf="successMessage">
+                <p>{{successMessage}}</p>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {MatStepperModule} from '@angular/material/stepper';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatChipsModule} from '@angular/material/chips';
@@ -18,11 +18,24 @@ import {MatSelectModule} from '@angular/material/select';
 import { HostEventComponent } from './host-event/host-event.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { CallbackComponent } from './callback/callback.component';
+import { RegistrationComponent } from './registration/registration.component';
+import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login.component';
+import { EmailVerificationComponent } from './email-verification/email-verification.component';
+import { AddPreferenceComponent } from './add-preference/add-preference.component';
+import { AddHeaderInterceptor } from './interceptor/add-header.interceptor';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HostEventComponent
+    HostEventComponent,
+    CallbackComponent,
+    RegistrationComponent,
+    HomeComponent,
+    LoginComponent,
+    EmailVerificationComponent,
+    AddPreferenceComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +56,11 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatNativeDateModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: AddHeaderInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,38 @@
+<h1 class="mat-display-1">Welcome <i>{{name}}</i></h1>
+
+<div class="genres">
+    <h1>Please select your favourite genres</h1>
+    <div class="genre_chips">
+        <mat-form-field class="genre_list" appearance="fill">
+            <mat-label>Event Genres</mat-label>
+            <mat-chip-list #chipList aria-label="Video genres" multiple [formControl]="formControl">
+              <mat-chip
+                  *ngFor="let genre of genres"
+                  [selected]="genre"
+                  [value]="genre"
+                  (removed)="removeGenre(genre)">
+                {{genre}}
+              </mat-chip>
+              
+            </mat-chip-list>
+          </mat-form-field>
+          <br>
+          <div class="buttons">
+          <button mat-raised-button color="primary" (click)="show()">Selected Genres</button>
+          <button mat-raised-button color="primary" (click)="addGenre()">let's Go</button>
+          </div>
+          
+          <br>
+          <br>
+          <div class="selected_genres" *ngIf="showSelectedGenres" >
+            <p *ngIf="formControl.value.length">  <b>The following genres are selected:</b> </p>
+            <ul *ngFor="let key of formControl.value">
+                <li>{{key}}</li>
+            </ul>
+          </div>
+          
+          <p *ngIf="warning" class="alert alert-danger">{{warning}}</p>
+          
+    </div>
+</div>
+
