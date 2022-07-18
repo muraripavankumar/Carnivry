@@ -124,7 +124,7 @@
         <mat-form-field appearance="fill">
           <mat-label>Choose a Starting date</mat-label>
           <input matInput #startDateInput [matDatepicker]="startpicker" formControlName="startDate"
-            (dateChange)="startDateChanged()" id="startDate">
+            (dateChange)="startDateChanged()" [min]="presentDate">
           <mat-hint>MM/DD/YYYY</mat-hint>
           <mat-datepicker-toggle matSuffix [for]="startpicker"></mat-datepicker-toggle>
           <mat-datepicker #startpicker></mat-datepicker>
@@ -134,10 +134,11 @@
           <mat-label>Starting time</mat-label>
           <input type="time" matInput placeholder="event starting time" formControlName="startTime">
         </mat-form-field>
-
+        <label>{{startDateInput.value}}</label>
         <mat-form-field appearance="fill">
+         
           <mat-label>Choose an Ending date</mat-label>
-          <input matInput [matDatepicker]="endpicker" formControlName="endDate" id="endDatePicker">
+          <input matInput [matDatepicker]="endpicker" formControlName="endDate" [min]="eventStartDate">
           <mat-hint>MM/DD/YYYY</mat-hint>
           <mat-datepicker-toggle matSuffix [for]="endpicker"></mat-datepicker-toggle>
           <mat-datepicker #endpicker></mat-datepicker>

@@ -29,7 +29,7 @@ export class HostEventComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // (document.getElementById('startDate')as HTMLFormElement).setAttribute('max', new Date().toISOString().split('T')[0]);
+    this.setDate();
     // (document.getElementById('endDatePicker')as HTMLFormElement).setAttribute('min',this.hostEventForm.get('eventTimings').get('startDate').value);
     this.addSeatings();//initially adding a set of controls
   }
@@ -189,12 +189,24 @@ export class HostEventComponent implements OnInit {
 
   /////////////////////////////////////////////////////////////////////
 
-  // @ViewChild('startDateInput') startDateInput:ElementRef<HTMLInputElement>;
+  @ViewChild('startDateInput') startDateInput:ElementRef<HTMLInputElement>;
+ presentDate:any;
+ eventStartDate:any;
+  setDate(){
+//  (document.getElementById('startDateInput')as HTMLFormElement).setAttribute('min', new Date().toISOString().split('T')[0]);
+   this.presentDate= new Date().toISOString().split('T')[0];
+  }
+  setStartDate(){
+    console.log(this.startDateInput.nativeElement.value);
+    
+  }
 
   startDateChanged() {
     this.ngOnInit();
+    this.setStartDate();
+    this.eventStartDate=this.startDateInput.nativeElement.value;
     // console.log(this.hostEventForm.get('eventTimings').get('startDate').value);
-    (document.getElementById('endDatePicker') as HTMLFormElement).setAttribute('min', this.hostEventForm.get('eventTimings').get('startDate').value);
+    // (document.getElementById('endDatePicker') as HTMLFormElement).setAttribute('min', this.hostEventForm.get('eventTimings').get('startDate').value);
   }
   //////////////////////////////////////////////////////////////////////
   posterPic: any;
@@ -226,3 +238,9 @@ export class HostEventComponent implements OnInit {
     });
   }
 }
+
+
+////////////////////////////////////////////////////
+/*NOTES: 
+1. change the 'userEmailId' value to the actual emailId from the Session storage.
+*/
