@@ -19,6 +19,7 @@ export class RegistrationComponent implements OnInit {
 
   postUser!: PostUser;
   successMessage:any;
+  failureMessage:any;
   registerUserForm: any;
   
   ngOnInit(): void {
@@ -26,7 +27,7 @@ export class RegistrationComponent implements OnInit {
     this.registerUserForm= this.fb.group({
       name: new FormControl('',[Validators.required,Validators.minLength(4)]),
       email: new FormControl('',[Validators.required,Validators.email]),
-      password: new FormControl('',[Validators.required]),
+      password: new FormControl('',[Validators.required,Validators.minLength(8),Validators.maxLength(20)]),
       matchingPassword: new FormControl('',[Validators.required])
     },
     {
@@ -48,7 +49,7 @@ export class RegistrationComponent implements OnInit {
       if(r.status===201)
         {
           console.log( "User successfully registered");
-          this.successMessage="Your data is registered";
+          this.successMessage="Your data is successfully registered";
           console.log(r);
           this.regService.updateEmail(this.postUser.email);
           this.regService.updateName(this.postUser.name);
@@ -62,8 +63,12 @@ export class RegistrationComponent implements OnInit {
      error=>{
       if(error.status==409)
       {
-          this.successMessage="User Already Exists";
+        this.failureMessage="User Already Exists";
+        setTimeout(():void=>{
+          this.failureMessage=null;
           this.registerUserForm.reset();
+        },3000)  
+        
       }
      });
 
