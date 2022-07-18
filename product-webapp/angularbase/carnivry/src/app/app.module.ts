@@ -26,7 +26,6 @@ import { EmailVerificationComponent } from './email-verification/email-verificat
 import { AddPreferenceComponent } from './add-preference/add-preference.component';
 import { AddHeaderInterceptor } from './interceptor/add-header.interceptor';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-import { EndTimeValidationDirective } from './validations/end-time-validation.directive';
 
 @NgModule({
   declarations: [
@@ -37,8 +36,7 @@ import { EndTimeValidationDirective } from './validations/end-time-validation.di
     HomeComponent,
     LoginComponent,
     EmailVerificationComponent,
-    AddPreferenceComponent,
-    EndTimeValidationDirective
+    AddPreferenceComponent
   ],
   imports: [
     BrowserModule,
