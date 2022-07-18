@@ -179,10 +179,10 @@ export class HostEventComponent implements OnInit {
   }
 
   private _filter(value: string): string[] {
-    // const filterValue = value.toLowerCase();
+    const filterValue = value.toLowerCase();
 
-    // return this.allGenres.filter(g => g.toLowerCase().includes(filterValue));
-    return [' ',' '];
+    return this.allGenres.filter(g => g.toLowerCase().includes(filterValue));
+    // return [' ',' '];
   }
   /////////////////////////////////////////////////////////////
   countries: string[] = ['China', 'Bangladesh', 'India', 'Pakistan'];
