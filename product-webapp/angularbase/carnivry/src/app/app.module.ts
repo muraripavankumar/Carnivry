@@ -26,6 +26,8 @@ import { EmailVerificationComponent } from './email-verification/email-verificat
 import { AddPreferenceComponent } from './add-preference/add-preference.component';
 import { AddHeaderInterceptor } from './interceptor/add-header.interceptor';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatCardModule} from '@angular/material/card';
+import { UpdateEventComponent } from './update-event/update-event.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     HomeComponent,
     LoginComponent,
     EmailVerificationComponent,
-    AddPreferenceComponent
+    AddPreferenceComponent,
+    UpdateEventComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +58,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatCardModule
 
   ],
   providers: [{

@@ -6,3 +6,15 @@
     margin-top: 16px;
     width: 100%;
   }
+  .mat-card{
+    margin: 0 auto;
+    width: 95%;
+  }
+  .shortinput{
+    width: 20%;
+    margin-right: 5%;
+  }
+  .mediuminput{
+    width: 30%;
+    margin-right: 5%;
+  }
