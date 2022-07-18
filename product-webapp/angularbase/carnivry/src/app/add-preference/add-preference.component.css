@@ -1,0 +1,12 @@
+.genres{
+    text-align: center;
+}
+.genre_list{
+    width: 60%;
+}
+.buttons{
+    margin: auto ;
+    display: flex;
+    justify-content: space-evenly;
+    width: 60%;
+}
