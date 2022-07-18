@@ -31,7 +31,7 @@ export class HostEventComponent implements OnInit {
   ngOnInit(): void {
     // (document.getElementById('endDatePicker')as HTMLFormElement).setAttribute('max', new Date().toISOString().split('T')[0]);
     // (document.getElementById('endDatePicker')as HTMLFormElement).setAttribute('min',this.hostEventForm.get('eventTimings').get('startDate').value);
-    this.addSeatings();//initially adding a set of controls
+    // this.addSeatings();//initially adding a set of controls
   }
 
   hostEventForm = this.fb.group({
@@ -81,17 +81,14 @@ export class HostEventComponent implements OnInit {
   }
   totalSeating: number = 0;
   calcTotalSeats() {
-    this.totalSeating=0;
+    this.totalSeating = 0;
     (<FormArray>this.hostEventForm.get('seats')).controls.forEach(element => {
       var r: number = element.get('row').value;
       var c: number = element.get('colm').value;
       this.totalSeating = this.totalSeating + (r * c);
     });
-    console.log('Total Seats ' + this.totalSeating);
+  
     this.hostEventForm.controls['totalSeats'].setValue(this.totalSeating);
-    // const totalSeatsCtrl=new FormControl(this.totalSeats,Validators.required);
-    // this.hostEventForm.get('totalSeats').a(totalSeatsCtrl);
-    // this.hostEventForm.get('totalSeats').controls.push(totalSeatsCtrl);
   }
 
   /////////////////////////////////////////////////////////
@@ -182,9 +179,10 @@ export class HostEventComponent implements OnInit {
   }
 
   private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
+    // const filterValue = value.toLowerCase();
 
-    return this.allGenres.filter(g => g.toLowerCase().includes(filterValue));
+    // return this.allGenres.filter(g => g.toLowerCase().includes(filterValue));
+    return [' ',' '];
   }
   /////////////////////////////////////////////////////////////
   countries: string[] = ['China', 'Bangladesh', 'India', 'Pakistan'];
@@ -196,7 +194,7 @@ export class HostEventComponent implements OnInit {
 
   startDateChanged() {
     this.ngOnInit();
-    console.log(this.hostEventForm.get('eventTimings').get('startDate').value);
+    // console.log(this.hostEventForm.get('eventTimings').get('startDate').value);
     (document.getElementById('endDatePicker') as HTMLFormElement).setAttribute('min', this.hostEventForm.get('eventTimings').get('startDate').value);
   }
   //////////////////////////////////////////////////////////////////////
@@ -229,6 +227,11 @@ export class HostEventComponent implements OnInit {
       else
         alert('sorry');
     });
+   
+    // Display the key/value pairs
+    for (const value of formData.values()) {
+      console.log(value);
+    }
   }
   onNext() {
     // this.event = this.hostEventForm.value;

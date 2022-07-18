@@ -13,14 +13,14 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/api/v1")
 public class EventController {
-    //addEvent               = POST = /
+    //addEvent               = POST =
     //updateEvent            = PATCH = /
     //getEventByEventId      = GET = /{eventId}
 
     @Autowired
     private EventService eventService;
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<?> addEvent(@RequestParam("event") String eventText, @RequestParam("image") MultipartFile posterPic) throws IOException {
         return new ResponseEntity<>(eventService.addEvent(eventText,posterPic), HttpStatus.CREATED) ;
     }
