@@ -115,7 +115,6 @@
                 <mat-label>Pincode</mat-label>
                 <input type="number" matInput formControlName="pincode" placeholder="Pincode" required>
               </mat-form-field>
-
               <mat-form-field appearance="fill" class="shortinput">
                 <mat-label>Country</mat-label>
                 <mat-select formControlName="country">
@@ -135,6 +134,7 @@
               <mat-hint>MM/DD/YYYY</mat-hint>
               <mat-datepicker-toggle matSuffix [for]="startpicker"></mat-datepicker-toggle>
               <mat-datepicker #startpicker></mat-datepicker>
+              <mat-error *ngIf="hostEventForm.get('eventTimings').get('startDate').hasError('matStartDateInvalid')">Invalid start date</mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="shortinput">

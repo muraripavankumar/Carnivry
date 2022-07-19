@@ -11,20 +11,22 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/api/v1")
 public class EventController {
-    //addEvent               = POST = /
+    //addEvent               = POST =
     //updateEvent            = PATCH = /
     //getEventByEventId      = GET = /{eventId}
 
     @Autowired
     private EventService eventService;
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<?> addEvent(@RequestParam("event") String eventText, @RequestParam("image") MultipartFile posterPic) throws IOException {
+        System.out.println(eventText+" ");
+        System.out.println(posterPic);
         return new ResponseEntity<>(eventService.addEvent(eventText,posterPic), HttpStatus.CREATED) ;
     }
-    @PatchMapping("/")
+    @PatchMapping
     public ResponseEntity<?> updateEvent(@RequestParam("event") String eventText, @RequestParam("image") MultipartFile posterPic) throws IOException {
         return new ResponseEntity<>(eventService.updateEvent(eventText,posterPic), HttpStatus.OK) ;
     }

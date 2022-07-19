@@ -24,9 +24,11 @@ public class Event {
     private List<String> genre;
     private List<String> languages;
     private EventTiming eventTimings;
+//    private EventPoster poster;
     private Binary poster;
     private String fileName;
     private String fileType;
+
     private Venue venue;
     private double revenueGenerated;
     private int ticketsSold;

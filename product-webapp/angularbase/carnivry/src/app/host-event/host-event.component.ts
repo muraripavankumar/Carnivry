@@ -213,10 +213,12 @@ export class HostEventComponent implements OnInit {
   posterPicUrl: any;
   onFileChange(event: any) {
     this.posterPic = event.target.files[0];
+    console.log(this.posterPic);
     var reader = new FileReader();
     reader.readAsDataURL(this.posterPic);
     reader.onload = (_event) => {
       this.posterPicUrl = reader.result;
+     
     }
   }
 
@@ -227,14 +229,15 @@ export class HostEventComponent implements OnInit {
     const article = this.hostEventForm.value;
     formData.append('event', JSON.stringify(article));
     formData.append('image', this.posterPic);
+    console.log(JSON.stringify(this.posterPic));
     this.managementService.postHostEvent(formData).subscribe((data) => {
-      if (data.status === 201) {
-        this.snackbar.open('Event Uploaded Successfully!', '', {
-          duration: 3000
-        });
-      }
-      else
-        alert('sorry');
+      // if (data.status === 201) {
+      //   this.snackbar.open('Event Uploaded Successfully!', ' ', {
+      //     duration: 3000
+      //   });
+      // }
+      // else
+      //   alert('sorry');
     });
   }
 }
@@ -244,4 +247,5 @@ export class HostEventComponent implements OnInit {
 /*NOTES: 
 1. change the 'userEmailId' value to the actual emailId from the Session storage.
 2. put the validation for date and time
+3. have range of dates and accept the start and end time for each date
 */
