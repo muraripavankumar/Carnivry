@@ -1,3 +1,66 @@
-.buttons{
+
+ .ev{
+    
+    height: 100vh;
+    background-image: url(../../assets/carnivry_ev.jpg);
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+    
+ }
+ .content{
+    color: white;
+    width: 50%;
+    height: 30vh;
+    display: flex;
+    justify-content: space-evenly;
+    flex-flow: row wrap;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(3px);
+    border-radius: 50px;
+    box-shadow: 2px 2px 6px 5px rgba(110, 26, 26, 0.5);
+ }
+ .text{
+    width: 100%;
+    height: auto;
     text-align: center;
+    font-size: 4vh;
+    
+    font-weight: 500;
+
+ }
+ .buttons{
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-flow: row wrap;
+    
+ }
+ .button{
+    width: 40%;
+    border-radius: 20px;
+    
+ }
+ #button1{
+    background: rgba(76, 238, 73, 0.5);
+    backdrop-filter: blur(3px);
+    color: rgb(12, 103, 12);
+    font-size: 15px;
+    font-weight: 700;
+    border: 2px dashed rgb(12, 103, 12);
+ }
+ #button2{
+    background: rgba(255, 108, 80, 0.5);
+    backdrop-filter: blur(3px);
+    color: rgb(100, 20, 6);
+    font-size: 15px;
+    font-weight: 700;
+    border: 2px dashed rgb(100, 20, 6);
+ }
+ .messages{
+    width: 100%;
  }

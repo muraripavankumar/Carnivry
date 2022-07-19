@@ -1,82 +1,127 @@
 <div class="container registration">
-    <h1 class="title mat-display-1">Registration</h1>
+    <!-- <h1 class="title mat-display-1">Registration</h1> -->
 
-    <div class="row">
-        <div class="col-sm-6">
-            <h2 style="text-align: center;">Social Sign In </h2>
-            <div class="row ">
-                <button class="btn btn-light" (click)="signinGoogle()">
-                    <p><i class="fab fa-google"></i>&emsp;Sign In with Google</p>
-                </button>
-                <button class="btn btn-light" (click)="signinGithub()">
-                    <p><i class="fab fa-github"></i>&emsp;Sign In with Github</p>
-                </button>
+    <div class="myCard">
+        <div class="row">
+         
+
+
+            <div class="col-sm-6">
+
+                <div class="myLeftCtn">
+
+                    <form [formGroup]="registerUserForm" (ngSubmit)="register()" class="myForm text-center">
+
+                        <header>Create new account</header>
+
+                        <div class="form-group input">
+                            <i class="fas fa-user" id="fas_1"></i>
+                            <input type="text" formControlName="name" class="form-control myInput" placeholder="Full Name"
+                                [ngClass]="{'is-invalid': f['name'].errors && f['name'].touched}" />
+                            <div *ngIf="f['name'].errors && (f['name'].touched || f['name'].dirty)"
+                                class="alert alert-danger" role="alert">
+                                <div *ngIf="f['name'].errors['required']">Name Required</div>
+                                <div *ngIf="f['name'].errors['minlength']">Name must be atleast 4 characters</div>
+
+                            </div>
+                        </div>
+                        
+
+                        <div class="form-group input">
+                            <i class="fas fa-envelope" id="fas_2"></i>
+                            <input type="email" formControlName="email" class="form-control myInput" placeholder="Email"
+                                [ngClass]="{'is-invalid': f['email'].errors && f['email'].touched}" />
+                            <div *ngIf="f['email'].errors && (f['email'].touched || f['email'].dirty)"
+                                class="alert alert-danger" role="alert">
+                                <div *ngIf="f['email'].errors['required']">Email Required</div>
+                                <div *ngIf="f['email'].errors['email']">Invalid Email</div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group input">
+                            <i class="fas fa-lock" id="fas_3"></i>
+                            <input type="password" formControlName="password" class="form-control myInput"
+                                placeholder="Password"
+                                [ngClass]="{'is-invalid': f['password'].errors && f['password'].touched}" />
+                            <div *ngIf="f['password'].errors && (f['password'].touched || f['password'].dirty)"
+                                class="alert alert-danger" role="alert">
+                                <div *ngIf="f['password'].errors['required']">Password Required</div>
+                                <div *ngIf="f['password'].errors['minlength']">Password must contain atleast 8 characters</div>
+                                <div *ngIf="f['password'].errors['maxlength']">Password must contain atmost 20 characters</div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group input">
+                            <i class="fas fa-lock" id="fas_4"></i>
+                            <input type="password" formControlName="matchingPassword" class="form-control myInput"
+                                placeholder="Confirm Password"
+                                [ngClass]="{'is-invalid': f['matchingPassword'].errors && f['matchingPassword'].touched}" />
+                            <div *ngIf="f['matchingPassword'].errors && (f['matchingPassword'].touched || f['matchingPassword'].dirty)"
+                                class="alert alert-danger" role="alert">
+                                <div *ngIf="f['matchingPassword'].errors['required']">Matching Password Required</div>
+                                <div *ngIf="f['matchingPassword'].errors['matching']">Password Not Matching</div>
+                            </div>
+                        </div>
+                        
+                        <div class="input fade show" *ngIf="successMessage || failureMessage">
+                        <div  *ngIf="failureMessage" class="alert alert-warning message" role="alert" >
+                            {{failureMessage}}
+                        </div>
+                        <div  *ngIf="successMessage" class="alert alert-success message" role="alert" >
+                            {{successMessage}}
+                        </div>
+                        
+                        </div>
+                        <br>
+                        <div class="butt_box">
+                            <button type="submit" class="butt" [disabled]="!registerUserForm.valid">Register</button>
+                            
+                            
+                            <a routerLink="/Carnivry/login" style="width: 30%;">
+                                <button class="butt" style="width: 100%;">Login</button>
+                            </a>
+                        </div>
+                        
+                    </form>
+                    <br>
+
+                    <hr>
+
+                    <div class="input">
+                        <header >Social Sign In </header>
+                        <div class="social_icons">
+                            <button class="btn btn-light" (click)="signinGoogle()">
+                                <i class="fab fa-google"></i>
+                            </button>
+                            <button class="btn btn-light" (click)="signinGithub()">
+                                <i class="fab fa-github"></i>
+                            </button>
+                        </div>
+                        
+                    </div>
+
+                    
+                    
+
+                </div>
 
             </div>
-        </div>
 
 
-        <div class="col-sm-6" style="text-align: center;">
-            <h2>Application Sign In</h2>
+            <div class="col-sm-6">
+                <div class="myRightCtn">
+                    <div class="box">
+                        <header>Carnivry</header>
 
-            <form [formGroup]="registerUserForm" (ngSubmit)="register()" class="userForm">
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" formControlName="name" class="form-control"
-                        [ngClass]="{'is-invalid': f['name'].errors && f['name'].touched}" />
-                    <div *ngIf="f['name'].errors && (f['name'].touched || f['name'].dirty)" class="alert alert-danger"
-                        role="alert">
-                        <div *ngIf="f['name'].errors['required']">Name Required</div>
-                        <div *ngIf="f['name'].errors['minlength']">Name must be atleast 4 characters</div>
-
+                        <p><i>&emsp;The universe of events designed to architect your sweetest memories </i></p>
+                        <input type="button" class="butt_out" value="Learn More" />
                     </div>
+
                 </div>
-                <br>
-
-                <div class="form-group">
-                    <label for="email">Email Id </label>
-                    <input type="email" formControlName="email" class="form-control"
-                        [ngClass]="{'is-invalid': f['email'].errors && f['email'].touched}" />
-                    <div *ngIf="f['email'].errors && (f['email'].touched || f['email'].dirty)"
-                        class="alert alert-danger" role="alert">
-                        <div *ngIf="f['email'].errors['required']">Email Required</div>
-                        <div *ngIf="f['email'].errors['email']">Invalid Email</div>
-                    </div>
-                </div>
-                <br>
-
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" formControlName="password" class="form-control"
-                        [ngClass]="{'is-invalid': f['password'].errors && f['password'].touched}" />
-                    <div *ngIf="f['password'].errors && (f['password'].touched || f['password'].dirty)"
-                        class="alert alert-danger" role="alert">
-                        <div *ngIf="f['password'].errors['required']">Password Required</div>
-
-                    </div>
-                </div>
-                <br>
-
-                <div class="form-group">
-                    <label for="matchingPassword">Confirm Password</label>
-                    <input type="password" formControlName="matchingPassword" class="form-control"
-                        [ngClass]="{'is-invalid': f['matchingPassword'].errors && f['matchingPassword'].touched}" />
-                    <div *ngIf="f['matchingPassword'].errors && (f['matchingPassword'].touched || f['matchingPassword'].dirty)"
-                        class="alert alert-danger" role="alert">
-                        <div *ngIf="f['matchingPassword'].errors['required']">Matching Password Required</div>
-                        <div *ngIf="f['matchingPassword'].errors['matching']">Password Not Matching</div>
-                    </div>
-                </div>
-                <br>
-
-                <button type="submit" class="btn btn-success" [disabled]="!registerUserForm.valid">Register</button>
-            </form>
-
-            <br>
-            <div *ngIf="successMessage">
-                <p>{{successMessage}}</p>
             </div>
-
         </div>
     </div>
 </div>
+

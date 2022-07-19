@@ -1,6 +1,23 @@
-<p style="text-align: center;">Verification Email Sent</p>
-<div class="buttons"></div>
-<button class="btn btn-success" (click)="isVerified()">I have verified</button>
-<button class="btn btn-danger"  (click)="resendEmail()">Resend Verification Email</button>
-<div *ngIf="verificationMessage"><p>{{verificationMessage}}</p></div>
-<div *ngIf="emailMessage"><p>{{emailMessage}}</p></div>
+<div class="ev">
+    <div class="content">
+        <div class="text"><p>Verification Email Sent</p> </div>
+        
+
+        <div class="buttons">
+            <button class="button" id="button1" (click)="isVerified()">I have verified</button>
+            <button class="btn btn-danger button" id="button2" (click)="resendEmail()">Resend Verification Email</button>
+        </div>
+        <div class="messages" *ngIf="verificationMessage || emailMessage">
+            <div *ngIf="verificationMessage">
+                <p>{{verificationMessage}}</p>
+            </div>
+            <div *ngIf="emailMessage">
+                <p>{{emailMessage}}</p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>

@@ -26,6 +26,7 @@ import { EmailVerificationComponent } from './email-verification/email-verificat
 import { AddPreferenceComponent } from './add-preference/add-preference.component';
 import { AddHeaderInterceptor } from './interceptor/add-header.interceptor';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { UpdateEventComponent } from './update-event/update-event.component';
 
@@ -59,6 +60,7 @@ import { UpdateEventComponent } from './update-event/update-event.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSnackBarModule,
+    MatButtonModule,
     MatCardModule
 
   ],
