@@ -212,18 +212,18 @@ export class UpdateEventComponent implements OnInit {
 
   /////////////////////////////////////////////////////////////
   onSubmit() {
-    const formData = new FormData();
-    const article = this.hostEventForm.value;
-    formData.append('event', JSON.stringify(article));
-    formData.append('image', this.posterPic);
-    this.managementService.postHostEvent(formData).subscribe((data) => {
-      // if (data.status === 201) {
-      //   this.snackbar.open('Event Uploaded Successfully!', '', {
-      //     duration: 3000
-      //   });
-      // }
-      // else
-      //   alert('sorry');
-    });
+    // const formData = new FormData();
+    // const article = this.hostEventForm.value;
+    // formData.append('event', JSON.stringify(article));
+    // formData.append('image', this.posterPic);
+    // this.managementService.postHostEvent(formData).subscribe((data) => {
+    //   // if (data.status === 201) {
+    //   //   this.snackbar.open('Event Uploaded Successfully!', '', {
+    //   //     duration: 3000
+    //   //   });
+    //   // }
+    //   // else
+    //   //   alert('sorry');
+    // });
   }
 }

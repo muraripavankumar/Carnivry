@@ -127,7 +127,23 @@
           </div>
           <h2>Event Timings :</h2>
           <div formGroupName="eventTimings">
-            <mat-form-field appearance="fill" class="shortinput">
+
+            <mat-form-field appearance="fill">
+              <mat-label>Enter a date range</mat-label>
+              <mat-date-range-input [rangePicker]="picker">
+                <input matStartDate formControlName="startDate" placeholder="Start date" [min]="presentDate" >
+                <input matEndDate formControlName="endDate" placeholder="End date" >
+              </mat-date-range-input>
+              <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-date-range-picker #picker></mat-date-range-picker>
+            
+              <mat-error *ngIf="hostEventForm.get('eventTimings').get('startDate').hasError('matStartDateInvalid')">Invalid start date</mat-error>
+              <mat-error *ngIf="hostEventForm.get('eventTimings').get('startDate').hasError('matEndDateInvalid')">Invalid end date</mat-error>
+            </mat-form-field>
+
+
+            <!-- <mat-form-field appearance="fill" class="shortinput">
               <mat-label>Choose a Starting date</mat-label>
               <input matInput #startDateInput [matDatepicker]="startpicker" formControlName="startDate"
                 (dateChange)="startDateChanged()" [min]="presentDate">
@@ -135,20 +151,20 @@
               <mat-datepicker-toggle matSuffix [for]="startpicker"></mat-datepicker-toggle>
               <mat-datepicker #startpicker></mat-datepicker>
               <mat-error *ngIf="hostEventForm.get('eventTimings').get('startDate').hasError('matStartDateInvalid')">Invalid start date</mat-error>
-            </mat-form-field>
+            </mat-form-field> -->
 
             <mat-form-field appearance="fill" class="shortinput">
               <mat-label>Starting time</mat-label>
               <input type="time" matInput placeholder="event starting time" formControlName="startTime">
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="shortinput">
+            <!-- <mat-form-field appearance="fill" class="shortinput">
               <mat-label>Choose an Ending date</mat-label>
               <input matInput [matDatepicker]="endpicker" formControlName="endDate" [min]="eventStartDate">
               <mat-hint>MM/DD/YYYY</mat-hint>
               <mat-datepicker-toggle matSuffix [for]="endpicker"></mat-datepicker-toggle>
               <mat-datepicker #endpicker></mat-datepicker>
-            </mat-form-field>
+            </mat-form-field> -->
 
             <mat-form-field appearance="fill" class="shortinput">
               <mat-label>Ending time</mat-label>
@@ -201,7 +217,7 @@
           <mat-label>Upload Event Poster</mat-label>
           <input type="file" (change)="onFileChange($event)">
           <br>
-          <img [src]="posterPicUrl" height="600" alt="no_img" *ngIf="posterPicUrl">
+          <img [src]="posterPicDataUrl" height="600" alt="no_img" *ngIf="posterPicDataUrl">
           <div>
             <button mat-button matStepperPrevious class="btn btn-secondary">Back</button>
             <button mat-button matStepperNext class="btn btn-primary" style="float: right;">Next</button>

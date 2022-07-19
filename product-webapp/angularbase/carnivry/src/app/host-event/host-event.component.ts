@@ -19,7 +19,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./host-event.component.css']
 })
 export class HostEventComponent implements OnInit {
-  // event: Event;
+   eventData: Event;
 
   constructor(private fb: FormBuilder, private managementService: ManagementService, private snackbar: MatSnackBar) {
     this.filteredGenres = this.genreCtrl.valueChanges.pipe(
@@ -41,6 +41,7 @@ export class HostEventComponent implements OnInit {
     artists: this.fb.array([]),
     genre: this.fb.array([]),
     languages: this.fb.array([]),
+    poster:['',Validators.required],
     eventTimings: this.fb.group({
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
@@ -200,6 +201,9 @@ export class HostEventComponent implements OnInit {
     console.log(this.startDateInput.nativeElement.value);
     
   }
+  dateControls(){
+    return this.hostEventForm.get('eventTimings');
+  }
 
   startDateChanged() {
     this.ngOnInit();
@@ -211,34 +215,52 @@ export class HostEventComponent implements OnInit {
   //////////////////////////////////////////////////////////////////////
   posterPic: any;
   posterPicUrl: any;
+  posterPicDataUrl:string;
   onFileChange(event: any) {
     this.posterPic = event.target.files[0];
-    console.log(this.posterPic);
+  
     var reader = new FileReader();
     reader.readAsDataURL(this.posterPic);
+  
     reader.onload = (_event) => {
-      this.posterPicUrl = reader.result;
-     
+      this.posterPicDataUrl = reader.result+'';
+      console.log('PosterPicUrl :- '+this.posterPicDataUrl);//this is working
+      this.hostEventForm.controls['poster'].setValue(this.posterPicDataUrl);
     }
   }
 
 
   /////////////////////////////////////////////////////////////
-  onSubmit() {
-    const formData = new FormData();
-    const article = this.hostEventForm.value;
-    formData.append('event', JSON.stringify(article));
-    formData.append('image', this.posterPic);
-    console.log(JSON.stringify(this.posterPic));
-    this.managementService.postHostEvent(formData).subscribe((data) => {
-      // if (data.status === 201) {
-      //   this.snackbar.open('Event Uploaded Successfully!', ' ', {
-      //     duration: 3000
-      //   });
-      // }
-      // else
-      //   alert('sorry');
-    });
+  // onSubmit() {
+  //   const formData = new FormData();
+  //   const article = this.hostEventForm.value;
+  //   formData.append('event', JSON.stringify(article));
+  //   formData.append('image', this.posterPic);
+  //   console.log(JSON.stringify(this.posterPic));
+  //   this.managementService.postHostEvent(formData).subscribe((data) => {
+  //     if (data.status === 201) {
+  //       this.snackbar.open('Event Uploaded Successfully!', ' ', {
+  //         duration: 3000
+  //       });
+  //     }
+  //     else
+  //       alert('sorry');
+  //   });
+  // }
+
+  onSubmit(){
+    this.eventData=this.hostEventForm.value;
+    this.managementService.postHostEvent(this.eventData).subscribe((data) => {
+          if (data.status === 201) {
+            this.snackbar.open('Event Uploaded Successfully!', ' ', {
+              duration: 3000
+            });
+          }
+          else
+          this.snackbar.open('Sorry! Event could not be uploaded. Please try again.', ' ', {
+            duration: 3000
+          });
+        });
   }
 }
 

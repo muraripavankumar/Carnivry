@@ -24,11 +24,7 @@ public class Event {
     private List<String> genre;
     private List<String> languages;
     private EventTiming eventTimings;
-//    private EventPoster poster;
-    private Binary poster;
-    private String fileName;
-    private String fileType;
-
+    private String poster;
     private Venue venue;
     private double revenueGenerated;
     private int ticketsSold;
@@ -36,34 +32,37 @@ public class Event {
     private List<Seat> seats;
     private int likes;
     private List<String> emailOfUsersLikedEvent;
-    //constructor to be used for updating the event details
-    public Event(String eventId, String title, String userEmailId, String eventDescription, List<String> artists, List<String> genre, List<String> languages, double revenueGenerated, int ticketsSold, int totalSeats) {
-        this.eventId = eventId;
-        this.title = title;
-        this.userEmailId = userEmailId;
-        this.eventDescription = eventDescription;
-        this.artists = artists;
-        this.genre = genre;
-        this.languages = languages;
-        this.revenueGenerated = revenueGenerated;
-        this.ticketsSold = ticketsSold;
-        this.totalSeats = totalSeats;
-    }
-    //constructor to be used for creating new event
-    public Event(String title, String userEmailId, String eventDescription, List<String> artists, List<String> genre, List<String> languages, EventTiming eventTimings, Venue venue,  int totalSeats, List<Seat> seats) {
-        this.title = title;
-        this.userEmailId = userEmailId;
-        this.eventDescription = eventDescription;
-        this.artists = artists;
-        this.genre = genre;
-        this.languages = languages;
-        this.eventTimings = eventTimings;
-        this.venue = venue;
-        this.seats = seats;
-        this.totalSeats = totalSeats;
-        revenueGenerated = 0;
-        ticketsSold = 0;
-        likes=0;
-        emailOfUsersLikedEvent=new ArrayList<>();
-    }
+//    //constructor to be used for creating new event
+//    public Event(String title, String userEmailId, String eventDescription, List<String> artists, List<String> genre, List<String> languages, EventTiming eventTimings, String poster, Venue venue, int totalSeats, List<Seat> seats) {
+//        this.title = title;
+//        this.userEmailId = userEmailId;
+//        this.eventDescription = eventDescription;
+//        this.artists = artists;
+//        this.genre = genre;
+//        this.languages = languages;
+//        this.eventTimings = eventTimings;
+//        this.poster = poster;
+//        this.venue = venue;
+//        this.totalSeats = totalSeats;
+//        this.seats = seats;
+//        revenueGenerated=0;
+//        ticketsSold=0;
+//        likes=0;
+//        emailOfUsersLikedEvent=new ArrayList<String>();
+//    }
+//    //constructor to be used for updating the event details
+//    public Event(String eventId, String title, String userEmailId, String eventDescription, List<String> artists, List<String> genre, List<String> languages, EventTiming eventTimings, String poster, Venue venue, int totalSeats, List<Seat> seats) {
+//        this.eventId = eventId;
+//        this.title = title;
+//        this.userEmailId = userEmailId;
+//        this.eventDescription = eventDescription;
+//        this.artists = artists;
+//        this.genre = genre;
+//        this.languages = languages;
+//        this.eventTimings = eventTimings;
+//        this.poster = poster;
+//        this.venue = venue;
+//        this.totalSeats = totalSeats;
+//        this.seats = seats;
+//    }
 }
