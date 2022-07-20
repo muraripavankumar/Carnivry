@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1")
 public class EventController {
     //addEvent               = POST =
-    //updateEvent            = PATCH = /
+    //updateEvent            = PATCH =
     //getEventByEventId      = GET = /{eventId}
 
     @Autowired

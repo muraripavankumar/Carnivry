@@ -1,6 +1,8 @@
 <mat-card>
   <mat-card-header>
-    <mat-card-title><h1>HOST NEW EVENT</h1></mat-card-title>
+    <mat-card-title>
+      <h1>HOST NEW EVENT</h1>
+    </mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <mat-stepper linear="false" #stepper>
@@ -73,48 +75,62 @@
           <div>
             <button mat-button matStepperNext class="btn btn-primary" style="float: right;">Next</button>
           </div>
+
         </form>
       </mat-step>
       <!-- //////////////////---------------------///////////////////// -->
       <mat-step [stepControl]="hostEventForm" label="Venue Details">
+
         <h3>Select Event Type</h3>
+
         <mat-button-toggle-group name="eventType" aria-label="Event Type">
           <mat-button-toggle value="online">Online</mat-button-toggle>
           <mat-button-toggle value="offline">Offline</mat-button-toggle>
         </mat-button-toggle-group>
+
         <form [formGroup]="hostEventForm">
           <div formGroupName="venue">
+
             <mat-form-field appearance="fill">
               <mat-label>Venue Name</mat-label>
               <input matInput formControlName="venueName" placeholder="Venue name or URL" required>
             </mat-form-field>
+
             <h2>Address :</h2>
+
             <div formGroupName="address">
+
               <mat-form-field appearance="fill" class="shortinput">
                 <mat-label>House No.</mat-label>
                 <input matInput formControlName="house" placeholder="House number, Floor number, Building name "
                   required>
               </mat-form-field>
+
               <mat-form-field appearance="fill" class="mediuminput">
                 <mat-label>Street</mat-label>
                 <input matInput formControlName="street" placeholder="Street name or Street number" required>
               </mat-form-field>
+
               <mat-form-field appearance="fill" class="mediuminput">
                 <mat-label>Landmark</mat-label>
                 <input matInput formControlName="landmark" placeholder="Landmark/Location of the venue" required>
               </mat-form-field>
+
               <mat-form-field appearance="fill" class="shortinput">
                 <mat-label>City</mat-label>
                 <input matInput formControlName="city" placeholder="City name" required>
               </mat-form-field>
+
               <mat-form-field appearance="fill" class="shortinput">
                 <mat-label>State</mat-label>
                 <input matInput formControlName="state" placeholder="State name" required>
               </mat-form-field>
+
               <mat-form-field appearance="fill" class="shortinput">
                 <mat-label>Pincode</mat-label>
                 <input type="number" matInput formControlName="pincode" placeholder="Pincode" required>
               </mat-form-field>
+
               <mat-form-field appearance="fill" class="shortinput">
                 <mat-label>Country</mat-label>
                 <mat-select formControlName="country">
@@ -123,63 +139,51 @@
                   </mat-option>
                 </mat-select>
               </mat-form-field>
+              
             </div>
           </div>
-          <h2>Event Timings :</h2>
-          <div formGroupName="eventTimings">
 
-            <mat-form-field appearance="fill">
+          <h2>Event Timings :</h2>
+
+          <div formGroupName="eventTimings">
+            <mat-form-field appearance="fill" class="shortinput">
               <mat-label>Enter a date range</mat-label>
               <mat-date-range-input [rangePicker]="picker">
-                <input matStartDate formControlName="startDate" placeholder="Start date" [min]="presentDate" >
-                <input matEndDate formControlName="endDate" placeholder="End date" >
+                <input matStartDate formControlName="startDate" placeholder="Start date" [min]="presentDate">
+                <input matEndDate formControlName="endDate" placeholder="End date">
               </mat-date-range-input>
               <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-date-range-picker #picker></mat-date-range-picker>
-            
-              <mat-error *ngIf="hostEventForm.get('eventTimings').get('startDate').hasError('matStartDateInvalid')">Invalid start date</mat-error>
-              <mat-error *ngIf="hostEventForm.get('eventTimings').get('startDate').hasError('matEndDateInvalid')">Invalid end date</mat-error>
+              <mat-error *ngIf="hostEventForm.get('eventTimings').get('startDate').hasError('matStartDateInvalid')">
+                Invalid start date</mat-error>
+              <mat-error *ngIf="hostEventForm.get('eventTimings').get('startDate').hasError('matEndDateInvalid')">
+                Invalid end date</mat-error>
             </mat-form-field>
-
-
-            <!-- <mat-form-field appearance="fill" class="shortinput">
-              <mat-label>Choose a Starting date</mat-label>
-              <input matInput #startDateInput [matDatepicker]="startpicker" formControlName="startDate"
-                (dateChange)="startDateChanged()" [min]="presentDate">
-              <mat-hint>MM/DD/YYYY</mat-hint>
-              <mat-datepicker-toggle matSuffix [for]="startpicker"></mat-datepicker-toggle>
-              <mat-datepicker #startpicker></mat-datepicker>
-              <mat-error *ngIf="hostEventForm.get('eventTimings').get('startDate').hasError('matStartDateInvalid')">Invalid start date</mat-error>
-            </mat-form-field> -->
 
             <mat-form-field appearance="fill" class="shortinput">
               <mat-label>Starting time</mat-label>
               <input type="time" matInput placeholder="event starting time" formControlName="startTime">
             </mat-form-field>
 
-            <!-- <mat-form-field appearance="fill" class="shortinput">
-              <mat-label>Choose an Ending date</mat-label>
-              <input matInput [matDatepicker]="endpicker" formControlName="endDate" [min]="eventStartDate">
-              <mat-hint>MM/DD/YYYY</mat-hint>
-              <mat-datepicker-toggle matSuffix [for]="endpicker"></mat-datepicker-toggle>
-              <mat-datepicker #endpicker></mat-datepicker>
-            </mat-form-field> -->
-
             <mat-form-field appearance="fill" class="shortinput">
               <mat-label>Ending time</mat-label>
               <input type="time" matInput formControlName="endTime" placeholder="event ending time">
             </mat-form-field>
+
           </div>
+
           <div>
             <button mat-button matStepperPrevious class="btn btn-secondary">Back</button>
             <button mat-button matStepperNext class="btn btn-primary" style="float: right;">Next</button>
           </div>
+
         </form>
       </mat-step>
       <!-- //////////////////---------------------///////////////////// -->
       <mat-step [stepControl]="hostEventForm" label="Seating Arrangement">
         <form [formGroup]="hostEventForm">
+
           <div formArrayName="seats">
             <div *ngFor="let s of seatingControls; let i=index">
               <div [formGroupName]="i">
@@ -187,32 +191,40 @@
                   <mat-label>Rows</mat-label>
                   <input type="number" matInput formControlName="row" (change)="calcTotalSeats()">
                 </mat-form-field>
+
                 <mat-form-field appearance="fill" class="shortinput">
                   <mat-label>Columns</mat-label>
                   <input type="number" matInput formControlName="colm" (change)="calcTotalSeats()">
                 </mat-form-field>
+
                 <mat-form-field appearance="fill" class="shortinput">
                   <mat-label>Ticket Price</mat-label>
                   <input type="number" matInput formControlName="seatPrice">
                 </mat-form-field>
+
                 <button (click)="removeSeating(i)">Remove</button>
+
               </div>
             </div>
           </div>
           <div>
             <button (click)="addSeatings()" class="btn btn-info">Add More</button>
           </div>
+
           <div>
             <h2>Total Seats : {{totalSeating}}</h2>
           </div>
+
           <div>
             <button mat-button matStepperPrevious class="btn btn-secondary">Back</button>
             <button mat-button matStepperNext class="btn btn-primary" style="float: right;">Next</button>
           </div>
+
         </form>
       </mat-step>
       <!-- //////////////////---------------------///////////////////// -->
       <mat-step [stepControl]="hostEventForm" label="Poster">
+
         <form [formGroup]="hostEventForm">
           <mat-label>Upload Event Poster</mat-label>
           <input type="file" (change)="onFileChange($event)">
@@ -233,10 +245,12 @@
           <mat-card-header>
             <mat-card-title>{{hostEventForm.get('title').value}}</mat-card-title>
           </mat-card-header>
-          <img [src]="posterPicUrl" height="400">
+          <img [src]="posterPicDataUrl" height="400">
           <mat-card-content>
-            <h2>Event Description : {{hostEventForm.get('eventDescription').value}}</h2>
-            <mat-label>Upload Event Poster</mat-label>
+            <h2>Event Description : <h3>{{hostEventForm.get('eventDescription').value}}</h3></h2>
+            <h2>Artists : <h3>{{hostEventForm.get('artists').value}}</h3></h2>
+            <h2>Genres : <h3>{{hostEventForm.get('genre').value}}</h3></h2>
+            <mat-label>Genres : {{hostEventForm.get('genre').value}}</mat-label>
           </mat-card-content>
         </mat-card>
         <div>

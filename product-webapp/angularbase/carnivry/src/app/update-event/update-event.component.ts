@@ -5,6 +5,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { startWith, map, Observable } from 'rxjs';
+import { Event } from '../model/event';
 import { ManagementService } from '../service/management.service';
 import { UpdateEventService } from '../service/update-event.service';
 
@@ -15,8 +16,13 @@ import { UpdateEventService } from '../service/update-event.service';
 })
 export class UpdateEventComponent implements OnInit {
 
-  
-  constructor(private fb: FormBuilder, private managementService: ManagementService, private snackbar: MatSnackBar,private updateEventService: UpdateEventService ) {
+  eventData: Event;
+  existingEventData: Event = new Event();
+  presentDate: any;
+
+  constructor(private fb: FormBuilder, private managementService: ManagementService, private snackbar: MatSnackBar, private udateEventService: UpdateEventService) {
+    // this.managementService.getHostEventById('62d7290d2b5457767a0df99d').subscribe((data)=>this.eventData=data);
+    this.udateEventService.updateEventCall('62d7290d2b5457767a0df99d');
     this.filteredGenres = this.genreCtrl.valueChanges.pipe(
       startWith(''),
       map((genre: string | '') => (genre ? this._filter(genre) : this.allGenres.slice())),
@@ -24,10 +30,9 @@ export class UpdateEventComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.updateEventService.updateEventCall('9f94074f-2500-41cc-803b-a196fa72fecf');
-    // this.setDate();
-    // (document.getElementById('endDatePicker')as HTMLFormElement).setAttribute('min',this.hostEventForm.get('eventTimings').get('startDate').value);
-    // this.addSeatings();//initially adding a set of controls
+    this.udateEventService.obj.subscribe(data => this.existingEventData = data);
+    this.presentDate = new Date().toISOString().split('T')[0];
+    this.addSeatings();//initially adding a set of controls
   }
 
   hostEventForm = this.fb.group({
@@ -37,6 +42,7 @@ export class UpdateEventComponent implements OnInit {
     artists: this.fb.array([]),
     genre: this.fb.array([]),
     languages: this.fb.array([]),
+    poster: ['', Validators.required],
     eventTimings: this.fb.group({
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
@@ -139,21 +145,26 @@ export class UpdateEventComponent implements OnInit {
   allGenres: string[] = ['Adventure', 'Action', 'Drama', 'Party', 'Spiritual'];
 
   @ViewChild('genreInput') genreInput: ElementRef<HTMLInputElement>;
+
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
+
     // Add our genre
     if (value) {
       const gnCtrl = new FormControl(value, Validators.required);
       this.genres.push(value);
       (<FormArray>this.hostEventForm.get('genre')).push(gnCtrl);
     }
+
     // Clear the input value
     event.chipInput!.clear();
+
     this.genreCtrl.setValue('');
   }
 
   remove(gr: string): void {
     const index = this.genres.indexOf(gr);
+
     if (index >= 0) {
       this.genres.splice(index, 1);
       (<FormArray>this.hostEventForm.get('genre')).removeAt(index);
@@ -170,60 +181,41 @@ export class UpdateEventComponent implements OnInit {
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
+
     return this.allGenres.filter(g => g.toLowerCase().includes(filterValue));
   }
   /////////////////////////////////////////////////////////////
   countries: string[] = ['China', 'Bangladesh', 'India', 'Pakistan'];
 
-
-  /////////////////////////////////////////////////////////////////////
-
-  @ViewChild('startDateInput') startDateInput:ElementRef<HTMLInputElement>;
- presentDate:any;
- eventStartDate:any;
-  setDate(){
-//  (document.getElementById('startDateInput')as HTMLFormElement).setAttribute('min', new Date().toISOString().split('T')[0]);
-   this.presentDate= new Date().toISOString().split('T')[0];
-  }
-  setStartDate(){
-    console.log(this.startDateInput.nativeElement.value);
-    
-  }
-
-  startDateChanged() {
-    this.ngOnInit();
-    this.setStartDate();
-    this.eventStartDate=this.startDateInput.nativeElement.value;
-    // console.log(this.hostEventForm.get('eventTimings').get('startDate').value);
-    // (document.getElementById('endDatePicker') as HTMLFormElement).setAttribute('min', this.hostEventForm.get('eventTimings').get('startDate').value);
-  }
   //////////////////////////////////////////////////////////////////////
   posterPic: any;
-  posterPicUrl: any;
+  // posterPicUrl: any;
+  posterPicDataUrl: string;
   onFileChange(event: any) {
     this.posterPic = event.target.files[0];
     var reader = new FileReader();
     reader.readAsDataURL(this.posterPic);
     reader.onload = (_event) => {
-      this.posterPicUrl = reader.result;
+      this.posterPicDataUrl = reader.result + '';
+      // console.log('PosterPicUrl :- ' + this.posterPicDataUrl);//this is working
+      this.hostEventForm.controls['poster'].setValue(this.posterPicDataUrl);
     }
   }
 
 
   /////////////////////////////////////////////////////////////
   onSubmit() {
-    // const formData = new FormData();
-    // const article = this.hostEventForm.value;
-    // formData.append('event', JSON.stringify(article));
-    // formData.append('image', this.posterPic);
-    // this.managementService.postHostEvent(formData).subscribe((data) => {
-    //   // if (data.status === 201) {
-    //   //   this.snackbar.open('Event Uploaded Successfully!', '', {
-    //   //     duration: 3000
-    //   //   });
-    //   // }
-    //   // else
-    //   //   alert('sorry');
-    // });
+    this.eventData = this.hostEventForm.value;
+    this.managementService.updateHostEvent(this.eventData).subscribe((data) => {
+      if (data.status === 201) {
+        this.snackbar.open('Event Uploaded Successfully!', ' ', {
+          duration: 3000
+        });
+      }
+      else
+        this.snackbar.open('Sorry! Event could not be uploaded. Please try again.', ' ', {
+          duration: 3000
+        });
+    });
   }
 }

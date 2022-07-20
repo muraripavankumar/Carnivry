@@ -19,7 +19,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./host-event.component.css']
 })
 export class HostEventComponent implements OnInit {
-   eventData: Event;
+  eventData: Event;
+  presentDate: any;
 
   constructor(private fb: FormBuilder, private managementService: ManagementService, private snackbar: MatSnackBar) {
     this.filteredGenres = this.genreCtrl.valueChanges.pipe(
@@ -29,8 +30,7 @@ export class HostEventComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setDate();
-    // (document.getElementById('endDatePicker')as HTMLFormElement).setAttribute('min',this.hostEventForm.get('eventTimings').get('startDate').value);
+    this.presentDate = new Date().toISOString().split('T')[0];
     this.addSeatings();//initially adding a set of controls
   }
 
@@ -41,7 +41,7 @@ export class HostEventComponent implements OnInit {
     artists: this.fb.array([]),
     genre: this.fb.array([]),
     languages: this.fb.array([]),
-    poster:['',Validators.required],
+    poster: ['', Validators.required],
     eventTimings: this.fb.group({
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
@@ -88,7 +88,6 @@ export class HostEventComponent implements OnInit {
       var c: number = element.get('colm').value;
       this.totalSeating = this.totalSeating + (r * c);
     });
-  
     this.hostEventForm.controls['totalSeats'].setValue(this.totalSeating);
   }
 
@@ -187,80 +186,36 @@ export class HostEventComponent implements OnInit {
   /////////////////////////////////////////////////////////////
   countries: string[] = ['China', 'Bangladesh', 'India', 'Pakistan'];
 
-
-  /////////////////////////////////////////////////////////////////////
-
-  @ViewChild('startDateInput') startDateInput:ElementRef<HTMLInputElement>;
- presentDate:any;
- eventStartDate:any;
-  setDate(){
-//  (document.getElementById('startDateInput')as HTMLFormElement).setAttribute('min', new Date().toISOString().split('T')[0]);
-   this.presentDate= new Date().toISOString().split('T')[0];
-  }
-  setStartDate(){
-    console.log(this.startDateInput.nativeElement.value);
-    
-  }
-  dateControls(){
-    return this.hostEventForm.get('eventTimings');
-  }
-
-  startDateChanged() {
-    this.ngOnInit();
-    this.setStartDate();
-    this.eventStartDate=this.startDateInput.nativeElement.value;
-    // console.log(this.hostEventForm.get('eventTimings').get('startDate').value);
-    // (document.getElementById('endDatePicker') as HTMLFormElement).setAttribute('min', this.hostEventForm.get('eventTimings').get('startDate').value);
-  }
   //////////////////////////////////////////////////////////////////////
   posterPic: any;
-  posterPicUrl: any;
-  posterPicDataUrl:string;
+  // posterPicUrl: any;
+  posterPicDataUrl: string;
   onFileChange(event: any) {
     this.posterPic = event.target.files[0];
-  
     var reader = new FileReader();
     reader.readAsDataURL(this.posterPic);
-  
     reader.onload = (_event) => {
-      this.posterPicDataUrl = reader.result+'';
-      console.log('PosterPicUrl :- '+this.posterPicDataUrl);//this is working
+      this.posterPicDataUrl = reader.result + '';
+      // console.log('PosterPicUrl :- ' + this.posterPicDataUrl);//this is working
       this.hostEventForm.controls['poster'].setValue(this.posterPicDataUrl);
     }
   }
 
 
   /////////////////////////////////////////////////////////////
-  // onSubmit() {
-  //   const formData = new FormData();
-  //   const article = this.hostEventForm.value;
-  //   formData.append('event', JSON.stringify(article));
-  //   formData.append('image', this.posterPic);
-  //   console.log(JSON.stringify(this.posterPic));
-  //   this.managementService.postHostEvent(formData).subscribe((data) => {
-  //     if (data.status === 201) {
-  //       this.snackbar.open('Event Uploaded Successfully!', ' ', {
-  //         duration: 3000
-  //       });
-  //     }
-  //     else
-  //       alert('sorry');
-  //   });
-  // }
-
-  onSubmit(){
-    this.eventData=this.hostEventForm.value;
+  onSubmit() {
+    this.eventData = this.hostEventForm.value;
     this.managementService.postHostEvent(this.eventData).subscribe((data) => {
-          if (data.status === 201) {
-            this.snackbar.open('Event Uploaded Successfully!', ' ', {
-              duration: 3000
-            });
-          }
-          else
-          this.snackbar.open('Sorry! Event could not be uploaded. Please try again.', ' ', {
-            duration: 3000
-          });
+      if (data.status === 201) {
+        this.snackbar.open('Event Uploaded Successfully!', ' ', {
+          duration: 3000
         });
+      }
+      else
+        this.snackbar.open('Sorry! Event could not be uploaded. Please try again.', ' ', {
+          duration: 3000
+        });
+    });
   }
 }
 

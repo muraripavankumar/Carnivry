@@ -6,12 +6,15 @@ import com.stackroute.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 public class EventServieceImpl implements EventService{
     @Autowired
     private EventRepository eventRepository;
     @Override
     public boolean addEvent(Event event) {
+        event.setEmailOfUsersLikedEvent(new ArrayList<>());
        eventRepository.save(event);
          return true;
     }
