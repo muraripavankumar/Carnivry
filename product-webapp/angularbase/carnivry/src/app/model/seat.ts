@@ -4,9 +4,9 @@ export class Seat {
     public seatId: number;
     public seatPrice: number;
 
-    constructor(row:number,colm:number, seatPrice:number){
-        this.row=row;
-        this.colm=colm;
-        this.seatPrice=seatPrice;
-    }
+    // constructor(row:number,colm:number, seatPrice:number){
+    //     this.row=row;
+    //     this.colm=colm;
+    //     this.seatPrice=seatPrice;
+    // }
 }

@@ -8,6 +8,7 @@ import { HomeComponent } from './home/home.component';
 import { HostEventComponent } from './host-event/host-event.component';
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { UpdateEventComponent } from './update-event/update-event.component';
 
 const routes: Routes = [ {
   path:'Carnivry',
@@ -38,10 +39,15 @@ const routes: Routes = [ {
   {
     path: "login",
     component: LoginComponent
-  },{
+  },
+  {
     path: "host-event",
     component: HostEventComponent
-  }]
+  },
+{
+  path:"update-event",
+  component: UpdateEventComponent
+}]
 },
 { 
   path: '', 

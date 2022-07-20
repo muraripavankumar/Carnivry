@@ -1,7 +1,7 @@
 <mat-card>
   <mat-card-header>
     <mat-card-title>
-      <h1>HOST NEW EVENT</h1>
+      <h1>UPDATE EVENT</h1>
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
@@ -11,8 +11,13 @@
           <ng-template matStepLabel>Event Details</ng-template>
 
           <mat-form-field appearance="fill">
+            <mat-label>Event Id</mat-label>
+            <input matInput formControlName="eventId" [value]="existingEventData.eventId">
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
             <mat-label>Event Title</mat-label>
-            <input matInput placeholder="Event title" formControlName="title">
+            <input matInput placeholder="Event title" formControlName="title" [value]="existingEventData.title">
           </mat-form-field>
 
           <mat-form-field appearance="fill">

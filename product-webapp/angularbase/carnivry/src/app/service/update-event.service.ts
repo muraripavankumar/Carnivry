@@ -8,18 +8,18 @@ import { ManagementService } from './management.service';
 })
 export class UpdateEventService {
   private objectSource = new BehaviorSubject<Event>(new Event);
-  private eventObj:Event;
+  private eventObj: Event;
   obj = this.objectSource.asObservable();
 
-  updationEvent: Event | undefined;
-  
-  constructor(private managementService:ManagementService) { }
+  updationEvent: Event;
+
+  constructor(private managementService: ManagementService) { }
 
   updateEventInit(event: Event) {
     this.objectSource.next(event);
   }
-  updateEventCall(eventId:string){
-  this.managementService.getHostEventById(eventId).subscribe((data)=>this.eventObj=data);
-   this.objectSource.next(this.eventObj);
+  updateEventCall(eventId: string) {
+    this.managementService.getHostEventById(eventId).subscribe((data) => this.eventObj = data);
+    this.objectSource.next(this.eventObj);
   }
 }

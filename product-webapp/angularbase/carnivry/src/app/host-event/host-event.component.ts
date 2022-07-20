@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormBuilder, FormArray, NgForm } from '@angular/forms';
+import { Validators, FormBuilder, FormArray, NgForm, FormGroup } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
@@ -83,12 +83,37 @@ export class HostEventComponent implements OnInit {
   totalSeating: number = 0;
   calcTotalSeats() {
     this.totalSeating = 0;
-    (<FormArray>this.hostEventForm.get('seats')).controls.forEach(element => {
-      var r: number = element.get('row').value;
-      var c: number = element.get('colm').value;
-      this.totalSeating = this.totalSeating + (r * c);
-    });
-    this.hostEventForm.controls['totalSeats'].setValue(this.totalSeating);
+    (<FormArray>this.hostEventForm.get('seats')).reset;
+
+    var ro: any = (<HTMLInputElement>document.getElementById("totalRows")).value;
+    var co: any = (<HTMLInputElement>document.getElementById("totalColm")).value;
+    var sp: any = (<HTMLInputElement>document.getElementById("seatPrice")).value;
+    const total = (ro * co);
+    console.log(total);
+    for (let i = 1; i <= total; i++) {
+      const sCtrl = new FormGroup({});
+
+      sCtrl.addControl('seatId', new FormControl('', Validators.required));
+      sCtrl.addControl('row', new FormControl('', Validators.required));
+      sCtrl.addControl('colm', new FormControl('', Validators.required));
+      sCtrl.addControl('seatPrice', new FormControl('', Validators.required));
+
+      sCtrl.get('seatId').setValue(i);
+      sCtrl.get('row').setValue(ro);
+      sCtrl.get('colm').setValue(co);
+      sCtrl.get('seatPrice').setValue(sp);
+
+      (<FormArray>this.hostEventForm.get('seats')).push(sCtrl);
+    }
+
+
+
+    // (<FormArray>this.hostEventForm.get('seats')).controls.forEach(element => {
+    //   var r: number = element.get('row').value;
+    //   var c: number = element.get('colm').value;
+    //   this.totalSeating = this.totalSeating + (r * c);
+    // });
+    // this.hostEventForm.controls['totalSeats'].setValue(this.totalSeating);
   }
 
   /////////////////////////////////////////////////////////
@@ -147,23 +172,19 @@ export class HostEventComponent implements OnInit {
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-
     // Add our genre
     if (value) {
       const gnCtrl = new FormControl(value, Validators.required);
       this.genres.push(value);
       (<FormArray>this.hostEventForm.get('genre')).push(gnCtrl);
     }
-
     // Clear the input value
     event.chipInput!.clear();
-
     this.genreCtrl.setValue('');
   }
 
   remove(gr: string): void {
     const index = this.genres.indexOf(gr);
-
     if (index >= 0) {
       this.genres.splice(index, 1);
       (<FormArray>this.hostEventForm.get('genre')).removeAt(index);
@@ -180,7 +201,6 @@ export class HostEventComponent implements OnInit {
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-
     return this.allGenres.filter(g => g.toLowerCase().includes(filterValue));
   }
   /////////////////////////////////////////////////////////////

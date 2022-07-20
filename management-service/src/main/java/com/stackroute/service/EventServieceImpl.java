@@ -21,6 +21,7 @@ public class EventServieceImpl implements EventService{
 
     @Override
     public boolean updateEvent(Event event) throws EventNotFoundException {
+        System.out.println("Inside updateEvent method");
         if(eventRepository.findById(event.getEventId()).isPresent()){
             eventRepository.save(event);
             return true;
@@ -30,6 +31,7 @@ public class EventServieceImpl implements EventService{
 
     @Override
     public Event getEventById(String eventId) throws Exception {
+        System.out.println("Inside getEventById method");
         return eventRepository.findById(eventId).orElseThrow(EventNotFoundException::new);
     }
 }

@@ -32,6 +32,13 @@ public class Event {
     private List<Seat> seats;
     private int likes;
     private List<String> emailOfUsersLikedEvent;
+
+
+
+
+
+
+
 //    //constructor to be used for creating new event
 //    public Event(String title, String userEmailId, String eventDescription, List<String> artists, List<String> genre, List<String> languages, EventTiming eventTimings, String poster, Venue venue, int totalSeats, List<Seat> seats) {
 //        this.title = title;

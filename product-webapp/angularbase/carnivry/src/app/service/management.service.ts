@@ -21,7 +21,7 @@ export class ManagementService {
   getHostEventById(eventId: string) {
     return this.httpClient.get<any>(this.managementUrl+"/" + eventId);
   }
-  updateHostEvent(eventData:Event) {
+  updateHostEvent(eventData: Event) {
     return this.httpClient.patch<any>(this.managementUrl, eventData,{ observe: 'response' });
   }
 }

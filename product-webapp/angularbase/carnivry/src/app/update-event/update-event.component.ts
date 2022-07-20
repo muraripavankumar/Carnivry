@@ -16,7 +16,7 @@ import { UpdateEventService } from '../service/update-event.service';
 })
 export class UpdateEventComponent implements OnInit {
 
-  eventData: Event;
+ eventData: Event;
   existingEventData: Event = new Event();
   presentDate: any;
 
@@ -27,6 +27,9 @@ export class UpdateEventComponent implements OnInit {
       startWith(''),
       map((genre: string | '') => (genre ? this._filter(genre) : this.allGenres.slice())),
     );
+    this.eventData=new Event();
+    console.log('Existing Event Data :')
+    console.log(this.existingEventData.eventId);
   }
 
   ngOnInit(): void {
@@ -36,6 +39,7 @@ export class UpdateEventComponent implements OnInit {
   }
 
   hostEventForm = this.fb.group({
+    eventId:['',[Validators.required]],
     title: ['', [Validators.required, Validators.maxLength(100)]],
     eventDescription: ['', [Validators.required, Validators.minLength(5)]],
     userEmailId: ['exampleHost@g.com'],
@@ -205,8 +209,8 @@ export class UpdateEventComponent implements OnInit {
 
   /////////////////////////////////////////////////////////////
   onSubmit() {
-    this.eventData = this.hostEventForm.value;
-    this.managementService.updateHostEvent(this.eventData).subscribe((data) => {
+    // this.eventData = this.hostEventForm.value;
+    this.managementService.updateHostEvent(this.hostEventForm.value).subscribe((data) => {
       if (data.status === 201) {
         this.snackbar.open('Event Uploaded Successfully!', ' ', {
           duration: 3000
