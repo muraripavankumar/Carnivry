@@ -1,21 +1,32 @@
 <div class="ev">
     <div class="content">
-        <div class="text"><p>Verification Email Sent</p> </div>
-        
+        <div class="text"><br>
+            <br>Verification Email Sent to <br>
+            <i style="font-size: 2vw;">{{email}}</i>
+            <br>
+            <br>
+            
+        </div>
+
 
         <div class="buttons">
-            <button class="button" id="button1" (click)="isVerified()">I have verified</button>
-            <button class="btn btn-danger button" id="button2" (click)="resendEmail()">Resend Verification Email</button>
+            <!-- <button class="button" id="button1" (click)="isVerified()">I have verified</button> -->
+            <a routerLink="/Carnivry/register"  style="width: 40%;">
+                <button class="button" id="button1">Back to Registraion</button>
+            </a>
+            <button class="button" id="button2" (click)="resendEmail()">Resend Verification
+                Email</button>
+            <p style="width: 100%;"></p>
         </div>
-        <div class="messages" *ngIf="verificationMessage || emailMessage">
-            <div *ngIf="verificationMessage">
-                <p>{{verificationMessage}}</p>
-            </div>
-            <div *ngIf="emailMessage">
-                <p>{{emailMessage}}</p>
-            </div>
 
+        <div *ngIf="verificationMessage" class="messages">
+            <p>{{verificationMessage}}</p>
         </div>
+        <div *ngIf="emailMessage" class="messages">
+            <p>{{emailMessage}}</p>
+        </div>
+
+
 
     </div>
 

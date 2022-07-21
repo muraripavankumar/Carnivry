@@ -29,6 +29,7 @@ export class CallbackComponent implements OnInit {
               this.regService.updateToken(data.accessToken);
               socialService.getGithubUsername();
               socialService.getName();
+              socialService.getGithubAvatar();
               
               setTimeout(()=>{
                 this.name=regService.getName();
@@ -60,6 +61,7 @@ export class CallbackComponent implements OnInit {
               this.regService.updateToken(data.accessToken);
               socialService.getEmail();
               socialService.getName();
+              socialService.getGoogleAvatar();
               
               setTimeout(()=>{
                 this.name=regService.getName();

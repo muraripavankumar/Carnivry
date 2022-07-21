@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -38,6 +39,8 @@ public class RegistrationController {
             regResponseModel.setEmail(carnivryUser.getEmail());
             regResponseModel.setName(carnivryUser.getName());
 
+
+
             return new ResponseEntity<>(regResponseModel, HttpStatus.CREATED);
         }
         catch (Exception e)
@@ -46,6 +49,7 @@ public class RegistrationController {
         }
 
     }
+
 
     @PostMapping("/register/socialLogin")
     public ResponseEntity<UserRegResponseModel> addSocialUser(@RequestBody UserRegModel userRegModel) throws UserAlreadyExistsException {
@@ -64,7 +68,11 @@ public class RegistrationController {
     public String verifyRegistration(@RequestParam("token") String token, @RequestParam("email") String email) {
         String result = userService.validateVerificationToken(token,email);
         if(result.equalsIgnoreCase("valid token")) {
-            return "Email: "+email+" verified Successfully";
+            return "Email: "+email+" verified Successfully. Close this tab and visit Carnivry";
+        }
+        else if(result.equalsIgnoreCase("token expired"))
+        {
+            return "Your 10 minutes up, Ask for resend email and verify within 10 minutes. Close this tab and visit Carnivry";
         }
         return "Bad User";
     }
@@ -108,6 +116,7 @@ public class RegistrationController {
     }
 
     private String applicationUrl(HttpServletRequest request) {
+        System.out.println(request.getHeader("Referer"));
         return "http://" +
                 request.getServerName() +
                 ":" +

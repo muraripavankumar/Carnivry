@@ -3,10 +3,7 @@ package com.stackroute.service;
 import com.stackroute.entity.CarnivryUser;
 import com.stackroute.exception.UserAlreadyExistsException;
 import com.stackroute.exception.UserNotFoundException;
-import com.stackroute.model.AddGenre;
-import com.stackroute.model.Genre;
-import com.stackroute.model.Preferences;
-import com.stackroute.model.UserRegModel;
+import com.stackroute.model.*;
 import com.stackroute.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +25,11 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public CarnivryUser registerUser(UserRegModel userModel) throws UserAlreadyExistsException {
-        if(userRepository.findByEmail(userModel.getEmail())!=null)
+        if(userRepository.findByEmail(userModel.getEmail().toLowerCase())!=null)
             throw new UserAlreadyExistsException();
         else {
             CarnivryUser carnivryUser = new CarnivryUser();
-            carnivryUser.setEmail(userModel.getEmail());
+            carnivryUser.setEmail(userModel.getEmail().toLowerCase());
             carnivryUser.setName(userModel.getName());
             carnivryUser.setId( UUID.randomUUID().toString());
             carnivryUser.setVerified(false);
@@ -153,9 +150,17 @@ public class UserServiceImpl implements UserService{
         log.info("Click the link to verify your account: {}",
                 url);
 
-        emailSenderService.sendSimpleEmail(email,
-                "Click the link to verify your account: "+url,
-                "Email verification");
+        EmailRequest emailRequest= new EmailRequest();
+        emailRequest.setSubject("Carnivry Account- Email Verification");
+        emailRequest.setTo(carnivryUser.getEmail());
+
+        Map<String, Object> model = new HashMap<>();
+        model.put("title","Hello User,verify your email");
+        model.put("text", "Please click on the button below to get your Carnivry Account email verified");
+        model.put("url", url);
+        model.put("button","Verify");
+
+        emailSenderService.sendEmailWithAttachment(emailRequest,model);
     }
 
     @Override
