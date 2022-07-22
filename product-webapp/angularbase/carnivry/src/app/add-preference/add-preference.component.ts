@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { EmailVerificationComponent } from '../email-verification/email-verification.component';
 import { RegistrationService } from '../service/registration.service';
 
 @Component({
@@ -26,8 +25,6 @@ export class AddPreferenceComponent implements OnInit {
   warning:any;
 
   ngOnInit(): void {
-
-    clearInterval(EmailVerificationComponent.checkVerification);
     this.regService.getAllGenres().subscribe(data=>
       { this.genres= new Set(data)},
       error=>{

@@ -43,24 +43,24 @@ export class RegistrationComponent implements OnInit {
 
     
     this.postUser= this.registerUserForm.value;
-    // console.log(this.postUser);
+    console.log(this.postUser);
 
     this.regService.register(this.postUser).subscribe( r => {
-      
+      if(r.status===201)
+        {
           console.log( "User successfully registered");
           this.successMessage="Your data is successfully registered";
-          console.log(r.status);
+          console.log(r);
           this.regService.updateEmail(this.postUser.email);
           this.regService.updateName(this.postUser.name);
           // localStorage.setItem("authProvider",'carnivry');
-          
+
           setTimeout(()=>{
-            this.router.navigate(["/Carnivry/verifyEmail"]);
+            this.router.navigate(["/verifyEmail"]);
           },1000)
-        
+        }
     },
      error=>{
-      console.log(error);
       if(error.status==409)
       {
         this.failureMessage="User Already Exists";

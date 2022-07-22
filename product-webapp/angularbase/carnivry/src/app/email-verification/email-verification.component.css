@@ -2,7 +2,7 @@
  .ev{
     
     height: 100vh;
-    background-image: url(../../assets/carnivry_ev_white1.jpg);
+    background-image: url(../../assets/carnivry_ev.jpg);
     background-position: center;
     background-size: cover;
     display: flex;
@@ -12,9 +12,9 @@
     
  }
  .content{
-    color: black;
-    width: 60vw;
-    height: auto;
+    color: white;
+    width: 50%;
+    height: 30vh;
     display: flex;
     justify-content: space-evenly;
     flex-flow: row wrap;
@@ -28,10 +28,9 @@
     width: 100%;
     height: auto;
     text-align: center;
-    font-size: 3vw;
-    font-family: 'Work Sans', sans-serif;
-    color: rgb(85, 84, 7);
-    font-weight: 700;
+    font-size: 4vh;
+    
+    font-weight: 500;
 
  }
  .buttons{
@@ -47,24 +46,21 @@
     
  }
  #button1{
-   width: 100%;
-   height: 100%;
-    background: rgba(131, 238, 73, 0.3);
+    background: rgba(76, 238, 73, 0.5);
     backdrop-filter: blur(3px);
     color: rgb(12, 103, 12);
-    font-size: 2vw;
-    font-weight: 500;
-    border: 2px solid rgb(62, 103, 12);
+    font-size: 15px;
+    font-weight: 700;
+    border: 2px dashed rgb(12, 103, 12);
  }
  #button2{
-    background: rgba(255, 182, 80, 0.3);
+    background: rgba(255, 108, 80, 0.5);
     backdrop-filter: blur(3px);
-    color: rgb(100, 75, 6);
-    font-size: 2vw;
-    font-weight: 500;
-    border: 2px solid rgb(100, 20, 6);
+    color: rgb(100, 20, 6);
+    font-size: 15px;
+    font-weight: 700;
+    border: 2px dashed rgb(100, 20, 6);
  }
  .messages{
     width: 100%;
-    text-align: center;
  }
