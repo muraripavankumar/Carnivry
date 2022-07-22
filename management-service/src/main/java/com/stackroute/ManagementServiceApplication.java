@@ -1,5 +1,6 @@
 package com.stackroute;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -10,11 +11,12 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 @SpringBootApplication
+@Slf4j
 public class ManagementServiceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ManagementServiceApplication.class, args);
-		System.out.println("Management-Service Application is RUNNING!");
+		log.info("Management-Service Application is RUNNING!");
 	}
 	@Bean
 	public FilterRegistrationBean filterRegistrationBean(){
