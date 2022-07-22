@@ -5,7 +5,6 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -14,20 +13,21 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
-import java.util.Objects;
 
 @Service
 public class EmailSenderService {
 
-    @Autowired
-    private JavaMailSender mailSender;
+    private final JavaMailSender mailSender;
+    private final Configuration config;
 
     @Autowired
-    private Configuration config;
+    public EmailSenderService(JavaMailSender mailSender, Configuration config) {
+        this.mailSender = mailSender;
+        this.config = config;
+    }
 
     public String sendSimpleEmail(String toEmail,
                                   String body,
@@ -56,7 +56,7 @@ public class EmailSenderService {
             Template t = config.getTemplate("myHtmlPage.ftl");
             String html = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
 
-            mimeMessageHelper.setFrom("saumasischandra987@gmail.com");
+            mimeMessageHelper.setFrom("carnivry2022@gmail.com");
             mimeMessageHelper.setTo(emailRequest.getTo());
             mimeMessageHelper.setText(html,true);
             mimeMessageHelper.setSubject(emailRequest.getSubject());

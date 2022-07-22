@@ -20,15 +20,14 @@ public class Event {
     private List<String> genre;
     private List<String> languages;
     private EventTiming eventTimings;
-    private Binary poster;
-    private String fileName;
-    private String fileType;
+    private String poster;
     private Venue venue;
     private double revenueGenerated;
     private int ticketsSold;
     private int totalSeats;
     private List<Seat> seats;
     private int likes;
+    private List<String> emailOfUsersLikedEvent;
 
 
 }

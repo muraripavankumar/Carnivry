@@ -15,18 +15,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Carnivry")
+@RequestMapping("/api/v1")
 public class RegistrationController {
 
-    @Autowired
-    UserService userService;
+    private final UserService userService;
+    private final ApplicationEventPublisher publisher;
 
     @Autowired
-    ApplicationEventPublisher publisher;
+    public RegistrationController(UserService userService, ApplicationEventPublisher publisher) {
+        this.userService = userService;
+        this.publisher = publisher;
+    }
 
     @PostMapping("/register")
     public ResponseEntity<UserRegResponseModel> addUser(@RequestBody UserRegModel userRegModel, final HttpServletRequest request) throws UserAlreadyExistsException {
@@ -98,16 +100,25 @@ public class RegistrationController {
     }
 
     @GetMapping("/emailVerifiedStatus/{email}")
-    public boolean isEmailVerified(@PathVariable String email)
-    {
-        return userService.isUserVerified(email);
+    public boolean isEmailVerified(@PathVariable String email) throws UserNotFoundException {
+        try {
+            return userService.isUserVerified(email);
+        }catch (Exception e){
+            throw new UserNotFoundException();
+        }
+
     }
 
     @GetMapping("/resendVerifyToken")
-    public String resendVerificationToken(@RequestParam("email") String email, HttpServletRequest request) {
+    public String resendVerificationToken(@RequestParam("email") String email, HttpServletRequest request) throws UserNotFoundException {
         String applicationUrl= applicationUrl(request);
-        userService.regenerateEmailVerificationToken(email,applicationUrl);
-        return "Verification Email Sent";
+        try {
+            userService.regenerateEmailVerificationToken(email,applicationUrl);
+            return "Verification Email Sent";
+        }catch (Exception e){
+            throw new UserNotFoundException();
+        }
+
     }
 
     @GetMapping("/checkUser/{email}")

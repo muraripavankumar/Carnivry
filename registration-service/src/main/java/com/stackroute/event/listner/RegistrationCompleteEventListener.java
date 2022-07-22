@@ -20,11 +20,15 @@ import java.util.UUID;
 public class RegistrationCompleteEventListener implements
         ApplicationListener<RegistrationCompleteEvent> {
 
-    @Autowired
-    private UserService userService;
+
+    private final UserService userService;
+    private final EmailSenderService emailSenderService;
 
     @Autowired
-    EmailSenderService emailSenderService;
+    public RegistrationCompleteEventListener(UserService userService, EmailSenderService emailSenderService) {
+        this.userService = userService;
+        this.emailSenderService = emailSenderService;
+    }
 
     public String token;
 
