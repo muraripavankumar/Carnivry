@@ -18,6 +18,38 @@
 	</properties>
 	<dependencies>
 		<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-data-neo4j</artifactId>
+</dependency>
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+
+<dependency>
+	<groupId>org.projectlombok</groupId>
+	<artifactId>lombok</artifactId>
+	<optional>true</optional>
+</dependency>
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-test</artifactId>
+	<scope>test</scope>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.neo4j/neo4j-ogm-bolt-driver -->
+<!--		need this dependency to connect with the api for neo4j instance-->
+<dependency>
+	<groupId>org.neo4j</groupId>
+	<artifactId>neo4j-ogm-bolt-driver</artifactId>
+	<version>2.1.1</version>
+</dependency>
+      <dependency>
+          <groupId>org.mongodb</groupId>
+          <artifactId>bson</artifactId>
+          <version>4.6.1</version>
+      </dependency>
+
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
