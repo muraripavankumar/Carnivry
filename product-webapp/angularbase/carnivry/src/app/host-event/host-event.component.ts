@@ -83,7 +83,10 @@ export class HostEventComponent implements OnInit {
   totalSeating: number = 0;
   calcTotalSeats() {
     this.totalSeating = 0;
-    (<FormArray>this.hostEventForm.get('seats')).reset;
+    // (<FormArray>this.hostEventForm.get('seats')).reset;
+    while ((<FormArray>this.hostEventForm.get('seats')).length !== 0) {
+      (<FormArray>this.hostEventForm.get('seats')).removeAt(0)
+    }
 
     var ro: any = (<HTMLInputElement>document.getElementById("totalRows")).value;
     var co: any = (<HTMLInputElement>document.getElementById("totalColm")).value;
