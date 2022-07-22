@@ -1,15 +1,23 @@
 package com.stackroute.service;
 
+import com.stackroute.model.EmailRequest;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
 import java.util.Objects;
 
 @Service
@@ -17,6 +25,9 @@ public class EmailSenderService {
 
     @Autowired
     private JavaMailSender mailSender;
+
+    @Autowired
+    private Configuration config;
 
     public String sendSimpleEmail(String toEmail,
                                   String body,
@@ -32,29 +43,35 @@ public class EmailSenderService {
         return "Verification Mail Send...";
     }
 
-    public String sendEmailWithAttachment(String toEmail,
-                                          String body,
-                                          String subject,
-                                          String attachment) throws MessagingException {
+    public String sendEmailWithAttachment(EmailRequest emailRequest,
+                                          Map<String, Object> model){
 
         MimeMessage mimeMessage = mailSender.createMimeMessage();
 
-        MimeMessageHelper mimeMessageHelper
-                = new MimeMessageHelper(mimeMessage, true);
+        try {
 
-        mimeMessageHelper.setFrom("saumasischandra987@gmail.com");
-        mimeMessageHelper.setTo(toEmail);
-        mimeMessageHelper.setText(body);
-        mimeMessageHelper.setSubject(subject);
+            MimeMessageHelper mimeMessageHelper
+                    = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
 
-        FileSystemResource fileSystem
-                = new FileSystemResource(new File(attachment));
+            Template t = config.getTemplate("myHtmlPage.ftl");
+            String html = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
 
-        mimeMessageHelper.addAttachment(Objects.requireNonNull(fileSystem.getFilename()),
-                fileSystem);
+            mimeMessageHelper.setFrom("saumasischandra987@gmail.com");
+            mimeMessageHelper.setTo(emailRequest.getTo());
+            mimeMessageHelper.setText(html,true);
+            mimeMessageHelper.setSubject(emailRequest.getSubject());
 
-        mailSender.send(mimeMessage);
-        return "Mail Send...";
+//            FileSystemResource fileSystem
+//                    = new FileSystemResource(new File(attachment));
+//
+//            mimeMessageHelper.addAttachment(Objects.requireNonNull(fileSystem.getFilename()),
+//                    fileSystem);
+
+            mailSender.send(mimeMessage);
+        }catch (MessagingException | IOException | TemplateException e){
+            return "Couldn't send Email...";
+        }
+        return "Email Send...";
 
     }
 }

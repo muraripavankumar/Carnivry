@@ -12,6 +12,7 @@ spring:
       port: 27017
       database: Carnivry
   mail:
+    default-encoding: UTF-8
     host: smtp.gmail.com
     port: 587
     username: saumasischandra987@gmail.com

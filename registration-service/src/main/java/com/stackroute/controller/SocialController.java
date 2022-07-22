@@ -30,4 +30,15 @@ public class SocialController {
     public Map<String,String> getGithubUsername(@AuthenticationPrincipal OAuth2User principal){
         return Collections.singletonMap("username", principal.getAttribute("login"));
     }
+
+    @GetMapping("/getGithubAvatar")
+    public Map<String,String> getGithubAvatar(@AuthenticationPrincipal OAuth2User principal){
+        return Collections.singletonMap("github_avatar", principal.getAttribute("avatar_url"));
+    }
+
+    @GetMapping("/getGoogleAvatar")
+    public Map<String,String> getGoogleAvatar(@AuthenticationPrincipal OAuth2User principal){
+        return Collections.singletonMap("google_avatar", principal.getAttribute("picture"));
+    }
+
 }

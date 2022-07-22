@@ -21,7 +21,7 @@ public class CarnivryUser {
     @Id
     private String id;
 
-    private String name, email, password, phone;
+    private String name, email, phone;
 
     private Date dob;
 
