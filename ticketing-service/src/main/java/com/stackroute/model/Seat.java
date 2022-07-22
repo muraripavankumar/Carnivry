@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
@@ -16,10 +17,10 @@ public class Seat implements Serializable {
     private int row;
     private int colm;
     private int seatId;
-    private double seatPrice;
+    private BigDecimal seatPrice;
     private String status;
 
-    public Seat(int row, int colm, double seatPrice) {
+    public Seat(int row, int colm, BigDecimal seatPrice) {
         this.row = row;
         this.colm = colm;
         this.seatPrice = seatPrice;

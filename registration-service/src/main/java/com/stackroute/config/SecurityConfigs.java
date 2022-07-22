@@ -29,15 +29,15 @@ public class SecurityConfigs extends WebSecurityConfigurerAdapter {
 
     private static final String[] WHITE_LIST_URLS = {
 
-            "/Carnivry/register",
-            "/Carnivry/register/socialLogin",
-            "/Carnivry/saveGenres",
-            "/Carnivry/verifyRegistration*",
-            "/Carnivry/resendVerifyToken*",
-            "/Carnivry/emailVerifiedStatus/*",
-            "/Carnivry/saveGenres",
-            "/Carnivry/allGenres" ,
-            "/Carnivry/checkUser/**",
+            "/api/v1/register",
+            "/api/v1/register/socialLogin",
+            "/api/v1/saveGenres",
+            "/api/v1/verifyRegistration*",
+            "/api/v1/resendVerifyToken*",
+            "/api/v1/emailVerifiedStatus/*",
+            "/api/v1/saveGenres",
+            "/api/v1/allGenres" ,
+            "/api/v1/checkUser/**",
             "/oauth2/**", "/login**"
     };
 

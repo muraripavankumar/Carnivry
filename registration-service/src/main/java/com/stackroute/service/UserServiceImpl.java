@@ -4,6 +4,8 @@ import com.stackroute.entity.CarnivryUser;
 import com.stackroute.exception.UserAlreadyExistsException;
 import com.stackroute.exception.UserNotFoundException;
 import com.stackroute.model.*;
+import com.stackroute.rabbitMQ.AuthenticationUserDTO;
+import com.stackroute.rabbitMQ.MessageProducer;
 import com.stackroute.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,24 +17,34 @@ import java.util.*;
 @Slf4j
 public class UserServiceImpl implements UserService{
 
-    @Autowired
-    UserRepository userRepository;
+
+    private final UserRepository userRepository;
+    private final EmailSenderService emailSenderService;
+    private final MessageProducer messageProducer;
 
    @Autowired
-    EmailSenderService emailSenderService;
+   public UserServiceImpl(UserRepository userRepository, EmailSenderService emailSenderService, MessageProducer messageProducer) {
+        this.userRepository = userRepository;
+        this.emailSenderService = emailSenderService;
+        this.messageProducer = messageProducer;
+    }
 
     private static  final int EXPIRATION_TIME = 10;
 
     @Override
     public CarnivryUser registerUser(UserRegModel userModel) throws UserAlreadyExistsException {
-        if(userRepository.findByEmail(userModel.getEmail().toLowerCase())!=null)
+        if(userRepository.findById(userModel.getEmail().toLowerCase()).isPresent())
             throw new UserAlreadyExistsException();
         else {
             CarnivryUser carnivryUser = new CarnivryUser();
             carnivryUser.setEmail(userModel.getEmail().toLowerCase());
             carnivryUser.setName(userModel.getName());
-            carnivryUser.setId( UUID.randomUUID().toString());
             carnivryUser.setVerified(false);
+
+            AuthenticationUserDTO authenticationUserDTO=
+                    new AuthenticationUserDTO(userModel.getEmail().toLowerCase(), userModel.getPassword());
+
+            messageProducer.sendMessageToAuthenticationService(authenticationUserDTO);
 
             return userRepository.save(carnivryUser);
         }
@@ -40,26 +52,28 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public CarnivryUser registerSocialUser(UserRegModel userRegModel) throws UserAlreadyExistsException {
-        if(userRepository.findByEmail(userRegModel.getEmail())!=null)
+        if(userRepository.existsById(userRegModel.getEmail()))
             throw new UserAlreadyExistsException();
 
         CarnivryUser carnivryUser = new CarnivryUser();
         carnivryUser.setEmail(userRegModel.getEmail());
         carnivryUser.setName(userRegModel.getName());
-        carnivryUser.setId( UUID.randomUUID().toString());
+
         carnivryUser.setVerified(true);
 
-        return userRepository.save(carnivryUser);
+        CarnivryUser result= userRepository.save(carnivryUser);
+        return result;
 
     }
 
     @Override
     public void addLikedGenres(AddGenre addGenre) throws UserNotFoundException {
-        System.out.println(addGenre.getEmail());
-        CarnivryUser carnivryUser= userRepository.findByEmail(addGenre.getEmail());
+//        System.out.println(addGenre.getEmail());
+        if (userRepository.findById(addGenre.getEmail()).isEmpty())
+            throw new UserNotFoundException();
 
-        if(carnivryUser!=null)
-        {
+        CarnivryUser carnivryUser= userRepository.findById(addGenre.getEmail()).get();
+
             Preferences preferences= carnivryUser.getPreferences();
             if(preferences==null)
                 preferences= new Preferences();
@@ -72,11 +86,6 @@ public class UserServiceImpl implements UserService{
             preferences.setLikedGenres(genreList);
             carnivryUser.setPreferences(preferences);
             userRepository.save(carnivryUser);
-        }
-        else
-            throw new UserNotFoundException();
-
-
     }
 
     @Override
@@ -92,7 +101,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public void saveVerificationTokenForUser(String token, CarnivryUser carnivryUser) throws UserNotFoundException {
 
-        if(userRepository.findById(carnivryUser.getId()).isEmpty())
+        if(userRepository.findById(carnivryUser.getEmail()).isEmpty())
             throw new UserNotFoundException();
         carnivryUser.setEmailVerificationToken(token);
         carnivryUser.setEvtExpTime(calculateExpirationDate(EXPIRATION_TIME));
@@ -126,14 +135,19 @@ public class UserServiceImpl implements UserService{
 
 
     @Override
-    public boolean isUserVerified(String email) {
-        CarnivryUser carnivryUser= userRepository.findByEmail(email);
+    public boolean isUserVerified(String email) throws UserNotFoundException {
+        if(userRepository.findById(email).isEmpty())
+            throw new UserNotFoundException();
+        CarnivryUser carnivryUser= userRepository.findById(email).get();
         return carnivryUser.getVerified();
     }
 
     @Override
-    public void regenerateEmailVerificationToken(String email, String applicationUrl) {
-        CarnivryUser carnivryUser= userRepository.findByEmail(email);
+    public void regenerateEmailVerificationToken(String email, String applicationUrl) throws UserNotFoundException {
+
+        if (userRepository.findById(email).isEmpty())
+            throw new UserNotFoundException();
+        CarnivryUser carnivryUser= userRepository.findById(email).get();
         String token=  UUID.randomUUID().toString();
         carnivryUser.setEmailVerificationToken(token);
         carnivryUser.setEvtExpTime(calculateExpirationDate(EXPIRATION_TIME));
@@ -165,7 +179,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean isUserPresent(String email) {
-        return userRepository.findByEmail(email) != null;
+        return userRepository.findById(email).isPresent();
     }
 
 

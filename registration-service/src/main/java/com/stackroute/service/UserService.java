@@ -15,9 +15,9 @@ public interface UserService {
 
     String validateVerificationToken(String token, String email);
 
-    boolean isUserVerified(String email);
+    boolean isUserVerified(String email) throws UserNotFoundException;
 
-    void regenerateEmailVerificationToken(String email, String applicationUrl);
+    void regenerateEmailVerificationToken(String email, String applicationUrl) throws UserNotFoundException;
 
     boolean isUserPresent(String email);
 

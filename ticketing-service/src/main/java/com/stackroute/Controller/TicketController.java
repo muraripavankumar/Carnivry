@@ -26,7 +26,7 @@ public class TicketController {
 
    // http://localhost:5300/ticket/{eventId} get
     @GetMapping("/{eventId}")
-    public ResponseEntity<?> getEventByEventId(@PathVariable String eventId) throws Exception {
+    public ResponseEntity<?> getEventByEventId(@PathVariable String eventId) {
         try {
             return new ResponseEntity<>(ticketingService.getEventById(eventId), HttpStatus.OK);
         }
@@ -40,9 +40,9 @@ public class TicketController {
         }
 
     }
-    // http://localhost:5300/ticket/get/{eventId}/{nid} get
-    @GetMapping("/get/{eventId}/{nid}")
-    public ResponseEntity<?> getTicket(@PathVariable String eventId,@PathVariable int nid) throws EventNotFoundException {
+    // http://localhost:5300/ticket/{eventId}/{nid} get
+    @GetMapping("/{eventId}/{nid}")
+    public ResponseEntity<?> getTicket(@PathVariable String eventId,@PathVariable int nid)  {
     try{
         return new ResponseEntity<>(ticketingService.getSeat(eventId,nid), HttpStatus.OK);
     }
@@ -51,22 +51,18 @@ public class TicketController {
             log.error("Exception occured in TicketController->getTicket");
             return new ResponseEntity<>("The Event is not currently available. We will be back soon",HttpStatus.CONFLICT);
         }
-        catch (IndexOutOfBoundsException indexOutOfBoundsException)
+
+        catch (Exception ex)
         {
-            log.error("Exception occured in TicketController->getTicket");
-            return new ResponseEntity<>("The particular seat is not available",HttpStatus.CONFLICT);
-        }
-    catch (Exception ex)
-    {
         log.error("Exception occured in TicketController->getTicket");
         return new ResponseEntity<>("Unexpected Error happened. We will be back soon",HttpStatus.CONFLICT);
-    }
+         }
 
     }
 
-    // http://localhost:5300/ticket/booked/{eventId}/{nid} get
-    @GetMapping("/booked/{eventId}/{nid}")
-    public ResponseEntity<?> getBookedTicket(@PathVariable String eventId,@PathVariable int nid) throws Exception {
+    // http://localhost:5300/ticket/book/{eventId}/{nid} get
+    @GetMapping("/book/{eventId}/{nid}")
+    public ResponseEntity<?> getBookedTicket(@PathVariable String eventId,@PathVariable int nid) {
         try {
             return new ResponseEntity<>(ticketingService.bookedTicket(eventId, nid), HttpStatus.OK);
         }
@@ -74,11 +70,6 @@ public class TicketController {
         {
             log.error("Exception occured in TicketController->getBookedTicket");
             return new ResponseEntity<>("The Event is not currently available. We will be back soon",HttpStatus.CONFLICT);
-        }
-        catch (IndexOutOfBoundsException indexOutOfBoundsException)
-        {
-            log.error("Exception occured in TicketController->getBookedTicket");
-            return new ResponseEntity<>("The particular seat is not available",HttpStatus.CONFLICT);
         }
         catch (Exception ex)
         {

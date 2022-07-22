@@ -12,6 +12,7 @@ export class HomeComponent implements OnInit {
 
   name:any;
   email:any;
+  avatarUrl:any;
   constructor(private http: HttpClient,
               private regService: RegistrationService,
               private router: Router) { }
@@ -19,13 +20,14 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.name=this.regService.getName();
     this.email=this.regService.getEmail();
+    this.avatarUrl=this.regService.getAvatarUrl();
   }
 
   logout()
   {
     this.regService.logout() .subscribe(() => {
       localStorage.clear();
-      this.router.navigate(['/Carnivry/register']);
+      this.router.navigate(['/Carnivry/login']);
     });
   }
 

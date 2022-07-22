@@ -26,6 +26,7 @@ public class TSImpl implements TicketingService{
         this.eventRepository = eventRepository;
     }
 
+    //
     @Override
     public Seat getSeat(String eventId,int nid) throws EventNotFoundException {
         log.debug("Inside getSeat");

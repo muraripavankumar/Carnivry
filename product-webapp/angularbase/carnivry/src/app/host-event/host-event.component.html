@@ -193,37 +193,12 @@
             <input type="number" matInput (change)="calcTotalSeats()" id="totalColm">
           </mat-form-field>
 
-          <mat-form-field appearance="fill" class="shortinput" id="seatPrice">
+          <mat-form-field appearance="fill" class="shortinput" >
             <mat-label>Ticket Price</mat-label>
-            <input type="number" matInput >
+            <input type="number" matInput id="seatPrice">
           </mat-form-field>
 
-          <!-- <div formArrayName="seats">
-            <div *ngFor="let s of seatingControls; let i=index">
-              <div [formGroupName]="i">
-                <mat-form-field appearance="fill" class="shortinput">
-                  <mat-label>Rows</mat-label>
-                  <input type="number" matInput formControlName="row" (change)="calcTotalSeats()" id="totalRows">
-                </mat-form-field>
-
-                <mat-form-field appearance="fill" class="shortinput">
-                  <mat-label>Columns</mat-label>
-                  <input type="number" matInput formControlName="colm" (change)="calcTotalSeats()" id="totalColm">
-                </mat-form-field>
-
-                <mat-form-field appearance="fill" class="shortinput">
-                  <mat-label>Ticket Price</mat-label>
-                  <input type="number" matInput formControlName="seatPrice">
-                </mat-form-field>
-
-                <!-- <button (click)="removeSeating(i)">Remove</button> -->
-
-              <!-- </div>
-            </div>
-          </div>
-          <div> --> 
-            <!-- <button (click)="addSeatings()" class="btn btn-info">Add More</button> -->
-          <!-- </div> -->
+       
 
           <div>
             <h2>Total Seats : {{totalSeating}}</h2>
@@ -277,3 +252,32 @@
     </mat-stepper>
   </mat-card-content>
 </mat-card>
+
+
+
+   <!-- <div formArrayName="seats">
+            <div *ngFor="let s of seatingControls; let i=index">
+              <div [formGroupName]="i">
+                <mat-form-field appearance="fill" class="shortinput">
+                  <mat-label>Rows</mat-label>
+                  <input type="number" matInput formControlName="row" (change)="calcTotalSeats()" id="totalRows">
+                </mat-form-field>
+
+                <mat-form-field appearance="fill" class="shortinput">
+                  <mat-label>Columns</mat-label>
+                  <input type="number" matInput formControlName="colm" (change)="calcTotalSeats()" id="totalColm">
+                </mat-form-field>
+
+                <mat-form-field appearance="fill" class="shortinput">
+                  <mat-label>Ticket Price</mat-label>
+                  <input type="number" matInput formControlName="seatPrice">
+                </mat-form-field>
+
+                <!-- <button (click)="removeSeating(i)">Remove</button> -->
+
+              <!-- </div>
+            </div>
+          </div>
+          <div> --> 
+            <!-- <button (click)="addSeatings()" class="btn btn-info">Add More</button> -->
+          <!-- </div> -->

@@ -35,7 +35,7 @@ export class RegistrationService {
   }
   resendVerificationEmail(email:String)
   {
-    return this.myClient.get(this.registrationBaseUrl+"/resendVerifyToken"+'?email='+email);
+    return this.myClient.get(this.registrationBaseUrl+"/resendVerifyToken"+'?email='+email, {responseType:'text'});
   }
 
   isUserPresent(email:String): Observable<any>{
@@ -123,6 +123,18 @@ export class RegistrationService {
 
   removeAuthProvider(){
     localStorage.removeItem('authProvider');
+  }
+
+  updateAvatarUrl(url:any){
+    localStorage.setItem('avatar_url',url);
+  }
+
+  getAvatarUrl(){
+    return localStorage.getItem('avatar_url');
+  }
+  
+  removeAvatarUrl(){
+    localStorage.removeItem('avatar_url');
   }
 
 }

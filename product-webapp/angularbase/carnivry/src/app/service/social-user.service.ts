@@ -30,4 +30,14 @@ export class SocialUserService {
   {
     this.myClient.get<any>(this.socialUserBaseUrl+"/getGithubUsername").subscribe(data=> this.regService.updateEmail(data.username));
   }
+
+  getGithubAvatar()
+  {
+    this.myClient.get<any>(this.socialUserBaseUrl+"/getGithubAvatar").subscribe(data=> this.regService.updateAvatarUrl(data.github_avatar));
+  }
+  getGoogleAvatar()
+  {
+    this.myClient.get<any>(this.socialUserBaseUrl+"/getGoogleAvatar").subscribe(data=> this.regService.updateAvatarUrl(data.google_avatar));
+  }
+
 }
