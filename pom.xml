@@ -44,6 +44,7 @@
 		<module>payment-service</module>
 		<module>notification-service</module>
 		<module>management-service</module>
+		<module>product-webapp</module>
 	</modules>
 	<build>
 		<plugins>
