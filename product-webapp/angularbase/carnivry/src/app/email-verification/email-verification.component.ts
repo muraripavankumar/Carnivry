@@ -11,9 +11,19 @@ export class EmailVerificationComponent implements OnInit {
 
   constructor(private regService: RegistrationService,
               private router:Router) { }
+  public static checkVerification:any;
 
   ngOnInit(): void {
     this.email= this.regService.getEmail();
+
+    EmailVerificationComponent.checkVerification= setInterval(()=>this.regService.isVerified(this.email).subscribe(r=>{
+      console.log(r);
+      if(r===true)
+      {
+        
+        console.log("Email veridfied");
+        this.router.navigate(["/Carnivry/addPreference"]);
+      }}), 5000);
   }
 
   verificationMessage:any;
@@ -28,7 +38,8 @@ export class EmailVerificationComponent implements OnInit {
       if(r===true)
       {
         this.verificationMessage="Your email is Verified";
-        this.router.navigate(["/Carnival/addPreference"]);
+        console.log("Email veridfied");
+        this.router.navigate(["/Carnivry/addPreference"]);
       }
       else
       this.verificationMessage="Please click on the verification link sent on email";
@@ -41,7 +52,8 @@ export class EmailVerificationComponent implements OnInit {
   resendEmail(){
     if(this.email!=null)
     this.regService.resendVerificationEmail(this.email).subscribe(r=>{
-      this.emailMessage=r;
+      console.log("vesrification link resended")
+      this.emailMessage="Email Verification link resended";
     },
     error => {
       console.log(error);

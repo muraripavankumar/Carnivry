@@ -83,7 +83,10 @@ export class HostEventComponent implements OnInit {
   totalSeating: number = 0;
   calcTotalSeats() {
     this.totalSeating = 0;
-    (<FormArray>this.hostEventForm.get('seats')).reset;
+    // (<FormArray>this.hostEventForm.get('seats')).reset;
+    while ((<FormArray>this.hostEventForm.get('seats')).length !== 0) {
+      (<FormArray>this.hostEventForm.get('seats')).removeAt(0)
+    }
 
     var ro: any = (<HTMLInputElement>document.getElementById("totalRows")).value;
     var co: any = (<HTMLInputElement>document.getElementById("totalColm")).value;
@@ -97,13 +100,11 @@ export class HostEventComponent implements OnInit {
       sCtrl.addControl('row', new FormControl('', Validators.required));
       sCtrl.addControl('colm', new FormControl('', Validators.required));
       sCtrl.addControl('seatPrice', new FormControl('', Validators.required));
-      sCtrl.addControl('status',new FormControl(''))
 
       sCtrl.get('seatId').setValue(i);
       sCtrl.get('row').setValue(ro);
       sCtrl.get('colm').setValue(co);
       sCtrl.get('seatPrice').setValue(sp);
-      sCtrl.get('status').setValue("Not Booked");
 
       (<FormArray>this.hostEventForm.get('seats')).push(sCtrl);
     }
