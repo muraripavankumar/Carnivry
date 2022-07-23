@@ -139,7 +139,7 @@
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              
+
             </div>
           </div>
 
@@ -193,12 +193,36 @@
             <input type="number" matInput (change)="calcTotalSeats()" id="totalColm">
           </mat-form-field>
 
-          <mat-form-field appearance="fill" class="shortinput" >
+          <!-- <mat-form-field appearance="fill" class="shortinput">
             <mat-label>Ticket Price</mat-label>
             <input type="number" matInput id="seatPrice">
-          </mat-form-field>
+          </mat-form-field> -->
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>SEAT LAYOUT</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="cont" id="parent" style="background-color:red ;" (mousedown)="mouseDownEvent()"
+                (mouseup)="mouseUpEvent()">
+                <div class="box" *ngFor="let e of eventData.seats; index as x;"
+                  style="background-color:blanchedalmond ;">
+                  {{e.seatId}}
+                  <input type="checkbox" name="" id="{{x}}" style="background-color:blueviolet ;"
+                    (change)="fieldsChange($event)" value="{{e.seatId}" [disabled]="e.seatPrice!= 0.0001"
+                    (mouseenter)='checkBox($event)'>
+                </div>
+              </div>
+              <input type="number" id="activePrice" placeholder="Price slab">
+              <button (click)="savePrice()">Save Selection</button>
+              <!-- <button (click)="submit()">Submit</button> -->
 
-       
+              <div *ngFor="let e of priceList">
+                <div>{{e}}</div>
+                <button (click)="removePrice(e)">Remove Price Slab</button>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
 
           <div>
             <h2>Total Seats : {{totalSeating}}</h2>
@@ -236,9 +260,12 @@
           </mat-card-header>
           <img [src]="posterPicDataUrl" height="400">
           <mat-card-content>
-            <h2>Event Description : <h3>{{hostEventForm.get('eventDescription').value}}</h3></h2>
-            <h2>Artists : <h3>{{hostEventForm.get('artists').value}}</h3></h2>
-            <h2>Genres : <h3>{{hostEventForm.get('genre').value}}</h3></h2>
+            <h2>Event Description : <h3>{{hostEventForm.get('eventDescription').value}}</h3>
+            </h2>
+            <h2>Artists : <h3>{{hostEventForm.get('artists').value}}</h3>
+            </h2>
+            <h2>Genres : <h3>{{hostEventForm.get('genre').value}}</h3>
+            </h2>
             <mat-label>Genres : {{hostEventForm.get('genre').value}}</mat-label>
           </mat-card-content>
         </mat-card>
@@ -255,7 +282,7 @@
 
 
 
-   <!-- <div formArrayName="seats">
+<!-- <div formArrayName="seats">
             <div *ngFor="let s of seatingControls; let i=index">
               <div [formGroupName]="i">
                 <mat-form-field appearance="fill" class="shortinput">
@@ -275,9 +302,9 @@
 
                 <!-- <button (click)="removeSeating(i)">Remove</button> -->
 
-              <!-- </div>
+<!-- </div>
             </div>
           </div>
-          <div> --> 
-            <!-- <button (click)="addSeatings()" class="btn btn-info">Add More</button> -->
-          <!-- </div> -->
+          <div> -->
+<!-- <button (click)="addSeatings()" class="btn btn-info">Add More</button> -->
+<!-- </div> -->

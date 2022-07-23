@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Document
@@ -29,7 +30,7 @@ public class Event {
     private EventTiming eventTimings;
     private String poster;
     private Venue venue;
-    private double revenueGenerated;
+    private BigDecimal revenueGenerated;
     private int ticketsSold;
     private int totalSeats;
     private List<Seat> seats;

@@ -1,5 +1,6 @@
 package com.stackroute.controller;
 
+import com.stackroute.exception.EventAlreadyExistsException;
 import com.stackroute.exception.EventNotFoundException;
 import com.stackroute.model.Event;
 import com.stackroute.service.EventService;
@@ -30,7 +31,11 @@ public class EventController {
     public ResponseEntity<?> addEvent(@RequestBody Event event) {
         try {
             return new ResponseEntity<>(eventService.addEvent(event), HttpStatus.CREATED) ;
-        }catch (Exception e){
+        }catch (EventAlreadyExistsException eaee){
+            log.error("EventAlreadyExistsException occurred in EventController -> addEvent()");
+            return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.CONFLICT);
+        }
+        catch (Exception e){
             log.error("Exception occurred in EventController -> addEvent() ");
             return new ResponseEntity<>("Sorry for inconvenience! Unexpected error occurred. Try again later..",HttpStatus.CONFLICT);
         }
