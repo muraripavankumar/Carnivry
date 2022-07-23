@@ -3,6 +3,7 @@ export class Seat {
     public colm: number;
     public seatId: number;
     public seatPrice: number;
+    public status:string;
 
     // constructor(row:number,colm:number, seatPrice:number){
     //     this.row=row;

@@ -185,19 +185,15 @@
         <form [formGroup]="hostEventForm">
           <mat-form-field appearance="fill" class="shortinput">
             <mat-label>Rows</mat-label>
-            <input type="number" matInput (change)="calcTotalSeats()" id="totalRows">
+            <input type="number" matInput (change)="calcTotalSeats()" id="totalRows" placeholder="Total number of rows">
           </mat-form-field>
 
           <mat-form-field appearance="fill" class="shortinput">
             <mat-label>Columns</mat-label>
-            <input type="number" matInput (change)="calcTotalSeats()" id="totalColm">
+            <input type="number" matInput (change)="calcTotalSeats()" id="totalColm" placeholder="Number of columns per row">
           </mat-form-field>
 
-          <!-- <mat-form-field appearance="fill" class="shortinput">
-            <mat-label>Ticket Price</mat-label>
-            <input type="number" matInput id="seatPrice">
-          </mat-form-field> -->
-          <mat-card>
+          <mat-card [hidden]="totalSeating===0">
             <mat-card-header>
               <mat-card-title>SEAT LAYOUT</mat-card-title>
             </mat-card-header>
@@ -208,17 +204,16 @@
                   style="background-color:blanchedalmond ;">
                   {{e.seatId}}
                   <input type="checkbox" name="" id="{{x}}" style="background-color:blueviolet ;"
-                    (change)="fieldsChange($event)" value="{{e.seatId}" [disabled]="e.seatPrice!= 0.0001"
-                    (mouseenter)='checkBox($event)'>
+                    (change)="fieldsChange($event)" value="{{e.seatId}}" [disabled]="e.seatPrice!= 0.0001"
+                    (mouseover)='checkBox($event)'>
                 </div>
               </div>
-              <input type="number" id="activePrice" placeholder="Price slab">
-              <button (click)="savePrice()">Save Selection</button>
-              <!-- <button (click)="submit()">Submit</button> -->
+              <input type="number" id="activePrice" placeholder="Price slab" (change)="setActivePrice()">
+              <button mat-button class="btn" (click)="savePrice()" [disabled]="activePrice<0">Save Selection</button>
 
               <div *ngFor="let e of priceList">
-                <div>{{e}}</div>
-                <button (click)="removePrice(e)">Remove Price Slab</button>
+                Entered Price Slab: {{e}}
+                <button mat-button class="btn btn-warning" (click)="removePrice(e)">Remove Price Slab</button>
               </div>
             </mat-card-content>
           </mat-card>

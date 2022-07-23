@@ -26,7 +26,7 @@ export class HostEventComponent implements OnInit {
       startWith(''),
       map((genre: string | '') => (genre ? this._filter(genre) : this.allGenres.slice())),
     );
-    this.eventData=new Event();
+    this.eventData = new Event();
   }
 
   ngOnInit(): void {
@@ -63,62 +63,38 @@ export class HostEventComponent implements OnInit {
     seats: this.fb.array([]),
     totalSeats: ['', Validators.required]
   });
-  /////////////////////////////////////////////////////////
-  // addSeatings() {
-  //   const seatCtrl = this.fb.group({
-  //     row: ['', Validators.required],
-  //     colm: ['', Validators.required],
-  //     seatPrice: ['', Validators.required]
-  //   });
-  //   (<FormArray>this.hostEventForm.get('seats')).push(seatCtrl);
-  // }
+
+  /////////////////////////////////////////////
   get seatingControls() {
     return (<FormArray>this.hostEventForm.get('seats')).controls;
   }
-  // removeSeating(index: number) {
-  //   if (index >= 0) {
-  //     (<FormArray>this.hostEventForm.get('seats')).removeAt(index);
-  //   }
-  // }
   totalSeating: number = 0;
   calcTotalSeats() {
     this.totalSeating = 0;
-    // (<FormArray>this.hostEventForm.get('seats')).reset;
     while ((<FormArray>this.hostEventForm.get('seats')).length !== 0) {
       (<FormArray>this.hostEventForm.get('seats')).removeAt(0)
     }
 
     var ro: any = (<HTMLInputElement>document.getElementById("totalRows")).value;
     var co: any = (<HTMLInputElement>document.getElementById("totalColm")).value;
-    // var sp: any = (<HTMLInputElement>document.getElementById("seatPrice")).value;
-    const total = (ro * co);
-    console.log(total);
+    this.totalSeating = (ro * co);
     document.documentElement.style.setProperty("--colNum", co);
-    for (let i = 0; i < total; i++) {
+    for (let i = 0; i < this.totalSeating; i++) {
       const sCtrl = new FormGroup({});
 
       sCtrl.addControl('seatId', new FormControl('', Validators.required));
       sCtrl.addControl('row', new FormControl('', Validators.required));
       sCtrl.addControl('colm', new FormControl('', Validators.required));
-      sCtrl.addControl('seatPrice', new FormControl('', Validators.required));
+      sCtrl.addControl('seatPrice', new FormControl('0.0001', Validators.required));
+      sCtrl.addControl('status', new FormControl('NOT BOOKED'));
 
       sCtrl.get('seatId').setValue(i + 1);
       sCtrl.get('row').setValue(ro);
       sCtrl.get('colm').setValue(co);
-      sCtrl.get('seatPrice').setValue('0.0001');
 
       (<FormArray>this.hostEventForm.get('seats')).push(sCtrl);
     }
-    this.eventData=this.hostEventForm.value;
-
-
-
-    // (<FormArray>this.hostEventForm.get('seats')).controls.forEach(element => {
-    //   var r: number = element.get('row').value;
-    //   var c: number = element.get('colm').value;
-    //   this.totalSeating = this.totalSeating + (r * c);
-    // });
-    // this.hostEventForm.controls['totalSeats'].setValue(this.totalSeating);
+    this.eventData = this.hostEventForm.value;
   }
 
   /////////////////////////////////////////////////////////
@@ -213,7 +189,6 @@ export class HostEventComponent implements OnInit {
 
   //////////////////////////////////////////////////////////////////////
   posterPic: any;
-  // posterPicUrl: any;
   posterPicDataUrl: string;
   onFileChange(event: any) {
     this.posterPic = event.target.files[0];
@@ -221,7 +196,6 @@ export class HostEventComponent implements OnInit {
     reader.readAsDataURL(this.posterPic);
     reader.onload = (_event) => {
       this.posterPicDataUrl = reader.result + '';
-      // console.log('PosterPicUrl :- ' + this.posterPicDataUrl);//this is working
       this.hostEventForm.controls['poster'].setValue(this.posterPicDataUrl);
     }
   }
@@ -256,7 +230,6 @@ export class HostEventComponent implements OnInit {
   }
 
   fieldsChange(values: any): void {
-    // console.log(" FC values id: " + values.currentTarget.id);
     if (values.currentTarget.checked == true) {
       this.selectedItems.push(values.currentTarget.value);
     }
@@ -267,7 +240,6 @@ export class HostEventComponent implements OnInit {
   checkBox(values: any) {
     let box = (document.getElementById(values.currentTarget.id) as HTMLInputElement).checked;
     if (this.mouseDown) {
-
       if (box) {
         (document.getElementById(values.currentTarget.id) as HTMLInputElement).checked = false;
         this.fieldsChange(values);
@@ -278,26 +250,27 @@ export class HostEventComponent implements OnInit {
       }
     }
   }
+  activePrice: number = -1;
+  setActivePrice() {
+    this.activePrice = <number><undefined>(<HTMLInputElement>document.getElementById('activePrice')).value;
+  }
   savePrice() {
-    var activePrice = (<HTMLInputElement>document.getElementById('activePrice')).value;
-    // console.log("Active Price: " + activePrice);
-    this.priceList.push(activePrice);
-    this.selectedItems.forEach((s:number) => {
-      this.eventData.seats[s-1].seatPrice=<number><unknown>activePrice;
-      // this.hostEventForm.get('seats.s.price').setValue(<number><unknown>activePrice);
-      // this.venueData.seats[s - 1].price = <number><unknown>activePrice;
+
+    this.priceList.push(this.activePrice);
+    this.selectedItems.forEach((s: number) => {
+      this.eventData.seats[s - 1].seatPrice = this.activePrice;
     });
     this.selectedItems = [];
     this.eventData = this.hostEventForm.value;
-    console.log('Venue data: ');
-    console.log(this.eventData);
+    // console.log('Venue data: ');
+    // console.log(this.eventData);
   }
   removePrice(price: number) {
     this.priceList.splice(this.priceList.indexOf(price), 1);
     this.eventData.seats.forEach((s) => {
       if (s.seatPrice === price) {
         s.seatPrice = 0.0001;
-        var seatIndex=s.seatId-1;
+        var seatIndex = s.seatId - 1;
         (document.getElementById(<string><unknown>seatIndex) as HTMLInputElement).checked = false;
       }
     });
