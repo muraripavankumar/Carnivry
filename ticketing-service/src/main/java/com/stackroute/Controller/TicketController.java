@@ -78,4 +78,25 @@ public class TicketController {
         }
 
     }
+
+    // http://localhost:5300/ticket/status/{eventId}/{nid} get
+    @GetMapping("/status/{eventId}/{nid}")
+    public ResponseEntity<?> getTicketStatus(@PathVariable String eventId,@PathVariable int nid) {
+        try {
+            return new ResponseEntity<>(ticketingService.ticketStatus(eventId, nid), HttpStatus.OK);
+        }
+        catch ( EventNotFoundException s)
+        {
+            log.error("Exception occured in TicketController->tivketStatus");
+            return new ResponseEntity<>("The Event is not currently available. We will be back soon",HttpStatus.CONFLICT);
+        }
+        catch (Exception ex)
+        {
+            log.error("Exception occured in TicketController->tivketStatus");
+            return new ResponseEntity<>("Unexpected Error happened. We will be back soon",HttpStatus.CONFLICT);
+        }
+
+    }
+
+
 }
