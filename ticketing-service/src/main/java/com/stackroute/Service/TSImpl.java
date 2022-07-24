@@ -35,6 +35,8 @@ public class TSImpl implements TicketingService{
         {
             event.getSeats().get(nid).setStatus("Processing");
             eventRepository.save(event);
+            playgroundService.expiry(eventId,nid);
+
         }
         else
         {
@@ -46,7 +48,7 @@ public class TSImpl implements TicketingService{
 
 
     @Override
-    @Cacheable(value="Seat", key="#p0")
+    @Cacheable(value="Seat")
     public Seat bookedTicket(String eventId, int nid) throws EventNotFoundException {
         log.debug("Inside Booked Ticket");
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException());
@@ -57,6 +59,14 @@ public class TSImpl implements TicketingService{
 
     @Override
 
+    public Seat ticketStatus(String eventId, int nid) throws EventNotFoundException {
+        log.debug("Getting Seat info");
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException());
+        return event.getSeats().get(nid);
+    }
+
+
+    @Override
     public Seat processTicket(String eventId,int nid) throws EventNotFoundException {
         log.debug("Inside process Ticket");
 

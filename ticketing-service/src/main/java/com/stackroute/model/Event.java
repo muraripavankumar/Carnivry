@@ -1,22 +1,17 @@
 package com.stackroute.model;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 @Document
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class Event implements Serializable {
 
     private static final long serialVersionUID = -4439114469417994311L;
@@ -27,15 +22,14 @@ public class Event implements Serializable {
     @NotNull
     private String userEmailId;
     private String eventDescription;
-    @NotNull
+
     private List<String> artists;
-    @NotNull
+
     private List<String> genre;
-    @NotNull
+
     private List<String> languages;
     @NotNull
     private EventTiming eventTimings;
-    @NotNull
     private String poster;
     private Venue venue;
     private BigDecimal revenueGenerated;

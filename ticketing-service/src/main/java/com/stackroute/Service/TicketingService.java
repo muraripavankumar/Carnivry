@@ -17,4 +17,6 @@ public interface TicketingService {
 
     Seat bookedTicket(String eventId,int nid) throws EventNotFoundException;
 
+    Seat ticketStatus(String eventId,int nid) throws EventNotFoundException;
+
 }
