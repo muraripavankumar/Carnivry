@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class EventController {
     //addEvent               = POST =
     //updateEvent            = PATCH =
+    //getAllEvents           = GET
     //getEventByEventId      = GET = /{eventId}
 
 
@@ -50,22 +51,28 @@ public class EventController {
             log.error("EventNotFoundError occurred in EventController -> updateEvent()");
             return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.CONFLICT);
         }catch (Exception e){
-            log.error("Exception occurred in EventController -> addEvent() ");
+            log.error("Exception occurred in EventController -> updateEvent() ");
             return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.CONFLICT);
         }
     }
 
-    //method to accept HTTP GET request to retrive an event(searched by its eventId) and send the object as response
+    //method to accept HTTP GET request to retrieve an event(searched by its eventId) and send the object as response
     @GetMapping("/{eventId}")
     public ResponseEntity<?> getEventByEventId(@PathVariable String eventId) throws Exception {
         try {
             return new ResponseEntity<>(eventService.getEventById(eventId),HttpStatus.OK);
         }catch (EventNotFoundException eventNotFoundException){
-            log.error("EventNotFoundError occurred in EventController -> updateEvent()");
+            log.error("EventNotFoundError occurred in EventController -> getEventByEventId()");
             return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.CONFLICT);
         }catch (Exception e){
-            log.error("Exception occurred in EventController -> addEvent() ");
+            log.error("Exception occurred in EventController -> getEventByEventId() ");
             return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.CONFLICT);
         }
     }
+    //method to accept HTTP GET request to retrieve ALL events and send list of event objects as response
+    @GetMapping
+    public ResponseEntity<?> getAllEvents(){
+            return new ResponseEntity<>(eventService.getAllEvents(),HttpStatus.OK);
+    }
+
 }

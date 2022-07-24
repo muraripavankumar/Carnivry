@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -57,5 +58,10 @@ public class EventServiceImpl implements EventService{
         return eventRepository.findById(eventId).orElseThrow(() ->{
             log.error("EventNotFoundException occurred in EventServiceImpl-> getEventById()");
             return new EventNotFoundException();});
+    }
+
+    @Override
+    public List<Event> getAllEvents(){
+        return eventRepository.findAll();
     }
 }

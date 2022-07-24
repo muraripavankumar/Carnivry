@@ -157,5 +157,11 @@ public class ManagementServieceControllerLayerTest {
         }
         return result;
     }
-
+    @Test
+    public void getAllEventsReturnResponseTest() throws Exception {
+        when(eventService.getAllEvents()).thenReturn(new ArrayList<>(Arrays.asList(event)));
+        mockMvc.perform(
+                get("/api/v1")
+        ).andExpect(status().isOk()).andDo(MockMvcResultHandlers.log());
+    }
 }
