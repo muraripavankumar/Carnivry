@@ -1,7 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { Event } from '../model/event';
 import { ManagementService } from '../service/management.service';
 import { UpdateEventService } from '../service/update-event.service';
@@ -13,17 +12,21 @@ import { UpdateEventService } from '../service/update-event.service';
 })
 export class UpdateEventComponent implements OnInit {
 
- eventData: Event;
+  eventData: Event;
+  allEvents: Event[];
   existingEventData: Event = new Event();
   presentDate: any;
 
-  constructor(private fb: FormBuilder, private managementService: ManagementService, private snackbar: MatSnackBar, private udateEventService: UpdateEventService) {
-   
+  constructor(private managementService: ManagementService, private udateEventService: UpdateEventService,private router:Router) {
   }
 
   ngOnInit(): void {
- 
+    this.managementService.getAllEvents().subscribe((data) => this.allEvents = data);
+  }
+  updateEvent(eventObj: Event) {
+    this.udateEventService.updateEventInit(eventObj);
+    this.router.navigate(['Carnivry/host-event']);
   }
 
-  
+
 }

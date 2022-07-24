@@ -11,12 +11,6 @@ export class ManagementService {
 
   managementUrl = "http://localhost:8081/api/v1";
   postHostEvent(eventData: Event) {
-    // var options = { content: formData };
-    // Display the key/value pairs
-    // for (var pair of formData.entries()) {
-    //   console.log(pair[0] + ', ' + pair[1]);
-    // }
-    console.log(eventData);
     return this.httpClient.post(this.managementUrl, eventData, { observe: 'response' });
   }
   getHostEventById(eventId: string) {
@@ -24,5 +18,8 @@ export class ManagementService {
   }
   updateHostEvent(eventData: Event) {
     return this.httpClient.patch<any>(this.managementUrl, eventData,{ observe: 'response' });
+  }
+  getAllEvents(){
+    return this.httpClient.get<Event[]>(this.managementUrl);
   }
 }

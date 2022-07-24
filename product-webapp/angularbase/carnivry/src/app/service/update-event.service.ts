@@ -18,8 +18,8 @@ export class UpdateEventService {
   updateEventInit(event: Event) {
     this.objectSource.next(event);
   }
-  updateEventCall(eventId: string) {
-    this.managementService.getHostEventById(eventId).subscribe((data) => this.eventObj = data);
-    this.objectSource.next(this.eventObj);
-  }
+  // updateEventCall(eventId: string) {
+  //   this.managementService.getHostEventById(eventId).subscribe((data) => this.eventObj = data);
+  //   this.objectSource.next(this.eventObj);
+  // }
 }

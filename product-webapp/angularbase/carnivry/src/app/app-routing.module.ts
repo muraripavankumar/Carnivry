@@ -10,18 +10,18 @@ import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { UpdateEventComponent } from './update-event/update-event.component';
 
-const routes: Routes = [ {
-  path:'Carnivry',
+const routes: Routes = [{
+  path: 'Carnivry',
   children: [{
     path: "",
-    component:AppComponent
+    component: AppComponent
   },
   {
     path: "callback",
     component: CallbackComponent
   },
   {
-    path : "home",
+    path: "home",
     component: HomeComponent
   },
   {
@@ -44,14 +44,14 @@ const routes: Routes = [ {
     path: "host-event",
     component: HostEventComponent
   },
-{
-  path:"update-event",
-  component: UpdateEventComponent
-}]
+  {
+    path: "update-event",
+    component: UpdateEventComponent
+  }]
 },
-{ 
-  path: '', 
-  redirectTo: '/Carnivry/register', 
+{
+  path: '',
+  redirectTo: '/Carnivry/register',
   pathMatch: 'full'
 }];
 
