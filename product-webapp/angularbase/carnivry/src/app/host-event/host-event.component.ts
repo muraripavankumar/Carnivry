@@ -11,6 +11,7 @@ import { map, startWith } from 'rxjs/operators';
 import { ManagementService } from '../service/management.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Event } from "../model/event";
+import { UpdateEventService } from '../service/update-event.service';
 
 @Component({
   selector: 'app-host-event',
@@ -18,10 +19,27 @@ import { Event } from "../model/event";
   styleUrls: ['./host-event.component.css']
 })
 export class HostEventComponent implements OnInit {
+  existingEventData: Event | null;
   eventData: Event;
   presentDate: any;
+  artists: string[] = [];
+  totalSeating: number = 0;
+  languages: string[] = [];
+  genres: string[] = [];
+  genreCtrl = new FormControl('');
+  filteredGenres: Observable<string[]>;
+  allGenres: string[] = ['Adventure', 'Action', 'Drama', 'Party', 'Spiritual'];
+  countries: string[] = ['China', 'Bangladesh', 'India', 'Pakistan'];
+  posterPic: any;
+  posterPicDataUrl: string;
+  mouseDown: boolean = false;
+  selectedItems: number[] = [];
+  priceList: any[] = [];
+  activePrice: number = -1;
+  column: number = 0;
+  row: number = 0;
 
-  constructor(private fb: FormBuilder, private managementService: ManagementService, private snackbar: MatSnackBar) {
+  constructor(private fb: FormBuilder, private managementService: ManagementService, private snackbar: MatSnackBar, private updateEventService: UpdateEventService) {
     this.filteredGenres = this.genreCtrl.valueChanges.pipe(
       startWith(''),
       map((genre: string | '') => (genre ? this._filter(genre) : this.allGenres.slice())),
@@ -31,10 +49,13 @@ export class HostEventComponent implements OnInit {
 
   ngOnInit(): void {
     this.presentDate = new Date().toISOString().split('T')[0];
-    // this.addSeatings();//initially adding a set of controls
+    this.updateEventService.obj.subscribe((data) => this.existingEventData = data);
+    console.log(this.existingEventData);
+    this.onUpdateMode();
   }
 
   hostEventForm = this.fb.group({
+    eventId: [''],
     title: ['', [Validators.required, Validators.maxLength(100)]],
     eventDescription: ['', [Validators.required, Validators.minLength(5)]],
     userEmailId: ['exampleHost@g.com'],
@@ -63,16 +84,74 @@ export class HostEventComponent implements OnInit {
     seats: this.fb.array([]),
     totalSeats: ['', Validators.required]
   });
+  //////////////////////////////////////
+  onUpdateMode() {
+    if (this.existingEventData.eventId != null) {
+      this.hostEventForm.get('eventId').setValue(this.existingEventData.eventId);
+      this.hostEventForm.get('title').setValue(this.existingEventData.title);
+      this.hostEventForm.get('eventDescription').setValue(this.existingEventData.eventDescription);
+      this.existingEventData.artists.forEach((value) => {
+        const artistCtrl = new FormControl(value, Validators.required);
+        (<FormArray>this.hostEventForm.get('artists')).push(artistCtrl);
+        this.artists.push(value);
+      });
+      this.existingEventData.genre.forEach((value) => {
+        const gnCtrl = new FormControl(value, Validators.required);
+        this.genres.push(value);
+        (<FormArray>this.hostEventForm.get('genre')).push(gnCtrl);
+      });
+      this.existingEventData.languages.forEach((value) => {
+        const langCtrl = new FormControl(value, Validators.required);
+        (<FormArray>this.hostEventForm.get('languages')).push(langCtrl);
+        this.languages.push(value);
+      });
+      this.hostEventForm.get('poster').setValue(this.existingEventData.poster);
+      this.posterPicDataUrl = this.existingEventData.poster;
+      this.hostEventForm.get('eventTimings.startDate').setValue(this.existingEventData.eventTimings.startDate);
+      this.hostEventForm.get('eventTimings.endDate').setValue(this.existingEventData.eventTimings.endDate);
+      this.hostEventForm.get('eventTimings.startTime').setValue(this.existingEventData.eventTimings.startTime);
+      this.hostEventForm.get('eventTimings.endTime').setValue(this.existingEventData.eventTimings.endTime);
+      this.hostEventForm.get('venue').setValue(this.existingEventData.venue);
+      this.existingEventData.seats.forEach((s) => {
+        const sCtrl = new FormGroup({});
+
+        sCtrl.addControl('seatId', new FormControl('', Validators.required));
+        sCtrl.addControl('row', new FormControl('', Validators.required));
+        sCtrl.addControl('colm', new FormControl('', Validators.required));
+        sCtrl.addControl('seatPrice', new FormControl('0.0001', Validators.required));
+        sCtrl.addControl('status', new FormControl('NOT BOOKED'));
+
+        sCtrl.get('seatId').setValue(s.seatId);
+        sCtrl.get('row').setValue(s.row);
+        sCtrl.get('colm').setValue(s.colm);
+        sCtrl.get('seatPrice').setValue(s.seatPrice);
+        sCtrl.get('status').setValue(s.status);
+
+        (<FormArray>this.hostEventForm.get('seats')).push(sCtrl);
+        if (s.colm > this.column)
+          this.column = s.colm;
+        if (s.row > this.row)
+          this.row = s.row;
+        this.priceList.push(s.seatPrice);
+
+      });
+      this.priceList = this.priceList.filter((item, index) => this.priceList.indexOf(item) === index);
+      document.documentElement.style.setProperty("--colNum", <string><unknown>this.column);
+      this.hostEventForm.get('totalSeats').setValue(this.existingEventData.seats.length);
+      this.totalSeating = this.existingEventData.seats.length;
+      this.eventData = this.existingEventData;
+    }
+  }
 
   /////////////////////////////////////////////
   get seatingControls() {
     return (<FormArray>this.hostEventForm.get('seats')).controls;
   }
-  totalSeating: number = 0;
+
   calcTotalSeats() {
     this.totalSeating = 0;
     while ((<FormArray>this.hostEventForm.get('seats')).length !== 0) {
-      (<FormArray>this.hostEventForm.get('seats')).removeAt(0)
+      (<FormArray>this.hostEventForm.get('seats')).removeAt(0);
     }
 
     var ro: any = (<HTMLInputElement>document.getElementById("totalRows")).value;
@@ -100,7 +179,7 @@ export class HostEventComponent implements OnInit {
   /////////////////////////////////////////////////////////
   addOnBlur = true;
   readonly separatorKeysCodes1 = [ENTER, COMMA] as const;
-  artists: string[] = [];
+
   addArtist(artist: MatChipInputEvent): void {
     const value = (artist.value || '').trim();
     // Add new artist
@@ -122,7 +201,7 @@ export class HostEventComponent implements OnInit {
   ///////////////////////////////////////////////////////
 
   readonly separatorKeysCodes3 = [ENTER, COMMA] as const;
-  languages: string[] = [];
+
   addLanguage(lang: MatChipInputEvent): void {
     const value = (lang.value || '').trim();
     // Add new language
@@ -144,10 +223,6 @@ export class HostEventComponent implements OnInit {
 
   ///////////////////////////////////////////////////////
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  genreCtrl = new FormControl('');
-  filteredGenres: Observable<string[]>;
-  genres: string[] = [];
-  allGenres: string[] = ['Adventure', 'Action', 'Drama', 'Party', 'Spiritual'];
 
   @ViewChild('genreInput') genreInput: ElementRef<HTMLInputElement>;
 
@@ -185,11 +260,8 @@ export class HostEventComponent implements OnInit {
     return this.allGenres.filter(g => g.toLowerCase().includes(filterValue));
   }
   /////////////////////////////////////////////////////////////
-  countries: string[] = ['China', 'Bangladesh', 'India', 'Pakistan'];
 
-  //////////////////////////////////////////////////////////////////////
-  posterPic: any;
-  posterPicDataUrl: string;
+
   onFileChange(event: any) {
     this.posterPic = event.target.files[0];
     var reader = new FileReader();
@@ -217,10 +289,25 @@ export class HostEventComponent implements OnInit {
         });
     });
   }
+  onUpdate() {
+    this.eventData = this.hostEventForm.value;
+    console.log(this.eventData);
+    this.managementService.updateHostEvent(this.eventData).subscribe((data) => {
+      if (data.status === 200) {
+        this.snackbar.open('Event Updated Successfully!', ' ', {
+          duration: 3000
+        });
+      }
+      else{
+        this.snackbar.open('Sorry! Event could not be uploaded. Please try again.', ' ', {
+          duration: 3000
+        });
+      }
+       
+    });
+  }
   ///////////////////////////////////////////////////////////
-  mouseDown: boolean = false;
-  selectedItems: number[] = [];
-  priceList: any[] = [];
+
   mouseDownEvent() {
     if (this.mouseDown == false)
       this.mouseDown = true;
@@ -251,7 +338,7 @@ export class HostEventComponent implements OnInit {
       }
     }
   }
-  activePrice: number = -1;
+
   setActivePrice() {
     this.activePrice = <number><undefined>(<HTMLInputElement>document.getElementById('activePrice')).value;
   }
@@ -282,5 +369,6 @@ export class HostEventComponent implements OnInit {
 /*NOTES: 
 1. change the 'userEmailId' value to the actual emailId from the Session storage.
 2. put the validation for date and time
-3. have range of dates and accept the start and end time for each date
+3. on update patch mapping is to be called
+4. poster has to be jpeg, jpg or png 
 */
