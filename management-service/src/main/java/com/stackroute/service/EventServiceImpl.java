@@ -1,5 +1,6 @@
 package com.stackroute.service;
 
+import com.stackroute.exception.EventAlreadyExistsException;
 import com.stackroute.exception.EventNotFoundException;
 import com.stackroute.model.Event;
 import com.stackroute.repository.EventRepository;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -22,10 +24,18 @@ public class EventServiceImpl implements EventService{
 
     //method to add a new event to event repository.
     @Override
-    public boolean addEvent(Event event) {
+    public boolean addEvent(Event event) throws EventAlreadyExistsException {
         event.setEmailOfUsersLikedEvent(new ArrayList<>());
-        eventRepository.save(event);
-        return true;
+        event.setEventId(String.valueOf(UUID.randomUUID()));
+        if(eventRepository.findById(event.getEventId()).isEmpty()) {
+            eventRepository.insert(event);
+            return true;
+        }
+        else {
+            log.error("EventAlreadyExists occurred in EventServiceImpl-> addEvent() ");
+            throw new EventAlreadyExistsException();
+        }
+
     }
 
     //method to update an existin event with new data.

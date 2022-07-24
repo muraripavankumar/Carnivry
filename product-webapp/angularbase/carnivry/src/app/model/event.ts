@@ -21,19 +21,5 @@ export class Event {
     public seats: Seat[];
     public likes: number;
     public emailOfUsersLikedEvent: string[];
-
-    // constructor(eventId:string, title:string,eventDescription: string,artist:string[], genre:string[],languages:string[],eventTimings: EventTiming,venue: Venue,totalSeats: number,seats: Seat[]){
-    //     this.eventId=eventId;
-    //     this.title=title;
-    //     this.eventDescription=eventDescription;
-    //     this.artists=artist;
-    //     this.genre=genre;
-    //     this.languages=languages;
-    //     this.eventTimings=eventTimings;
-    //     this.totalSeats=totalSeats;
-    //     this.venue=venue;
-    //     this.seats=seats;
-    // }
-    
     
 }

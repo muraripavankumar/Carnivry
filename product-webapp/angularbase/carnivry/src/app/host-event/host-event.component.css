@@ -1,20 +1,42 @@
 .mat-stepper-horizontal {
-    margin-top: 8px;
-  }
-  
-  .mat-form-field {
-    margin-top: 16px;
-    width: 100%;
-  }
-  .mat-card{
-    margin: 0 auto;
-    width: 95%;
-  }
-  .shortinput{
-    width: 20%;
-    margin-right: 5%;
-  }
-  .mediuminput{
-    width: 30%;
-    margin-right: 5%;
-  }
+  margin-top: 8px;
+}
+
+.mat-form-field {
+  margin-top: 16px;
+  width: 100%;
+}
+
+.mat-card {
+  margin: 0 auto;
+  width: fit-content;
+}
+
+.shortinput {
+  width: 20%;
+  margin-right: 5%;
+}
+
+.mediuminput {
+  width: 30%;
+  margin-right: 5%;
+}
+
+.root {
+  --colNum: 5;
+}
+
+.cont {
+  display: grid;
+  grid-gap: 3px;
+  grid-template-columns: repeat(var(--colNum), 1fr);
+  max-width: fit-content;
+  background-color: blue;
+
+}
+
+.box {
+  height: auto;
+  width: 20px;
+  background-color: brown;
+}

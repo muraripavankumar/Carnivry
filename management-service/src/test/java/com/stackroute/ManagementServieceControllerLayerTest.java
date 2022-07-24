@@ -1,0 +1,82 @@
+package com.stackroute;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.stackroute.controller.EventController;
+import com.stackroute.model.*;
+import com.stackroute.service.EventService;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@ExtendWith(MockitoExtension.class)
+public class ManagementServieceControllerLayerTest {
+    @Mock
+    private EventService eventService;
+    @InjectMocks
+    private EventController eventController;
+    @Autowired
+    private MockMvc mockMvc;
+    private Event event;
+    @BeforeEach
+    public void init(){
+        ArrayList<String> artistList= new ArrayList<String>(Arrays.asList("artist","artists"));
+        ArrayList<String> genreList=new ArrayList<String>(Arrays.asList("genre1","genre2"));
+        ArrayList<String> languageList=new ArrayList<String>(Arrays.asList("language1","language2"));
+        ArrayList<Seat> seatArrayList=new ArrayList<>();
+        ArrayList<String> emailList=new ArrayList<>(Arrays.asList("user1@ex.com","user2@ex.com","user3@ex.com"));
+        Address address=new Address("23","Test street","Test landmark","Test city","Test state","Test Country",123456);
+        Venue venue=new Venue("Test venue name",address);
+        EventTiming eventTiming=new EventTiming(new Date(),new Date(),"11:24","04:06");
+        Seat seat1=new Seat(5,6,1,new BigDecimal("100.05"),"NOT_BOOKED");
+        Seat seat2=new Seat(5,6,2,new BigDecimal("200.05"),"NOT_BOOKED");
+        Seat seat3=new Seat(5,6,3,new BigDecimal("10.05"),"NOT_BOOKED");
+        seatArrayList.add(seat1);
+        seatArrayList.add(seat2);
+        seatArrayList.add(seat3);
+        event=new Event("101","Test example tile","testuser@example.com","test event description",artistList,genreList,languageList,eventTiming,"poster url", venue,new BigDecimal(2000),250,450,seatArrayList,300,emailList);
+        mockMvc= MockMvcBuilders.standaloneSetup(eventController).build();
+    }
+    @AfterEach
+    public void conclude(){
+        event=null;
+    }
+    @Test
+    public void addEventReturnResponseTest() throws Exception {
+        when(eventService.addEvent(event)).thenReturn(true);
+        mockMvc.perform(
+                post("/api/v1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(convertToJson(event))
+        ).andExpect(status().isCreated()).andDo(MockMvcResultHandlers.log());
+    }
+    private String convertToJson(final Object obj){
+        String result="";
+        try{
+            ObjectMapper mapper=new ObjectMapper();
+            result=mapper.writeValueAsString(obj);
+        }catch (JsonProcessingException e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+}

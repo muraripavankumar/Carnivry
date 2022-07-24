@@ -10,8 +10,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ManagementService } from '../service/management.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
-
+import { Event } from "../model/event";
 
 @Component({
   selector: 'app-host-event',
@@ -27,11 +26,12 @@ export class HostEventComponent implements OnInit {
       startWith(''),
       map((genre: string | '') => (genre ? this._filter(genre) : this.allGenres.slice())),
     );
+    this.eventData = new Event();
   }
 
   ngOnInit(): void {
     this.presentDate = new Date().toISOString().split('T')[0];
-    this.addSeatings();//initially adding a set of controls
+    // this.addSeatings();//initially adding a set of controls
   }
 
   hostEventForm = this.fb.group({
@@ -63,60 +63,38 @@ export class HostEventComponent implements OnInit {
     seats: this.fb.array([]),
     totalSeats: ['', Validators.required]
   });
-  /////////////////////////////////////////////////////////
-  addSeatings() {
-    const seatCtrl = this.fb.group({
-      row: ['', Validators.required],
-      colm: ['', Validators.required],
-      seatPrice: ['', Validators.required]
-    });
-    (<FormArray>this.hostEventForm.get('seats')).push(seatCtrl);
-  }
+
+  /////////////////////////////////////////////
   get seatingControls() {
     return (<FormArray>this.hostEventForm.get('seats')).controls;
-  }
-  removeSeating(index: number) {
-    if (index >= 0) {
-      (<FormArray>this.hostEventForm.get('seats')).removeAt(index);
-    }
   }
   totalSeating: number = 0;
   calcTotalSeats() {
     this.totalSeating = 0;
-    // (<FormArray>this.hostEventForm.get('seats')).reset;
     while ((<FormArray>this.hostEventForm.get('seats')).length !== 0) {
       (<FormArray>this.hostEventForm.get('seats')).removeAt(0)
     }
 
     var ro: any = (<HTMLInputElement>document.getElementById("totalRows")).value;
     var co: any = (<HTMLInputElement>document.getElementById("totalColm")).value;
-    var sp: any = (<HTMLInputElement>document.getElementById("seatPrice")).value;
-    const total = (ro * co);
-    console.log(total);
-    for (let i = 1; i <= total; i++) {
+    this.totalSeating = (ro * co);
+    document.documentElement.style.setProperty("--colNum", co);
+    for (let i = 0; i < this.totalSeating; i++) {
       const sCtrl = new FormGroup({});
 
       sCtrl.addControl('seatId', new FormControl('', Validators.required));
       sCtrl.addControl('row', new FormControl('', Validators.required));
       sCtrl.addControl('colm', new FormControl('', Validators.required));
-      sCtrl.addControl('seatPrice', new FormControl('', Validators.required));
+      sCtrl.addControl('seatPrice', new FormControl('0.0001', Validators.required));
+      sCtrl.addControl('status', new FormControl('NOT BOOKED'));
 
-      sCtrl.get('seatId').setValue(i);
+      sCtrl.get('seatId').setValue(i + 1);
       sCtrl.get('row').setValue(ro);
       sCtrl.get('colm').setValue(co);
-      sCtrl.get('seatPrice').setValue(sp);
 
       (<FormArray>this.hostEventForm.get('seats')).push(sCtrl);
     }
-
-
-
-    // (<FormArray>this.hostEventForm.get('seats')).controls.forEach(element => {
-    //   var r: number = element.get('row').value;
-    //   var c: number = element.get('colm').value;
-    //   this.totalSeating = this.totalSeating + (r * c);
-    // });
-    // this.hostEventForm.controls['totalSeats'].setValue(this.totalSeating);
+    this.eventData = this.hostEventForm.value;
   }
 
   /////////////////////////////////////////////////////////
@@ -211,7 +189,6 @@ export class HostEventComponent implements OnInit {
 
   //////////////////////////////////////////////////////////////////////
   posterPic: any;
-  // posterPicUrl: any;
   posterPicDataUrl: string;
   onFileChange(event: any) {
     this.posterPic = event.target.files[0];
@@ -219,7 +196,6 @@ export class HostEventComponent implements OnInit {
     reader.readAsDataURL(this.posterPic);
     reader.onload = (_event) => {
       this.posterPicDataUrl = reader.result + '';
-      // console.log('PosterPicUrl :- ' + this.posterPicDataUrl);//this is working
       this.hostEventForm.controls['poster'].setValue(this.posterPicDataUrl);
     }
   }
@@ -228,6 +204,7 @@ export class HostEventComponent implements OnInit {
   /////////////////////////////////////////////////////////////
   onSubmit() {
     this.eventData = this.hostEventForm.value;
+    console.log(this.eventData);
     this.managementService.postHostEvent(this.eventData).subscribe((data) => {
       if (data.status === 201) {
         this.snackbar.open('Event Uploaded Successfully!', ' ', {
@@ -240,7 +217,65 @@ export class HostEventComponent implements OnInit {
         });
     });
   }
+  ///////////////////////////////////////////////////////////
+  mouseDown: boolean = false;
+  selectedItems: number[] = [];
+  priceList: any[] = [];
+  mouseDownEvent() {
+    if (this.mouseDown == false)
+      this.mouseDown = true;
+  }
+  mouseUpEvent() {
+    if (this.mouseDown == true)
+      this.mouseDown = false;
+  }
+
+  fieldsChange(values: any): void {
+    if (values.currentTarget.checked == true) {
+      this.selectedItems.push(values.currentTarget.value);
+    }
+    else {
+      this.selectedItems.splice(this.selectedItems.indexOf(values.currentTarget.value), 1);
+    }
+  }
+  checkBox(values: any) {
+    let box = (document.getElementById(values.currentTarget.id) as HTMLInputElement).checked;
+    if (this.mouseDown) {
+      if (box) {
+        (document.getElementById(values.currentTarget.id) as HTMLInputElement).checked = false;
+        this.fieldsChange(values);
+      }
+      else {
+        (document.getElementById(values.currentTarget.id) as HTMLInputElement).checked = true;
+        this.fieldsChange(values);
+      }
+    }
+  }
+  activePrice: number = -1;
+  setActivePrice() {
+    this.activePrice = <number><undefined>(<HTMLInputElement>document.getElementById('activePrice')).value;
+  }
+  savePrice() {
+
+    this.priceList.push(this.activePrice);
+    this.selectedItems.forEach((s: number) => {
+      this.eventData.seats[s - 1].seatPrice = this.activePrice;
+    });
+    this.selectedItems = [];
+    this.eventData = this.hostEventForm.value;
+  }
+  removePrice(price: number) {
+    this.priceList.splice(this.priceList.indexOf(price), 1);
+    this.eventData.seats.forEach((s) => {
+      if (s.seatPrice === price) {
+        s.seatPrice = 0.0001;
+        var seatIndex = s.seatId - 1;
+        (document.getElementById(<string><unknown>seatIndex) as HTMLInputElement).checked = false;
+      }
+    });
+  }
 }
+
 
 
 ////////////////////////////////////////////////////
