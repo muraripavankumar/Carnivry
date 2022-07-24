@@ -190,7 +190,8 @@
 
           <mat-form-field appearance="fill" class="shortinput">
             <mat-label>Columns</mat-label>
-            <input type="number" matInput (change)="calcTotalSeats()" id="totalColm" placeholder="Number of columns per row">
+            <input type="number" matInput (change)="calcTotalSeats()" id="totalColm"
+              placeholder="Number of columns per row">
           </mat-form-field>
 
           <mat-card [hidden]="totalSeating===0">
@@ -249,19 +250,67 @@
       <mat-step>
         <ng-template matStepLabel>Done</ng-template>
         <h3>Preview:</h3>
-        <mat-card>
+        <mat-card [hidden]="hostEventForm.get('title').value===''">
           <mat-card-header>
             <mat-card-title>{{hostEventForm.get('title').value}}</mat-card-title>
           </mat-card-header>
-          <img [src]="posterPicDataUrl" height="400">
+          <img [src]="posterPicDataUrl" height="200">
           <mat-card-content>
-            <h2>Event Description : <h3>{{hostEventForm.get('eventDescription').value}}</h3>
-            </h2>
-            <h2>Artists : <h3>{{hostEventForm.get('artists').value}}</h3>
-            </h2>
-            <h2>Genres : <h3>{{hostEventForm.get('genre').value}}</h3>
-            </h2>
-            <mat-label>Genres : {{hostEventForm.get('genre').value}}</mat-label>
+            <table>
+              <tr>
+                <th>Event Description : </th>
+                <td>{{hostEventForm.get('eventDescription').value}}</td>
+              </tr>
+              <tr>
+                <th>Artists : </th>
+                <td>{{hostEventForm.get('artists').value}}</td>
+              </tr>
+              <tr>
+                <th>Genres : </th>
+                <td>{{hostEventForm.get('genre').value}}</td>
+              </tr>
+              <tr>
+                <th>Languages : </th>
+                <td>{{hostEventForm.get('languages').value}}</td>
+              </tr>
+              <tr>
+                <th>Venue Name : </th>
+                <td>{{hostEventForm.get('venue.venueName').value}}</td>
+              </tr>
+              <tr>
+                <th>Venue Address : </th>
+              </tr>
+              <tr>
+                <th>  House No. : </th>
+                <td>{{hostEventForm.get('venue.address.house').value}}</td>
+              </tr>
+              <tr>
+                <th>  Street : </th>
+                <td>{{hostEventForm.get('venue.address.street').value}}</td>
+              </tr>
+              <tr>
+                <th>  Landmark : </th>
+                <td>{{hostEventForm.get('venue.address.landmark').value}}</td>
+              </tr>
+              <tr>
+                <th>  City : </th>
+                <td>{{hostEventForm.get('venue.address.city').value}}</td>
+              </tr>
+              <tr>
+                <th>  State : </th>
+                <td>{{hostEventForm.get('venue.address.state').value}}</td>
+              </tr>
+              <tr>
+                <th>  Country : </th>
+                <td>{{hostEventForm.get('venue.address.country').value}}</td>
+              </tr>
+              <tr>
+                <th>  Pincode : </th>
+                <td>{{hostEventForm.get('venue.address.pincode').value}}</td>
+              </tr>
+              
+
+            </table>
           </mat-card-content>
         </mat-card>
         <div>

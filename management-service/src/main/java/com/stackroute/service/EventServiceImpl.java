@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -25,11 +26,16 @@ public class EventServiceImpl implements EventService{
     @Override
     public boolean addEvent(Event event) throws EventAlreadyExistsException {
         event.setEmailOfUsersLikedEvent(new ArrayList<>());
+        event.setEventId(String.valueOf(UUID.randomUUID()));
         if(eventRepository.findById(event.getEventId()).isEmpty()) {
             eventRepository.insert(event);
             return true;
         }
-        throw new EventAlreadyExistsException();
+        else {
+            log.error("EventAlreadyExists occurred in EventServiceImpl-> addEvent() ");
+            throw new EventAlreadyExistsException();
+        }
+
     }
 
     //method to update an existin event with new data.

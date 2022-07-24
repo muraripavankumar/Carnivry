@@ -204,6 +204,7 @@ export class HostEventComponent implements OnInit {
   /////////////////////////////////////////////////////////////
   onSubmit() {
     this.eventData = this.hostEventForm.value;
+    console.log(this.eventData);
     this.managementService.postHostEvent(this.eventData).subscribe((data) => {
       if (data.status === 201) {
         this.snackbar.open('Event Uploaded Successfully!', ' ', {
@@ -262,8 +263,6 @@ export class HostEventComponent implements OnInit {
     });
     this.selectedItems = [];
     this.eventData = this.hostEventForm.value;
-    // console.log('Venue data: ');
-    // console.log(this.eventData);
   }
   removePrice(price: number) {
     this.priceList.splice(this.priceList.indexOf(price), 1);

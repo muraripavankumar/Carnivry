@@ -53,8 +53,8 @@ public class ManagementServiceEventServiceLayerTest {
     }
     @Test
     public void addEventReturnTrueTest() throws EventAlreadyExistsException {
-        when(eventRepository.findById(event.getEventId())).thenReturn(Optional.ofNullable(null));
-        when(eventRepository.insert(event)).thenReturn(event);
+        when(eventRepository.findById(any(String.class))).thenReturn(Optional.ofNullable(null));
+        when(eventRepository.insert(any(Event.class))).thenReturn(event);
         assertTrue(eventService.addEvent(event));
         verify(eventRepository,times(1)).findById(event.getEventId());
     }
