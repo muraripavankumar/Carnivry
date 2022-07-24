@@ -36,14 +36,12 @@ public class TSImpl implements TicketingService{
             event.getSeats().get(nid).setStatus("Processing");
             eventRepository.save(event);
             playgroundService.expiry(eventId,nid);
-
+            return event.getSeats().get(nid);
         }
         else
         {
             return event.getSeats().get(nid);
         }
-
-        return event.getSeats().get(nid);
     }
 
 
@@ -65,6 +63,15 @@ public class TSImpl implements TicketingService{
         return event.getSeats().get(nid);
     }
 
+    @Override
+    public Seat cancelTicket(String eventId, int nid) throws EventNotFoundException {
+        log.debug("Cancelling a ticket");
+        Event event = eventRepository.findById(eventId).orElseThrow(()->new EventNotFoundException());
+        event.getSeats().get(nid).setStatus("Not Booked");
+        eventRepository.save(event);
+        return event.getSeats().get(nid);
+    }
+
 
     @Override
     public Seat processTicket(String eventId,int nid) throws EventNotFoundException {
@@ -76,12 +83,14 @@ public class TSImpl implements TicketingService{
         {
             event.getSeats().get(nid).setStatus("Not Booked");
             eventRepository.save(event);
+            return event.getSeats().get(nid);
+
         }
         else
         {
             return event.getSeats().get(nid);
         }
-        return event.getSeats().get(nid);
+
     }
 
     @Override

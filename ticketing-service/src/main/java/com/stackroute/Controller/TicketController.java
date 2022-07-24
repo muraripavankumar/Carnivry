@@ -87,12 +87,31 @@ public class TicketController {
         }
         catch ( EventNotFoundException s)
         {
-            log.error("Exception occured in TicketController->tivketStatus");
+            log.error("Exception occured in TicketController->ticketStatus");
             return new ResponseEntity<>("The Event is not currently available. We will be back soon",HttpStatus.CONFLICT);
         }
         catch (Exception ex)
         {
-            log.error("Exception occured in TicketController->tivketStatus");
+            log.error("Exception occured in TicketController->ticketStatus");
+            return new ResponseEntity<>("Unexpected Error happened. We will be back soon",HttpStatus.CONFLICT);
+        }
+
+    }
+
+    // http://localhost:5300/ticket/cancel/{eventId}/{nid} get
+    @GetMapping("/cancel/{eventId}/{nid}")
+    public ResponseEntity<?> cancelTicket(@PathVariable String eventId,@PathVariable int nid){
+        try {
+            return new ResponseEntity<>(ticketingService.cancelTicket(eventId, nid), HttpStatus.OK);
+        }
+        catch ( EventNotFoundException s)
+        {
+            log.error("Exception occured in TicketController->cancelTicket");
+            return new ResponseEntity<>("The Event is not currently available. We will be back soon",HttpStatus.CONFLICT);
+        }
+        catch (Exception ex)
+        {
+            log.error("Exception occured in TicketController->cancelTicket");
             return new ResponseEntity<>("Unexpected Error happened. We will be back soon",HttpStatus.CONFLICT);
         }
 
