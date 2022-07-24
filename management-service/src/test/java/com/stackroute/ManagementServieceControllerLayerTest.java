@@ -3,6 +3,8 @@ package com.stackroute;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stackroute.controller.EventController;
+import com.stackroute.exception.EventAlreadyExistsException;
+import com.stackroute.exception.EventNotFoundException;
 import com.stackroute.model.*;
 import com.stackroute.service.EventService;
 import org.junit.jupiter.api.AfterEach;
@@ -22,9 +24,14 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Optional;
 
+
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -67,6 +74,78 @@ public class ManagementServieceControllerLayerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(convertToJson(event))
         ).andExpect(status().isCreated()).andDo(MockMvcResultHandlers.log());
+    }
+    @Test
+    public void addEventThrowEventAlreadyExistsExceptionTest() throws Exception {
+        when(eventService.addEvent(event)).thenThrow(EventAlreadyExistsException.class);
+        mockMvc.perform(
+                post("/api/v1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(convertToJson(event))
+        ).andExpect(status().isConflict()).andDo(MockMvcResultHandlers.log());
+    }
+    @Test
+    public void addEventThrowExceptionTest() throws Exception {
+        when(eventService.addEvent(event)).thenThrow(Exception.class);
+        mockMvc.perform(
+                post("/api/v1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(convertToJson(event))
+        ).andExpect(status().isConflict()).andDo(MockMvcResultHandlers.log());
+    }
+    @Test
+    public void updateEventReturnResponseTest() throws Exception {
+        when(eventService.updateEvent(event)).thenReturn(true);
+        mockMvc.perform(
+                patch("/api/v1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(convertToJson(event))
+        ).andExpect(status().isOk()).andDo(MockMvcResultHandlers.log());
+    }
+    @Test
+    public void updateEvenThrowEventNotFoundExceptionTest() throws Exception {
+        when(eventService.updateEvent(event)).thenThrow(EventNotFoundException.class);
+        mockMvc.perform(
+                patch("/api/v1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(convertToJson(event))
+        ).andExpect(status().isConflict()).andDo(MockMvcResultHandlers.log());
+    }
+    @Test
+    public void updateEvenThrowExceptionTest() throws Exception {
+        when(eventService.updateEvent(event)).thenThrow(Exception.class);
+        mockMvc.perform(
+                patch("/api/v1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(convertToJson(event))
+        ).andExpect(status().isConflict()).andDo(MockMvcResultHandlers.log());
+    }
+    @Test
+    public void getEventByEventIdReturnResponseTest() throws Exception {
+        when(eventService.getEventById(any(String.class))).thenReturn(event);
+        mockMvc.perform(
+                get("/api/v1/10122")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(convertToJson(event))
+        ).andExpect(status().isOk()).andDo(MockMvcResultHandlers.log());
+    }
+    @Test
+    public void getEventByEventIdThrowEventNotFoundExceptionTest() throws Exception {
+        when(eventService.getEventById(any(String.class))).thenThrow(EventNotFoundException.class);
+        mockMvc.perform(
+                get("/api/v1/10122")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(convertToJson(event))
+        ).andExpect(status().isConflict()).andDo(MockMvcResultHandlers.log());
+    }
+    @Test
+    public void getEventByEventIdThrowExceptionTest() throws Exception {
+        when(eventService.getEventById(any(String.class))).thenThrow(Exception.class);
+        mockMvc.perform(
+                get("/api/v1/10122")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(convertToJson(event))
+        ).andExpect(status().isConflict()).andDo(MockMvcResultHandlers.log());
     }
     private String convertToJson(final Object obj){
         String result="";

@@ -24,7 +24,7 @@ public class EventServiceImpl implements EventService{
 
     //method to add a new event to event repository.
     @Override
-    public boolean addEvent(Event event) throws EventAlreadyExistsException {
+    public boolean addEvent(Event event) throws EventAlreadyExistsException,Exception {
         event.setEmailOfUsersLikedEvent(new ArrayList<>());
         event.setEventId(String.valueOf(UUID.randomUUID()));
         if(eventRepository.findById(event.getEventId()).isEmpty()) {
@@ -40,7 +40,7 @@ public class EventServiceImpl implements EventService{
 
     //method to update an existin event with new data.
     @Override
-    public boolean updateEvent(Event event) throws EventNotFoundException {
+    public boolean updateEvent(Event event) throws EventNotFoundException,Exception {
         if(eventRepository.findById(event.getEventId()).isPresent()){
             eventRepository.save(event);
             return true;
@@ -53,7 +53,7 @@ public class EventServiceImpl implements EventService{
 
     //method to search an event by its eventId and retrive the event object.
     @Override
-    public Event getEventById(String eventId) throws EventNotFoundException {
+    public Event getEventById(String eventId) throws EventNotFoundException,Exception {
         return eventRepository.findById(eventId).orElseThrow(() ->{
             log.error("EventNotFoundException occurred in EventServiceImpl-> getEventById()");
             return new EventNotFoundException();});
