@@ -5,14 +5,19 @@
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <mat-stepper linear="false" #stepper>
+    <mat-stepper linear="true" #stepper>
       <mat-step [stepControl]="hostEventForm">
         <form [formGroup]="hostEventForm">
           <ng-template matStepLabel>Event Details</ng-template>
 
+          <mat-form-field appearance="fill" [hidden]="existingEventData.eventId==null">
+            <mat-label>Event ID :</mat-label>
+            <input matInput placeholder="Event id" value="{{existingEventData.eventId}}" disabled="true">
+          </mat-form-field>
+
           <mat-form-field appearance="fill">
             <mat-label>Event Title</mat-label>
-            <input matInput placeholder="Event title" formControlName="title">
+            <input matInput formControlName="title" value="{{existingEventData.title}}" >
           </mat-form-field>
 
           <mat-form-field appearance="fill">
@@ -83,10 +88,10 @@
 
         <h3>Select Event Type</h3>
 
-        <mat-button-toggle-group name="eventType" aria-label="Event Type">
+        <!-- <mat-button-toggle-group name="eventType" aria-label="Event Type">
           <mat-button-toggle value="online">Online</mat-button-toggle>
           <mat-button-toggle value="offline">Offline</mat-button-toggle>
-        </mat-button-toggle-group>
+        </mat-button-toggle-group> -->
 
         <form [formGroup]="hostEventForm">
           <div formGroupName="venue">
@@ -139,7 +144,7 @@
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              
+
             </div>
           </div>
 
@@ -185,45 +190,40 @@
         <form [formGroup]="hostEventForm">
           <mat-form-field appearance="fill" class="shortinput">
             <mat-label>Rows</mat-label>
-            <input type="number" matInput (change)="calcTotalSeats()" id="totalRows">
+            <input type="number" matInput (change)="calcTotalSeats()" id="totalRows" placeholder="Total number of rows" value="{{row}}">
           </mat-form-field>
 
           <mat-form-field appearance="fill" class="shortinput">
             <mat-label>Columns</mat-label>
-            <input type="number" matInput (change)="calcTotalSeats()" id="totalColm">
+            <input type="number" matInput (change)="calcTotalSeats()" id="totalColm"
+              placeholder="Number of columns per row" value="{{column}}">
           </mat-form-field>
 
-          <mat-form-field appearance="fill" class="shortinput" >
-            <mat-label>Ticket Price</mat-label>
-            <input type="number" matInput id="seatPrice">
-          </mat-form-field>
+          <mat-card [hidden]="totalSeating===0">
+            <mat-card-header>
+              <mat-card-title>SEAT LAYOUT</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="cont" id="parent" style="background-color:red ;" (mousedown)="mouseDownEvent()"
+                (mouseup)="mouseUpEvent()">
+                <div class="box" *ngFor="let e of eventData.seats; index as x;"
+                  style="background-color:blanchedalmond ;">
+                  {{e.seatId}}
+                  <input type="checkbox" name="" id="{{x}}" style="background-color:blueviolet ;"
+                    (change)="fieldsChange($event)" value="{{e.seatId}}" [disabled]="e.seatPrice!= 0.0001"
+                    (mouseover)='checkBox($event)'>
+                </div>
+              </div>
+              <input type="number" id="activePrice" placeholder="Price slab" (change)="setActivePrice()">
+              <button mat-button class="btn" (click)="savePrice()" [disabled]="activePrice<0">Save Selection</button>
 
-          <!-- <div formArrayName="seats">
-            <div *ngFor="let s of seatingControls; let i=index">
-              <div [formGroupName]="i">
-                <mat-form-field appearance="fill" class="shortinput">
-                  <mat-label>Rows</mat-label>
-                  <input type="number" matInput formControlName="row" (change)="calcTotalSeats()" id="totalRows">
-                </mat-form-field>
+              <div *ngFor="let e of priceList">
+                Entered Price Slab: {{e}}
+                <button mat-button class="btn btn-warning" (click)="removePrice(e)">Remove Price Slab</button>
+              </div>
+            </mat-card-content>
+          </mat-card>
 
-                <mat-form-field appearance="fill" class="shortinput">
-                  <mat-label>Columns</mat-label>
-                  <input type="number" matInput formControlName="colm" (change)="calcTotalSeats()" id="totalColm">
-                </mat-form-field>
-
-                <mat-form-field appearance="fill" class="shortinput">
-                  <mat-label>Ticket Price</mat-label>
-                  <input type="number" matInput formControlName="seatPrice">
-                </mat-form-field>
-
-                <!-- <button (click)="removeSeating(i)">Remove</button> -->
-
-              <!-- </div>
-            </div>
-          </div>
-          <div> --> 
-            <!-- <button (click)="addSeatings()" class="btn btn-info">Add More</button> -->
-          <!-- </div> -->
 
           <div>
             <h2>Total Seats : {{totalSeating}}</h2>
@@ -241,9 +241,9 @@
 
         <form [formGroup]="hostEventForm">
           <mat-label>Upload Event Poster</mat-label>
-          <input type="file" (change)="onFileChange($event)">
+          <input type="file" (change)="onFileChange($event)" appPosterImageValidation>
           <br>
-          <img [src]="posterPicDataUrl" height="600" alt="no_img" *ngIf="posterPicDataUrl">
+          <img [src]="posterPicDataUrl" height="400" alt="no_img" *ngIf="posterPicDataUrl">
           <div>
             <button mat-button matStepperPrevious class="btn btn-secondary">Back</button>
             <button mat-button matStepperNext class="btn btn-primary" style="float: right;">Next</button>
@@ -255,23 +255,92 @@
       <mat-step>
         <ng-template matStepLabel>Done</ng-template>
         <h3>Preview:</h3>
-        <mat-card>
+        <mat-card [hidden]="hostEventForm.get('title').value===''">
           <mat-card-header>
             <mat-card-title>{{hostEventForm.get('title').value}}</mat-card-title>
           </mat-card-header>
-          <img [src]="posterPicDataUrl" height="400">
+          <img [src]="posterPicDataUrl" height="200">
           <mat-card-content>
-            <h2>Event Description : <h3>{{hostEventForm.get('eventDescription').value}}</h3></h2>
-            <h2>Artists : <h3>{{hostEventForm.get('artists').value}}</h3></h2>
-            <h2>Genres : <h3>{{hostEventForm.get('genre').value}}</h3></h2>
-            <mat-label>Genres : {{hostEventForm.get('genre').value}}</mat-label>
+            <table>
+              <tr>
+                <th>Event Description : </th>
+                <td>{{hostEventForm.get('eventDescription').value}}</td>
+              </tr>
+              <tr>
+                <th>Artists : </th>
+                <td>{{hostEventForm.get('artists').value}}</td>
+              </tr>
+              <tr>
+                <th>Genres : </th>
+                <td>{{hostEventForm.get('genre').value}}</td>
+              </tr>
+              <tr>
+                <th>Languages : </th>
+                <td>{{hostEventForm.get('languages').value}}</td>
+              </tr>
+              <tr>
+                <th>Venue Name : </th>
+                <td>{{hostEventForm.get('venue.venueName').value}}</td>
+              </tr>
+              <tr>
+                <th>Venue Address : </th>
+              </tr>
+              <tr>
+                <th>  House No. : </th>
+                <td>{{hostEventForm.get('venue.address.house').value}}</td>
+              </tr>
+              <tr>
+                <th>  Street : </th>
+                <td>{{hostEventForm.get('venue.address.street').value}}</td>
+              </tr>
+              <tr>
+                <th>  Landmark : </th>
+                <td>{{hostEventForm.get('venue.address.landmark').value}}</td>
+              </tr>
+              <tr>
+                <th>  City : </th>
+                <td>{{hostEventForm.get('venue.address.city').value}}</td>
+              </tr>
+              <tr>
+                <th>  State : </th>
+                <td>{{hostEventForm.get('venue.address.state').value}}</td>
+              </tr>
+              <tr>
+                <th>  Country : </th>
+                <td>{{hostEventForm.get('venue.address.country').value}}</td>
+              </tr>
+              <tr>
+                <th>  Pincode : </th>
+                <td>{{hostEventForm.get('venue.address.pincode').value}}</td>
+              </tr>
+              <tr>
+                <th>Event Starting Date : </th>
+                <td>{{hostEventForm.get('venue.eventTimings.startDate').value}}</td>
+              </tr>
+              <tr>
+                <th>Event Ending Date : </th>
+                <td>{{hostEventForm.get('venue.eventTimings.endDate').value}}</td>
+              </tr>
+              <tr>
+                <th>Event Strting Time : </th>
+                <td>{{hostEventForm.get('venue.eventTimings.startTime').value}}</td>
+              </tr>
+              <tr>
+                <th>Event Ending Time : </th>
+                <td>{{hostEventForm.get('venue.eventTimings.endTime').value}}</td>
+              </tr>
+              
+
+            </table>
           </mat-card-content>
         </mat-card>
         <div>
           <button mat-button matStepperPrevious class="btn btn-secondary">Back</button>
           <button mat-button (click)="stepper.reset()" class="btn btn-danger" style="margin-left:2%">Reset</button>
           <button mat-button type="submit" (click)="onSubmit()" class="btn btn-success"
-            style="float: right;">Submit</button>
+            style="float: right;"[hidden]="existingEventData.eventId!=null">Submit</button>
+            <button mat-button type="submit" (click)="onUpdate()" class="btn btn-success"
+            style="float: right;" [hidden]="existingEventData.eventId==null">Update</button>
         </div>
       </mat-step>
     </mat-stepper>

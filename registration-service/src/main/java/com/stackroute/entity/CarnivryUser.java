@@ -10,6 +10,7 @@ import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 import java.util.List;
 
@@ -19,9 +20,11 @@ import java.util.List;
 @NoArgsConstructor
 public class CarnivryUser {
     @Id
-    private String id;
+    private String email;
 
-    private String name, email, phone;
+    @NotEmpty
+    private String name;
+    private String phone;
 
     private Date dob;
 
@@ -36,6 +39,7 @@ public class CarnivryUser {
 
     private Binary profilePic;
 
+    @NotEmpty
     private Boolean verified;
 
     private String emailVerificationToken;

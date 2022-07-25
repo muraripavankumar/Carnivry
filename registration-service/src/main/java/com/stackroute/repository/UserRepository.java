@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends MongoRepository<CarnivryUser,String> {
-    CarnivryUser findByEmail(String email);
+//     CarnivryUser findByEmail(String email);
     CarnivryUser findByEmailVerificationToken(String token);
 }

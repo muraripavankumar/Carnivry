@@ -15,8 +15,8 @@ spring:
     default-encoding: UTF-8
     host: smtp.gmail.com
     port: 587
-    username: saumasischandra987@gmail.com
-    password: byprdafsjqjyipcq
+    username: carnivry2022@gmail.com
+    password: byxqowufgtlginxh
     properties:
       mail:
         smtp:
@@ -28,10 +28,10 @@ spring:
       client:
         registration:
           google:
-            clientId: 519435446247-i2orlv7mqvvivg8pucji77t540qahjaa.apps.googleusercontent.com
-            clientSecret: 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
+            clientId: 1023149345964-e17epiqvfhgfcgbnh0dfu1u432r5p2kl.apps.googleusercontent.com
+            clientSecret: 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
             redirectUri: http://localhost:4200/Carnivry/callback
           github:
-            clientId: a13359fa2e6525d92711
-            clientSecret: 0032ca8c168aac879a0cdef989cccf3681520974
+            clientId: 12880111cd52b9208c9c
+            clientSecret: a9f1059fdd7c6ddc648b659ad2a9ce42cdf057ed
             redirectUri: http://localhost:4200/Carnivry/callback
