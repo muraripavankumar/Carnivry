@@ -72,7 +72,6 @@ public class TSImpl implements TicketingService{
         return event.getSeats().get(nid);
     }
 
-
     // Service method to set the status from "Processing" to "Not Booked" after a scheduled time
     @Override
     public Seat processTicket(String eventId,int nid) throws EventNotFoundException {
@@ -85,13 +84,11 @@ public class TSImpl implements TicketingService{
             event.getSeats().get(nid).setStatus("Not Booked");
             eventRepository.save(event);
             return event.getSeats().get(nid);
-
         }
         else
         {
             return event.getSeats().get(nid);
         }
-
     }
 
     // Service method to retrieve an Event by Id
@@ -101,8 +98,5 @@ public class TSImpl implements TicketingService{
         log.debug("Inside get Event by Id");
         return eventRepository.findById(eventId).orElseThrow(()->new EventNotFoundException());
     }
-
-
-
 }
 

@@ -1,5 +1,6 @@
 package com.stackroute.Util;
 
+import com.stackroute.Jobs.Expiry;
 import com.stackroute.model.TimerInfo;
 import org.quartz.*;
 
@@ -15,7 +16,7 @@ public final class TimerUtils {
 
         return JobBuilder
                 .newJob(jobClass)
-                .withIdentity(jobClass.getSimpleName())
+                .withIdentity(String.valueOf(Math.random()))
                 .setJobData(jobDataMap)
                 .build();
     }
@@ -29,9 +30,10 @@ public final class TimerUtils {
             builder = builder.withRepeatCount(info.getTotalFireCount() - 1);
         }
 
-        return TriggerBuilder
+        return
+                TriggerBuilder
                 .newTrigger()
-                .withIdentity(jobClass.getSimpleName())
+                .withIdentity(String.valueOf(Math.random()))
                 .withSchedule(builder)
                 .startAt(new Date(System.currentTimeMillis() + info.getInitialOffsetMs()))
                 .build();
