@@ -29,6 +29,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { UpdateEventComponent } from './update-event/update-event.component';
+import { PosterImageValidationDirective } from './validations/poster-image-validation.directive';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { UpdateEventComponent } from './update-event/update-event.component';
     LoginComponent,
     EmailVerificationComponent,
     AddPreferenceComponent,
-    UpdateEventComponent
+    UpdateEventComponent,
+    PosterImageValidationDirective
   ],
   imports: [
     BrowserModule,

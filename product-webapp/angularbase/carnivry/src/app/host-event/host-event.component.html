@@ -5,7 +5,7 @@
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <mat-stepper linear="false" #stepper>
+    <mat-stepper linear="true" #stepper>
       <mat-step [stepControl]="hostEventForm">
         <form [formGroup]="hostEventForm">
           <ng-template matStepLabel>Event Details</ng-template>
@@ -88,10 +88,10 @@
 
         <h3>Select Event Type</h3>
 
-        <mat-button-toggle-group name="eventType" aria-label="Event Type">
+        <!-- <mat-button-toggle-group name="eventType" aria-label="Event Type">
           <mat-button-toggle value="online">Online</mat-button-toggle>
           <mat-button-toggle value="offline">Offline</mat-button-toggle>
-        </mat-button-toggle-group>
+        </mat-button-toggle-group> -->
 
         <form [formGroup]="hostEventForm">
           <div formGroupName="venue">
@@ -241,7 +241,7 @@
 
         <form [formGroup]="hostEventForm">
           <mat-label>Upload Event Poster</mat-label>
-          <input type="file" (change)="onFileChange($event)">
+          <input type="file" (change)="onFileChange($event)" appPosterImageValidation>
           <br>
           <img [src]="posterPicDataUrl" height="400" alt="no_img" *ngIf="posterPicDataUrl">
           <div>
@@ -312,6 +312,22 @@
               <tr>
                 <th>  Pincode : </th>
                 <td>{{hostEventForm.get('venue.address.pincode').value}}</td>
+              </tr>
+              <tr>
+                <th>Event Starting Date : </th>
+                <td>{{hostEventForm.get('venue.eventTimings.startDate').value}}</td>
+              </tr>
+              <tr>
+                <th>Event Ending Date : </th>
+                <td>{{hostEventForm.get('venue.eventTimings.endDate').value}}</td>
+              </tr>
+              <tr>
+                <th>Event Strting Time : </th>
+                <td>{{hostEventForm.get('venue.eventTimings.startTime').value}}</td>
+              </tr>
+              <tr>
+                <th>Event Ending Time : </th>
+                <td>{{hostEventForm.get('venue.eventTimings.endTime').value}}</td>
               </tr>
               
 
