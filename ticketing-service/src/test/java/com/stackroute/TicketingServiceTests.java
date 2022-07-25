@@ -2,6 +2,8 @@ package com.stackroute;
 
 import com.stackroute.Exceptions.EventNotFoundException;
 import com.stackroute.Repository.EventRepository;
+import com.stackroute.SchedulerService.PlaygroundService;
+import com.stackroute.SchedulerService.SchedulerService;
 import com.stackroute.Service.TSImpl;
 import com.stackroute.model.*;
 import org.junit.jupiter.api.AfterEach;
@@ -10,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
@@ -21,7 +24,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class TicketingServiceTests {
@@ -30,6 +33,12 @@ public class TicketingServiceTests {
 
     @InjectMocks
     private TSImpl ticketingService;
+
+    @Mock
+    private  PlaygroundService playgroundService;
+
+    @Mock
+    private SchedulerService schedulerService;
 
     private Address address;
     private Event event;
@@ -80,17 +89,13 @@ public class TicketingServiceTests {
     @Test
     public void getSeatreturnSeatTest1() throws EventNotFoundException {
         when(eventRepository.findById(any(String.class))).thenReturn(Optional.ofNullable(event));
-            event.getSeats().get(0).setStatus("Processing");
-            eventRepository.save(event);
-            assertEquals(event.getSeats().get(0).getStatus(), ticketingService.getSeat("1", 0).getStatus());
+        assertEquals("Processing", ticketingService.getSeat("1", 0).getStatus());
     }
 
     @Test
     public void getSeatreturnSeatTest2() throws EventNotFoundException {
         when(eventRepository.findById(any(String.class))).thenReturn(Optional.ofNullable(event));
-        //event.getSeats().get(0).setStatus("Processing");
-        eventRepository.save(event);
-        assertEquals(event.getSeats().get(1).getStatus(), ticketingService.getSeat("1", 1).getStatus());
+        assertEquals("Processing", ticketingService.getSeat("1", 1).getStatus());
     }
     @Test
     public void getSeatThrowErrorTest(){
@@ -101,9 +106,7 @@ public class TicketingServiceTests {
     @Test
     public void getBookedTicketTest() throws EventNotFoundException {
         when(eventRepository.findById(any(String.class))).thenReturn(Optional.ofNullable(event));
-        event.getSeats().get(1).setStatus("Booked");
-        eventRepository.save(event);
-        assertEquals(event.getSeats().get(1).getStatus(),ticketingService.bookedTicket("1",1).getStatus());
+        assertEquals("Booked",ticketingService.bookedTicket("1",1).getStatus());
     }
 
     @Test
@@ -127,9 +130,7 @@ public class TicketingServiceTests {
     @Test
     public void getCancelledTicketStatusTest() throws EventNotFoundException {
         when(eventRepository.findById(any(String.class))).thenReturn(Optional.ofNullable(event));
-        event.getSeats().get(2).setStatus("Not Booked");
-        eventRepository.save(event);
-        assertEquals(event.getSeats().get(2).getStatus(),ticketingService.cancelTicket("1",2).getStatus());
+        assertEquals("Not Booked",ticketingService.cancelTicket("1",2).getStatus());
     }
 
     @Test
@@ -141,29 +142,15 @@ public class TicketingServiceTests {
     @Test
     public void getProcessTicketStatus() throws EventNotFoundException {
         when(eventRepository.findById(any(String.class))).thenReturn(Optional.ofNullable(event));
-        if (event.getSeats().get(1).getStatus().equalsIgnoreCase("Processing")) {
-            event.getSeats().get(1).setStatus("Not Booked");
-            eventRepository.save(event);
-            assertEquals(event.getSeats().get(1).getStatus(), ticketingService.processTicket("1", 1).getStatus());
-        }
-        else
-        {
-            assertEquals(event.getSeats().get(1).getStatus(),ticketingService.processTicket("1",1).getStatus());
-        }
+            assertEquals("Not Booked", ticketingService.processTicket("1", 1).getStatus());
+
     }
 
     @Test
     public void getProcessTicketStatus1() throws EventNotFoundException {
         when(eventRepository.findById(any(String.class))).thenReturn(Optional.ofNullable(event));
-        if (event.getSeats().get(0).getStatus().equalsIgnoreCase("Processing")) {
-            event.getSeats().get(0).setStatus("Not Booked");
-            eventRepository.save(event);
-            assertEquals(event.getSeats().get(0).getStatus(), ticketingService.processTicket("1", 0).getStatus());
-        }
-        else
-        {
-            assertEquals(event.getSeats().get(0).getStatus(),ticketingService.processTicket("1",0).getStatus());
-        }
+            assertEquals("Booked", ticketingService.processTicket("1", 2).getStatus());
+
     }
 
     @Test
