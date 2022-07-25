@@ -34,7 +34,10 @@ public class UserServiceImpl implements UserService{
     @Override
     public CarnivryUser registerUser(UserRegModel userModel) throws UserAlreadyExistsException {
         if(userRepository.findById(userModel.getEmail().toLowerCase()).isPresent())
+        {
+            log.error("Couldn't register user since email id {} already exists",userModel.getEmail());
             throw new UserAlreadyExistsException();
+        }
         else {
             CarnivryUser carnivryUser = new CarnivryUser();
             carnivryUser.setEmail(userModel.getEmail().toLowerCase());
@@ -46,6 +49,8 @@ public class UserServiceImpl implements UserService{
 
             messageProducer.sendMessageToAuthenticationService(authenticationUserDTO);
 
+            log.info("New Carnivry Account created with email id {}",userModel.getEmail());
+
             return userRepository.save(carnivryUser);
         }
     }
@@ -53,7 +58,10 @@ public class UserServiceImpl implements UserService{
     @Override
     public CarnivryUser registerSocialUser(UserRegModel userRegModel) throws UserAlreadyExistsException {
         if(userRepository.existsById(userRegModel.getEmail()))
+        {
+            log.error("Couldn't register user since email id {} already exists",userRegModel.getEmail());
             throw new UserAlreadyExistsException();
+        }
 
         CarnivryUser carnivryUser = new CarnivryUser();
         carnivryUser.setEmail(userRegModel.getEmail());
@@ -62,6 +70,7 @@ public class UserServiceImpl implements UserService{
         carnivryUser.setVerified(true);
 
         CarnivryUser result= userRepository.save(carnivryUser);
+        log.info("New Social Carnivry Account created with email id {}",userRegModel.getEmail());
         return result;
 
     }
@@ -70,7 +79,10 @@ public class UserServiceImpl implements UserService{
     public void addLikedGenres(AddGenre addGenre) throws UserNotFoundException {
 //        System.out.println(addGenre.getEmail());
         if (userRepository.findById(addGenre.getEmail()).isEmpty())
+        {
+            log.error("Couldn't add user liked genres since user with email id {} is not present",addGenre.getEmail());
             throw new UserNotFoundException();
+        }
 
         CarnivryUser carnivryUser= userRepository.findById(addGenre.getEmail()).get();
 
@@ -86,6 +98,8 @@ public class UserServiceImpl implements UserService{
             preferences.setLikedGenres(genreList);
             carnivryUser.setPreferences(preferences);
             userRepository.save(carnivryUser);
+
+            log.info("Liked Genres added to user with email id {}",addGenre.getEmail());
     }
 
     @Override
@@ -95,6 +109,7 @@ public class UserServiceImpl implements UserService{
 
         for(Genre genre:genres) {allGenres.add(genre.toString());}
 
+        log.debug("Returning all Carnivry event genres");
         return allGenres;
     }
 
@@ -102,11 +117,16 @@ public class UserServiceImpl implements UserService{
     public void saveVerificationTokenForUser(String token, CarnivryUser carnivryUser) throws UserNotFoundException {
 
         if(userRepository.findById(carnivryUser.getEmail()).isEmpty())
+        {
+            log.error("Couldn't save first email verification token since no user with email id {} exists in " +
+                    "Carnivry Registration database",carnivryUser.getEmail());
             throw new UserNotFoundException();
+        }
         carnivryUser.setEmailVerificationToken(token);
         carnivryUser.setEvtExpTime(calculateExpirationDate(EXPIRATION_TIME));
 
         userRepository.save(carnivryUser);
+        log.info("First Email Verification token saved for user with email id {}",carnivryUser.getEmail());
     }
 
     @Override
@@ -114,20 +134,28 @@ public class UserServiceImpl implements UserService{
 
         CarnivryUser carnivryUser= userRepository.findByEmailVerificationToken(token);
         if(carnivryUser==null)
+        {
+            log.error("Email verification token {} is invalid for user with email id {}",token,email);
             return "invalid token";
+        }
         else {
             if(!(carnivryUser.getEmail().equals(email)))
+            {
+                log.error("Email verification token {} is invalid for user with email id {}",token,email);
                 return "invalid token";
+            }
             Calendar cal = Calendar.getInstance();
             if ((carnivryUser.getEvtExpTime().getTime() - cal.getTime().getTime()) <= 0) {
                 carnivryUser.setEmailVerificationToken("");
                 carnivryUser.setEvtExpTime(null);
                 userRepository.save(carnivryUser);
+                log.error("Email verification token {} expired for user with email id {}",token,email);
                 return "token expired";
             }
             else{
                 carnivryUser.setVerified(true);
                 userRepository.save(carnivryUser);
+                log.info("User with email id {} is verified",email);
                 return "valid token";
             }
         }
@@ -137,8 +165,12 @@ public class UserServiceImpl implements UserService{
     @Override
     public boolean isUserVerified(String email) throws UserNotFoundException {
         if(userRepository.findById(email).isEmpty())
+        {
+            log.error("User with email id {} is not present, so verification status couldn't be checked", email);
             throw new UserNotFoundException();
+        }
         CarnivryUser carnivryUser= userRepository.findById(email).get();
+        log.debug("Verification status of user with email id {} is fetched",email);
         return carnivryUser.getVerified();
     }
 
@@ -146,7 +178,10 @@ public class UserServiceImpl implements UserService{
     public void regenerateEmailVerificationToken(String email, String applicationUrl) throws UserNotFoundException {
 
         if (userRepository.findById(email).isEmpty())
+        {
+            log.error("Email verification token couldn't be send as user with email id {} doesn't exists",email);
             throw new UserNotFoundException();
+        }
         CarnivryUser carnivryUser= userRepository.findById(email).get();
         String token=  UUID.randomUUID().toString();
         carnivryUser.setEmailVerificationToken(token);
@@ -155,7 +190,7 @@ public class UserServiceImpl implements UserService{
 
         String url =
                 applicationUrl
-                        + "/Carnivry/verifyRegistration?token="
+                        + "/api/v1/verifyRegistration?token="
                         + token
                         + "&email="
                         + email;
@@ -175,10 +210,12 @@ public class UserServiceImpl implements UserService{
         model.put("button","Verify");
 
         emailSenderService.sendEmailWithAttachment(emailRequest,model);
+        log.info("Email verification token for user with email id {} is generated",email);
     }
 
     @Override
     public boolean isUserPresent(String email) {
+        log.debug("Email id {} is searched in the Carnivry User database",email);
         return userRepository.findById(email).isPresent();
     }
 
@@ -188,6 +225,7 @@ public class UserServiceImpl implements UserService{
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(new Date().getTime());
         calendar.add(Calendar.MINUTE, expirationTime);
+        log.debug("Expiration Time is Generated");
         return new Date(calendar.getTime().getTime());
     }
 }

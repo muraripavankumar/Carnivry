@@ -4,6 +4,7 @@ import com.stackroute.model.EmailRequest;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -18,6 +19,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 @Service
+@Slf4j
 public class EmailSenderService {
 
     private final JavaMailSender mailSender;
@@ -68,7 +70,10 @@ public class EmailSenderService {
 //                    fileSystem);
 
             mailSender.send(mimeMessage);
+            log.info("Email sent to {}",emailRequest.getTo());
+
         }catch (MessagingException | IOException | TemplateException e){
+            log.error("Couldn't send email");
             return "Couldn't send Email...";
         }
         return "Email Send...";

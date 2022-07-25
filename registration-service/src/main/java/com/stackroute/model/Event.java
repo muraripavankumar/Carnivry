@@ -3,7 +3,6 @@ package com.stackroute.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.bson.types.Binary;
 
 import java.util.List;
 

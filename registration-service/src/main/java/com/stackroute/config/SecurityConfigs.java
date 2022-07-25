@@ -1,6 +1,7 @@
 package com.stackroute.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,6 +21,7 @@ import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
+@Slf4j
 public class SecurityConfigs extends WebSecurityConfigurerAdapter {
 
 
@@ -29,15 +31,15 @@ public class SecurityConfigs extends WebSecurityConfigurerAdapter {
 
     private static final String[] WHITE_LIST_URLS = {
 
-            "/api/v1/register",
-            "/api/v1/register/socialLogin",
+            "/api/v1/registration",
+            "/api/v1/registration/socialLogin",
             "/api/v1/saveGenres",
             "/api/v1/verifyRegistration*",
-            "/api/v1/resendVerifyToken*",
+            "/api/v1/resendVerificationToken*",
             "/api/v1/emailVerifiedStatus/*",
             "/api/v1/saveGenres",
             "/api/v1/allGenres" ,
-            "/api/v1/checkUser/**",
+            "/api/v1/userCheck/**",
             "/oauth2/**", "/login**"
     };
 
@@ -73,6 +75,7 @@ public class SecurityConfigs extends WebSecurityConfigurerAdapter {
 
     private void logout(HttpServletRequest request, HttpServletResponse response,
                         Authentication authentication) {
+        log.info("{} {}",response,authentication);
         // You can process token here
         System.out.println("Auth token is - " + request.getHeader( "Authorization" ));
     }
@@ -87,6 +90,7 @@ public class SecurityConfigs extends WebSecurityConfigurerAdapter {
 
     private void successHandler(HttpServletRequest request,
                                 HttpServletResponse response, Authentication authentication ) throws IOException {
+        log.info("{}",request);
         String token = tokenStore.generateToken( authentication );
         response.getWriter().write(
                 mapper.writeValueAsString( Collections.singletonMap( "accessToken", token ) )
@@ -95,6 +99,7 @@ public class SecurityConfigs extends WebSecurityConfigurerAdapter {
 
     private void authenticationEntryPoint( HttpServletRequest request, HttpServletResponse response,
                                            AuthenticationException authException ) throws IOException {
+        log.info("{} {}",request,authException);
         response.setStatus( HttpServletResponse.SC_UNAUTHORIZED );
         response.getWriter().write( mapper.writeValueAsString( Collections.singletonMap( "error", "Unauthenticated" ) ) );
     }
