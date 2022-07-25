@@ -38,6 +38,6 @@ public class Expiry implements Job {
         } catch (EventNotFoundException e) {
             e.printStackTrace();
         }
-        LOG.info(info.getCallbackData());
+        LOG.info("Scheduler started for eventId"+info.getCallbackData());
     }
 }

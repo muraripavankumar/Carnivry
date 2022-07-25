@@ -1,6 +1,7 @@
 package com.stackroute.model;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @Document
 @Data
-
+@AllArgsConstructor
 public class Event implements Serializable {
 
     private static final long serialVersionUID = -4439114469417994311L;
@@ -22,11 +23,8 @@ public class Event implements Serializable {
     @NotNull
     private String userEmailId;
     private String eventDescription;
-
     private List<String> artists;
-
     private List<String> genre;
-
     private List<String> languages;
     @NotNull
     private EventTiming eventTimings;

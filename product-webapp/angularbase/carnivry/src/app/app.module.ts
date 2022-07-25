@@ -30,6 +30,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { UpdateEventComponent } from './update-event/update-event.component';
 import { PosterImageValidationDirective } from './validations/poster-image-validation.directive';
+import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -42,7 +45,9 @@ import { PosterImageValidationDirective } from './validations/poster-image-valid
     EmailVerificationComponent,
     AddPreferenceComponent,
     UpdateEventComponent,
-    PosterImageValidationDirective
+    PosterImageValidationDirective,
+    ForgotpasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +68,8 @@ import { PosterImageValidationDirective } from './validations/poster-image-valid
     MatNativeDateModule,
     MatSnackBarModule,
     MatButtonModule,
-    MatCardModule
+    MatCardModule,
+    MatDialogModule
 
   ],
   providers: [

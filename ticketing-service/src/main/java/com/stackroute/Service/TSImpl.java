@@ -15,8 +15,6 @@ import org.springframework.stereotype.Service;
 public class TSImpl implements TicketingService{
 
     private final PlaygroundService playgroundService;
-
-
     private final EventRepository eventRepository;
 
     @Autowired
@@ -26,7 +24,7 @@ public class TSImpl implements TicketingService{
         this.eventRepository = eventRepository;
     }
 
-    //
+    // Service method to change the seat status from "Not Booked" to "Processing"
     @Override
     public Seat getSeat(String eventId,int nid) throws EventNotFoundException {
         log.debug("Inside getSeat");
@@ -36,17 +34,15 @@ public class TSImpl implements TicketingService{
             event.getSeats().get(nid).setStatus("Processing");
             eventRepository.save(event);
             playgroundService.expiry(eventId,nid);
-
+            return event.getSeats().get(nid);
         }
         else
         {
             return event.getSeats().get(nid);
         }
-
-        return event.getSeats().get(nid);
     }
 
-
+    // Service method to book a ticket
     @Override
     @Cacheable(value="Seat")
     public Seat bookedTicket(String eventId, int nid) throws EventNotFoundException {
@@ -57,15 +53,27 @@ public class TSImpl implements TicketingService{
         return event.getSeats().get(nid);
     }
 
-    @Override
 
+    // Service method to get Seat Status
+    @Override
     public Seat ticketStatus(String eventId, int nid) throws EventNotFoundException {
         log.debug("Getting Seat info");
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException());
         return event.getSeats().get(nid);
     }
 
+    // Service method to cancel Ticket
+    @Override
+    public Seat cancelTicket(String eventId, int nid) throws EventNotFoundException {
+        log.debug("Cancelling a ticket");
+        Event event = eventRepository.findById(eventId).orElseThrow(()->new EventNotFoundException());
+        event.getSeats().get(nid).setStatus("Not Booked");
+        eventRepository.save(event);
+        return event.getSeats().get(nid);
+    }
 
+
+    // Service method to set the status from "Processing" to "Not Booked" after a scheduled time
     @Override
     public Seat processTicket(String eventId,int nid) throws EventNotFoundException {
         log.debug("Inside process Ticket");
@@ -76,19 +84,22 @@ public class TSImpl implements TicketingService{
         {
             event.getSeats().get(nid).setStatus("Not Booked");
             eventRepository.save(event);
+            return event.getSeats().get(nid);
+
         }
         else
         {
             return event.getSeats().get(nid);
         }
-        return event.getSeats().get(nid);
+
     }
 
+    // Service method to retrieve an Event by Id
     @Override
     @Cacheable(value="Event", key="#p0")
     public Event getEventById(String eventId) throws EventNotFoundException {
         log.debug("Inside get Event by Id");
-        return eventRepository.findById(eventId).orElseThrow(EventNotFoundException::new);
+        return eventRepository.findById(eventId).orElseThrow(()->new EventNotFoundException());
     }
 
 
