@@ -117,7 +117,7 @@ public class UserController {
 
             map= securityTokenGenerator.generateToken(result);
 //            String str = map.toString();
-            String link="http://localhost:4200/updatePassword";
+            String link="http://localhost:4200/Carnivry/updatePassword";
             sendEmail(emailId,link);
             return new ResponseEntity<>(map,HttpStatus.OK);
         }

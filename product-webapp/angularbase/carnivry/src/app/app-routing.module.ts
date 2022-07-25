@@ -4,10 +4,12 @@ import { AddPreferenceComponent } from './add-preference/add-preference.componen
 import { AppComponent } from './app.component';
 import { CallbackComponent } from './callback/callback.component';
 import { EmailVerificationComponent } from './email-verification/email-verification.component';
+import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
 import { HomeComponent } from './home/home.component';
 import { HostEventComponent } from './host-event/host-event.component';
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { UpdateEventComponent } from './update-event/update-event.component';
 
 const routes: Routes = [{
@@ -39,6 +41,14 @@ const routes: Routes = [{
   {
     path: "login",
     component: LoginComponent
+  },
+  {
+    path:"forgotPassword",
+    component:ForgotpasswordComponent
+  },
+  {
+    path:"updatePassword",
+    component:ResetPasswordComponent,
   },
   {
     path: "host-event",
