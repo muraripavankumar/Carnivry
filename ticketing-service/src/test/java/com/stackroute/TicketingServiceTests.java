@@ -44,7 +44,6 @@ public class TicketingServiceTests {
         Seat seat1 = new Seat(10,2,1,new BigDecimal(25.00),"Not Booked");
         Seat seat2 = new Seat(10,2,2,new BigDecimal(25.00),"Processing");
         Seat seat3 = new Seat(10,2,3,new BigDecimal(25.00),"Booked");
-        //  ArrayList<Seat> seatList=new ArrayList<>(Arrays.asList(seat1,seat2,seat3));
         ArrayList<Seat> seatList=new ArrayList<>();
         seatList.add(seat1);
         seatList.add(seat2);

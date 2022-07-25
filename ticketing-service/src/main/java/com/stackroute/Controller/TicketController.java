@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class TicketController {
 
-    private TicketingService ticketingService;
+    private final TicketingService ticketingService;
 
     @Autowired
     public TicketController(TicketingService ticketingService) {

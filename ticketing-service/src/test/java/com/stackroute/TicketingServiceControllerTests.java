@@ -103,6 +103,7 @@ public class TicketingServiceControllerTests {
                         .andExpect(status().isOk()).andDo(MockMvcResultHandlers.log());
     }
 
+    //showing not cleared in Jacoco
     @Test
     public void getEventByEventIdThrowEventNotFoundExceptionTest() throws Exception {
         when(ticketingService.getEventById(any(String.class))).thenThrow(EventNotFoundException.class);
