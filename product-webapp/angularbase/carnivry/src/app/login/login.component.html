@@ -17,17 +17,17 @@
             <div class="col-sm-6">
                 <div class="myRightCtn">
 
-                    <form [formGroup]="loginForm" (ngSubmit)="login()" class="myForm text-center">
+                    <form [formGroup]="loginFormGroup" (ngSubmit)="loginCheck()" class="myForm text-center">
                         <header>Welcome Back</header>
 
                         <div class="form-group input">
                             <i class="fas fa-envelope" id="fas_2"></i>
-                            <input type="email" formControlName="email" class="form-control myInput" placeholder="Email"
-                                [ngClass]="{'is-invalid': f['email'].errors && f['email'].touched}" />
-                            <div *ngIf="f['email'].errors && (f['email'].touched || f['email'].dirty)"
+                            <input type="email" formControlName="emailId" class="form-control myInput" placeholder="Email"
+                                [ngClass]="{'is-invalid': f['emailId'].errors && f['emailId'].touched}" />
+                            <div *ngIf="f['emailId'].errors && (f['emailId'].touched || f['emailId'].dirty)"
                                 class="alert alert-danger" role="alert">
-                                <div *ngIf="f['email'].errors['required']">Email Required</div>
-                                <div *ngIf="f['email'].errors['email']">Invalid Email</div>
+                                <div *ngIf="f['emailId'].errors['required']">Email Required</div>
+                                <div *ngIf="f['emailId'].errors['emailId']">Invalid Email</div>
                             </div>
                         </div>
 
@@ -56,10 +56,17 @@
                             </div>
 
                         </div>
-
+                    
+                    <div class="forgot-pass">
+                      <div class="row">
+                        <div class="input-field col s12">
+                          <a (click)="opendialouge()">Forgot Password?</a>
+                    </div>
+                  </div>
+                </div>
                         <br>
                         <div class="butt_box">
-                            <button type="submit" class="butt" [disabled]="!loginForm.valid">Login</button>
+                            <button type="submit" class="butt" [disabled]="!loginFormGroup.valid">Login</button>
 
 
                             <a routerLink="/Carnivry/register" style="width: 30%;">

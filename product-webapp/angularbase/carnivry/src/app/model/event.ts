@@ -12,8 +12,6 @@ export class Event {
     public languages: string[];
     public eventTimings: EventTiming;
     public poster: string;
-    public fileName: string;
-    public fileType: string;
     public venue: Venue;
     public revenueGenerated: number;
     public ticketsSold: number;

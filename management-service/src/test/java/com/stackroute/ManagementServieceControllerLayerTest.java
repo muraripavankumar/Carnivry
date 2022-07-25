@@ -91,7 +91,7 @@ public class ManagementServieceControllerLayerTest {
                 post("/api/v1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(convertToJson(event))
-        ).andExpect(status().isConflict()).andDo(MockMvcResultHandlers.log());
+        ).andExpect(status().isInternalServerError()).andDo(MockMvcResultHandlers.log());
     }
     @Test
     public void updateEventReturnResponseTest() throws Exception {
@@ -118,7 +118,7 @@ public class ManagementServieceControllerLayerTest {
                 patch("/api/v1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(convertToJson(event))
-        ).andExpect(status().isConflict()).andDo(MockMvcResultHandlers.log());
+        ).andExpect(status().isInternalServerError()).andDo(MockMvcResultHandlers.log());
     }
     @Test
     public void getEventByEventIdReturnResponseTest() throws Exception {
@@ -145,7 +145,7 @@ public class ManagementServieceControllerLayerTest {
                 get("/api/v1/10122")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(convertToJson(event))
-        ).andExpect(status().isConflict()).andDo(MockMvcResultHandlers.log());
+        ).andExpect(status().isInternalServerError()).andDo(MockMvcResultHandlers.log());
     }
     private String convertToJson(final Object obj){
         String result="";
@@ -163,5 +163,13 @@ public class ManagementServieceControllerLayerTest {
         mockMvc.perform(
                 get("/api/v1")
         ).andExpect(status().isOk()).andDo(MockMvcResultHandlers.log());
+    }
+    @Test
+    public void getAllEventsThrowExceptionTest() throws Exception {
+        when(eventService.getAllEvents()).thenThrow(Exception.class);
+        mockMvc.perform(
+                get("/api/v1")
+        ).andExpect(status().isInternalServerError()).andDo(MockMvcResultHandlers.log());
+
     }
 }
