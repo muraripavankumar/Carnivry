@@ -78,18 +78,19 @@ public class TicketingServiceTests {
     }
 
     @Test
-    public void getSeatreturnSeatTest() throws EventNotFoundException {
+    public void getSeatreturnSeatTest1() throws EventNotFoundException {
         when(eventRepository.findById(any(String.class))).thenReturn(Optional.ofNullable(event));
-
-        if (event.getSeats().get(0).getStatus().equalsIgnoreCase("Not Booked")) {
             event.getSeats().get(0).setStatus("Processing");
             eventRepository.save(event);
             assertEquals(event.getSeats().get(0).getStatus(), ticketingService.getSeat("1", 0).getStatus());
-        }
-        else
-        {
-            assertEquals(event.getSeats().get(0).getStatus(),ticketingService.getSeat("1",0).getStatus());
-        }
+    }
+
+    @Test
+    public void getSeatreturnSeatTest2() throws EventNotFoundException {
+        when(eventRepository.findById(any(String.class))).thenReturn(Optional.ofNullable(event));
+        //event.getSeats().get(0).setStatus("Processing");
+        eventRepository.save(event);
+        assertEquals(event.getSeats().get(1).getStatus(), ticketingService.getSeat("1", 1).getStatus());
     }
     @Test
     public void getSeatThrowErrorTest(){
@@ -139,6 +140,20 @@ public class TicketingServiceTests {
 
     @Test
     public void getProcessTicketStatus() throws EventNotFoundException {
+        when(eventRepository.findById(any(String.class))).thenReturn(Optional.ofNullable(event));
+        if (event.getSeats().get(1).getStatus().equalsIgnoreCase("Processing")) {
+            event.getSeats().get(1).setStatus("Not Booked");
+            eventRepository.save(event);
+            assertEquals(event.getSeats().get(1).getStatus(), ticketingService.processTicket("1", 1).getStatus());
+        }
+        else
+        {
+            assertEquals(event.getSeats().get(1).getStatus(),ticketingService.processTicket("1",1).getStatus());
+        }
+    }
+
+    @Test
+    public void getProcessTicketStatus1() throws EventNotFoundException {
         when(eventRepository.findById(any(String.class))).thenReturn(Optional.ofNullable(event));
         if (event.getSeats().get(0).getStatus().equalsIgnoreCase("Processing")) {
             event.getSeats().get(0).setStatus("Not Booked");
