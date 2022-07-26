@@ -29,7 +29,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { UpdateEventComponent } from './update-event/update-event.component';
-import { PosterImageValidationDirective } from './validations/poster-image-validation.directive';
 import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import {MatDialogModule} from '@angular/material/dialog';
@@ -45,7 +44,6 @@ import {MatDialogModule} from '@angular/material/dialog';
     EmailVerificationComponent,
     AddPreferenceComponent,
     UpdateEventComponent,
-    PosterImageValidationDirective,
     ForgotpasswordComponent,
     ResetPasswordComponent
   ],
@@ -69,7 +67,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatSnackBarModule,
     MatButtonModule,
     MatCardModule,
-    MatDialogModule
+    MatDialogModule,
+    
 
   ],
   providers: [

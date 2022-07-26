@@ -12,6 +12,11 @@ import { ManagementService } from '../service/management.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Event } from "../model/event";
 import { UpdateEventService } from '../service/update-event.service';
+import { posterTypeValidation } from '../validations/imageValidation';
+import { validateStartDate } from '../validations/startDateValidator';
+import Validation from '../validations/timeValidation';
+
+
 
 @Component({
   selector: 'app-host-event',
@@ -21,7 +26,7 @@ import { UpdateEventService } from '../service/update-event.service';
 export class HostEventComponent implements OnInit {
   existingEventData: Event | null;
   eventData: Event;
-  presentDate: any;
+  presentDate: Date = new Date();
   artists: string[] = [];
   totalSeating: number = 0;
   languages: string[] = [];
@@ -31,13 +36,14 @@ export class HostEventComponent implements OnInit {
   allGenres: string[] = ['Adventure', 'Action', 'Drama', 'Party', 'Spiritual'];
   countries: string[] = ['China', 'Bangladesh', 'India', 'Pakistan'];
   posterPic: any;
-  posterPicDataUrl: string;
+  posterPicDataUrl: string = "";
   mouseDown: boolean = false;
   selectedItems: number[] = [];
   priceList: any[] = [];
   activePrice: number = -1;
   column: number = 0;
   row: number = 0;
+  minDate: Date;
 
   constructor(private fb: FormBuilder, private managementService: ManagementService, private snackbar: MatSnackBar, private updateEventService: UpdateEventService) {
     this.filteredGenres = this.genreCtrl.valueChanges.pipe(
@@ -48,10 +54,16 @@ export class HostEventComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.presentDate = new Date().toISOString().split('T')[0];
+    // this.presentDate = new Date().toISOString().split('T')[0];
+    // (document.getElementById('rdate')as HTMLFormElement).setAttribute('min', new Date().toISOString().split('T')[0]);
+
     this.updateEventService.obj.subscribe((data) => this.existingEventData = data);
-    console.log(this.existingEventData);
     this.onUpdateMode();
+    const todayDate = this.presentDate.getDate();
+    const currentMonth = this.presentDate.getMonth();
+    const currentYear = this.presentDate.getFullYear();
+
+    this.minDate = new Date(currentYear, currentMonth, todayDate + 1);
   }
 
   hostEventForm = this.fb.group({
@@ -62,13 +74,16 @@ export class HostEventComponent implements OnInit {
     artists: this.fb.array([]),
     genre: this.fb.array([]),
     languages: this.fb.array([]),
-    poster: ['',[ Validators.required]],
+    poster: ['', [Validators.required, posterTypeValidation]],
     eventTimings: this.fb.group({
-      startDate: ['', Validators.required],
+      startDate: ['', [Validators.required, validateStartDate]],
       endDate: ['', Validators.required],
       startTime: ['', Validators.required],
       endTime: ['', Validators.required]
-    }),
+    },
+    // { validators: [Validation.match('startDate', 'endDate')] },
+      { validators: [Validation.match('startDate', 'endDate', 'startTime', 'endTime')] }
+      ),
     venue: this.fb.group({
       venueName: ['', Validators.required],
       address: this.fb.group({
@@ -85,6 +100,7 @@ export class HostEventComponent implements OnInit {
     totalSeats: ['', Validators.required]
   });
   //////////////////////////////////////
+
   onUpdateMode() {
     if (this.existingEventData.eventId != null) {
       this.hostEventForm.get('eventId').setValue(this.existingEventData.eventId);
@@ -274,7 +290,23 @@ export class HostEventComponent implements OnInit {
 
 
   /////////////////////////////////////////////////////////////
+  // setTimeToDate(){
+  //   const startTimeArray:number[]=this.hostEventForm.get('eventTimings.startTime').value.split(':');
+  //   const endTimeArray:number[]=this.hostEventForm.get('eventTimings.endTime').value.split(':');
+  //   const inputStartDate:Date=this.hostEventForm.get('eventTimings.startDate').value;
+  //   const inputEndDate:Date=this.hostEventForm.get('eventTimings.endDate').value;
+  //   inputStartDate.setHours(startTimeArray[0]);
+  //   inputStartDate.setMinutes(startTimeArray[1]);
+  //   inputEndDate.setHours(endTimeArray[0]);
+  //   inputEndDate.setHours(endTimeArray[1]);
+  //   this.hostEventForm.get('eventTimings.startDate').setValue(inputStartDate);
+  //   this.hostEventForm.get('eventTimings.endDate').setValue(inputEndDate);
+  //   console.log('Changed date: ');
+  //   console.log(this.hostEventForm.get('eventTimings.startDate').value);
+
+  // }
   onSubmit() {
+    // this.setTimeToDate();
     this.eventData = this.hostEventForm.value;
     console.log(this.eventData);
     this.managementService.postHostEvent(this.eventData).subscribe((data) => {
@@ -290,6 +322,7 @@ export class HostEventComponent implements OnInit {
     });
   }
   onUpdate() {
+    // this.setTimeToDate();
     this.eventData = this.hostEventForm.value;
     console.log(this.eventData);
     this.managementService.updateHostEvent(this.eventData).subscribe((data) => {
@@ -298,12 +331,12 @@ export class HostEventComponent implements OnInit {
           duration: 3000
         });
       }
-      else{
+      else {
         this.snackbar.open('Sorry! Event could not be uploaded. Please try again.', ' ', {
           duration: 3000
         });
       }
-       
+
     });
   }
   ///////////////////////////////////////////////////////////
@@ -362,6 +395,8 @@ export class HostEventComponent implements OnInit {
     });
   }
 }
+
+
 
 
 
