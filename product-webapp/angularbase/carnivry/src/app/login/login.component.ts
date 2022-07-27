@@ -43,14 +43,8 @@ export class LoginComponent implements OnInit {
        this.rtr.navigate(['Carnivry/home']);
         console.log(success);
         alert("Logged Successfully!!");
-        
-        
-        
-        
-        
          this.registration.updateToken(success.token);
          this.regService.updateEmail(this.loginFormGroup.value["email"]);
-        
       },
       error => {
         console.log(error);
