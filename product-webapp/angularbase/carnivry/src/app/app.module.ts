@@ -67,7 +67,7 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatSnackBarModule,
     MatButtonModule,
     MatCardModule,
-    MatDialogModule,
+    MatDialogModule
     
 
   ],

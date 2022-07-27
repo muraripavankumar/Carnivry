@@ -22,9 +22,6 @@ import { AbstractControl, ValidatorFn } from "@angular/forms";
 
 
 
-
-
-
 export default class Validation {
   static match(startDate: string, endDate: string, startTime: string, endTime: string): ValidatorFn {
     return (controls: AbstractControl) => {
@@ -34,6 +31,7 @@ export default class Validation {
       const endTimeCtrl = controls.get(endTime);
       const startTimeArray = startTimeCtrl.value.split(':');
       const endTimeArray = endTimeCtrl.value.split(':');
+      
       if (startDateCtrl.value === null || endDateCtrl.value === null || startTimeCtrl.value === null || endTimeCtrl.value === null) {
         console.log('null input');
         return null;
@@ -50,13 +48,15 @@ export default class Validation {
         //if startTime hour > endTime hour then invalid
         else if (startTimeArray[0] > endTimeArray[0]) {
           console.log('start hour is greater');
-          endTimeCtrl?.setErrors({matching:true});
+          controls.get('endTime')?.setErrors({matching:true});
           return {
             matching: true
           }
         }
+        console.log('returnig null from elseif');
         return null;
       }
+      console.log('returning null from match');
       return null;
     }
   }

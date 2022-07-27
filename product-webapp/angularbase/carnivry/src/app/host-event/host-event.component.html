@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card >
   <mat-card-header>
     <mat-card-title>
       <h1>HOST NEW EVENT</h1>
@@ -211,10 +211,10 @@
               <div class="cont" id="parent" style="background-color:red ;" (mousedown)="mouseDownEvent()"
                 (mouseup)="mouseUpEvent()">
                 <div class="box" *ngFor="let e of eventData.seats; index as x;"
-                  style="background-color:blanchedalmond ;">
+                  style="background-color:blanchedalmond ;" >
                   {{e.seatId}}
                   <input type="checkbox" name="" id="{{x}}" style="background-color:blueviolet ;"
-                    (change)="fieldsChange($event)" value="{{e.seatId}}" [disabled]="e.seatPrice!= 0.0001"
+                    (change)="fieldsChange($event)" value="{{e.seatId}}"  [disabled]="e.seatPrice!= 0.0001"
                     (mouseover)='checkBox($event)'>
                 </div>
               </div>
@@ -223,7 +223,7 @@
 
               <div *ngFor="let e of priceList">
                 Entered Price Slab: {{e}}
-                <button mat-button class="btn btn-warning" (click)="removePrice(e)">Remove Price Slab</button>
+                <button mat-button class="btn btn-warning" (click)="removePrice(e)" [disabled]="activePrice<0">Remove Price Slab</button>
               </div>
             </mat-card-content>
           </mat-card>
