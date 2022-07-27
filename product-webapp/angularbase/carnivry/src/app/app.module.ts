@@ -69,7 +69,7 @@ import { AddHeaderInterceptor } from './interceptor/add-header.interceptor';
     MatSnackBarModule,
     MatButtonModule,
     MatCardModule,
-    MatDialogModule,
+    MatDialogModule
     
 
   ],

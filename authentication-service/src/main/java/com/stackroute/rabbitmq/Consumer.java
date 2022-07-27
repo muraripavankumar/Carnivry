@@ -13,10 +13,10 @@ public class Consumer {
     private UserService userService;
 
     @RabbitListener(queues = "queue_1")
-    public void getDataAndAddToDatabase(UserDTO userDTO) throws UserAlreadyExistsException {
+    public void getDataAndAddToDatabase(AuthenticationUserDTO authenticationUserDTO) throws UserAlreadyExistsException {
         User user=new User();
-        user.setEmail(userDTO.getEmail());
-        user.setPassword(userDTO.getPassword());
+        user.setEmail(authenticationUserDTO.getEmail());
+        user.setPassword(authenticationUserDTO.getPassword());
         userService.saveUser(user);
     }
 }
