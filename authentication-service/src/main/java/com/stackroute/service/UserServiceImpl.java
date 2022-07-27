@@ -24,15 +24,11 @@ public class UserServiceImpl implements UserService {
 
     //    method to save new user datails
     @Override
-    public User saveUser(User user) throws UserAlreadyExistsException {
-        if (userRepository.findById(user.getEmail()).isEmpty()){
-            log.debug("inside saveUser() method");
+    public User saveUser(User user) {
+
+            log.debug("User with email id {} saved",user.getEmail());
             return userRepository.save(user);
-        }
-        else {
-            log.error("Exception occured in UserServiceImpl class->saveUser() method");
-            throw new UserAlreadyExistsException();
-        }
+
     }
 
     //    method to authenticate user

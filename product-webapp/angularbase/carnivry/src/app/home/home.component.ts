@@ -18,9 +18,15 @@ export class HomeComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit(): void {
-    this.name=this.regService.getName();
+    
+    
     this.email=this.regService.getEmail();
     this.avatarUrl=this.regService.getAvatarUrl();
+    setTimeout(()=>{
+      if(this.avatarUrl===null)
+      this.avatarUrl= "../../assets/S.jpg";
+      this.name=this.regService.getName();
+    },100)
   }
 
   logout()

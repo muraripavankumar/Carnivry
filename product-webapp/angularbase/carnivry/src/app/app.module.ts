@@ -35,6 +35,7 @@ import { EmailLinkComponent } from './email-link/email-link.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { AddHeaderInterceptor } from './interceptor/add-header.interceptor';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,6 +49,7 @@ import { AddHeaderInterceptor } from './interceptor/add-header.interceptor';
     UpdateEventComponent,
     EmailLinkComponent,
     ForgotPasswordComponent
+    
   ],
   imports: [
     BrowserModule,

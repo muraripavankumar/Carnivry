@@ -30,4 +30,6 @@ public interface UserService {
 
 
     void saveProfilePic(AddProfilePic addProfilePic) throws UserNotFoundException;
+
+    String getUsername(String email) throws UserNotFoundException;
 }

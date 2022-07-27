@@ -192,6 +192,22 @@ public class RegistrationController {
         }
     }
 
+    @GetMapping("/username/{email}")
+    public ResponseEntity<?> getUsername(@PathVariable String email){
+        try {
+            String name= userService.getUsername(email);
+            log.info("Username fetched for user with email id {}",email);
+            return new ResponseEntity<>(name,HttpStatus.OK);
+        }catch (UserNotFoundException e)
+        {
+            log.error("User with email id {} not found",email);
+            return new ResponseEntity<>("User not found with email id "+email,HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            log.error("Internal server error {}",e.getMessage());
+            return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     private String applicationUrl(HttpServletRequest request) {
 //        System.out.println(request.getHeader("Referer"));
         log.debug("application url generated");

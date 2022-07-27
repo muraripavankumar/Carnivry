@@ -42,6 +42,10 @@ export class RegistrationService {
     return this.myClient.get(this.registrationBaseUrl+"/userCheck/"+email);
   }
 
+  fetchCarnivryName(email:String):Observable<any>{
+    return this.myClient.get(this.registrationBaseUrl+"/username/"+email, {responseType: 'text'});
+  }
+
   getAllGenres():Observable<string[]>
   {
     return this.myClient.get<string[]>(this.registrationBaseUrl+"/allGenres");
