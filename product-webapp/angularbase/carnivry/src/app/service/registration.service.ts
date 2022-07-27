@@ -26,7 +26,7 @@ export class RegistrationService {
   }
 
   registerSocialUser(user:PostUser):Observable<any>{
-    return this.myClient.post(this.registrationBaseUrl+"/register/socialLogin",user);
+    return this.myClient.post(this.registrationBaseUrl+"/registration/socialLogin",user);
   }
 
   isVerified(email:String)
@@ -35,11 +35,11 @@ export class RegistrationService {
   }
   resendVerificationEmail(email:String)
   {
-    return this.myClient.get(this.registrationBaseUrl+"/resendVerifyToken"+'?email='+email, {responseType:'text'});
+    return this.myClient.get(this.registrationBaseUrl+"/resendVerificationToken"+'?email='+email);
   }
 
   isUserPresent(email:String): Observable<any>{
-    return this.myClient.get(this.registrationBaseUrl+"/checkUser/"+email);
+    return this.myClient.get(this.registrationBaseUrl+"/userCheck/"+email);
   }
 
   getAllGenres():Observable<string[]>
@@ -49,7 +49,7 @@ export class RegistrationService {
 
   addGenre(myGenre:any)
   {
-    return this.myClient.post(this.registrationBaseUrl+"/saveGenres",myGenre ,{responseType: 'text'});
+    return this.myClient.post(this.registrationBaseUrl+"/saveGenres",myGenre, {responseType: 'text'});
   }
 
   googleLogin(){

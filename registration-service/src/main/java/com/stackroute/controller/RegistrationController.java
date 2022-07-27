@@ -5,6 +5,7 @@ import com.stackroute.event.RegistrationCompleteEvent;
 import com.stackroute.exception.UserAlreadyExistsException;
 import com.stackroute.exception.UserNotFoundException;
 import com.stackroute.model.AddGenre;
+import com.stackroute.model.AddProfilePic;
 import com.stackroute.model.UserRegModel;
 import com.stackroute.model.UserRegResponseModel;
 import com.stackroute.service.UserService;
@@ -101,7 +102,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/saveGenres")
-    public  ResponseEntity<?> addUserGenres(@RequestBody AddGenre addGenre ){
+    public  ResponseEntity<String> addUserGenres(@RequestBody AddGenre addGenre ){
         try{
             userService.addLikedGenres(addGenre);
             log.info("Genres added to email id {}",addGenre.getEmail());
@@ -169,6 +170,22 @@ public class RegistrationController {
         try {
             log.debug("Email id {} 's existence is checked", email);
             return new ResponseEntity<>(userService.isUserPresent(email), HttpStatus.OK);
+        }catch (Exception e){
+            log.error("Internal server error {}",e.getMessage());
+            return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/addingProfilePic")
+    public ResponseEntity<?> addProfilePic(@RequestBody AddProfilePic addProfilePic){
+        try{
+            userService.saveProfilePic(addProfilePic);
+            log.info("Profile picture added to user with email id {}",addProfilePic.getEmail());
+            return new ResponseEntity<>("Profile Picture added",HttpStatus.OK);
+        }catch (UserNotFoundException e)
+        {
+            log.error("User with email id {} not found",addProfilePic.getEmail());
+            return new ResponseEntity<>("User not found with email id "+addProfilePic.getEmail(),HttpStatus.NOT_FOUND);
         }catch (Exception e){
             log.error("Internal server error {}",e.getMessage());
             return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);

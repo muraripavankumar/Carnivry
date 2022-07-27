@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   baseUrl: 'http://localhost:8080',
   registerationBaseUrl: 'http://localhost:8080/api/v1',
-  socialUserBaseUrl: 'http://localhost:8080/Carnivry/SocialUser'
+  socialUserBaseUrl: 'http://localhost:8080/api/v1/SocialUser'
 };
 
 /*
