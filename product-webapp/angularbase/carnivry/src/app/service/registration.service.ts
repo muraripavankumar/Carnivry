@@ -22,7 +22,7 @@ export class RegistrationService {
   constructor(private myClient: HttpClient) { }
 
   register(user:PostUser):Observable<any>{
-    return this.myClient.post(this.registrationBaseUrl+"/register",user);
+    return this.myClient.post(this.registrationBaseUrl+"/registration",user);
   }
 
   registerSocialUser(user:PostUser):Observable<any>{
