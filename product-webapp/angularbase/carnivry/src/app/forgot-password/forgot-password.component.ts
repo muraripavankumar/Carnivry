@@ -3,7 +3,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { Loginuser } from '../model/loginuser';
 import { LoginService } from '../service/login.service';
-import { ConfirmedValidator } from '../validations/confirmed.validator';
+import Validation from '../validations/passwordMatcher';
+
 
 @Component({
   selector: 'app-forgot-password',
@@ -31,7 +32,7 @@ export class ForgotPasswordComponent implements OnInit {
       'cnewPassword':this.cnewPassword,
     },
     {
-      validator: ConfirmedValidator("newPassword", "cnewPassword")
+      validators: [Validation.match('newPassword', 'cnewPassword')]
     });
   }
 
@@ -52,7 +53,10 @@ export class ForgotPasswordComponent implements OnInit {
          alert("Password updated successfully!! ")
          console.log(response);
          this.rtr.navigate(['Carnivry/login']);
-       })
+       },
+       error => {
+        console.log(error);
+      });
   }
 
 
