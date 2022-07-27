@@ -74,11 +74,7 @@ export class HostEventComponent implements OnInit {
     artists: this.fb.array([]),
     genre: this.fb.array([]),
     languages: this.fb.array([]),
-<<<<<<< HEAD
-    poster: ['', [Validators.required]],
-=======
     poster: ['', [Validators.required, posterTypeValidation]],
->>>>>>> f2cb16fd2f182551ef8f43363d69b56354825d4e
     eventTimings: this.fb.group({
       startDate: ['', [Validators.required, validateStartDate]],
       endDate: ['', Validators.required],
