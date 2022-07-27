@@ -92,33 +92,59 @@ public class UserControllerTest {
     }
     @Test
     public void UpdatingUserData() throws Exception {
-        when(userService.resetPassword(user)).thenReturn(user);
+        when(userService.forgotPassword(user)).thenReturn(user);
         mockMvc.perform(
                         put("/api/v1/reset")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(convertToJson(user)))
                 .andExpect(status().isCreated()).andDo(MockMvcResultHandlers.print());
-        verify(userService,times(1)).resetPassword(user);
+        verify(userService,times(1)).forgotPassword(user);
     }
     @Test
     public void updatingUserDataReturnsException() throws Exception {
-        when(userService.resetPassword(user)).thenThrow(UserNotFoundException.class);
+        when(userService.forgotPassword(user)).thenThrow(UserNotFoundException.class);
         mockMvc.perform(
                         put("/api/v1/reset")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(convertToJson(user)))
                 .andExpect(status().isConflict()).andDo(MockMvcResultHandlers.print());
-        verify(userService,times(1)).resetPassword(user);
+        verify(userService,times(1)).forgotPassword(user);
     }
 
-//    @Test
-//    public void AuthenticateUser() throws Exception {
-//        when(userService.authenticateUser(user.getEmailId(),user.getPassword())).thenReturn(user);
-//        mockMvc.perform(
-//                        post("/api/v1/login")
-//                                .contentType(MediaType.APPLICATION_JSON)
-//                                .content(convertToJson(user)))
-//                .andExpect(status().isOk()).andDo(MockMvcResultHandlers.print());
-//        verify(userService,times(1)).authenticateUser(user.getEmailId(),user.getPassword());
-//    }
+    @Test
+    public void AuthenticateUser() throws Exception {
+        when(userService.authenticateUser(user.getEmail(),user.getPassword())).thenReturn(user);
+        mockMvc.perform(
+                        post("/api/v1/login")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(convertToJson(user)))
+                .andExpect(status().isCreated()).andDo(MockMvcResultHandlers.print());
+        verify(userService,times(1)).authenticateUser(user.getEmail(),user.getPassword());
+    }
+
+    @Test
+    public void resetPassword() throws Exception {
+        when(userService.forgotPassword(user)).thenThrow(UserNotFoundException.class);
+        mockMvc.perform(
+                put("/api/v1/reset")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(convertToJson(user)))
+                .andExpect(status().isCreated()).andDo(MockMvcResultHandlers.print());
+        verify(userService,times(1)).forgotPassword(user);
+    }
+
+    @Test
+    public void forgotPassword() throws Exception {
+        when(userService.getUser(user.getEmail())).thenReturn(user);
+        mockMvc.perform(
+                        post("/api/v1/forgot-password/{email}")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(convertToJson(user)))
+                .andExpect(status().isCreated()).andDo(MockMvcResultHandlers.print());
+        verify(userService,times(1)).getUser(user.getEmail());
+    }
+
+
+
+
 }

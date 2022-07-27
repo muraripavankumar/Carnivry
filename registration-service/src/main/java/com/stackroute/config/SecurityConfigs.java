@@ -38,7 +38,9 @@ public class SecurityConfigs extends WebSecurityConfigurerAdapter {
             "/api/v1/saveGenres",
             "/api/v1/allGenres" ,
             "/api/v1/checkUser/**",
-            "/oauth2/**", "/login**"
+            "/oauth2/**",
+            "/login**",
+            "/api/v1/forgotPassword"
     };
 
     @Bean

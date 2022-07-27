@@ -4,23 +4,23 @@ package com.stackroute.rabbitmq;
 
 
 public class UserDTO {
-    private String emailId;
+    private String email;
     private String password;
 
     public UserDTO() {
     }
 
-    public UserDTO( String emailId, String password) {
-        this.emailId = emailId;
+    public UserDTO(String email, String password) {
+        this.email = email;
         this.password = password;
     }
 
-    public String getEmailId() {
-        return emailId;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEmailId(String emailId) {
-        this.emailId = emailId;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -34,7 +34,7 @@ public class UserDTO {
     @Override
     public String toString() {
         return "UserDTO{" +
-                "emailId='" + emailId + '\'' +
+                "email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }

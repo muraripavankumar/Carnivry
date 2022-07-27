@@ -18,13 +18,12 @@ public class AuthenticationServiceApplication {
 		SpringApplication.run(AuthenticationServiceApplication.class, args);
 	}
 
-
 	@Bean
 	public FilterRegistrationBean jwtFilter() {
 		// which urls to be intercepted / filtered		//
 		FilterRegistrationBean frb = new FilterRegistrationBean();
 		frb.setFilter(new JwtFilter());
-		frb.addUrlPatterns("/userservice/update");
+		frb.addUrlPatterns("/api/v1/forgotPassword");
 		return frb;
 	}
 	@Bean
