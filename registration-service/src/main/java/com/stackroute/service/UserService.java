@@ -4,6 +4,7 @@ import com.stackroute.entity.CarnivryUser;
 import com.stackroute.exception.UserAlreadyExistsException;
 import com.stackroute.exception.UserNotFoundException;
 import com.stackroute.model.AddGenre;
+import com.stackroute.model.AddProfilePic;
 import com.stackroute.model.UserRegModel;
 
 import java.util.List;
@@ -28,4 +29,5 @@ public interface UserService {
     List<String> getAllGenres();
 
 
+    void saveProfilePic(AddProfilePic addProfilePic) throws UserNotFoundException;
 }

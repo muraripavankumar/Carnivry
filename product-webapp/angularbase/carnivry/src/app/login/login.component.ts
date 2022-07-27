@@ -44,7 +44,9 @@ export class LoginComponent implements OnInit {
         console.log(success);
         alert("Logged Successfully!!");
         window.localStorage.setItem('tgt', success.token);
+        
         localStorage.setItem("emailId",this.loginFormGroup.value["emailId"]);
+        
         localStorage.setItem("password",this.loginFormGroup.value["password"]);
       },
       error => {

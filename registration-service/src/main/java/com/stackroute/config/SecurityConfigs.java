@@ -38,6 +38,7 @@ public class SecurityConfigs extends WebSecurityConfigurerAdapter {
             "/api/v1/resendVerificationToken*",
             "/api/v1/emailVerifiedStatus/*",
             "/api/v1/saveGenres",
+            "/api/v1/addingProfilePic",
             "/api/v1/allGenres" ,
             "/api/v1/userCheck/**",
             "/oauth2/**", "/login**"

@@ -27,7 +27,7 @@
                             <div *ngIf="f['emailId'].errors && (f['emailId'].touched || f['emailId'].dirty)"
                                 class="alert alert-danger" role="alert">
                                 <div *ngIf="f['emailId'].errors['required']">Email Required</div>
-                                <div *ngIf="f['emailId'].errors['emailId']">Invalid Email</div>
+                                <div *ngIf="f['emailId'].errors['email']">Invalid Email</div>
                             </div>
                         </div>
 

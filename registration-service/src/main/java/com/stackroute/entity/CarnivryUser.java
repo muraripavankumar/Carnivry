@@ -10,6 +10,7 @@ import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 public class CarnivryUser {
     @Id
+    @Email
     private String email;
 
     @NotEmpty
@@ -37,7 +39,7 @@ public class CarnivryUser {
 
     private List<Event> wishlist;
 
-    private Binary profilePic;
+    private String profilePic;
 
     @NotEmpty
     private Boolean verified;
