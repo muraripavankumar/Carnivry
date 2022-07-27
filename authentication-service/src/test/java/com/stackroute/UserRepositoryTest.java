@@ -41,24 +41,24 @@ public class UserRepositoryTest {
 
     public void saveReturnsUser() {
         userRepository.save(user);
-        User user1=userRepository.findById(user.getEmailId()).get();
+        User user1=userRepository.findById(user.getEmail()).get();
         //assertThat(user1).isEqualTo(user);
-        assertEquals(user1.getEmailId(),user.getEmailId());
+        assertEquals(user1.getEmail(),user.getEmail());
     }
 
     @Test
     public  void findByEmailAndPasswordUser(){
         userRepository.save(user);
-       User user1= userRepository.findByEmailIdAndPassword(user.getEmailId(),user.getPassword());
-        assertEquals(user1.getEmailId(),user.getEmailId());
+       User user1= userRepository.findByEmailAndPassword(user.getEmail(),user.getPassword());
+        assertEquals(user1.getEmail(),user.getEmail());
         assertEquals(user1.getPassword(),user.getPassword());
     }
 
     @Test
     public  void findByEmail(){
         userRepository.save(user);
-        User user1= userRepository.findByEmailId(user.getEmailId());
-        assertEquals(user1.getEmailId(),user.getEmailId());
+        User user1= userRepository.findByEmail(user.getEmail());
+        assertEquals(user1.getEmail(),user.getEmail());
         assertEquals(user1.getPassword(),user.getPassword());
     }
 

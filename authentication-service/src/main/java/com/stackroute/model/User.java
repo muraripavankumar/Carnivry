@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 public class User {
     @Id
     @NotNull
-    private String emailId;
+    private String email;
     @Convert(converter = AesEncryptor.class)
     @NotNull
     private String password;

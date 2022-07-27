@@ -19,27 +19,21 @@ export class LoginService {
   }
 
   
-   //http://localhost:64200/api/v1/reset    (update) 
+   //http://localhost:64200/api/v1/forgotPassword    (update) 
    productbaseurl1: string = "http://localhost:64200/api/v1";
 
-  resetPassword(data:Loginuser) {
-    console.log(window.localStorage.getItem('tgt'));
-    let reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + window.localStorage.getItem('tgt'));
-    console.log(reqHeader.get('Authorization'));
-    //return this.httpClient.get<any>(this.productbaseurl + "/allproducts"); // attach token here
-    return this.httpClient.put<any>(this.productbaseurl1 + "/reset",data, { 'headers': reqHeader });
+  forgotPassword(data:Loginuser) {
+    // console.log(window.localStorage.getItem('tgt'));
+   return this.httpClient.put<any>(this.userauthenticationbaseurl + "/forgotPassword",data);
   }
 
   //http://localhost:64200/userservice/forgot-password 
   baseurl = "http://localhost:64200/api/v1";
 
-  forgotPassword(data:String){
-    return this.httpClient.post<any>(this.userauthenticationbaseurl + "/forgot-password/"+data, data);
+  emailLink(data:String){
+    return this.httpClient.post<any>(this.userauthenticationbaseurl + "/emailLink/"+data, data);
   }
 
-  //http://localhost:64200/forgot-password
-  baseurl1 = "http://localhost:64200";
-  
   updatePassword(password:string,token:string){}
   setMessage(data:string){
     this.emailId=data
@@ -48,4 +42,6 @@ export class LoginService {
   getMessage(){
     return this.emailId
   }
+
+  
 }

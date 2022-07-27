@@ -23,7 +23,7 @@ public class SecurityTokenGeneratorImpl implements SecurityTokenGenerator {
 
 
         String jwttoken = Jwts.builder()
-                .setSubject(user.getEmailId())
+                .setSubject(user.getEmail())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
                 .signWith(SignatureAlgorithm.HS256,"mykey").compact();

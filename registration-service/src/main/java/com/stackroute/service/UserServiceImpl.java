@@ -114,6 +114,20 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public void saveProfilePic(AddProfilePic addProfilePic) throws UserNotFoundException {
+
+        if(userRepository.findById(addProfilePic.getEmail()).isEmpty())
+        {
+            log.error("Couldn't save profile picture since no user with email id {} exists in " +
+                    "Carnivry Registration database",addProfilePic.getEmail());
+            throw new UserNotFoundException();
+        }
+        CarnivryUser carnivryUser= userRepository.findById(addProfilePic.getEmail()).get();
+        carnivryUser.setProfilePic(addProfilePic.getProfilePic());
+        userRepository.save(carnivryUser);
+    }
+
+    @Override
     public void saveVerificationTokenForUser(String token, CarnivryUser carnivryUser) throws UserNotFoundException {
 
         if(userRepository.findById(carnivryUser.getEmail()).isEmpty())

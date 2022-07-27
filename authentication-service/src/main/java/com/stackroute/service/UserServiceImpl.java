@@ -22,10 +22,10 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
-//    method to save new user datails
+    //    method to save new user datails
     @Override
     public User saveUser(User user) throws UserAlreadyExistsException {
-        if (userRepository.findById(user.getEmailId()).isEmpty()){
+        if (userRepository.findById(user.getEmail()).isEmpty()){
             log.debug("inside saveUser() method");
             return userRepository.save(user);
         }
@@ -35,10 +35,10 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-//    method to authenticate user
+    //    method to authenticate user
     @Override
-    public User authenticateUser(String EmailId, String pwd) throws UserNotFoundException {
-        User user = userRepository.findByEmailIdAndPassword(EmailId, pwd);
+    public User authenticateUser(String email, String password) throws UserNotFoundException {
+        User user = userRepository.findByEmailAndPassword(email, password);
         if (user != null) { //authentication is ok
             log.debug("inside authenticateUser() method");
             return user;
@@ -53,10 +53,10 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
-//    method to fetch user details if required
+    //    method to fetch user details if required
     @Override
-    public User getUser(String emailId) throws UserNotFoundException {
-        User user = userRepository.findByEmailId(emailId);
+    public User getUser(String email) throws UserNotFoundException {
+        User user = userRepository.findByEmail(email);
         if (user != null) {
             log.debug("inside getUser() method");
             return user;
@@ -66,10 +66,10 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-//    method to reset passaord if user forgot password
+    //    method to reset passaord if user forgot password
     @Override
-    public User resetPassword(User user) throws UserNotFoundException {
-        if (userRepository.findById(user.getEmailId()).isEmpty()){
+    public User forgotPassword(User user) throws UserNotFoundException {
+        if (userRepository.findById(user.getEmail()).isEmpty()){
             log.error("Exception  in UserServiceImpl class->resetPassword() method");
             throw new UserNotFoundException();
         }
@@ -79,11 +79,11 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-//    method to check whether the user details(emailid) is valid when user forgot password
+    //    method to check whether the user details(emailid) is valid when user forgot password
     @Override
-    public User forgotPassword(String emailId) throws UserNotFoundException {
+    public User emailLink(String email) throws UserNotFoundException {
         Optional<User> userOptional = Optional
-                .ofNullable(userRepository.findByEmailId(emailId));
+                .ofNullable(userRepository.findByEmail(email));
         if (!userOptional.isPresent()) {
             log.error("Exception  in UserServiceImpl class->forgotPassword() method");
             throw  new UserNotFoundException();

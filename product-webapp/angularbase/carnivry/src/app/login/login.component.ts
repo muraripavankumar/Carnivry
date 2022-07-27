@@ -5,8 +5,8 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginService } from '../service/login.service';
 import { RegistrationService } from '../service/registration.service';
-import { ForgotpasswordComponent } from '../forgotpassword/forgotpassword.component';
 import { Loginuser } from '../model/loginuser';
+import { EmailLinkComponent } from '../email-link/email-link.component';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +16,7 @@ import { Loginuser } from '../model/loginuser';
 export class LoginComponent implements OnInit {
   loginuser: Loginuser;
 
-  constructor(private fb:FormBuilder,
+  constructor(private fb:FormBuilder,private registration:RegistrationService,
              private regService:RegistrationService,private userservice: LoginService,public rtr:Router,public matdialog:MatDialog) { }
 
   loginFormGroup:any;
@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
 
     this.loginFormGroup= this.fb.group({
-      emailId: new FormControl('',[Validators.required,Validators.email]),
+      email: new FormControl('',[Validators.required,Validators.email]),
       password: new FormControl('',[Validators.required,Validators.minLength(8),Validators.maxLength(20)])
     });
   }
@@ -43,9 +43,14 @@ export class LoginComponent implements OnInit {
        this.rtr.navigate(['Carnivry/home']);
         console.log(success);
         alert("Logged Successfully!!");
-        window.localStorage.setItem('tgt', success.token);
-        localStorage.setItem("emailId",this.loginFormGroup.value["emailId"]);
-        localStorage.setItem("password",this.loginFormGroup.value["password"]);
+        
+        
+        
+        
+        
+         this.registration.updateToken(success.token);
+         this.regService.updateEmail(this.loginFormGroup.value["email"]);
+        
       },
       error => {
         console.log(error);
@@ -53,7 +58,7 @@ export class LoginComponent implements OnInit {
   }
 
   opendialouge(){
-    this.matdialog.open(ForgotpasswordComponent,{
+    this.matdialog.open(EmailLinkComponent,{
       height:'50%',
       width:'40%'
     })
