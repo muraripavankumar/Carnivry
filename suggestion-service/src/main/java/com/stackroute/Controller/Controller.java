@@ -4,13 +4,14 @@ import com.example.SuggestionService.Services.EventService;
 import com.example.SuggestionService.Services.UserService;
 import com.example.SuggestionService.entity.Events;
 import com.example.SuggestionService.entity.User;
+import com.example.SuggestionService.exception.EventAlreadyExistException;
+import com.example.SuggestionService.exception.EventNotFoundException;
+import com.example.SuggestionService.exception.UserAlreadyExistException;
+import com.example.SuggestionService.exception.UserNotfoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -18,82 +19,126 @@ import java.util.List;
 public class Controller {
 
 
-    private final UserService userService;
-
-    private final EventService eventService;
-    ResponseEntity responseEntity;
+    UserService userService;
+    EventService eventService;
 
     @Autowired
-    public Controller(UserService userService, EventService eventService, ResponseEntity responseEntity) {
+    public Controller(UserService userService, EventService eventService) {
         this.userService = userService;
         this.eventService = eventService;
-        this.responseEntity=responseEntity;
     }
 
+    ResponseEntity responseEntity;
+
     //add new user
-    @PostMapping("/addUser")
+    @PostMapping("/add-user")
     public ResponseEntity<?> addUser(@RequestBody User user){
-        responseEntity= new ResponseEntity<User>(userService.addUser(user), HttpStatus.OK);
+        try {
+            responseEntity = new ResponseEntity<User>(userService.addUser(user), HttpStatus.OK);
+        }
+        catch (UserAlreadyExistException u){
+            responseEntity = new ResponseEntity<String>("User already exist with the same email id", HttpStatus.OK);
+        }
         return responseEntity;
     }
 
     //add new event
-    @PostMapping("/addEvent")
+    @PostMapping("/add-event")
     public ResponseEntity<?> addEvents(@RequestBody Events events){
-        responseEntity= new ResponseEntity<Events>(eventService.addEvents(events), HttpStatus.OK);
+        try {
+            responseEntity = new ResponseEntity<Events>(eventService.addEvents(events), HttpStatus.OK);
+        }
+        catch (EventAlreadyExistException e){
+            responseEntity= new ResponseEntity<String >("Event already exist with the same Id", HttpStatus.ALREADY_REPORTED);
+        }
         return responseEntity;
     }
 
     //update Event
-    @PutMapping("/updateEvent")
+    @PutMapping("/update-event")
     public ResponseEntity<?> updateEvents(@RequestBody Events events){
-        responseEntity= new ResponseEntity<Events>(eventService.updateEvent(events), HttpStatus.OK);
+        try {
+            responseEntity = new ResponseEntity<Events>(eventService.updateEvent(events), HttpStatus.OK);
+        }
+        catch (EventNotFoundException e){
+            responseEntity = new ResponseEntity<String >("Event not found", HttpStatus.OK);
+        }
         return responseEntity;
     }
 
     //Retrieve upcoming events
     @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("/upcomingEvents/{emailId}")
+    @GetMapping("/upcoming-events/{emailId}")
     public ResponseEntity<?> upcomingEvents(@PathVariable String emailId){
-        responseEntity= new ResponseEntity<List<Events>>(userService.getUpcomingEvents(emailId), HttpStatus.OK);
+        try {
+            responseEntity = new ResponseEntity<List<Events>>(userService.getUpcomingEvents(emailId), HttpStatus.OK);
+        }
+        catch (EventNotFoundException e){
+            responseEntity = new ResponseEntity<String>("No Upcoming events found", HttpStatus.OK);
+        }
         return responseEntity;
     }
 
     //retrieve all users
-    @GetMapping("/getAllUsers")
+    @GetMapping("/all-users")
     public ResponseEntity<?> getAllUsers(){
-        responseEntity= new ResponseEntity<List<User>>(userService.getAllUsers(), HttpStatus.OK);
+        try {
+            responseEntity = new ResponseEntity<List<User>>(userService.getAllUsers(), HttpStatus.OK);
+        }
+        catch (UserNotfoundException u){
+            responseEntity = new ResponseEntity<String>("No user found", HttpStatus.OK);
+        }
         return responseEntity;
     }
 
     //retrieve all the events
     @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("/getAllEvents")
-    public ResponseEntity<?> getEventsOfUserCity() {
-        responseEntity = new ResponseEntity<List<Events>>(eventService.getAllEvents(), HttpStatus.OK);
+    @GetMapping("/all-events")
+    public ResponseEntity<?> getAllEvents() {
+        try {
+            responseEntity = new ResponseEntity<List<Events>>(eventService.getAllEvents(), HttpStatus.OK);
+        }
+        catch (EventNotFoundException e){
+            responseEntity = new ResponseEntity<String>("No Event list found", HttpStatus.OK);
+        }
         return responseEntity;
     }
 
     //update the number of likes of event
     @CrossOrigin(origins = "http://localhost:4200")
-    @PutMapping("/likeEvent/{emailId}/{eventId}")
+    @PutMapping("/update-likes/{emailId}/{eventId}")
     public ResponseEntity<?> updateEventLikes(@PathVariable String emailId, @PathVariable String eventId){
-        responseEntity= new ResponseEntity<String>(eventService.updateEventLikes(emailId,eventId), HttpStatus.OK);
+        try {
+            responseEntity = new ResponseEntity<String>(eventService.updateEventLikes(emailId, eventId), HttpStatus.OK);
+        }
+        catch (Exception e){
+            responseEntity = new ResponseEntity<String>("Some other exception occurred", HttpStatus.OK);
+        }
         return responseEntity;
     }
 
     //update the wishlist of the user
-    @PutMapping("/addWishlist/{emailId}/{eventId}")
+    @PutMapping("/add-wishlist/{emailId}/{eventId}")
     public ResponseEntity<?> updateUserWishlist(@PathVariable String emailId, @PathVariable String eventId){
-        responseEntity= new ResponseEntity<String>(userService.updateUserWishlist(emailId,eventId), HttpStatus.OK);
+        try {
+            responseEntity = new ResponseEntity<String>(userService.updateUserWishlist(emailId, eventId), HttpStatus.OK);
+        }
+        catch (EventAlreadyExistException e){
+            responseEntity = new ResponseEntity<String>("Event already exist in wishlist", HttpStatus.OK);
+        }
         return responseEntity;
     }
 
     //retrieve recommended events for particular user
     @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("/getSuggestedEvents/{emailId}")
+    @GetMapping("/suggest-events/{emailId}")
     public ResponseEntity<?> getSuggestedEvents(@PathVariable String emailId){
-        responseEntity= new ResponseEntity<List<Events>>(userService.getSuggestedEvents(emailId), HttpStatus.OK);
+        try {
+            responseEntity = new ResponseEntity<List<Events>>(userService.getSuggestedEvents(emailId), HttpStatus.OK);
+        }
+        catch (EventNotFoundException e){
+            responseEntity = new ResponseEntity<String>("No Suggestions found for you", HttpStatus.OK);
+        }
         return responseEntity;
     }
 }

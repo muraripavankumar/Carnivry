@@ -8,6 +8,7 @@ import com.stackroute.model.AddGenre;
 import com.stackroute.model.UserRegModel;
 import com.stackroute.model.UserRegResponseModel;
 import com.stackroute.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
@@ -15,10 +16,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
+@Slf4j
 public class RegistrationController {
 
     private final UserService userService;
@@ -30,8 +31,8 @@ public class RegistrationController {
         this.publisher = publisher;
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<UserRegResponseModel> addUser(@RequestBody UserRegModel userRegModel, final HttpServletRequest request) throws UserAlreadyExistsException {
+    @PostMapping("/registration")
+    public ResponseEntity<?> addUser(@RequestBody UserRegModel userRegModel, final HttpServletRequest request){
         try {
             CarnivryUser carnivryUser= userService.registerUser(userRegModel);
 
@@ -43,91 +44,140 @@ public class RegistrationController {
 
 
 
-            return new ResponseEntity<>(regResponseModel, HttpStatus.CREATED);
+            return new ResponseEntity<UserRegResponseModel>(regResponseModel, HttpStatus.CREATED);
         }
-        catch (Exception e)
+        catch (UserAlreadyExistsException e)
         {
-            throw new UserAlreadyExistsException();
+            log.error("Couldn't add user since user already exists");
+            return new ResponseEntity<>("Couldn't add user since user already exists",HttpStatus.CONFLICT);
+        }
+        catch (Exception e){
+            log.error("Internal server error {}",e.getMessage());
+            return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
 
 
-    @PostMapping("/register/socialLogin")
-    public ResponseEntity<UserRegResponseModel> addSocialUser(@RequestBody UserRegModel userRegModel) throws UserAlreadyExistsException {
+    @PostMapping("/registration/socialLogin")
+    public ResponseEntity<?> addSocialUser(@RequestBody UserRegModel userRegModel){
         try {
             CarnivryUser carnivryUser= userService.registerSocialUser(userRegModel);
             UserRegResponseModel userRegResponseModel= new UserRegResponseModel(carnivryUser.getName(), carnivryUser.getEmail());
-            return new ResponseEntity<>(userRegResponseModel,HttpStatus.CREATED);
+            return new ResponseEntity<UserRegResponseModel>(userRegResponseModel,HttpStatus.CREATED);
         }
-        catch (Exception e)
+        catch (UserAlreadyExistsException e)
         {
-            throw new UserAlreadyExistsException();
+            log.error("Couldn't add user since user already exists");
+            return new ResponseEntity<>("Couldn't add user since user already exists",HttpStatus.CONFLICT);
+        }
+        catch (Exception e){
+            log.error("Internal server error {}",e.getMessage());
+            return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/verifyRegistration")
-    public String verifyRegistration(@RequestParam("token") String token, @RequestParam("email") String email) {
-        String result = userService.validateVerificationToken(token,email);
-        if(result.equalsIgnoreCase("valid token")) {
-            return "Email: "+email+" verified Successfully. Close this tab and visit Carnivry";
+    public ResponseEntity<String> verifyRegistration(@RequestParam("token") String token, @RequestParam("email") String email) {
+
+        try {
+            String result = userService.validateVerificationToken(token, email);
+            if (result.equalsIgnoreCase("valid token")) {
+                log.info("User Verified");
+                return new ResponseEntity<>("Email: " + email + " verified Successfully. Close this tab and visit Carnivry"
+                        , HttpStatus.OK);
+            } else if (result.equalsIgnoreCase("token expired")) {
+                log.error("Email Verification Token Expired");
+                return new ResponseEntity<>("Your 10 minutes up, Ask for resend email and verify within 10 minutes." +
+                        " Close this tab and visit Carnivry", HttpStatus.REQUEST_TIMEOUT);
+            } else {
+                log.error("Invalid Email Verification Token");
+                return new ResponseEntity<>("Bad User", HttpStatus.BAD_REQUEST);
+            }
+        }catch (Exception e){
+            log.error("Internal server error {}",e.getMessage());
+            return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        else if(result.equalsIgnoreCase("token expired"))
-        {
-            return "Your 10 minutes up, Ask for resend email and verify within 10 minutes. Close this tab and visit Carnivry";
-        }
-        return "Bad User";
     }
 
     @PostMapping("/saveGenres")
-    public  String addUserGenres(@RequestBody AddGenre addGenre ) throws UserNotFoundException {
+    public  ResponseEntity<?> addUserGenres(@RequestBody AddGenre addGenre ){
         try{
             userService.addLikedGenres(addGenre);
-
-            return  "Preferences added";
-        }catch (Exception e)
+            log.info("Genres added to email id {}",addGenre.getEmail());
+            return new ResponseEntity<>("Genres added",HttpStatus.OK);
+        }catch (UserNotFoundException e)
         {
-
-            throw new UserNotFoundException();
+            log.error("User with email id {} not found",addGenre.getEmail());
+            return new ResponseEntity<>("User not found with email id "+addGenre.getEmail(),HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            log.error("Internal server error {}",e.getMessage());
+            return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
 
     @GetMapping("/allGenres")
-    public List<String> getAllGenres()
+    public ResponseEntity<?> getAllGenres()
     {
-        return userService.getAllGenres();
+        try {
+            log.debug("All Genres Fetched");
+            return new ResponseEntity<>(userService.getAllGenres(), HttpStatus.OK);
+        }
+        catch (Exception e){
+        log.error("Internal server error {}",e.getMessage());
+        return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);
+    }
     }
 
     @GetMapping("/emailVerifiedStatus/{email}")
-    public boolean isEmailVerified(@PathVariable String email) throws UserNotFoundException {
+    public ResponseEntity<?> isEmailVerified(@PathVariable String email){
         try {
-            return userService.isUserVerified(email);
-        }catch (Exception e){
-            throw new UserNotFoundException();
+            log.debug("User verification status returned");
+            return new ResponseEntity<>(userService.isUserVerified(email),HttpStatus.OK);
+        }catch (UserNotFoundException e){
+            log.error("User with email id {} not found",email);
+            return new ResponseEntity<>("User with email id "+email+" doesn't exists",HttpStatus.NOT_FOUND);
+        }
+        catch (Exception e){
+            log.error("Internal server error {}",e.getMessage());
+            return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
 
-    @GetMapping("/resendVerifyToken")
-    public String resendVerificationToken(@RequestParam("email") String email, HttpServletRequest request) throws UserNotFoundException {
+    @GetMapping("/resendVerificationToken")
+    public ResponseEntity<?> resendVerificationToken(@RequestParam("email") String email, HttpServletRequest request){
         String applicationUrl= applicationUrl(request);
         try {
             userService.regenerateEmailVerificationToken(email,applicationUrl);
-            return "Verification Email Sent";
-        }catch (Exception e){
-            throw new UserNotFoundException();
+            log.info("Email verification token for email id {} resended",email);
+            return new ResponseEntity<>("Verification Email Sent",HttpStatus.OK);
+        }catch (UserNotFoundException e){
+            log.error("User with email id {} doesn't exists",email);
+            return new ResponseEntity<>("User with email id "+email+" not found",HttpStatus.NOT_FOUND);
+        }
+        catch (Exception e){
+            log.error("Internal server error {}",e.getMessage());
+            return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
 
-    @GetMapping("/checkUser/{email}")
-    public boolean isUserPresent(@PathVariable String email) {
-        return userService.isUserPresent(email);
+    @GetMapping("/userCheck/{email}")
+    public ResponseEntity<?> isUserPresent(@PathVariable String email) {
+        try {
+            log.debug("Email id {} 's existence is checked", email);
+            return new ResponseEntity<>(userService.isUserPresent(email), HttpStatus.OK);
+        }catch (Exception e){
+            log.error("Internal server error {}",e.getMessage());
+            return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     private String applicationUrl(HttpServletRequest request) {
-        System.out.println(request.getHeader("Referer"));
+//        System.out.println(request.getHeader("Referer"));
+        log.debug("application url generated");
         return "http://" +
                 request.getServerName() +
                 ":" +

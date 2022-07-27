@@ -103,6 +103,7 @@ public class TicketingServiceControllerTests {
                         .andExpect(status().isOk()).andDo(MockMvcResultHandlers.log());
     }
 
+    //showing not cleared in Jacococd ..
     @Test
     public void getEventByEventIdThrowEventNotFoundExceptionTest() throws Exception {
         when(ticketingService.getEventById(any(String.class))).thenThrow(EventNotFoundException.class);
@@ -145,7 +146,7 @@ public class TicketingServiceControllerTests {
 
     @Test
     public void getTicketReturnEventErrorTest() throws Exception{
-        when(ticketingService.getSeat("1",1)).thenThrow(EventNotFoundException.class);
+        when(ticketingService.getSeat("3",1)).thenThrow(EventNotFoundException.class);
         mockMvc.perform(
                 get("/ticket/3/1")
                         .contentType(MediaType.APPLICATION_JSON)

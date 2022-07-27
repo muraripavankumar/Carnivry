@@ -17,7 +17,7 @@
 
           <mat-form-field appearance="fill">
             <mat-label>Event Title</mat-label>
-            <input matInput formControlName="title" value="{{existingEventData.title}}" >
+            <input matInput formControlName="title" value="{{existingEventData.title}}">
           </mat-form-field>
 
           <mat-form-field appearance="fill">
@@ -88,10 +88,10 @@
 
         <h3>Select Event Type</h3>
 
-        <mat-button-toggle-group name="eventType" aria-label="Event Type">
+        <!-- <mat-button-toggle-group name="eventType" aria-label="Event Type">
           <mat-button-toggle value="online">Online</mat-button-toggle>
           <mat-button-toggle value="offline">Offline</mat-button-toggle>
-        </mat-button-toggle-group>
+        </mat-button-toggle-group> -->
 
         <form [formGroup]="hostEventForm">
           <div formGroupName="venue">
@@ -154,29 +154,32 @@
             <mat-form-field appearance="fill" class="shortinput">
               <mat-label>Enter a date range</mat-label>
               <mat-date-range-input [rangePicker]="picker">
-                <input matStartDate formControlName="startDate" placeholder="Start date" [min]="presentDate">
+                <input matStartDate formControlName="startDate" placeholder="Start date" [min]="minDate">
                 <input matEndDate formControlName="endDate" placeholder="End date">
               </mat-date-range-input>
               <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-date-range-picker #picker></mat-date-range-picker>
-              <mat-error *ngIf="hostEventForm.get('eventTimings').get('startDate').hasError('matStartDateInvalid')">
-                Invalid start date</mat-error>
-              <mat-error *ngIf="hostEventForm.get('eventTimings').get('startDate').hasError('matEndDateInvalid')">
-                Invalid end date</mat-error>
+
+              <!-- <mat-error *ngIf="hostEventForm.get('eventTimings').get('endDate').hasError('matEndDateInvalid')">
+                Invalid end date</mat-error> -->
             </mat-form-field>
+
 
             <mat-form-field appearance="fill" class="shortinput">
               <mat-label>Starting time</mat-label>
-              <input type="time" matInput placeholder="event starting time" formControlName="startTime">
+              <input type="time" matInput placeholder="Event starting time" formControlName="startTime">
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="shortinput">
               <mat-label>Ending time</mat-label>
-              <input type="time" matInput formControlName="endTime" placeholder="event ending time">
+              <input type="time" matInput formControlName="endTime" placeholder="Event ending time" >
             </mat-form-field>
+            <div *ngIf="hostEventForm.get('eventTimings.startDate').hasError('startDateValidator')" class="alert">
+              Invalid start date. Start date cannot be today or a past date.</div>
 
           </div>
+          <div *ngIf="hostEventForm.get('eventTimings').hasError('matching')">Password Not Matching</div>
 
           <div>
             <button mat-button matStepperPrevious class="btn btn-secondary">Back</button>
@@ -190,7 +193,8 @@
         <form [formGroup]="hostEventForm">
           <mat-form-field appearance="fill" class="shortinput">
             <mat-label>Rows</mat-label>
-            <input type="number" matInput (change)="calcTotalSeats()" id="totalRows" placeholder="Total number of rows" value="{{row}}">
+            <input type="number" matInput (change)="calcTotalSeats()" id="totalRows" placeholder="Total number of rows"
+              value="{{row}}">
           </mat-form-field>
 
           <mat-form-field appearance="fill" class="shortinput">
@@ -238,10 +242,18 @@
       </mat-step>
       <!-- //////////////////---------------------///////////////////// -->
       <mat-step [stepControl]="hostEventForm" label="Poster">
-
         <form [formGroup]="hostEventForm">
           <mat-label>Upload Event Poster</mat-label>
           <input type="file" (change)="onFileChange($event)">
+          <div *ngIf="hostEventForm.get('poster').invalid" class="alert">
+            <div *ngIf="hostEventForm.get('poster').errors?.['required']">
+              * Event poster is required.
+            </div>
+            <div
+              *ngIf="hostEventForm.get('poster').hasError('posterValidation') && !hostEventForm.get('poster').errors?.['required']">
+              * Invalid file format. The poster format must be jpg /jpeg /png /gif (only)
+            </div>
+          </div>
           <br>
           <img [src]="posterPicDataUrl" height="400" alt="no_img" *ngIf="posterPicDataUrl">
           <div>
@@ -286,45 +298,59 @@
                 <th>Venue Address : </th>
               </tr>
               <tr>
-                <th>  House No. : </th>
+                <th> House No. : </th>
                 <td>{{hostEventForm.get('venue.address.house').value}}</td>
               </tr>
               <tr>
-                <th>  Street : </th>
+                <th> Street : </th>
                 <td>{{hostEventForm.get('venue.address.street').value}}</td>
               </tr>
               <tr>
-                <th>  Landmark : </th>
+                <th> Landmark : </th>
                 <td>{{hostEventForm.get('venue.address.landmark').value}}</td>
               </tr>
               <tr>
-                <th>  City : </th>
+                <th> City : </th>
                 <td>{{hostEventForm.get('venue.address.city').value}}</td>
               </tr>
               <tr>
-                <th>  State : </th>
+                <th> State : </th>
                 <td>{{hostEventForm.get('venue.address.state').value}}</td>
               </tr>
               <tr>
-                <th>  Country : </th>
+                <th> Country : </th>
                 <td>{{hostEventForm.get('venue.address.country').value}}</td>
               </tr>
               <tr>
-                <th>  Pincode : </th>
+                <th> Pincode : </th>
                 <td>{{hostEventForm.get('venue.address.pincode').value}}</td>
               </tr>
-              
-
+              <tr>
+                <th>Event Starting Date : </th>
+                <td>{{hostEventForm.get('eventTimings.startDate').value}}</td>
+              </tr>
+              <tr>
+                <th>Event Ending Date : </th>
+                <td>{{hostEventForm.get('eventTimings.endDate').value}}</td>
+              </tr>
+              <tr>
+                <th>Event Strting Time : </th>
+                <td>{{hostEventForm.get('eventTimings.startTime').value}}</td>
+              </tr>
+              <tr>
+                <th>Event Ending Time : </th>
+                <td>{{hostEventForm.get('eventTimings.endTime').value}}</td>
+              </tr>
             </table>
           </mat-card-content>
         </mat-card>
         <div>
           <button mat-button matStepperPrevious class="btn btn-secondary">Back</button>
           <button mat-button (click)="stepper.reset()" class="btn btn-danger" style="margin-left:2%">Reset</button>
-          <button mat-button type="submit" (click)="onSubmit()" class="btn btn-success"
-            style="float: right;"[hidden]="existingEventData.eventId!=null">Submit</button>
-            <button mat-button type="submit" (click)="onUpdate()" class="btn btn-success"
-            style="float: right;" [hidden]="existingEventData.eventId==null">Update</button>
+          <button mat-button type="submit" (click)="onSubmit()" class="btn btn-success" style="float: right;"
+            [hidden]="existingEventData.eventId!=null">Submit</button>
+          <button mat-button type="submit" (click)="onUpdate()" class="btn btn-success" style="float: right;"
+            [hidden]="existingEventData.eventId==null">Update</button>
         </div>
       </mat-step>
     </mat-stepper>

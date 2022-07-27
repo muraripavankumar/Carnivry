@@ -1,11 +1,13 @@
 package com.stackroute.rabbitMQ;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class MessageProducer {
 
     private final RabbitTemplate rabbitTemplate;
@@ -23,6 +25,8 @@ public class MessageProducer {
     public void sendMessageToAuthenticationService(AuthenticationUserDTO authenticationUserDTO)
     {
         rabbitTemplate.convertAndSend(exchange.getName(),"key1", authenticationUserDTO);
+        log.debug("Carnivry User email id {} and password sent to Authentication MicroService using AuthenticationUserDTO"
+                ,authenticationUserDTO.getEmail());
     }
 
 

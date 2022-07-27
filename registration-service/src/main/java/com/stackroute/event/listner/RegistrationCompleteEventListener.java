@@ -39,13 +39,15 @@ public class RegistrationCompleteEventListener implements
         token = UUID.randomUUID().toString();
         try {
             userService.saveVerificationTokenForUser(token,carnivryUser);
+            log.debug("First Email verification token saved to repository");
         } catch (UserNotFoundException e) {
             e.printStackTrace();
+            log.error("Couldn't save first email verification token due to email id mismatch");
         }
         //Send Mail to user
         String url =
                 event.getApplicationUrl()
-                        + "/Carnivry/verifyRegistration?token="
+                        + "/api/v1/verifyRegistration?token="
                         + token
                         + "&email="
                         + carnivryUser.getEmail();

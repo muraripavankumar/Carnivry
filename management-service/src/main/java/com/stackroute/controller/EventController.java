@@ -29,7 +29,7 @@ public class EventController {
 
     //method to accept HTTP POST request to add new event.
     @PostMapping
-    public ResponseEntity<?> addEvent(@RequestBody Event event) {
+    public ResponseEntity<?> addEvent(@RequestBody Event event)throws EventAlreadyExistsException,Exception {
         try {
             return new ResponseEntity<>(eventService.addEvent(event), HttpStatus.CREATED) ;
         }catch (EventAlreadyExistsException eaee){
@@ -38,13 +38,13 @@ public class EventController {
         }
         catch (Exception e){
             log.error("Exception occurred in EventController -> addEvent() ");
-            return new ResponseEntity<>("Sorry for inconvenience! Unexpected error occurred. Try again later..",HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Sorry for inconvenience! Unexpected error occurred. Try again later..",HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     //method to accept HTTP PATCH request to update an event.
     @PatchMapping
-    public ResponseEntity<?> updateEvent(@RequestBody Event event) throws EventNotFoundException {
+    public ResponseEntity<?> updateEvent(@RequestBody Event event) throws EventNotFoundException,Exception {
         try {
             return new ResponseEntity<>(eventService.updateEvent(event), HttpStatus.OK) ;
         }catch (EventNotFoundException eventNotFoundException){
@@ -52,13 +52,13 @@ public class EventController {
             return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.CONFLICT);
         }catch (Exception e){
             log.error("Exception occurred in EventController -> updateEvent() ");
-            return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     //method to accept HTTP GET request to retrieve an event(searched by its eventId) and send the object as response
     @GetMapping("/{eventId}")
-    public ResponseEntity<?> getEventByEventId(@PathVariable String eventId) throws Exception {
+    public ResponseEntity<?> getEventByEventId(@PathVariable String eventId) throws EventNotFoundException, Exception {
         try {
             return new ResponseEntity<>(eventService.getEventById(eventId),HttpStatus.OK);
         }catch (EventNotFoundException eventNotFoundException){
@@ -66,13 +66,19 @@ public class EventController {
             return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.CONFLICT);
         }catch (Exception e){
             log.error("Exception occurred in EventController -> getEventByEventId() ");
-            return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.CONFLICT);
+            return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     //method to accept HTTP GET request to retrieve ALL events and send list of event objects as response
     @GetMapping
-    public ResponseEntity<?> getAllEvents(){
+    public ResponseEntity<?> getAllEvents() throws Exception{
+        try{
             return new ResponseEntity<>(eventService.getAllEvents(),HttpStatus.OK);
+        }catch (Exception e){
+            log.error("Exception occurred in EventController -> getEventByEventId() ");
+            return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
 }

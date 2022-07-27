@@ -1,13 +1,8 @@
 package com.example.SuggestionService.entity;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.springframework.data.annotation.Id;
-import org.bson.types.Binary;
-
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -21,7 +16,6 @@ public class Events {
     @GraphId
     @Id
     private String eventId;
-    //@NotNull
     private String title;
     private String eventType;
     private String userEmailId;
@@ -41,7 +35,7 @@ public class Events {
     private String city;
     private String state;
     private int pincode;
-    private BigDecimal revenueGenerated;
+    private Double revenueGenerated;
     private int ticketsSold;
     private int totalSeats;
 //    private List<Seat> seats;

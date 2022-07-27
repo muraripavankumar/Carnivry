@@ -102,7 +102,7 @@ public class ManagementServiceEventServiceLayerTest {
         assertThrows(EventNotFoundException.class,()->eventService.getEventById("101"));
     }
     @Test
-    public void getAllEvents(){
+    public void getAllEvents() throws Exception {
         when(eventRepository.findAll()).thenReturn(new ArrayList<>(Arrays.asList(event)));
         assertEquals(1,eventService.getAllEvents().size());
     }
