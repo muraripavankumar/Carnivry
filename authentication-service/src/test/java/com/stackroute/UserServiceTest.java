@@ -42,52 +42,66 @@ public class UserServiceTest {
 
     @Test
     public void givenUserToSave() throws UserAlreadyExistsException{
-        when(userRepository.findById(user.getEmailId())).thenReturn(Optional.ofNullable(null));
+        when(userRepository.findById(user.getEmail())).thenReturn(Optional.ofNullable(null));
         when(userRepository.save(user)).thenReturn(user);
         assertEquals(user,userService.saveUser(user));
-        verify(userRepository,times(1)).findById(user.getEmailId());
+        verify(userRepository,times(1)).findById(user.getEmail());
         verify(userRepository,times(1)).save(user);
     }
 
     @Test
     public void givenUserToSaveReturnsException(){
-        when(userRepository.findById(user.getEmailId())).thenReturn(Optional.ofNullable(user));
+        when(userRepository.findById(user.getEmail())).thenReturn(Optional.ofNullable(user));
         assertThrows(UserAlreadyExistsException.class, ()-> userService.saveUser(user));
-        verify(userRepository,times(1)).findById(user.getEmailId());
+        verify(userRepository,times(1)).findById(user.getEmail());
         verify(userRepository,times(0)).save(user);
     }
 
     @Test
     public void givenUserToUpdate() throws UserNotFoundException {
-        when(userRepository.findById(user.getEmailId())).thenReturn(Optional.ofNullable(user));
+        when(userRepository.findById(user.getEmail())).thenReturn(Optional.ofNullable(user));
         when(userRepository.save(user)).thenReturn(user);
-        assertEquals(user,userService.resetPassword(user));
-        verify(userRepository,times(1)).findById(user.getEmailId());
+        assertEquals(user,userService.forgotPassword(user));
+        verify(userRepository,times(1)).findById(user.getEmail());
         verify(userRepository,times(1)).save(user);
     }
 
     @Test
     public void givenUserToUpdateReturnsException(){
-        when(userRepository.findById(user.getEmailId())).thenReturn(Optional.ofNullable(null));
-        assertThrows(UserNotFoundException.class, ()-> userService.resetPassword(user));
-        verify(userRepository,times(1)).findById(user.getEmailId());
+        when(userRepository.findById(user.getEmail())).thenReturn(Optional.ofNullable(null));
+        assertThrows(UserNotFoundException.class, ()-> userService.forgotPassword(user));
+        verify(userRepository,times(1)).findById(user.getEmail());
         verify(userRepository,times(0)).save(user);
     }
 
     @Test
     public void givenUserForAuthentication() throws UserNotFoundException {
-        when(userRepository.findByEmailIdAndPassword(user.getEmailId(),user.getPassword())).thenReturn(user);
+        when(userRepository.findByEmailAndPassword(user.getEmail(),user.getPassword())).thenReturn(user);
         assertEquals(user,
-                userService.authenticateUser(user.getEmailId(),user.getPassword()));
-        verify(userRepository,times(1)).findByEmailIdAndPassword(user.getEmailId(),user.getPassword());
+                userService.authenticateUser(user.getEmail(),user.getPassword()));
+        verify(userRepository,times(1)).findByEmailAndPassword(user.getEmail(),user.getPassword());
 
     }
 
     @Test
     public void givenUserForAuthenticationReturnsException() {
-        when(userRepository.findByEmailIdAndPassword(user.getEmailId(),user.getPassword())).thenReturn(null);
-        assertThrows(UserNotFoundException.class,()-> userService.authenticateUser(user.getEmailId(),user.getPassword()));
-        verify(userRepository,times(1)).findByEmailIdAndPassword(user.getEmailId(),user.getPassword());
+        when(userRepository.findByEmailAndPassword(user.getEmail(),user.getPassword())).thenReturn(null);
+        assertThrows(UserNotFoundException.class,()-> userService.authenticateUser(user.getEmail(),user.getPassword()));
+        verify(userRepository,times(1)).findByEmailAndPassword(user.getEmail(),user.getPassword());
 
+    }
+
+    @Test
+    public void getUserforResetPassword() throws UserNotFoundException {
+        when(userRepository.findByEmail(user.getEmail())).thenReturn(user);
+        assertEquals(user,userService.getUser(user.getEmail()));
+        verify(userRepository,times(1)).findByEmail(user.getEmail());
+    }
+
+    @Test
+    public void getUserforResetPasswordThrowsException(){
+        when(userRepository.findByEmail(user.getEmail())).thenReturn(null);
+        assertThrows(UserNotFoundException.class,()->userService.getUser(user.getEmail()));
+        verify(userRepository,times(1)).findByEmail(user.getEmail());
     }
 }

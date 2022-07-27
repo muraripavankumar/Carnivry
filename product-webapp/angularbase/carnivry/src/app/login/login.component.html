@@ -22,12 +22,17 @@
 
                         <div class="form-group input">
                             <i class="fas fa-envelope" id="fas_2"></i>
-                            <input type="email" formControlName="emailId" class="form-control myInput" placeholder="Email"
-                                [ngClass]="{'is-invalid': f['emailId'].errors && f['emailId'].touched}" />
-                            <div *ngIf="f['emailId'].errors && (f['emailId'].touched || f['emailId'].dirty)"
+                            <input type="email" formControlName="email" class="form-control myInput" placeholder="Email"
+                                [ngClass]="{'is-invalid': f['email'].errors && f['email'].touched}" />
+                            <div *ngIf="f['email'].errors && (f['email'].touched || f['email'].dirty)"
                                 class="alert alert-danger" role="alert">
+<<<<<<< HEAD
                                 <div *ngIf="f['emailId'].errors['required']">Email Required</div>
                                 <div *ngIf="f['emailId'].errors['email']">Invalid Email</div>
+=======
+                                <div *ngIf="f['email'].errors['required']">Email Required</div>
+                                <div *ngIf="f['email'].errors['email']">Invalid Email</div>
+>>>>>>> f2cb16fd2f182551ef8f43363d69b56354825d4e
                             </div>
                         </div>
 
