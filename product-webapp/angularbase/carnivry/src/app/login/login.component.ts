@@ -45,6 +45,10 @@ export class LoginComponent implements OnInit {
         alert("Logged Successfully!!");
          this.registration.updateToken(success.token);
          this.regService.updateEmail(this.loginFormGroup.value["email"]);
+         this.regService.fetchCarnivryName(this.loginFormGroup.value["email"]).subscribe((data)=>{
+          console.log(data);
+          this.regService.updateName(data);
+         });
       },
       error => {
         console.log(error);

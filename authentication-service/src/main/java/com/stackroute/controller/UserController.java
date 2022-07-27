@@ -47,10 +47,6 @@ public class UserController {
             userService.saveUser(user);
             return new ResponseEntity<>("new user registered successfully", HttpStatus.CREATED);
         }
-        catch (UserAlreadyExistsException ex){
-            log.error("UserAlreadyExistsException in UserController class->registerUser() method");
-            return new ResponseEntity<>("error occurs due to user already exists",HttpStatus.CONFLICT);
-        }
         catch (Exception e){
             log.error("Exception in UserController class->registerUser() method");
             return new ResponseEntity<>("error occurs due to exception case",HttpStatus.INTERNAL_SERVER_ERROR);
