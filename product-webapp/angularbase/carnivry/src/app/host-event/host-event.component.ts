@@ -43,7 +43,7 @@ export class HostEventComponent implements OnInit {
   activePrice: number = -1;
   column: number = 0;
   row: number = 0;
-  minDate: Date;
+
 
   constructor(private fb: FormBuilder, private managementService: ManagementService, private snackbar: MatSnackBar, private updateEventService: UpdateEventService) {
     this.filteredGenres = this.genreCtrl.valueChanges.pipe(
@@ -54,16 +54,9 @@ export class HostEventComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.presentDate = new Date().toISOString().split('T')[0];
-    // (document.getElementById('rdate')as HTMLFormElement).setAttribute('min', new Date().toISOString().split('T')[0]);
-
     this.updateEventService.obj.subscribe((data) => this.existingEventData = data);
     this.onUpdateMode();
-    const todayDate = this.presentDate.getDate();
-    const currentMonth = this.presentDate.getMonth();
-    const currentYear = this.presentDate.getFullYear();
 
-    this.minDate = new Date(currentYear, currentMonth, todayDate + 1);
   }
 
   hostEventForm = this.fb.group({
@@ -81,9 +74,8 @@ export class HostEventComponent implements OnInit {
       startTime: ['', Validators.required],
       endTime: ['', Validators.required]
     },
-    // { validators: [Validation.match('startDate', 'endDate')] },
-      { validators: [Validation.match('startDate', 'endDate', 'startTime', 'endTime')] }
-      ),
+    { validators: [Validation.match('startDate', 'endDate', 'startTime', 'endTime')] }
+    ),
     venue: this.fb.group({
       venueName: ['', Validators.required],
       address: this.fb.group({
@@ -99,8 +91,10 @@ export class HostEventComponent implements OnInit {
     seats: this.fb.array([]),
     totalSeats: ['', Validators.required]
   });
-  //////////////////////////////////////
 
+  //////////////////  Initializing component for Update Event  ////////////////////
+//when component is being used to update the event,
+// then the input fields and the formGroup needs to be pre-set according to the imcomming event data.
   onUpdateMode() {
     if (this.existingEventData.eventId != null) {
       this.hostEventForm.get('eventId').setValue(this.existingEventData.eventId);
@@ -159,62 +153,71 @@ export class HostEventComponent implements OnInit {
     }
   }
 
-  /////////////////////////////////////////////
-  get seatingControls() {
-    return (<FormArray>this.hostEventForm.get('seats')).controls;
+//////////////////////  Artist Input  ///////////////////////////////////
+addOnBlur = true;
+readonly separatorKeysCodes1 = [ENTER, COMMA] as const;
+
+addArtist(artist: MatChipInputEvent): void {
+  const value = (artist.value || '').trim();
+  // Add new artist
+  if (value) {
+    const artistCtrl = new FormControl(value, Validators.required);
+    (<FormArray>this.hostEventForm.get('artists')).push(artistCtrl);
+    this.artists.push(value);
   }
-
-  calcTotalSeats() {
-    this.totalSeating = 0;
-    while ((<FormArray>this.hostEventForm.get('seats')).length !== 0) {
-      (<FormArray>this.hostEventForm.get('seats')).removeAt(0);
-    }
-
-    var ro: any = (<HTMLInputElement>document.getElementById("totalRows")).value;
-    var co: any = (<HTMLInputElement>document.getElementById("totalColm")).value;
-    this.totalSeating = (ro * co);
-    document.documentElement.style.setProperty("--colNum", co);
-    for (let i = 0; i < this.totalSeating; i++) {
-      const sCtrl = new FormGroup({});
-
-      sCtrl.addControl('seatId', new FormControl('', Validators.required));
-      sCtrl.addControl('row', new FormControl('', Validators.required));
-      sCtrl.addControl('colm', new FormControl('', Validators.required));
-      sCtrl.addControl('seatPrice', new FormControl('0.0001', Validators.required));
-      sCtrl.addControl('status', new FormControl('NOT BOOKED'));
-
-      sCtrl.get('seatId').setValue(i + 1);
-      sCtrl.get('row').setValue(ro);
-      sCtrl.get('colm').setValue(co);
-
-      (<FormArray>this.hostEventForm.get('seats')).push(sCtrl);
-    }
-    this.eventData = this.hostEventForm.value;
+  // Clear the input value
+  artist.chipInput!.clear();
+}
+removeArtist(artist: string): void {
+  const index = this.artists.indexOf(artist);
+  if (index >= 0) {
+    this.artists.splice(index, 1);
+    (<FormArray>this.hostEventForm.get('artists')).removeAt(index);
   }
+}
 
-  /////////////////////////////////////////////////////////
-  addOnBlur = true;
-  readonly separatorKeysCodes1 = [ENTER, COMMA] as const;
 
-  addArtist(artist: MatChipInputEvent): void {
-    const value = (artist.value || '').trim();
-    // Add new artist
-    if (value) {
-      const artistCtrl = new FormControl(value, Validators.required);
-      (<FormArray>this.hostEventForm.get('artists')).push(artistCtrl);
-      this.artists.push(value);
-    }
-    // Clear the input value
-    artist.chipInput!.clear();
-  }
-  removeArtist(artist: string): void {
-    const index = this.artists.indexOf(artist);
-    if (index >= 0) {
-      this.artists.splice(index, 1);
-      (<FormArray>this.hostEventForm.get('artists')).removeAt(index);
-    }
-  }
-  ///////////////////////////////////////////////////////
+ /////////////////////  Genre Input  //////////////////////////////////
+ separatorKeysCodes: number[] = [ENTER, COMMA];
+
+ @ViewChild('genreInput') genreInput: ElementRef<HTMLInputElement>;
+
+ add(event: MatChipInputEvent): void {
+   const value = (event.value || '').trim();
+   // Add our genre
+   if (value) {
+     const gnCtrl = new FormControl(value, Validators.required);
+     this.genres.push(value);
+     (<FormArray>this.hostEventForm.get('genre')).push(gnCtrl);
+   }
+   // Clear the input value
+   event.chipInput!.clear();
+   this.genreCtrl.setValue('');
+ }
+
+ remove(gr: string): void {
+   const index = this.genres.indexOf(gr);
+   if (index >= 0) {
+     this.genres.splice(index, 1);
+     (<FormArray>this.hostEventForm.get('genre')).removeAt(index);
+   }
+ }
+
+ selected(event: MatAutocompleteSelectedEvent): void {
+   this.genres.push(event.option.viewValue);
+   this.genreInput.nativeElement.value = '';
+   this.genreCtrl.setValue('');
+   const gnCtrl = new FormControl(event.option.viewValue, Validators.required);
+   (<FormArray>this.hostEventForm.get('genre')).push(gnCtrl);
+ }
+
+ private _filter(value: string): string[] {
+   const filterValue = value.toLowerCase();
+   return this.allGenres.filter(g => g.toLowerCase().includes(filterValue));
+ }
+
+
+  //////////////////////  Languages Input  /////////////////////////////////
 
   readonly separatorKeysCodes3 = [ENTER, COMMA] as const;
 
@@ -237,109 +240,38 @@ export class HostEventComponent implements OnInit {
     }
   }
 
-  ///////////////////////////////////////////////////////
-  separatorKeysCodes: number[] = [ENTER, COMMA];
 
-  @ViewChild('genreInput') genreInput: ElementRef<HTMLInputElement>;
+  /////////////////  Seat Input  //////////////////////
+  get seatingControls() {
+    return (<FormArray>this.hostEventForm.get('seats')).controls;
+  }
 
-  add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-    // Add our genre
-    if (value) {
-      const gnCtrl = new FormControl(value, Validators.required);
-      this.genres.push(value);
-      (<FormArray>this.hostEventForm.get('genre')).push(gnCtrl);
+  calcTotalSeats() {
+    this.totalSeating = 0;
+    while ((<FormArray>this.hostEventForm.get('seats')).length !== 0) {
+      (<FormArray>this.hostEventForm.get('seats')).removeAt(0);
     }
-    // Clear the input value
-    event.chipInput!.clear();
-    this.genreCtrl.setValue('');
-  }
+    var ro: any = (<HTMLInputElement>document.getElementById("totalRows")).value;
+    var co: any = (<HTMLInputElement>document.getElementById("totalColm")).value;
+    this.totalSeating = (ro * co);
+    document.documentElement.style.setProperty("--colNum", co);
+    for (let i = 0; i < this.totalSeating; i++) {
+      const sCtrl = new FormGroup({});
 
-  remove(gr: string): void {
-    const index = this.genres.indexOf(gr);
-    if (index >= 0) {
-      this.genres.splice(index, 1);
-      (<FormArray>this.hostEventForm.get('genre')).removeAt(index);
+      sCtrl.addControl('seatId', new FormControl('', Validators.required));
+      sCtrl.addControl('row', new FormControl('', Validators.required));
+      sCtrl.addControl('colm', new FormControl('', Validators.required));
+      sCtrl.addControl('seatPrice', new FormControl('0.0001', Validators.required));
+      sCtrl.addControl('status', new FormControl('NOT BOOKED'));
+
+      sCtrl.get('seatId').setValue(i + 1);
+      sCtrl.get('row').setValue(ro);
+      sCtrl.get('colm').setValue(co);
+
+      (<FormArray>this.hostEventForm.get('seats')).push(sCtrl);
     }
-  }
-
-  selected(event: MatAutocompleteSelectedEvent): void {
-    this.genres.push(event.option.viewValue);
-    this.genreInput.nativeElement.value = '';
-    this.genreCtrl.setValue('');
-    const gnCtrl = new FormControl(event.option.viewValue, Validators.required);
-    (<FormArray>this.hostEventForm.get('genre')).push(gnCtrl);
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.allGenres.filter(g => g.toLowerCase().includes(filterValue));
-  }
-  /////////////////////////////////////////////////////////////
-
-
-  onFileChange(event: any) {
-    this.posterPic = event.target.files[0];
-    var reader = new FileReader();
-    reader.readAsDataURL(this.posterPic);
-    reader.onload = (_event) => {
-      this.posterPicDataUrl = reader.result + '';
-      this.hostEventForm.controls['poster'].setValue(this.posterPicDataUrl);
-    }
-  }
-
-
-  /////////////////////////////////////////////////////////////
-  // setTimeToDate(){
-  //   const startTimeArray:number[]=this.hostEventForm.get('eventTimings.startTime').value.split(':');
-  //   const endTimeArray:number[]=this.hostEventForm.get('eventTimings.endTime').value.split(':');
-  //   const inputStartDate:Date=this.hostEventForm.get('eventTimings.startDate').value;
-  //   const inputEndDate:Date=this.hostEventForm.get('eventTimings.endDate').value;
-  //   inputStartDate.setHours(startTimeArray[0]);
-  //   inputStartDate.setMinutes(startTimeArray[1]);
-  //   inputEndDate.setHours(endTimeArray[0]);
-  //   inputEndDate.setHours(endTimeArray[1]);
-  //   this.hostEventForm.get('eventTimings.startDate').setValue(inputStartDate);
-  //   this.hostEventForm.get('eventTimings.endDate').setValue(inputEndDate);
-  //   console.log('Changed date: ');
-  //   console.log(this.hostEventForm.get('eventTimings.startDate').value);
-
-  // }
-  onSubmit() {
-    // this.setTimeToDate();
     this.eventData = this.hostEventForm.value;
-    console.log(this.eventData);
-    this.managementService.postHostEvent(this.eventData).subscribe((data) => {
-      if (data.status === 201) {
-        this.snackbar.open('Event Uploaded Successfully!', ' ', {
-          duration: 3000
-        });
-      }
-      else
-        this.snackbar.open('Sorry! Event could not be uploaded. Please try again.', ' ', {
-          duration: 3000
-        });
-    });
   }
-  onUpdate() {
-    // this.setTimeToDate();
-    this.eventData = this.hostEventForm.value;
-    console.log(this.eventData);
-    this.managementService.updateHostEvent(this.eventData).subscribe((data) => {
-      if (data.status === 200) {
-        this.snackbar.open('Event Updated Successfully!', ' ', {
-          duration: 3000
-        });
-      }
-      else {
-        this.snackbar.open('Sorry! Event could not be uploaded. Please try again.', ' ', {
-          duration: 3000
-        });
-      }
-
-    });
-  }
-  ///////////////////////////////////////////////////////////
 
   mouseDownEvent() {
     if (this.mouseDown == false)
@@ -358,6 +290,7 @@ export class HostEventComponent implements OnInit {
       this.selectedItems.splice(this.selectedItems.indexOf(values.currentTarget.value), 1);
     }
   }
+
   checkBox(values: any) {
     let box = (document.getElementById(values.currentTarget.id) as HTMLInputElement).checked;
     if (this.mouseDown) {
@@ -375,8 +308,8 @@ export class HostEventComponent implements OnInit {
   setActivePrice() {
     this.activePrice = <number><undefined>(<HTMLInputElement>document.getElementById('activePrice')).value;
   }
-  savePrice() {
 
+  savePrice() {
     this.priceList.push(this.activePrice);
     this.selectedItems.forEach((s: number) => {
       this.eventData.seats[s - 1].seatPrice = this.activePrice;
@@ -384,6 +317,7 @@ export class HostEventComponent implements OnInit {
     this.selectedItems = [];
     this.eventData = this.hostEventForm.value;
   }
+
   removePrice(price: number) {
     this.priceList.splice(this.priceList.indexOf(price), 1);
     this.eventData.seats.forEach((s) => {
@@ -394,6 +328,56 @@ export class HostEventComponent implements OnInit {
       }
     });
   }
+
+  ///////////////////////  Poster Image Input  //////////////////////////////////////
+  onFileChange(event: any) {
+    this.posterPic = event.target.files[0];
+    var reader = new FileReader();
+    reader.readAsDataURL(this.posterPic);
+    reader.onload = (_event) => {
+      this.posterPicDataUrl = reader.result + '';
+      this.hostEventForm.controls['poster'].setValue(this.posterPicDataUrl);
+    }
+  }
+
+
+  ///////////////////////  Submit /Update Event  /////////////////////////////////////
+  onSubmit() {
+    // this.setTimeToDate();
+    this.eventData = this.hostEventForm.value;
+    console.log(this.eventData);
+    this.managementService.postHostEvent(this.eventData).subscribe((data) => {
+      if (data.status === 201) {
+        this.snackbar.open('Event Uploaded Successfully!', ' ', {
+          duration: 3000
+        });
+      }
+      else
+        this.snackbar.open('Sorry! Event could not be uploaded. Please try again.', ' ', {
+          duration: 3000
+        });
+    });
+  }
+
+
+  onUpdate() {
+    // this.setTimeToDate();
+    this.eventData = this.hostEventForm.value;
+    console.log(this.eventData);
+    this.managementService.updateHostEvent(this.eventData).subscribe((data) => {
+      if (data.status === 200) {
+        this.snackbar.open('Event Updated Successfully!', ' ', {
+          duration: 3000
+        });
+      }
+      else {
+        this.snackbar.open('Sorry! Event could not be uploaded. Please try again.', ' ', {
+          duration: 3000
+        });
+      }
+
+    });
+  } 
 }
 
 
@@ -403,7 +387,4 @@ export class HostEventComponent implements OnInit {
 ////////////////////////////////////////////////////
 /*NOTES: 
 1. change the 'userEmailId' value to the actual emailId from the Session storage.
-2. put the validation for date and time
-3. on update patch mapping is to be called
-4. poster has to be jpeg, jpg or png 
 */
