@@ -21,6 +21,7 @@ export default class Validation {
       else {
         //if hours same, then endTime minutes must be greater than startTime minutes, otherwise invalid 
         if (startTimeArray[0] === endTimeArray[0] && startTimeArray[1] > endTimeArray[1]) {
+          controls.get('endTime')?.setErrors({ matching: true });
           return {
             matching: true
           }
