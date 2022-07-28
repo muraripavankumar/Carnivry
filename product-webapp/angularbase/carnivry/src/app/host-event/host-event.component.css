@@ -10,17 +10,17 @@
 .mat-card {
   margin: 0 auto;
   width: fit-content;
-}
-
+}*/
+/*
 .shortinput {
   width: 20%;
   margin-right: 5%;
 }
-
+*//*
 .mediuminput {
   width: 30%;
   margin-right: 5%;
-}
+}*/
 
 .root {
   --colNum: 5;
@@ -37,14 +37,18 @@
 
 .box {
   height: auto;
-  width: 20px;
+  width: auto;
   background-color: brown;
 }
 .alert{
   color: red;
-  
-} */
+} 
 
 .header{
   font-size: 100vw;
+}
+.thumnail{
+  height: auto;
+  max-width: 300px;
+  width: 100%;
 }
