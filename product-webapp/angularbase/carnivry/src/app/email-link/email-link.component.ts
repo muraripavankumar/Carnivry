@@ -38,6 +38,7 @@ export class EmailLinkComponent implements OnInit {
        },
        error => {
          console.log(error);
+         alert("Invalid or Non-registered Email!!")
        });
   }
 

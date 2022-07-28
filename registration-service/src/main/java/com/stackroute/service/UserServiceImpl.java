@@ -128,6 +128,17 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public String getUsername(String email) throws UserNotFoundException {
+        if(userRepository.findById(email).isEmpty())
+        {
+            log.error("Couldn't fetch username since user with email id {} doesn't exists",email);
+            throw new UserNotFoundException();
+        }
+        CarnivryUser carnivryUser= userRepository.findById(email).get();
+        return carnivryUser.getName();
+    }
+
+    @Override
     public void saveVerificationTokenForUser(String token, CarnivryUser carnivryUser) throws UserNotFoundException {
 
         if(userRepository.findById(carnivryUser.getEmail()).isEmpty())

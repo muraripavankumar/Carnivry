@@ -1,6 +1,10 @@
 .profile_pic{
+    background-image: url("../../assets/S.jpg");
+    background-position: center;
+    background-size: cover;
     height: 100px;
     width: 100px;
     border-radius: 50%;
     border: 2px solid purple;
+    
 }
