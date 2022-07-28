@@ -375,7 +375,6 @@ removeArtist(artist: string): void {
           duration: 3000
         });
       }
-
     });
   } 
 }
