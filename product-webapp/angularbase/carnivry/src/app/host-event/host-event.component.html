@@ -1,4 +1,356 @@
-<mat-card >
+<!-- <div class="container-fluid" style="background-color: red;"> -->
+<!-- <div class="col-xs-12" style="background-color: blue;"> -->
+<mat-card class="container-fluid col-xs-12" style="background-color:green;">
+  <mat-card-header>
+    <mat-card-title>
+      <header>HOST NEW EVENT</header>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <!-- STEPPER 1 : EVENT DETAILS -->
+    <mat-stepper linear="false" #stepper>
+      <mat-step label="Event Description" [stepControl]="hostEventForm">
+        <form [formGroup]="hostEventForm">
+          <mat-form-field class=" col-sm-12" appearance="fill" [hidden]="existingEventData.eventId==null">
+            <mat-label>Event ID :</mat-label>
+            <input matInput placeholder="Event id" value="{{existingEventData.eventId}}" disabled="true">
+          </mat-form-field>
+          <mat-form-field class="col-sm-12" appearance="fill">
+            <mat-label>Event Title</mat-label>
+            <input matInput formControlName="title" value="{{existingEventData.title}}"
+              [disabled]="existingEventData.eventId==null">
+          </mat-form-field>
+          <mat-form-field class="col-sm-12">
+            <mat-label>Event Description</mat-label>
+            <textarea matInput #description placeholder="Event description (minimum 50 characters)"
+              formControlName="eventDescription">
+                </textarea>
+            <mat-hint align="end">Characters: {{description.value.length}}</mat-hint>
+          </mat-form-field>
+          <mat-form-field class="col-sm-12">
+            <mat-label>Artists</mat-label>
+            <mat-chip-list #chipList1 aria-label="Artist selection">
+              <mat-chip *ngFor="let a of artists" (removed)="removeArtist(a)">
+                {{a}}
+                <button matChipRemove>
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip>
+              <input placeholder="New artist/cast..." [matChipInputFor]="chipList1"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes1" [matChipInputAddOnBlur]="addOnBlur"
+                (matChipInputTokenEnd)="addArtist($event)">
+            </mat-chip-list>
+          </mat-form-field>
+          <mat-form-field class="example-chip-list" class="col-sm-12">
+            <mat-label>Genres</mat-label>
+            <mat-chip-list #chipList aria-label="Genre selection">
+              <mat-chip *ngFor="let gr of genres" (removed)="remove(gr)">
+                {{gr}}
+                <button matChipRemove>
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip>
+              <input placeholder="Add genre..." #genreInput [formControl]="genreCtrl" [matAutocomplete]="auto"
+                [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                (matChipInputTokenEnd)="add($event)">
+            </mat-chip-list>
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+              <mat-option *ngFor="let gr of filteredGenres | async" [value]="gr">
+                {{gr}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-form-field class="col-sm-12">
+            <mat-label>Languages</mat-label>
+            <mat-chip-list #chipList3 aria-label="Language selection">
+              <mat-chip *ngFor="let l of languages" (removed)="removeLanguage(l)">
+                {{l}}
+                <button matChipRemove>
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip>
+              <input placeholder="New language..." [matChipInputFor]="chipList3"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes3" [matChipInputAddOnBlur]="addOnBlur"
+                (matChipInputTokenEnd)="addLanguage($event)">
+            </mat-chip-list>
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperNext class="btn btn-primary" style="float: right;">Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <!-- STEPPER 2 : VENUE DETAILS -->
+      <mat-step label="Venue Details">
+        <header>Select Event Type</header>
+        <mat-button-toggle-group name="eventType" aria-label="Event Type">
+          <mat-button-toggle value="online">Online</mat-button-toggle>
+          <mat-button-toggle value="offline">Offline</mat-button-toggle>
+        </mat-button-toggle-group>
+        <form [formGroup]="hostEventForm">
+          <div formGroupName="venue">
+            <mat-form-field class="col-sm-12">
+              <mat-label>Venue Name</mat-label>
+              <input matInput formControlName="venueName" placeholder="Venue name or URL">
+            </mat-form-field>
+
+            <div class="row">
+              <h2>Address :</h2>
+
+              <div formGroupName="address">
+
+                <mat-form-field class="col-sm-4 col-md-2">
+                  <mat-label>House No.</mat-label>
+                  <input matInput formControlName="house" placeholder="House/Floor/Building">
+                </mat-form-field>
+
+                <mat-form-field class="col-sm-8 col-md-6">
+                  <mat-label>Street</mat-label>
+                  <input matInput formControlName="street" placeholder="Street name or Street number" required>
+                </mat-form-field>
+
+                <mat-form-field class="col-sm-4 col-md-6 col-lg-3">
+                  <mat-label>Landmark</mat-label>
+                  <input matInput formControlName="landmark" placeholder="Landmark/Location of the venue" required>
+                </mat-form-field>
+
+                <mat-form-field class="col-sm-4 col-md-6 col-lg-3">
+                  <mat-label>City</mat-label>
+                  <input matInput formControlName="city" placeholder="City name">
+                </mat-form-field>
+
+                <mat-form-field class="col-sm-3 col-md-6 col-lg-3">
+                  <mat-label>State</mat-label>
+                  <input matInput formControlName="state" placeholder="State name">
+                </mat-form-field>
+
+                <mat-form-field class="col-sm-3">
+                  <mat-label>Pincode</mat-label>
+                  <input type="number" matInput formControlName="pincode" placeholder="Pincode">
+                </mat-form-field>
+
+                <mat-form-field class="col-sm-3">
+                  <mat-label>Country</mat-label>
+                  <mat-select formControlName="country">
+                    <mat-option *ngFor="let c of countries" [value]="c">
+                      {{c}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <h2>Event Timings :</h2>
+            <br />
+            <div formGroupName="eventTimings">
+              <mat-form-field class="col-sm-12 col-md-4">
+                <mat-label>Enter a date range</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                  <input matStartDate formControlName="startDate" placeholder="Start date">
+                  <input matEndDate formControlName="endDate" placeholder="End date">
+                </mat-date-range-input>
+                <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+                <mat-error
+                  *ngIf="hostEventForm.get('eventTimings.startDate').hasError('startDateValidator') && hostEventForm.get('eventTimings.startDate').value!=''">
+                  * Start date cannot be today or a past date.</mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="col-sm-12 col-md-3">
+                <mat-label>Starting time</mat-label>
+                <input type="time" matInput placeholder="Event starting time" formControlName="startTime">
+              </mat-form-field>
+
+              <mat-form-field class="col-sm-12 col-md-3">
+                <mat-label>Ending time</mat-label>
+                <input type="time" matInput formControlName="endTime" placeholder="Event ending time">
+                <mat-error *ngIf="hostEventForm.get('eventTimings').hasError('matching')">
+                  * Ending time must be after starting time</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div>
+            <button mat-button matStepperPrevious class="btn btn-secondary">Back</button>
+            <button mat-button matStepperNext class="btn btn-primary" style="float: right;">Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <!-- STEPPER 3 : SEATING ARRANGEMENT -->
+      <mat-step label="Seating Arrangement" [stepControl]="hostEventForm">
+        <form [formGroup]="hostEventForm">
+          <mat-form-field>
+            <mat-label>Rows</mat-label>
+            <input type="number" matInput (change)="calcTotalSeats()" id="totalRows" placeholder="Total number of rows"
+              value="{{row}}">
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Columns</mat-label>
+            <input type="number" matInput (change)="calcTotalSeats()" id="totalColm"
+              placeholder="Number of columns per row" value="{{column}}">
+          </mat-form-field>
+
+          <mat-card [hidden]="totalSeating===0">
+            <mat-card-header>
+              <mat-card-title>SEAT LAYOUT</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="cont" id="parent" (mousedown)="mouseDownEvent()" (mouseup)="mouseUpEvent()">
+                <div class="box" *ngFor="let e of eventData.seats; index as x;"
+                  style="background-color:blanchedalmond ;">
+                  {{e.seatId}}
+                  <input type="checkbox" name="" id="{{x}}" (change)="fieldsChange($event)" value="{{e.seatId}}"
+                    [disabled]="e.seatPrice!= 0.0001" (mouseover)='checkBox($event)'>
+                </div>
+              </div>
+              <input type="number" id="activePrice" placeholder="Price slab" (change)="setActivePrice()">
+              <button mat-button class="btn" (click)="savePrice()" [disabled]="activePrice<0">Save
+                Selection</button>
+
+              <div *ngFor="let e of priceList">
+                Entered Price Slab: {{e}}
+                <button mat-button class="btn btn-warning" (click)="removePrice(e)" [disabled]="activePrice<0">Remove
+                  Price Slab</button>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+
+          <div>
+            <h2>Total Seats : {{totalSeating}}</h2>
+          </div>
+
+          <div>
+            <button mat-button matStepperPrevious class="btn btn-secondary">Back</button>
+            <button mat-button matStepperNext class="btn btn-primary" style="float: right;">Next</button>
+          </div>
+
+        </form>
+
+      </mat-step>
+      <!-- STEPPER 4 : POSTER -->
+      <mat-step [stepControl]="hostEventForm" label="Poster">
+        <form [formGroup]="hostEventForm">
+          <mat-label>Upload Event Poster</mat-label>
+          <input type="file" accept='image/*' (change)="onFileChange($event)">
+          <div *ngIf="hostEventForm.get('poster').invalid" class="alert">
+            <div *ngIf="hostEventForm.get('poster').errors?.['required'] && hostEventForm.get('poster').value!=''">
+              * Event poster is required.
+            </div>
+            <div
+              *ngIf="hostEventForm.get('poster').hasError('posterValidation') && !hostEventForm.get('poster').errors?.['required']">
+              * Invalid file format. The poster format must be jpg /jpeg /png /gif (only)
+            </div>
+          </div>
+          <br>
+          <img [src]="posterPicDataUrl" class="thumnail" alt="no_img" *ngIf="posterPicDataUrl">
+          <div>
+            <button mat-button matStepperPrevious class="btn btn-secondary">Back</button>
+            <button mat-button matStepperNext class="btn btn-primary" style="float: right;">Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <!-- STEPPER 5 : PREVIEW -->
+      <mat-step label="Done">
+        <h3>Preview:</h3>
+        <mat-card [hidden]="hostEventForm.get('title').value===''">
+          <mat-card-header>
+            <mat-card-title>{{hostEventForm.get('title').value}}</mat-card-title>
+          </mat-card-header>
+          <img [src]="posterPicDataUrl" height="200">
+          <mat-card-content>
+            <table>
+              <tr>
+                <th>Event Description : </th>
+                <td>{{hostEventForm.get('eventDescription').value}}</td>
+              </tr>
+              <tr>
+                <th>Artists : </th>
+                <td>{{hostEventForm.get('artists').value}}</td>
+              </tr>
+              <tr>
+                <th>Genres : </th>
+                <td>{{hostEventForm.get('genre').value}}</td>
+              </tr>
+              <tr>
+                <th>Languages : </th>
+                <td>{{hostEventForm.get('languages').value}}</td>
+              </tr>
+              <tr>
+                <th>Venue Name : </th>
+                <td>{{hostEventForm.get('venue.venueName').value}}</td>
+              </tr>
+              <tr>
+                <th>Venue Address : </th>
+              </tr>
+              <tr>
+                <th> House No. : </th>
+                <td>{{hostEventForm.get('venue.address.house').value}}</td>
+              </tr>
+              <tr>
+                <th> Street : </th>
+                <td>{{hostEventForm.get('venue.address.street').value}}</td>
+              </tr>
+              <tr>
+                <th> Landmark : </th>
+                <td>{{hostEventForm.get('venue.address.landmark').value}}</td>
+              </tr>
+              <tr>
+                <th> City : </th>
+                <td>{{hostEventForm.get('venue.address.city').value}}</td>
+              </tr>
+              <tr>
+                <th> State : </th>
+                <td>{{hostEventForm.get('venue.address.state').value}}</td>
+              </tr>
+              <tr>
+                <th> Country : </th>
+                <td>{{hostEventForm.get('venue.address.country').value}}</td>
+              </tr>
+              <tr>
+                <th> Pincode : </th>
+                <td>{{hostEventForm.get('venue.address.pincode').value}}</td>
+              </tr>
+              <tr>
+                <th>Event Starting Date : </th>
+                <td>{{hostEventForm.get('eventTimings.startDate').value}}</td>
+              </tr>
+              <tr>
+                <th>Event Ending Date : </th>
+                <td>{{hostEventForm.get('eventTimings.endDate').value}}</td>
+              </tr>
+              <tr>
+                <th>Event Strting Time : </th>
+                <td>{{hostEventForm.get('eventTimings.startTime').value}}</td>
+              </tr>
+              <tr>
+                <th>Event Ending Time : </th>
+                <td>{{hostEventForm.get('eventTimings.endTime').value}}</td>
+              </tr>
+            </table>
+          </mat-card-content>
+        </mat-card>
+        <div>
+          <button mat-button matStepperPrevious class="btn btn-secondary">Back</button>
+          <button mat-button (click)="stepper.reset()" class="btn btn-danger" style="margin-left:2%">Reset</button>
+          <button mat-button type="submit" (click)="onSubmit()" class="btn btn-success" style="float: right;"
+            [hidden]="existingEventData.eventId!=null">Submit</button>
+          <button mat-button type="submit" (click)="onUpdate()" class="btn btn-success" style="float: right;"
+            [hidden]="existingEventData.eventId==null">Update</button>
+        </div>
+      </mat-step>
+    </mat-stepper>
+  </mat-card-content>
+</mat-card>
+<!-- </div> -->
+<!-- </div> -->
+
+
+
+
+
+<!--<mat-card>
   <mat-card-header>
     <mat-card-title>
       <h1>HOST NEW EVENT</h1>
@@ -10,12 +362,13 @@
         <form [formGroup]="hostEventForm">
           <ng-template matStepLabel>Event Details</ng-template>
 
-          <mat-form-field appearance="fill" [hidden]="existingEventData.eventId==null">
+          <mat-form-field appearance="fill" [hidden]="existingEventData.eventId==null"
+            class="col-lg-12 col-md-12 col-sm-12">
             <mat-label>Event ID :</mat-label>
             <input matInput placeholder="Event id" value="{{existingEventData.eventId}}" disabled="true">
           </mat-form-field>
 
-          <mat-form-field appearance="fill">
+          <mat-form-field appearance="fill" class="col-lg-12 col-md-12 col-sm-12">
             <mat-label>Event Title</mat-label>
             <input matInput formControlName="title" value="{{existingEventData.title}}">
           </mat-form-field>
@@ -23,7 +376,8 @@
           <mat-form-field appearance="fill">
             <mat-label>Event Description</mat-label>
             <textarea matInput #description placeholder="Event description (minimum 50 characters)"
-              formControlName="eventDescription"></textarea>
+              formControlName="eventDescription">
+            </textarea>
             <mat-hint align="end">Characters: {{description.value.length}}</mat-hint>
           </mat-form-field>
 
@@ -83,15 +437,17 @@
 
         </form>
       </mat-step>
-      <!-- //////////////////---------------------///////////////////// -->
+ 
+
+
       <mat-step [stepControl]="hostEventForm" label="Venue Details">
 
         <h3>Select Event Type</h3>
 
-        <!-- <mat-button-toggle-group name="eventType" aria-label="Event Type">
+        <mat-button-toggle-group name="eventType" aria-label="Event Type">
           <mat-button-toggle value="online">Online</mat-button-toggle>
           <mat-button-toggle value="offline">Offline</mat-button-toggle>
-        </mat-button-toggle-group> -->
+        </mat-button-toggle-group>
 
         <form [formGroup]="hostEventForm">
           <div formGroupName="venue">
@@ -154,17 +510,13 @@
             <mat-form-field appearance="fill" class="shortinput">
               <mat-label>Enter a date range</mat-label>
               <mat-date-range-input [rangePicker]="picker">
-                <input matStartDate formControlName="startDate" placeholder="Start date" [min]="minDate">
+                <input matStartDate formControlName="startDate" placeholder="Start date">
                 <input matEndDate formControlName="endDate" placeholder="End date">
               </mat-date-range-input>
               <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-date-range-picker #picker></mat-date-range-picker>
-
-              <!-- <mat-error *ngIf="hostEventForm.get('eventTimings').get('endDate').hasError('matEndDateInvalid')">
-                Invalid end date</mat-error> -->
             </mat-form-field>
-
 
             <mat-form-field appearance="fill" class="shortinput">
               <mat-label>Starting time</mat-label>
@@ -173,13 +525,14 @@
 
             <mat-form-field appearance="fill" class="shortinput">
               <mat-label>Ending time</mat-label>
-              <input type="time" matInput formControlName="endTime" placeholder="Event ending time" >
+              <input type="time" matInput formControlName="endTime" placeholder="Event ending time">
             </mat-form-field>
             <div *ngIf="hostEventForm.get('eventTimings.startDate').hasError('startDateValidator')" class="alert">
               Invalid start date. Start date cannot be today or a past date.</div>
 
           </div>
-          <div *ngIf="hostEventForm.get('eventTimings').hasError('matching')">Password Not Matching</div>
+          <div *ngIf="hostEventForm.get('eventTimings').hasError('matching')" class="alert">* Error- Ending time
+            must be after starting time</div>
 
           <div>
             <button mat-button matStepperPrevious class="btn btn-secondary">Back</button>
@@ -188,7 +541,10 @@
 
         </form>
       </mat-step>
-      <!-- //////////////////---------------------///////////////////// -->
+   
+      
+
+
       <mat-step [stepControl]="hostEventForm" label="Seating Arrangement">
         <form [formGroup]="hostEventForm">
           <mat-form-field appearance="fill" class="shortinput">
@@ -208,22 +564,24 @@
               <mat-card-title>SEAT LAYOUT</mat-card-title>
             </mat-card-header>
             <mat-card-content>
-              <div class="cont" id="parent" style="background-color:red ;" (mousedown)="mouseDownEvent()"
+              <div class="cont" id="parent"  (mousedown)="mouseDownEvent()"
                 (mouseup)="mouseUpEvent()">
                 <div class="box" *ngFor="let e of eventData.seats; index as x;"
-                  style="background-color:blanchedalmond ;" >
+                  style="background-color:blanchedalmond ;">
                   {{e.seatId}}
-                  <input type="checkbox" name="" id="{{x}}" style="background-color:blueviolet ;"
-                    (change)="fieldsChange($event)" value="{{e.seatId}}"  [disabled]="e.seatPrice!= 0.0001"
+                  <input type="checkbox" name="" id="{{x}}" 
+                    (change)="fieldsChange($event)" value="{{e.seatId}}" [disabled]="e.seatPrice!= 0.0001"
                     (mouseover)='checkBox($event)'>
                 </div>
               </div>
               <input type="number" id="activePrice" placeholder="Price slab" (change)="setActivePrice()">
-              <button mat-button class="btn" (click)="savePrice()" [disabled]="activePrice<0">Save Selection</button>
+              <button mat-button class="btn" (click)="savePrice()" [disabled]="activePrice<0">Save
+                Selection</button>
 
               <div *ngFor="let e of priceList">
                 Entered Price Slab: {{e}}
-                <button mat-button class="btn btn-warning" (click)="removePrice(e)" [disabled]="activePrice<0">Remove Price Slab</button>
+                <button mat-button class="btn btn-warning" (click)="removePrice(e)" [disabled]="activePrice<0">Remove
+                  Price Slab</button>
               </div>
             </mat-card-content>
           </mat-card>
@@ -240,11 +598,14 @@
 
         </form>
       </mat-step>
-      <!-- //////////////////---------------------///////////////////// -->
+   
+      
+
+
       <mat-step [stepControl]="hostEventForm" label="Poster">
         <form [formGroup]="hostEventForm">
           <mat-label>Upload Event Poster</mat-label>
-          <input type="file" (change)="onFileChange($event)">
+          <input type="file" accept='image/*' (change)="onFileChange($event)">
           <div *ngIf="hostEventForm.get('poster').invalid" class="alert">
             <div *ngIf="hostEventForm.get('poster').errors?.['required']">
               * Event poster is required.
@@ -263,7 +624,11 @@
         </form>
 
       </mat-step>
-      <!-- //////////////////---------------------///////////////////// -->
+    
+      
+
+
+
       <mat-step>
         <ng-template matStepLabel>Done</ng-template>
         <h3>Preview:</h3>
@@ -355,4 +720,4 @@
       </mat-step>
     </mat-stepper>
   </mat-card-content>
-</mat-card>
+</mat-card> -->
