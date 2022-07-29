@@ -3,9 +3,7 @@ package com.stackroute.service;
 import com.stackroute.entity.CarnivryUser;
 import com.stackroute.exception.UserAlreadyExistsException;
 import com.stackroute.exception.UserNotFoundException;
-import com.stackroute.model.AddGenre;
-import com.stackroute.model.AddProfilePic;
-import com.stackroute.model.UserRegModel;
+import com.stackroute.model.*;
 
 import java.util.List;
 
@@ -32,4 +30,12 @@ public interface UserService {
     void saveProfilePic(AddProfilePic addProfilePic) throws UserNotFoundException;
 
     String getUsername(String email) throws UserNotFoundException;
+
+    boolean sendOTPForPhoneNoVerification(PhoneNoValidationRequestDto phoneNoValidationRequestDto) throws UserNotFoundException;
+
+    String validatePhoneVerificationOTP(PhoneNoValidationRequestDto phoneNoValidationRequestDto) throws UserNotFoundException;
+
+    void saveDOB(AddDOB addDOB) throws UserNotFoundException;
+
+    void saveAddress(AddAddress addAddress) throws UserNotFoundException;
 }
