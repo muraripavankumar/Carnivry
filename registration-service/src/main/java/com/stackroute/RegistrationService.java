@@ -1,5 +1,8 @@
 package com.stackroute;
 
+import com.stackroute.config.TwilioConfig;
+import com.twilio.Twilio;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -9,8 +12,26 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import javax.annotation.PostConstruct;
+
 @SpringBootApplication
 public class RegistrationService {
+
+//    @Autowired
+    private TwilioConfig twilioConfig;
+
+    @Autowired
+    public RegistrationService(TwilioConfig twilioConfig) {
+        this.twilioConfig = twilioConfig;
+    }
+
+
+    @PostConstruct
+    public void initTwilio(){
+        Twilio.init(twilioConfig.getAccountSid(),twilioConfig.getAuthToken());
+    }
+
+
     public static void main(String[] args) {
 
         SpringApplication.run(RegistrationService.class,args);

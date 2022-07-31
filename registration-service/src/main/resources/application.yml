@@ -35,3 +35,8 @@ spring:
             clientId: 12880111cd52b9208c9c
             clientSecret: a9f1059fdd7c6ddc648b659ad2a9ce42cdf057ed
             redirectUri: http://localhost:4200/Carnivry/callback
+
+#  twilio:
+#    account_sid: AC8db671d7b95d76cf3c965ddece0135e1
+#    auth_token: a1f5709d19e1c8b4211152c32a2330f78
+#    trial_number: +18507893794
