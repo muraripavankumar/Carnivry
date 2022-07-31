@@ -17,6 +17,7 @@ export class ManagementService {
     return this.httpClient.get<any>(this.managementUrl+"/" + eventId);
   }
   updateHostEvent(eventData: Event) {
+    console.log(eventData);
     return this.httpClient.patch<any>(this.managementUrl, eventData,{ observe: 'response' });
   }
   getAllEvents(){

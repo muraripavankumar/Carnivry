@@ -28,7 +28,7 @@ public class Event {
     private List<String> languages;
     @NotNull
     private EventTiming eventTimings;
-    private String poster;
+    private List<String> posters;
     private Venue venue;
     private BigDecimal revenueGenerated;
     private int ticketsSold;

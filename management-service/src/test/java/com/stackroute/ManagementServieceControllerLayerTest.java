@@ -24,7 +24,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Optional;
 
 
 import static org.mockito.ArgumentMatchers.any;
@@ -48,6 +47,7 @@ public class ManagementServieceControllerLayerTest {
         ArrayList<String> artistList= new ArrayList<String>(Arrays.asList("artist","artists"));
         ArrayList<String> genreList=new ArrayList<String>(Arrays.asList("genre1","genre2"));
         ArrayList<String> languageList=new ArrayList<String>(Arrays.asList("language1","language2"));
+        ArrayList<String> posters=new ArrayList<String>(Arrays.asList("poster_thumbnail","poster_landscape"));
         ArrayList<Seat> seatArrayList=new ArrayList<>();
         ArrayList<String> emailList=new ArrayList<>(Arrays.asList("user1@ex.com","user2@ex.com","user3@ex.com"));
         Address address=new Address("23","Test street","Test landmark","Test city","Test state","Test Country",123456);
@@ -59,7 +59,7 @@ public class ManagementServieceControllerLayerTest {
         seatArrayList.add(seat1);
         seatArrayList.add(seat2);
         seatArrayList.add(seat3);
-        event=new Event("101","Test example tile","testuser@example.com","test event description",artistList,genreList,languageList,eventTiming,"poster url", venue,new BigDecimal(2000),250,450,seatArrayList,300,emailList);
+        event=new Event("101","Test example tile","testuser@example.com","test event description",artistList,genreList,languageList,eventTiming,posters, venue,new BigDecimal(2000),250,450,seatArrayList,300,emailList);
         mockMvc= MockMvcBuilders.standaloneSetup(eventController).build();
     }
     @AfterEach
