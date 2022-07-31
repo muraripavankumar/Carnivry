@@ -45,6 +45,7 @@ export class HostEventComponent implements OnInit {
   column: number = 0;
   row: number = 0;
   alphaRows: string[] = [];
+  ticketPrice:number=null;
 
 
   constructor(private fb: FormBuilder, private managementService: ManagementService, private snackbar: MatSnackBar, private updateEventService: UpdateEventService) {
@@ -161,6 +162,9 @@ export class HostEventComponent implements OnInit {
       if (this.existingEventData.totalSeats > 0 && this.row === 0) {
         this.seatType = 'no';
       }
+      else if(this.existingEventData.totalSeats===0 && this.row===0 && this.existingEventData.seats.length===1){
+        this.seatType='no';
+      }
       else {
         this.seatType = 'yes';
       }
@@ -168,6 +172,8 @@ export class HostEventComponent implements OnInit {
       this.totalSeating = this.existingEventData.seats.length;
       this.eventData = this.existingEventData;
     }
+    console.log(this.hostEventForm.value);
+    console.log(this.priceList[0]);
   }
 
   //////////////////////  Artist Input  ///////////////////////////////////
@@ -394,6 +400,9 @@ export class HostEventComponent implements OnInit {
     });
   }
   setTicketPrice(values: any) {
+    while ((<FormArray>this.hostEventForm.get('seats')).length !== 0) {
+      (<FormArray>this.hostEventForm.get('seats')).removeAt(0);
+    }
     // Online event
     if (this.hostEventForm.get('venue.address.city').value === '-NA-') {
       var sCtrl = new FormGroup({});
@@ -408,8 +417,8 @@ export class HostEventComponent implements OnInit {
     }
     // Offline event without seat layout
     else {
-      console.log('Price value : '+values.currentTarget.value);
-      console.log('Total seats value : '+this.hostEventForm.get('totalSeats').value);
+      // console.log('Price value : ' + values.currentTarget.value);
+      // console.log('Total seats value : ' + this.hostEventForm.get('totalSeats').value);
       for (let i = 0; i < this.hostEventForm.get('totalSeats').value; i++) {
 
         var sCtrl = new FormGroup({});
@@ -427,7 +436,43 @@ export class HostEventComponent implements OnInit {
     }
     this.eventData = this.hostEventForm.value;
   }
+  onPriceUpdate(values: any) {
+    var oldPrice = this.priceList[values];
+    var uid = 'u.' + values;
+    var newPrice: number = <number><unknown>(document.getElementById(uid) as HTMLInputElement).value;
+    // console.log(oldPrice);
+    // console.log(newPrice);
+    // this.existingEventData.seats.forEach((s) => {
+    //   if (s.seatPrice === oldPrice)
+    //     s.seatPrice = newPrice;
+    // });
+    for (let s of (<FormArray>this.hostEventForm.get('seats')).controls) {
+   
+      if (s.get('seatPrice').value === oldPrice) {
+        s.get('seatPrice').setValue(newPrice);
+      }
+    }
+  }
+  changeTotalSeats(values:any){
+    while ((<FormArray>this.hostEventForm.get('seats')).length !== 0) {
+      (<FormArray>this.hostEventForm.get('seats')).removeAt(0);
+    }
+    for (let i = 0; i < this.hostEventForm.get('totalSeats').value; i++) {
 
+      var sCtrl = new FormGroup({});
+
+      sCtrl.addControl('seatId', new FormControl('', Validators.required));
+      sCtrl.addControl('row', new FormControl('0', Validators.required));
+      sCtrl.addControl('colm', new FormControl('0', Validators.required));
+      sCtrl.addControl('seatPrice', new FormControl(values.currentTarget.value, Validators.required));
+      sCtrl.addControl('status', new FormControl('NOT BOOKED'));
+
+      sCtrl.get('seatId').setValue(i + 1);
+
+      (<FormArray>this.hostEventForm.get('seats')).push(sCtrl);
+    }
+
+  }
 
   ///////////////////////  Poster Image Input  //////////////////////////////////////
   onThumbnailFileChange(event: any) {

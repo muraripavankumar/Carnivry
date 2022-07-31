@@ -150,7 +150,7 @@
           </div>
           <div class="row">
             <h2 class="col-sm-12">Event Timings :</h2>
-          
+
             <div formGroupName="eventTimings">
               <mat-form-field class="col-sm-12 col-md-4">
                 <mat-label>Enter a date range</mat-label>
@@ -195,30 +195,30 @@
         </mat-button-toggle-group>
         <form [formGroup]="hostEventForm">
 
-        
-            <mat-form-field [hidden]="seatType==='yes' || this.hostEventForm.get('venue.address.city').value==='-NA-' ">
-              <mat-label>Max. Audience Capacity</mat-label>
-              <input type="number" matInput formControlName="totalSeats">
-            </mat-form-field>
-            <mat-form-field [hidden]="seatType==='yes' ">
-              <mat-label>Ticket Price</mat-label>
-              <input type="number" matInput (change)="setTicketPrice($event)">
-            </mat-form-field>
+
+          <mat-form-field [hidden]="seatType==='yes' || this.hostEventForm.get('venue.address.city').value==='-NA-' ">
+            <mat-label>Max. Audience Capacity</mat-label>
+            <input type="number" matInput formControlName="totalSeats" (change)="changeTotalSeats($event)">
+          </mat-form-field>
+          <mat-form-field [hidden]="seatType==='yes' ">
+            <mat-label>Ticket Price</mat-label>
+            <input type="number" matInput (change)="setTicketPrice($event)" value="{{priceList[0]}}">
+          </mat-form-field>
 
 
-            <mat-form-field [hidden]="seatType==='no' || this.hostEventForm.get('venue.address.city').value==='-NA-'">
-              <mat-label>Rows</mat-label>
-              <input type="number" matInput (change)="calcTotalSeats()" id="totalRows"
-                placeholder="Total number of rows" value="{{row}}">
-            </mat-form-field>
+          <mat-form-field [hidden]="seatType==='no' || this.hostEventForm.get('venue.address.city').value==='-NA-'">
+            <mat-label>Rows</mat-label>
+            <input type="number" matInput (change)="calcTotalSeats()" id="totalRows" placeholder="Total number of rows"
+              value="{{row}}" [readonly]="existingEventData.eventId!=null">
+          </mat-form-field>
 
-            <mat-form-field [hidden]="seatType==='no' || this.hostEventForm.get('venue.address.city').value==='-NA-'">
-              <mat-label>Columns</mat-label>
-              <input type="number" matInput (change)="calcTotalSeats()" id="totalColm"
-                placeholder="Number of columns per row" value="{{column}}">
-            </mat-form-field>
-  
-          <mat-card [hidden]="totalSeating===0">
+          <mat-form-field [hidden]="seatType==='no' || this.hostEventForm.get('venue.address.city').value==='-NA-'">
+            <mat-label>Columns</mat-label>
+            <input type="number" matInput (change)="calcTotalSeats()" id="totalColm"
+              placeholder="Number of columns per row" value="{{column}}" [readonly]="existingEventData.eventId!=null">
+          </mat-form-field>
+
+          <mat-card [hidden]="totalSeating===0 || row===0">
             <mat-card-header>
               <mat-card-title>SEAT LAYOUT</mat-card-title>
             </mat-card-header>
@@ -242,17 +242,20 @@
                     [disabled]="e.seatPrice!= 0.0001" (mouseover)='checkBox($event)'>
                 </div>
               </div>
-              <input type="number" id="activePrice" placeholder="Price slab" (change)="setActivePrice()">
-              <button mat-button class="btn" (click)="savePrice()" [disabled]="activePrice<0">Save
-              </button>
+              <div [hidden]="existingEventData.eventId!=null">
+                <input type="number" id="activePrice" placeholder="Price slab" (change)="setActivePrice()">
+                <button mat-button class="btn" (click)="savePrice()" [disabled]="activePrice<0">Save
+                </button>
+              </div>
 
               <div *ngFor="let e of priceList;index as i">
-                Entered Price Slab: {{e}}
-
+                <label for="u.{{i}}">Price Slab :</label>
+                <input type="number" id="u.{{i}}" value="{{e}}" >
 
                 <button mat-button class="btn btn-warning" (click)="removePrice(e)" [disabled]="activePrice<0"
-                  [hidden]="existingEventData===null">Remove</button>
-                <button mat-button class="btn btn-info" [hidden]="existingEventData.eventId!=''">Update price</button>
+                  [hidden]="existingEventData.eventId!=null">Remove</button>
+                <button mat-button class="btn btn-info" [hidden]="existingEventData.eventId===null" (click)="onPriceUpdate(i)" >Update
+                  price</button>
               </div>
             </mat-card-content>
           </mat-card>
