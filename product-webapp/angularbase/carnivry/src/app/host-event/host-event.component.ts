@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormBuilder, FormArray, NgForm, FormGroup } from '@angular/forms';
+import { Validators, FormBuilder, FormArray, FormGroup } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
@@ -12,7 +12,6 @@ import { ManagementService } from '../service/management.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Event } from "../model/event";
 import { UpdateEventService } from '../service/update-event.service';
-import { posterTypeValidation } from '../validations/imageValidation';
 import { validateStartDate } from '../validations/startDateValidator';
 import Validation from '../validations/timeValidation';
 
@@ -310,6 +309,7 @@ export class HostEventComponent implements OnInit {
     var ro: any = (<HTMLInputElement>document.getElementById("totalRows")).value;
     var co: any = (<HTMLInputElement>document.getElementById("totalColm")).value;
     this.totalSeating = (ro * co);
+    this.column=co;
     this.hostEventForm.get('totalSeats').setValue(this.totalSeating);
     document.documentElement.style.setProperty("--colNum", co);
     this.alphabeticalRow(ro);

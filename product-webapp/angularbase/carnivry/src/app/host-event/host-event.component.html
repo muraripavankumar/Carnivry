@@ -218,28 +218,30 @@
               placeholder="Number of columns per row" value="{{column}}" [readonly]="existingEventData.eventId!=null">
           </mat-form-field>
 
-          <mat-card [hidden]="totalSeating===0 || row===0">
+          <mat-card [hidden]="totalSeating===0 || column===0">
             <mat-card-header>
               <mat-card-title>SEAT LAYOUT</mat-card-title>
             </mat-card-header>
             <mat-card-content (mouseup)="mouseUpEvent()">
-              <div
-                style="width: 100%;height: 50px; background-color: black; color: aliceblue; margin-bottom: 10px; border-bottom-left-radius: 25px; border-bottom-right-radius: 25px; text-align: center;">
-                <h1>STAGE</h1>
-              </div>
-              <div style="float: left; line-height: 28px; margin-right: 10px;">
-                <div *ngFor="let r of alphaRows"
-                  style="background-color: black; border-radius:15%; color: aliceblue; padding: 0 0.5vw; height: fit-content;">
-                  {{r}}</div>
-              </div>
+              <div style="margin: 0 auto;">
+                <div
+                  style="width: 60%;height: 50px; background-color: black; color: aliceblue; margin-bottom: 10px; border-bottom-left-radius: 25px; border-bottom-right-radius: 25px; text-align: center;">
+                  <h1>STAGE</h1>
+                </div>
+                <div style="float: left; line-height: 28px; margin-right: 10px;">
+                  <div *ngFor="let r of alphaRows"
+                    style="background-color: black; border-radius:15%; color: aliceblue; padding: 0 0.5vw; height: fit-content;">
+                    {{r}}</div>
+                </div>
 
-              <div class="cont" id="parent" (mousedown)="mouseDownEvent()" (mouseup)="mouseUpEvent()"
-                style="background-color: green;">
+                <div class="cont" id="parent" (mousedown)="mouseDownEvent()" (mouseup)="mouseUpEvent()"
+                  style="background-color: green;">
 
-                <div class="box" *ngFor="let e of eventData.seats; index as x;">
-                  <label for="{{x}}">{{e.seatId}}</label>
-                  <input type="checkbox" name="" id="{{x}}" (change)="fieldsChange($event)" value="{{e.seatId}}"
-                    [disabled]="e.seatPrice!= 0.0001" (mouseover)='checkBox($event)'>
+                  <div class="box" *ngFor="let e of eventData.seats; index as x;">
+                    <label for="{{x}}">{{e.seatId}}</label>
+                    <input type="checkbox" name="" id="{{x}}" (change)="fieldsChange($event)" value="{{e.seatId}}"
+                      [disabled]="e.seatPrice!= 0.0001" (mouseenter)='checkBox($event)'>
+                  </div>
                 </div>
               </div>
               <div [hidden]="existingEventData.eventId!=null">
@@ -250,11 +252,12 @@
 
               <div *ngFor="let e of priceList;index as i">
                 <label for="u.{{i}}">Price Slab :</label>
-                <input type="number" id="u.{{i}}" value="{{e}}" >
+                <input type="number" id="u.{{i}}" value="{{e}}">
 
                 <button mat-button class="btn btn-warning" (click)="removePrice(e)" [disabled]="activePrice<0"
                   [hidden]="existingEventData.eventId!=null">Remove</button>
-                <button mat-button class="btn btn-info" [hidden]="existingEventData.eventId===null" (click)="onPriceUpdate(i)" >Update
+                <button mat-button class="btn btn-info" [hidden]="existingEventData.eventId===null"
+                  (click)="onPriceUpdate(i)">Update
                   price</button>
               </div>
             </mat-card-content>
