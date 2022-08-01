@@ -140,12 +140,15 @@ export class HostEventComponent implements OnInit {
         sCtrl.addControl('colm', new FormControl('', Validators.required));
         sCtrl.addControl('seatPrice', new FormControl('0.0001', Validators.required));
         sCtrl.addControl('status', new FormControl('NOT BOOKED'));
+       
+        sCtrl.addControl('seatCategory', new FormControl(''));
 
         sCtrl.get('seatId').setValue(s.seatId);
         sCtrl.get('row').setValue(s.row);
         sCtrl.get('colm').setValue(s.colm);
         sCtrl.get('seatPrice').setValue(s.seatPrice);
         sCtrl.get('status').setValue(s.status);
+        sCtrl.get('seatCategory').setValue(s.seatCategory);
 
         (<FormArray>this.hostEventForm.get('seats')).push(sCtrl);
         if (s.colm > this.column)
@@ -171,8 +174,6 @@ export class HostEventComponent implements OnInit {
       this.totalSeating = this.existingEventData.seats.length;
       this.eventData = this.existingEventData;
     }
-    console.log(this.hostEventForm.value);
-    console.log(this.priceList[0]);
   }
 
   //////////////////////  Artist Input  ///////////////////////////////////
@@ -308,6 +309,7 @@ export class HostEventComponent implements OnInit {
     }
     var ro: any = (<HTMLInputElement>document.getElementById("totalRows")).value;
     var co: any = (<HTMLInputElement>document.getElementById("totalColm")).value;
+    // var sc:any = (<HTMLInputElement>document.getElementById('seatCategory')).value;
     this.totalSeating = (ro * co);
     this.column=co;
     this.hostEventForm.get('totalSeats').setValue(this.totalSeating);
@@ -322,10 +324,12 @@ export class HostEventComponent implements OnInit {
       sCtrl.addControl('colm', new FormControl('', Validators.required));
       sCtrl.addControl('seatPrice', new FormControl('0.0001', Validators.required));
       sCtrl.addControl('status', new FormControl('NOT BOOKED'));
+        sCtrl.addControl('seatCategory', new FormControl(''));
 
       sCtrl.get('seatId').setValue(i + 1);
       sCtrl.get('row').setValue(ro);
       sCtrl.get('colm').setValue(co);
+     
 
       (<FormArray>this.hostEventForm.get('seats')).push(sCtrl);
 
@@ -406,12 +410,14 @@ export class HostEventComponent implements OnInit {
     // Online event
     if (this.hostEventForm.get('venue.address.city').value === '-NA-') {
       var sCtrl = new FormGroup({});
+      // var sc:string=(<HTMLInputElement>document.getElementById('seatCategory')).value;
 
       sCtrl.addControl('seatId', new FormControl('0', Validators.required));
       sCtrl.addControl('row', new FormControl('0', Validators.required));
       sCtrl.addControl('colm', new FormControl('0', Validators.required));
       sCtrl.addControl('seatPrice', new FormControl(values.currentTarget.value, Validators.required));
       sCtrl.addControl('status', new FormControl('NOT BOOKED'));
+        sCtrl.addControl('seatCategory', new FormControl('Common'));
 
       (<FormArray>this.hostEventForm.get('seats')).push(sCtrl);
     }

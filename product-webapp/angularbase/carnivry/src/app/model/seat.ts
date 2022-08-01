@@ -4,8 +4,5 @@ export class Seat {
     public seatId: number;
     public seatPrice: number;
     public status:string;
-    public customerEmailId:string;
     public seatCategory:string;
-
-  
 }

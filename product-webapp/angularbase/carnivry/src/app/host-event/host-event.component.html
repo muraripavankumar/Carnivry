@@ -245,12 +245,17 @@
                 </div>
               </div>
               <div [hidden]="existingEventData.eventId!=null">
+                <mat-form-field>
+                  <mat-label>Seat Category</mat-label>
+                  <input type="text" matInput placeholder="Platinum/Gold/Silver" id="seatCategory">
+                </mat-form-field>
                 <input type="number" id="activePrice" placeholder="Price slab" (change)="setActivePrice()">
                 <button mat-button class="btn" (click)="savePrice()" [disabled]="activePrice<0">Save
                 </button>
               </div>
 
               <div *ngFor="let e of priceList;index as i">
+                
                 <label for="u.{{i}}">Price Slab :</label>
                 <input type="number" id="u.{{i}}" value="{{e}}">
 

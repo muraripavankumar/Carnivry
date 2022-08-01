@@ -36,9 +36,9 @@ public class ManagementServieceEventRepositoryTest {
         Address address=new Address("23","Test street","Test landmark","Test city","Test state","Test Country",123456);
         Venue venue=new Venue("Test venue name",address);
         EventTiming eventTiming=new EventTiming(new Date(),new Date(),"11:24","04:06");
-        Seat seat1=new Seat(5,6,1,new BigDecimal("100.05"),"NOT_BOOKED","customer@gmail.com","platinum");
-        Seat seat2=new Seat(5,6,2,new BigDecimal("200.05"),"NOT_BOOKED","customer@gmail.com","silver");
-        Seat seat3=new Seat(5,6,3,new BigDecimal("10.05"),"NOT_BOOKED","customer@gmail.com","gold");
+        Seat seat1=new Seat(5,6,1,new BigDecimal("100.05"),"NOT_BOOKED","platinum");
+        Seat seat2=new Seat(5,6,2,new BigDecimal("200.05"),"NOT_BOOKED","silver");
+        Seat seat3=new Seat(5,6,3,new BigDecimal("10.05"),"NOT_BOOKED","gold");
         seatArrayList.add(seat1);
         seatArrayList.add(seat2);
         seatArrayList.add(seat3);
