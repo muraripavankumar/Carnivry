@@ -14,6 +14,7 @@ import { Event } from "../model/event";
 import { UpdateEventService } from '../service/update-event.service';
 import { validateStartDate } from '../validations/startDateValidator';
 import Validation from '../validations/timeValidation';
+import { PriceCategory } from '../model/price-category';
 
 
 
@@ -22,6 +23,7 @@ import Validation from '../validations/timeValidation';
   templateUrl: './host-event.component.html',
   styleUrls: ['./host-event.component.css']
 })
+ 
 export class HostEventComponent implements OnInit {
   existingEventData: Event | null;
   eventData: Event;
@@ -32,25 +34,34 @@ export class HostEventComponent implements OnInit {
   genres: string[] = [];
   genreCtrl = new FormControl('');
   filteredGenres: Observable<string[]>;
-  allGenres: string[] = ['Adventure', 'Action', 'Drama', 'Party', 'Spiritual'];
-  countries: string[] = ['China', 'Bangladesh', 'India', 'Pakistan'];
+  allGenres: string[] = ['Action', 'Adventure', 'Ceremony', 'Drama', 'Party', 'Spiritual', 'Sports', 'Thriller'];
+  countries: string[] = ['Bangladesh', 'China', 'India','Nepal', 'Pakistan'];
   posterPic: any;
   thumbnailPosterPicDataUrl: string = "";
   landscapePosterPicDataUrl: string = "";
   mouseDown: boolean = false;
   selectedItems: number[] = [];
-  priceList: any[] = [];
+  // priceList: any[] = [];
   activePrice: number = -1;
   column: number = 0;
   row: number = 0;
   alphaRows: string[] = [];
-  ticketPrice:number=null;
+  ticketPrice: number = null;
+  // seatCategoryList: string[] = [];
+  seatCategoryOptions: string[] = ['Platinum', 'Gold', 'Silver', 'Common'];
+  filteredSeatCategories: Observable<string[]>;
+  seatCategoryCtrl = new FormControl('');
+  priceCatogoryList: PriceCategory[]=[];
 
 
   constructor(private fb: FormBuilder, private managementService: ManagementService, private snackbar: MatSnackBar, private updateEventService: UpdateEventService) {
     this.filteredGenres = this.genreCtrl.valueChanges.pipe(
       startWith(''),
       map((genre: string | '') => (genre ? this._filter(genre) : this.allGenres.slice())),
+    );
+    this.filteredSeatCategories = this.seatCategoryCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this.filterSeatCategory(value || '')),
     );
     this.eventData = new Event();
   }
@@ -140,7 +151,7 @@ export class HostEventComponent implements OnInit {
         sCtrl.addControl('colm', new FormControl('', Validators.required));
         sCtrl.addControl('seatPrice', new FormControl('0.0001', Validators.required));
         sCtrl.addControl('status', new FormControl('NOT BOOKED'));
-       
+
         sCtrl.addControl('seatCategory', new FormControl(''));
 
         sCtrl.get('seatId').setValue(s.seatId);
@@ -155,17 +166,29 @@ export class HostEventComponent implements OnInit {
           this.column = s.colm;
         if (s.row > this.row)
           this.row = s.row;
-        this.priceList.push(s.seatPrice);
+        // this.priceList.push(s.seatPrice);
+        var priceCategory:PriceCategory=new PriceCategory();
+        priceCategory.category=s.seatCategory;
+        priceCategory.price=s.seatPrice;
+        var counter=0;
+        this.priceCatogoryList.forEach((pc)=>{
+          if(pc.price===s.seatPrice && pc.category===s.seatCategory)
+          counter=1;
+        });
+        //only adding unique data
+        if(counter===0)
+        this.priceCatogoryList.push(priceCategory);
+        counter=0;
 
       });
-      this.priceList = this.priceList.filter((item, index) => this.priceList.indexOf(item) === index);
+      // this.priceList = this.priceList.filter((item, index) => this.priceList.indexOf(item) === index);
       document.documentElement.style.setProperty("--colNum", <string><unknown>this.column);
       this.hostEventForm.get('totalSeats').setValue(this.existingEventData.totalSeats);
       if (this.existingEventData.totalSeats > 0 && this.row === 0) {
         this.seatType = 'no';
       }
-      else if(this.existingEventData.totalSeats===0 && this.row===0 && this.existingEventData.seats.length===1){
-        this.seatType='no';
+      else if (this.existingEventData.totalSeats === 0 && this.row === 0 && this.existingEventData.seats.length === 1) {
+        this.seatType = 'no';
       }
       else {
         this.seatType = 'yes';
@@ -311,7 +334,7 @@ export class HostEventComponent implements OnInit {
     var co: any = (<HTMLInputElement>document.getElementById("totalColm")).value;
     // var sc:any = (<HTMLInputElement>document.getElementById('seatCategory')).value;
     this.totalSeating = (ro * co);
-    this.column=co;
+    this.column = co;
     this.hostEventForm.get('totalSeats').setValue(this.totalSeating);
     document.documentElement.style.setProperty("--colNum", co);
     this.alphabeticalRow(ro);
@@ -324,16 +347,18 @@ export class HostEventComponent implements OnInit {
       sCtrl.addControl('colm', new FormControl('', Validators.required));
       sCtrl.addControl('seatPrice', new FormControl('0.0001', Validators.required));
       sCtrl.addControl('status', new FormControl('NOT BOOKED'));
-        sCtrl.addControl('seatCategory', new FormControl(''));
+      sCtrl.addControl('seatCategory', new FormControl(''));
 
       sCtrl.get('seatId').setValue(i + 1);
       sCtrl.get('row').setValue(ro);
       sCtrl.get('colm').setValue(co);
-     
+
 
       (<FormArray>this.hostEventForm.get('seats')).push(sCtrl);
 
     }
+    // this.priceList=[];
+    this.priceCatogoryList=[];
     this.eventData = this.hostEventForm.value;
   }
 
@@ -385,19 +410,33 @@ export class HostEventComponent implements OnInit {
   }
 
   savePrice() {
-    this.priceList.push(this.activePrice);
+    var sc: string = (<HTMLInputElement>document.getElementById('seatCategory')).value;
+    // this.priceList.push(this.activePrice);
+    // this.seatCategoryList.push(sc);
+    var priceCategory:PriceCategory=new PriceCategory();
+    priceCategory.category=sc;
+    priceCategory.price=this.activePrice;
+    this.priceCatogoryList.push(priceCategory);
     this.selectedItems.forEach((s: number) => {
       this.eventData.seats[s - 1].seatPrice = this.activePrice;
+      this.eventData.seats[s - 1].seatCategory = sc;
     });
     this.selectedItems = [];
     this.eventData = this.hostEventForm.value;
   }
 
   removePrice(price: number) {
-    this.priceList.splice(this.priceList.indexOf(price), 1);
+    
+    for(var i=0;i<this.priceCatogoryList.length;i++){
+      if(this.priceCatogoryList[i].price===price){
+        this.priceCatogoryList.splice(i,1);
+      }
+    }
+
     this.eventData.seats.forEach((s) => {
       if (s.seatPrice === price) {
         s.seatPrice = 0.0001;
+        s.seatCategory = '';
         var seatIndex = s.seatId - 1;
         (document.getElementById(<string><unknown>seatIndex) as HTMLInputElement).checked = false;
       }
@@ -407,7 +446,7 @@ export class HostEventComponent implements OnInit {
     while ((<FormArray>this.hostEventForm.get('seats')).length !== 0) {
       (<FormArray>this.hostEventForm.get('seats')).removeAt(0);
     }
-    // Online event
+    // Online event (these events dont have seats)
     if (this.hostEventForm.get('venue.address.city').value === '-NA-') {
       var sCtrl = new FormGroup({});
       // var sc:string=(<HTMLInputElement>document.getElementById('seatCategory')).value;
@@ -417,7 +456,7 @@ export class HostEventComponent implements OnInit {
       sCtrl.addControl('colm', new FormControl('0', Validators.required));
       sCtrl.addControl('seatPrice', new FormControl(values.currentTarget.value, Validators.required));
       sCtrl.addControl('status', new FormControl('NOT BOOKED'));
-        sCtrl.addControl('seatCategory', new FormControl('Common'));
+      sCtrl.addControl('seatCategory', new FormControl('Common'));
 
       (<FormArray>this.hostEventForm.get('seats')).push(sCtrl);
     }
@@ -434,6 +473,7 @@ export class HostEventComponent implements OnInit {
         sCtrl.addControl('colm', new FormControl('0', Validators.required));
         sCtrl.addControl('seatPrice', new FormControl(values.currentTarget.value, Validators.required));
         sCtrl.addControl('status', new FormControl('NOT BOOKED'));
+        sCtrl.addControl('seatCategory', new FormControl('Common'));
 
         sCtrl.get('seatId').setValue(i + 1);
 
@@ -443,9 +483,15 @@ export class HostEventComponent implements OnInit {
     this.eventData = this.hostEventForm.value;
   }
   onPriceUpdate(values: any) {
-    var oldPrice = this.priceList[values];
+    // var oldPrice = this.priceList[values];
+    var oldPrice= this.priceCatogoryList[values].price;
     var uid = 'u.' + values;
     var newPrice: number = <number><unknown>(document.getElementById(uid) as HTMLInputElement).value;
+    //if event organizer tries to update the price to negative value, then the seat prices will be update to 0.
+    if(newPrice<0){
+      newPrice=0;
+      (document.getElementById(uid) as HTMLInputElement).value='0';
+    }
     // console.log(oldPrice);
     // console.log(newPrice);
     // this.existingEventData.seats.forEach((s) => {
@@ -453,13 +499,13 @@ export class HostEventComponent implements OnInit {
     //     s.seatPrice = newPrice;
     // });
     for (let s of (<FormArray>this.hostEventForm.get('seats')).controls) {
-   
+
       if (s.get('seatPrice').value === oldPrice) {
         s.get('seatPrice').setValue(newPrice);
       }
     }
   }
-  changeTotalSeats(values:any){
+  changeTotalSeats(values: any) {
     while ((<FormArray>this.hostEventForm.get('seats')).length !== 0) {
       (<FormArray>this.hostEventForm.get('seats')).removeAt(0);
     }
@@ -478,6 +524,11 @@ export class HostEventComponent implements OnInit {
       (<FormArray>this.hostEventForm.get('seats')).push(sCtrl);
     }
 
+  }
+  // Autocomplete for seat category
+  private filterSeatCategory(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.seatCategoryOptions.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   ///////////////////////  Poster Image Input  //////////////////////////////////////

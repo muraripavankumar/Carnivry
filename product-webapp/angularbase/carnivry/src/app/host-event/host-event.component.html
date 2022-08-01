@@ -42,6 +42,8 @@
                 (matChipInputTokenEnd)="addArtist($event)">
             </mat-chip-list>
           </mat-form-field>
+
+
           <mat-form-field class="example-chip-list" class="col-sm-12">
             <mat-label>Genres</mat-label>
             <mat-chip-list #chipList aria-label="Genre selection">
@@ -61,6 +63,8 @@
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
+
+
           <mat-form-field class="col-sm-12">
             <mat-label>Languages</mat-label>
             <mat-chip-list #chipList3 aria-label="Language selection">
@@ -202,7 +206,7 @@
           </mat-form-field>
           <mat-form-field [hidden]="seatType==='yes' ">
             <mat-label>Ticket Price</mat-label>
-            <input type="number" matInput (change)="setTicketPrice($event)" value="{{priceList[0]}}">
+            <input type="number" matInput (change)="setTicketPrice($event)" value="{{priceCatogoryList[0]?.price}}">
           </mat-form-field>
 
 
@@ -235,7 +239,7 @@
                 </div>
 
                 <div class="cont" id="parent" (mousedown)="mouseDownEvent()" (mouseup)="mouseUpEvent()"
-                  style="background-color: green;">
+                  style="background-color: lightgreen;">
 
                   <div class="box" *ngFor="let e of eventData.seats; index as x;">
                     <label for="{{x}}">{{e.seatId}}</label>
@@ -247,21 +251,30 @@
               <div [hidden]="existingEventData.eventId!=null">
                 <mat-form-field>
                   <mat-label>Seat Category</mat-label>
-                  <input type="text" matInput placeholder="Platinum/Gold/Silver" id="seatCategory">
+                  <input type="text" matInput placeholder="Platinum/Gold/Silver" id="seatCategory"
+                    [matAutocomplete]="auto1">
+                  <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete">
+                    <mat-option *ngFor="let option of filteredSeatCategories|async" [value]="option">{{option}}
+                    </mat-option>
+                  </mat-autocomplete>
                 </mat-form-field>
                 <input type="number" id="activePrice" placeholder="Price slab" (change)="setActivePrice()">
                 <button mat-button class="btn" (click)="savePrice()" [disabled]="activePrice<0">Save
                 </button>
               </div>
 
-              <div *ngFor="let e of priceList;index as i">
-                
-                <label for="u.{{i}}">Price Slab :</label>
-                <input type="number" id="u.{{i}}" value="{{e}}">
-
-                <button mat-button class="btn btn-warning" (click)="removePrice(e)" [disabled]="activePrice<0"
+              <div *ngFor="let e of priceCatogoryList;index as i">
+                <mat-form-field>
+                  <mat-label>Seat Category</mat-label>
+                  <input matInput type="text" value="{{e.category}}" readonly>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Price Slab :</mat-label>
+                  <input matInput type="number" id="u.{{i}}" value="{{e.price}}"[readonly]="existingEventData.eventId==null">
+                </mat-form-field>
+                <button mat-button class="btn btn-warning" (click)="removePrice(e.price)"
                   [hidden]="existingEventData.eventId!=null">Remove</button>
-                <button mat-button class="btn btn-info" [hidden]="existingEventData.eventId===null"
+                <button mat-button class="btn btn-info" [hidden]="existingEventData.eventId==null"
                   (click)="onPriceUpdate(i)">Update
                   price</button>
               </div>
@@ -392,7 +405,7 @@
         </mat-card>
         <div>
           <button mat-button matStepperPrevious class="btn btn-secondary">Back</button>
-          <button mat-button (click)="stepper.reset()" class="btn btn-danger" style="margin-left:2%">Reset</button>
+          <!-- <button mat-button (click)="stepper.reset()" class="btn btn-danger" style="margin-left:2%">Reset</button> -->
           <button mat-button type="submit" (click)="onSubmit()" class="btn btn-success" style="float: right;"
             [hidden]="existingEventData.eventId!=null">Submit</button>
           <button mat-button type="submit" (click)="onUpdate()" class="btn btn-success" style="float: right;"
