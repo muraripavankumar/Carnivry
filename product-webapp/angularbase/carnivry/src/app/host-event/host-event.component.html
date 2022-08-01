@@ -232,20 +232,22 @@
                   style="width: 60%;height: 50px; background-color: black; color: aliceblue; margin-bottom: 10px; border-bottom-left-radius: 25px; border-bottom-right-radius: 25px; text-align: center;">
                   <h1>STAGE</h1>
                 </div>
-                <div style="float: left; line-height: 28px; margin-right: 10px;">
+                <div style="float: left; line-height: 3.375rem; margin-right: 10px;">
                   <div *ngFor="let r of alphaRows"
                     style="background-color: black; border-radius:15%; color: aliceblue; padding: 0 0.5vw; height: fit-content;">
                     {{r}}</div>
                 </div>
 
                 <div class="cont" id="parent" (mousedown)="mouseDownEvent()" (mouseup)="mouseUpEvent()"
-                  style="background-color: lightgreen;">
+                  >
 
                   <div class="box" *ngFor="let e of eventData.seats; index as x;">
+                    <div id="d.{{x}}" style="border: 0.2rem solid black;">
                     <label for="{{x}}">{{e.seatId}}</label>
                     <input type="checkbox" name="" id="{{x}}" (change)="fieldsChange($event)" value="{{e.seatId}}"
                       [disabled]="e.seatPrice!= 0.0001" (mouseenter)='checkBox($event)'>
                   </div>
+                </div>
                 </div>
               </div>
               <div [hidden]="existingEventData.eventId!=null">

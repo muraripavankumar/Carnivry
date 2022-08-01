@@ -23,7 +23,7 @@ import { PriceCategory } from '../model/price-category';
   templateUrl: './host-event.component.html',
   styleUrls: ['./host-event.component.css']
 })
- 
+
 export class HostEventComponent implements OnInit {
   existingEventData: Event | null;
   eventData: Event;
@@ -35,7 +35,7 @@ export class HostEventComponent implements OnInit {
   genreCtrl = new FormControl('');
   filteredGenres: Observable<string[]>;
   allGenres: string[] = ['Action', 'Adventure', 'Ceremony', 'Drama', 'Party', 'Spiritual', 'Sports', 'Thriller'];
-  countries: string[] = ['Bangladesh', 'China', 'India','Nepal', 'Pakistan'];
+  countries: string[] = ['Bangladesh', 'China', 'India', 'Nepal', 'Pakistan'];
   posterPic: any;
   thumbnailPosterPicDataUrl: string = "";
   landscapePosterPicDataUrl: string = "";
@@ -51,8 +51,9 @@ export class HostEventComponent implements OnInit {
   seatCategoryOptions: string[] = ['Platinum', 'Gold', 'Silver', 'Common'];
   filteredSeatCategories: Observable<string[]>;
   seatCategoryCtrl = new FormControl('');
-  priceCatogoryList: PriceCategory[]=[];
-
+  priceCatogoryList: PriceCategory[] = [];
+  colorPalate: string[] = ['#DE3163', '#FF7F50', '#40E0D0', '#FFBF00', '#6495ED', '#CCCCFF', '#DFFF00', '#9FE2BF'];
+  colorIndexCounter: number = 0;
 
   constructor(private fb: FormBuilder, private managementService: ManagementService, private snackbar: MatSnackBar, private updateEventService: UpdateEventService) {
     this.filteredGenres = this.genreCtrl.valueChanges.pipe(
@@ -167,18 +168,18 @@ export class HostEventComponent implements OnInit {
         if (s.row > this.row)
           this.row = s.row;
         // this.priceList.push(s.seatPrice);
-        var priceCategory:PriceCategory=new PriceCategory();
-        priceCategory.category=s.seatCategory;
-        priceCategory.price=s.seatPrice;
-        var counter=0;
-        this.priceCatogoryList.forEach((pc)=>{
-          if(pc.price===s.seatPrice && pc.category===s.seatCategory)
-          counter=1;
+        var priceCategory: PriceCategory = new PriceCategory();
+        priceCategory.category = s.seatCategory;
+        priceCategory.price = s.seatPrice;
+        var counter = 0;
+        this.priceCatogoryList.forEach((pc) => {
+          if (pc.price === s.seatPrice && pc.category === s.seatCategory)
+            counter = 1;
         });
         //only adding unique data
-        if(counter===0)
-        this.priceCatogoryList.push(priceCategory);
-        counter=0;
+        if (counter === 0)
+          this.priceCatogoryList.push(priceCategory);
+        counter = 0;
 
       });
       // this.priceList = this.priceList.filter((item, index) => this.priceList.indexOf(item) === index);
@@ -358,7 +359,7 @@ export class HostEventComponent implements OnInit {
 
     }
     // this.priceList=[];
-    this.priceCatogoryList=[];
+    this.priceCatogoryList = [];
     this.eventData = this.hostEventForm.value;
   }
 
@@ -385,9 +386,15 @@ export class HostEventComponent implements OnInit {
   fieldsChange(values: any): void {
     if (values.currentTarget.checked == true) {
       this.selectedItems.push(values.currentTarget.value);
+      const coloring: string = '#E1AEFC';
+      const divId = 'd.' + values.currentTarget.id;
+      (document.getElementById(divId) as HTMLElement).style.backgroundColor = coloring;
     }
     else {
       this.selectedItems.splice(this.selectedItems.indexOf(values.currentTarget.value), 1);
+      const coloring: string = '#FFFFFF';
+      const divId = 'd.' + values.currentTarget.id;
+      (document.getElementById(divId) as HTMLElement).style.backgroundColor = coloring;
     }
   }
 
@@ -400,6 +407,8 @@ export class HostEventComponent implements OnInit {
       }
       else {
         (document.getElementById(values.currentTarget.id) as HTMLInputElement).checked = true;
+
+
         this.fieldsChange(values);
       }
     }
@@ -413,23 +422,29 @@ export class HostEventComponent implements OnInit {
     var sc: string = (<HTMLInputElement>document.getElementById('seatCategory')).value;
     // this.priceList.push(this.activePrice);
     // this.seatCategoryList.push(sc);
-    var priceCategory:PriceCategory=new PriceCategory();
-    priceCategory.category=sc;
-    priceCategory.price=this.activePrice;
+    var priceCategory: PriceCategory = new PriceCategory();
+    priceCategory.category = sc;
+    priceCategory.price = this.activePrice;
     this.priceCatogoryList.push(priceCategory);
     this.selectedItems.forEach((s: number) => {
       this.eventData.seats[s - 1].seatPrice = this.activePrice;
       this.eventData.seats[s - 1].seatCategory = sc;
+      const divId='d.'+(s-1);
+      (document.getElementById(divId) as HTMLElement).style.backgroundColor=this.colorPalate[this.colorIndexCounter];
     });
+    this.colorIndexCounter++;
+    if(this.colorIndexCounter<=this.colorPalate.length){
+      this.colorIndexCounter=0;
+    }
     this.selectedItems = [];
     this.eventData = this.hostEventForm.value;
   }
 
   removePrice(price: number) {
-    
-    for(var i=0;i<this.priceCatogoryList.length;i++){
-      if(this.priceCatogoryList[i].price===price){
-        this.priceCatogoryList.splice(i,1);
+
+    for (var i = 0; i < this.priceCatogoryList.length; i++) {
+      if (this.priceCatogoryList[i].price === price) {
+        this.priceCatogoryList.splice(i, 1);
       }
     }
 
@@ -439,6 +454,9 @@ export class HostEventComponent implements OnInit {
         s.seatCategory = '';
         var seatIndex = s.seatId - 1;
         (document.getElementById(<string><unknown>seatIndex) as HTMLInputElement).checked = false;
+        const divId='d.'+seatIndex;
+      (document.getElementById(divId) as HTMLElement).style.backgroundColor='#FFFFFF';
+    
       }
     });
   }
@@ -484,13 +502,13 @@ export class HostEventComponent implements OnInit {
   }
   onPriceUpdate(values: any) {
     // var oldPrice = this.priceList[values];
-    var oldPrice= this.priceCatogoryList[values].price;
+    var oldPrice = this.priceCatogoryList[values].price;
     var uid = 'u.' + values;
     var newPrice: number = <number><unknown>(document.getElementById(uid) as HTMLInputElement).value;
     //if event organizer tries to update the price to negative value, then the seat prices will be update to 0.
-    if(newPrice<0){
-      newPrice=0;
-      (document.getElementById(uid) as HTMLInputElement).value='0';
+    if (newPrice < 0) {
+      newPrice = 0;
+      (document.getElementById(uid) as HTMLInputElement).value = '0';
     }
     // console.log(oldPrice);
     // console.log(newPrice);
