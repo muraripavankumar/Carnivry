@@ -41,6 +41,20 @@ import { UpdateDOBDialogComponent } from './update-dobdialog/update-dobdialog.co
 import { UpdateProfilePicDialogComponent } from './update-profile-pic-dialog/update-profile-pic-dialog.component';
 import { UpdatePhoneDialogComponent } from './update-phone-dialog/update-phone-dialog.component';
 import { UpdateAddressDialogComponent } from './update-address-dialog/update-address-dialog.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
+
+
+
+// Added by Garima
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatMenuModule} from '@angular/material/menu';
+import { NextDirective } from './next.directive';
+import { PrevDirective } from './prev.directive';
+import { DatePipe } from '@angular/common';
+import { CarouselModule } from './carousel/carousel.module';
 
 
 @NgModule({
@@ -61,8 +75,10 @@ import { UpdateAddressDialogComponent } from './update-address-dialog/update-add
     UpdateDOBDialogComponent,
     UpdateProfilePicDialogComponent,
     UpdatePhoneDialogComponent,
-    UpdateAddressDialogComponent
-    
+    UpdateAddressDialogComponent,
+    LandingPageComponent,
+    NextDirective,            //added by garima
+    PrevDirective             //added by garima
   ],
   imports: [
     BrowserModule,
@@ -84,7 +100,16 @@ import { UpdateAddressDialogComponent } from './update-address-dialog/update-add
     MatSnackBarModule,
     MatButtonModule,
     MatCardModule,
-    MatDialogModule
+    MatDialogModule,
+
+  
+//added by garima
+    MatTabsModule,
+    MatExpansionModule,
+    MatGridListModule,
+    MatToolbarModule,
+    MatMenuModule,
+    CarouselModule
     
 
   ],
@@ -93,7 +118,8 @@ import { UpdateAddressDialogComponent } from './update-address-dialog/update-add
       provide: HTTP_INTERCEPTORS,
       useClass: AddHeaderInterceptor,
       multi: true
-    }
+    },
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })
