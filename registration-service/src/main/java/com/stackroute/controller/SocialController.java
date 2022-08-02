@@ -30,7 +30,7 @@ public class SocialController {
     @GetMapping("/getEmail")
     public ResponseEntity<?> getEmail(@AuthenticationPrincipal OAuth2User principal)
     {
-//        System.out.println(principal.toString());
+        System.out.println(principal.toString());
         try {
             String email= principal.getAttribute("email");
             log.info("User email id {} returned ",email);

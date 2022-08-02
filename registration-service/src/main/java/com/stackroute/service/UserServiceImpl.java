@@ -49,8 +49,10 @@ public class UserServiceImpl implements UserService{
         else {
             CarnivryUser carnivryUser = new CarnivryUser();
             carnivryUser.setEmail(userModel.getEmail().toLowerCase());
+            carnivryUser.setEmailId(userModel.getEmail().toLowerCase());
             carnivryUser.setName(userModel.getName());
             carnivryUser.setVerified(false);
+            carnivryUser.setDob(userModel.getDob());
 
             AuthenticationUserDTO authenticationUserDTO=
                     new AuthenticationUserDTO(userModel.getEmail().toLowerCase(), userModel.getPassword());
@@ -73,6 +75,7 @@ public class UserServiceImpl implements UserService{
 
         CarnivryUser carnivryUser = new CarnivryUser();
         carnivryUser.setEmail(userRegModel.getEmail());
+        carnivryUser.setEmailId(userRegModel.getEmail());
         carnivryUser.setName(userRegModel.getName());
 
         carnivryUser.setVerified(true);

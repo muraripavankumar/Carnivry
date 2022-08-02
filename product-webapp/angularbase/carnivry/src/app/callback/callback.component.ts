@@ -95,7 +95,7 @@ export class CallbackComponent implements OnInit {
 
   registerSocialUser()
      {
-       let socialUser= new PostUser(this.name,this.email,"","");
+       let socialUser= new PostUser(this.name,this.email,null,"","");
        this.regService.registerSocialUser(socialUser).subscribe(r=>{
          console.log(r);
          

@@ -9,6 +9,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { HomeComponent } from './home/home.component';
 import { HostEventComponent } from './host-event/host-event.component';
 import { LoginComponent } from './login/login.component';
+import { ProfileComponent } from './profile/profile.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { UpdateEventComponent } from './update-event/update-event.component';
 
@@ -49,6 +50,10 @@ const routes: Routes = [{
   {
     path:"forgotpassword",
     component:ForgotPasswordComponent,
+  },
+  {
+    path: "account",
+    component: ProfileComponent
   },
   {
     path: "host-event",

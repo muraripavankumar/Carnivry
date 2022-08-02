@@ -15,6 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSelectModule } from '@angular/material/select';
+
 import { HostEventComponent } from './host-event/host-event.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -34,6 +35,12 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { EmailLinkComponent } from './email-link/email-link.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { AddHeaderInterceptor } from './interceptor/add-header.interceptor';
+import { ProfileComponent } from './profile/profile.component';
+import { UpdateEmailDialogComponent } from './update-email-dialog/update-email-dialog.component';
+import { UpdateDOBDialogComponent } from './update-dobdialog/update-dobdialog.component';
+import { UpdateProfilePicDialogComponent } from './update-profile-pic-dialog/update-profile-pic-dialog.component';
+import { UpdatePhoneDialogComponent } from './update-phone-dialog/update-phone-dialog.component';
+import { UpdateAddressDialogComponent } from './update-address-dialog/update-address-dialog.component';
 
 
 @NgModule({
@@ -48,7 +55,13 @@ import { AddHeaderInterceptor } from './interceptor/add-header.interceptor';
     AddPreferenceComponent,
     UpdateEventComponent,
     EmailLinkComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    ProfileComponent,
+    UpdateEmailDialogComponent,
+    UpdateDOBDialogComponent,
+    UpdateProfilePicDialogComponent,
+    UpdatePhoneDialogComponent,
+    UpdateAddressDialogComponent
     
   ],
   imports: [

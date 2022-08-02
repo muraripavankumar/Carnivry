@@ -1,6 +1,7 @@
 export class PostUser {
     name:string;
     email:string;
+    dob:Date;
     password:string;
     matchingPassword:string;
 
@@ -20,6 +21,14 @@ export class PostUser {
         this.email = email;
     }
 
+    public getDob(){
+        return this.dob;
+    }
+
+    public setDob(dob: Date){
+        this.dob= dob;
+    }
+
     public getPassword(){
         return this.password;
     }
@@ -37,9 +46,10 @@ export class PostUser {
     }
 
 
-    constructor(name:string, email:string, password:string, matchingPassword:string){
+    constructor(name:string, email:string,dob:Date, password:string, matchingPassword:string){
         this.name= name;
         this.email= email;
+        this.dob= dob;
         this.password= password;
         this.matchingPassword= matchingPassword;
     }
