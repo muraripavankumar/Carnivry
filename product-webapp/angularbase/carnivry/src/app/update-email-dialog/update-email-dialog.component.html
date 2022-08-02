@@ -1,0 +1,26 @@
+<h1 mat-dialog-title>Update email</h1>
+<div mat-dialog-content>
+  This is update email dialog
+</div>
+<mat-form-field appearance="fill">
+    <mat-label>Old Email Id </mat-label>
+    <input matInput [(ngModel)]="data.email">
+
+    
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>New Email Id </mat-label>
+    <input matInput [(ngModel)]="newEmailId">
+  </mat-form-field>
+  
+  <mat-form-field appearance="fill">
+    <mat-label>Password </mat-label>
+    <input matInput [(ngModel)]="password">
+  </mat-form-field>
+    
+
+<div mat-dialog-actions>
+  
+  <button mat-button [mat-dialog-close]="newEmailId" cdkFocusInitial>Ok</button>
+</div>

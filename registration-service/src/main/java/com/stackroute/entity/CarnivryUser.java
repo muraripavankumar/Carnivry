@@ -23,6 +23,8 @@ public class CarnivryUser {
     @Email
     private String email;
 
+     private  String emailId;
+
     @NotEmpty
     private String name;
     private String phone;
@@ -33,10 +35,10 @@ public class CarnivryUser {
 
     private Preferences preferences;
 
-    private List<Event> attendedEvents;
-    private List<Event> postedEvents;
+//    private List<Event> attendedEvents;
+//    private List<Event> postedEvents;
 
-    private List<Event> wishlist;
+//    private List<Event> wishlist;
 
     private String profilePic;
 
