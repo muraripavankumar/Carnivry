@@ -193,11 +193,33 @@ export class HostEventComponent implements OnInit {
       }
       else {
         this.seatType = 'yes';
+        for (let pcl of this.priceCatogoryList) {
+          for (let index = 0; index < this.existingEventData.totalSeats; index++) {
+            if (pcl.category === this.existingEventData.seats[index].seatCategory && pcl.price === this.existingEventData.seats[index].seatPrice) {
+              pcl.divColor = this.colorPalate[this.colorIndexCounter];
+            }
+
+          }
+          this.colorIndexCounter++;
+          if (this.colorIndexCounter >= this.colorPalate.length) {
+            this.colorIndexCounter = 0;
+          }
+        }
       }
       // this.hostEventForm.get('totalSeats').setValue(this.existingEventData.seats.length);
       this.totalSeating = this.existingEventData.seats.length;
       this.eventData = this.existingEventData;
+
+
     }
+  }
+  getColor(e: any): string {
+    for (let pcl of this.priceCatogoryList) {
+      if (pcl.category === e.seatCategory && pcl.price === e.seatPrice) {
+        return pcl.divColor;
+      }
+    }
+    return '#FFFFFF';
   }
 
   //////////////////////  Artist Input  ///////////////////////////////////
@@ -425,16 +447,19 @@ export class HostEventComponent implements OnInit {
     var priceCategory: PriceCategory = new PriceCategory();
     priceCategory.category = sc;
     priceCategory.price = this.activePrice;
+    priceCategory.divColor = this.colorPalate[this.colorIndexCounter];
     this.priceCatogoryList.push(priceCategory);
     this.selectedItems.forEach((s: number) => {
       this.eventData.seats[s - 1].seatPrice = this.activePrice;
       this.eventData.seats[s - 1].seatCategory = sc;
-      const divId='d.'+(s-1);
-      (document.getElementById(divId) as HTMLElement).style.backgroundColor=this.colorPalate[this.colorIndexCounter];
+      // const divId = 'd.' + (s - 1);
+      // (document.getElementById(divId) as HTMLElement).style.backgroundColor = this.colorPalate[this.colorIndexCounter];
+
     });
+
     this.colorIndexCounter++;
-    if(this.colorIndexCounter<=this.colorPalate.length){
-      this.colorIndexCounter=0;
+    if (this.colorIndexCounter >= this.colorPalate.length) {
+      this.colorIndexCounter = 0;
     }
     this.selectedItems = [];
     this.eventData = this.hostEventForm.value;
@@ -454,9 +479,9 @@ export class HostEventComponent implements OnInit {
         s.seatCategory = '';
         var seatIndex = s.seatId - 1;
         (document.getElementById(<string><unknown>seatIndex) as HTMLInputElement).checked = false;
-        const divId='d.'+seatIndex;
-      (document.getElementById(divId) as HTMLElement).style.backgroundColor='#FFFFFF';
-    
+        const divId = 'd.' + seatIndex;
+        (document.getElementById(divId) as HTMLElement).style.backgroundColor = '#FFFFFF';
+
       }
     });
   }

@@ -48,6 +48,19 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { LandingPageComponent } from './landing-page/landing-page.component';
+
+
+
+// Added by Garima
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatMenuModule} from '@angular/material/menu';
+import { NextDirective } from './next.directive';
+import { PrevDirective } from './prev.directive';
+import { DatePipe } from '@angular/common';
+import { CarouselModule } from './carousel/carousel.module';
 
 
 @NgModule({
@@ -71,8 +84,11 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     UpdateAddressDialogComponent,
     ViewPageComponent,
     NavigationComponent,
-    SeatingUIComponent
+    SeatingUIComponent,
     
+    LandingPageComponent,
+    NextDirective,            //added by garima
+    PrevDirective             //added by garima
   ],
   imports: [
     BrowserModule,
@@ -119,6 +135,15 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     LayoutModule,
     MatSidenavModule,
     MatListModule,
+
+  
+//added by garima
+    MatTabsModule,
+    MatExpansionModule,
+    MatGridListModule,
+    MatToolbarModule,
+    MatMenuModule,
+    CarouselModule
     
 
   ],
@@ -127,7 +152,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
       provide: HTTP_INTERCEPTORS,
       useClass: AddHeaderInterceptor,
       multi: true
-    }
+    },
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })
