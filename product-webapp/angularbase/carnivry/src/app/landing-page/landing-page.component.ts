@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { MatAccordion } from '@angular/material/expansion';
+import { tap } from 'rxjs';
 
 interface carouselImage{
   imageSrc: string;
@@ -198,6 +204,9 @@ console.log("No city selected");
   console.log("All Events length: "+this.allEventsList.length);
 
 }
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
+  }
 
 
  //user likes an event
