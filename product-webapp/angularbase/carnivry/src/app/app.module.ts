@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { MatCard } from '@angular/material/card';
+import { MatCardContent } from '@angular/material/card';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -30,7 +31,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { UpdateEventComponent } from './update-event/update-event.component';
-
 import {MatDialogModule} from '@angular/material/dialog';
 import { EmailLinkComponent } from './email-link/email-link.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
@@ -41,6 +41,13 @@ import { UpdateDOBDialogComponent } from './update-dobdialog/update-dobdialog.co
 import { UpdateProfilePicDialogComponent } from './update-profile-pic-dialog/update-profile-pic-dialog.component';
 import { UpdatePhoneDialogComponent } from './update-phone-dialog/update-phone-dialog.component';
 import { UpdateAddressDialogComponent } from './update-address-dialog/update-address-dialog.component';
+import { SeatingUIComponent } from './seating-ui/seating-ui.component';
+import { ViewPageComponent } from './view-page/view-page.component';
+import { NavigationComponent } from './navigation/navigation.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatListModule } from '@angular/material/list';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 
 @NgModule({
@@ -61,7 +68,10 @@ import { UpdateAddressDialogComponent } from './update-address-dialog/update-add
     UpdateDOBDialogComponent,
     UpdateProfilePicDialogComponent,
     UpdatePhoneDialogComponent,
-    UpdateAddressDialogComponent
+    UpdateAddressDialogComponent,
+    ViewPageComponent,
+    NavigationComponent,
+    SeatingUIComponent
     
   ],
   imports: [
@@ -84,7 +94,31 @@ import { UpdateAddressDialogComponent } from './update-address-dialog/update-add
     MatSnackBarModule,
     MatButtonModule,
     MatCardModule,
-    MatDialogModule
+    MatDialogModule,
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatStepperModule,
+    ReactiveFormsModule,
+    FormsModule,
+    HttpClientModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatChipsModule,
+    MatIconModule,
+    MatAutocompleteModule,
+    MatButtonToggleModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSnackBarModule,
+    MatButtonModule,
+    MatCardModule,
+    MatDialogModule,
+    MatToolbarModule,
+    LayoutModule,
+    MatSidenavModule,
+    MatListModule,
     
 
   ],
