@@ -431,9 +431,11 @@ export class HostEventComponent implements OnInit {
       this.eventData.seats[s - 1].seatCategory = sc;
       const divId='d.'+(s-1);
       (document.getElementById(divId) as HTMLElement).style.backgroundColor=this.colorPalate[this.colorIndexCounter];
+ 
     });
+  
     this.colorIndexCounter++;
-    if(this.colorIndexCounter<=this.colorPalate.length){
+    if(this.colorIndexCounter>=this.colorPalate.length){
       this.colorIndexCounter=0;
     }
     this.selectedItems = [];
