@@ -11,11 +11,18 @@ export default class Validation {
       const endTimeCtrl = controls.get(endTime);
       const startTimeArray = startTimeCtrl.value.split(':');
       const endTimeArray = endTimeCtrl.value.split(':');
+      const dateFormat=(startDate+'')?.split(' ');
+
+     
+    
 
       if (startDateCtrl.value == '' || endDateCtrl.value == '' || startTimeCtrl.value == '' || endTimeCtrl.value == '') {
         return null;
       }
-      else if (startDate.getTime() != endDate.getTime()) {
+      else if(dateFormat.length===1){
+        return null;
+      }
+      else if (dateFormat.length>1 && (startDate.getTime() != endDate.getTime())) {
         return null;
       }
       else {

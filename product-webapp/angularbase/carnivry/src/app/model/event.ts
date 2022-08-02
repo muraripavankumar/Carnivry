@@ -11,7 +11,7 @@ export class Event {
     public genre: string[];
     public languages: string[];
     public eventTimings: EventTiming;
-    public poster: string;
+    public posters: string[];
     public venue: Venue;
     public revenueGenerated: number;
     public ticketsSold: number;

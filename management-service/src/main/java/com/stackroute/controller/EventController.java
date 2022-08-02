@@ -65,7 +65,7 @@ public class EventController {
             log.error("EventNotFoundError occurred in EventController -> getEventByEventId()");
             return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.CONFLICT);
         }catch (Exception e){
-            log.error("Exception occurred in EventController -> getEventByEventId() ");
+            log.error("Exception occurred in EventController -> getEventByEventId()");
             return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -78,7 +78,5 @@ public class EventController {
             log.error("Exception occurred in EventController -> getEventByEventId() ");
             return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
     }
-
 }
