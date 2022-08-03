@@ -16,6 +16,7 @@ public class Address implements Serializable {
 
     private String house;
     private String street;
+    @NotNull
     private String landmark;
     @NotNull
     private String city;

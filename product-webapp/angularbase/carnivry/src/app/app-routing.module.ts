@@ -12,7 +12,9 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { SeatingUIComponent } from './seating-ui/seating-ui.component';
 import { UpdateEventComponent } from './update-event/update-event.component';
+import { ViewPageComponent } from './view-page/view-page.component';
 
 const routes: Routes = [
   {path: "landing-page", component: LandingPageComponent},    //added by garima
@@ -65,7 +67,16 @@ const routes: Routes = [
   {
     path: "update-event",
     component: UpdateEventComponent
-  }]
+  },
+  {
+    path:"view-page",
+    component: ViewPageComponent
+  },
+  {
+    path:"seat-ui/:id",
+    component: SeatingUIComponent
+  }
+]
 },
 {
   path: '',

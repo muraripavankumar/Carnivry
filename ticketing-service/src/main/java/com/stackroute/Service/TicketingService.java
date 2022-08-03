@@ -11,6 +11,8 @@ public interface TicketingService {
 
     Event getEventById(String eventId) throws Exception;
 
+    Event getEventByIdforTix(String eventId) throws Exception;
+
     Seat processTicket(String eventId,int nid) throws EventNotFoundException;
 
     Seat getSeat(String eventId,int nid) throws EventNotFoundException;
@@ -20,5 +22,7 @@ public interface TicketingService {
     Seat ticketStatus(String eventId,int nid) throws EventNotFoundException;
 
     Seat cancelTicket(String eventId, int nid) throws EventNotFoundException;
+
+    Event bookTicketforNoSeat(String eventId) throws EventNotFoundException;
 
 }
