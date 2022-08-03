@@ -114,118 +114,160 @@ public class UserService {
         List<Events> suggestionEventsList= new ArrayList<>();
         ListIterator<Events> iterator;
 
-        User user= userRepo.findByEmailId(emailId);
-        String city= user.getCity();
-
         //retrieving the events of that city
         List<Events> cityEvents = new ArrayList<>();
         List<Events> allEvents = eventsRepo.findAll();
         logger.info("All Events: "+ allEvents.size());
-        iterator=allEvents.listIterator();
-        while (iterator.hasNext()){
-            Events events=iterator.next();
-            if(events.getCity().equals(city)){
-                cityEvents.add(events);
+
+        if(emailId.equals(" ")){
+            logger.info("==============Email id id blank====================");
+            int temp=0;
+
+            List<Integer> likes= new ArrayList<>();
+            for(int i=0; i<allEvents.size(); i++){
+                likes.add(allEvents.get(i).getLikes());
             }
+
+            for(int i=0; i<likes.size(); i++){
+                for(int j=i+1; j<likes.size(); j++) {
+                    if (likes.get(i) < likes.get(j)) {
+                        temp = likes.get(i);
+                        likes.set(i, likes.get(j));
+                        likes.set(j, temp);
+
+                        temp = allEvents.get(i).getLikes();
+                        allEvents.get(i).setLikes(allEvents.get(j).getLikes());
+                        allEvents.get(j).setLikes(temp);
+                    }
+                }
+            }
+            suggestionEventsList=allEvents;
         }
+
+        else {
+            logger.info("=============email id not blank=====================");
+            User user= userRepo.findByEmailId(emailId);
+            String city= user.getCity();
+
+            iterator = allEvents.listIterator();
+            while (iterator.hasNext()) {
+                Events events = iterator.next();
+                if (events.getCity().equals(city)) {
+                    cityEvents.add(events);
+                }
+            }
 //        System.out.println("User city events: "+ cityEvents.size());
-        logger.info("User city events: "+ cityEvents.size());
+            logger.info("User city events: " + cityEvents.size());
 
 
-
-        //filtering the list by end date
-        List<Events> filteredListByDate= new ArrayList<>();
-        iterator= cityEvents.listIterator();
-        while (iterator.hasNext()){
-            Events events= iterator.next();
-            if(events.getEndDate().compareTo(date)>=0){
-                filteredListByDate.add(events);
+            //filtering the list by end date
+            List<Events> filteredListByDate = new ArrayList<>();
+            iterator = cityEvents.listIterator();
+            while (iterator.hasNext()) {
+                Events events = iterator.next();
+                if (events.getEndDate().compareTo(date) >= 0) {
+                    filteredListByDate.add(events);
+                }
             }
-        }
 //        System.out.println("Filtered list by date: "+filteredListByDate.size());
-        logger.info("Filtered list by date: "+filteredListByDate.size());
+            logger.info("Filtered list by date: " + filteredListByDate.size());
 
-        //filtering the list by genre
-        List<Events> filterByGenre= new ArrayList<>();
-        iterator= filteredListByDate.listIterator();
-        while (iterator.hasNext()){
-            Events events= iterator.next();
-            for(int i=0; i<user.getLikedGenre().size(); i++){
-                if(events.getGenre().contains(user.getLikedGenre().get(i))){
-                    filterByGenre.add(events);
-                    break;
+            //filtering the list by genre
+            List<Events> filterByGenre = new ArrayList<>();
+            iterator = filteredListByDate.listIterator();
+            while (iterator.hasNext()) {
+                Events events = iterator.next();
+                for (int i = 0; i < user.getLikedGenre().size(); i++) {
+                    if (events.getGenre().contains(user.getLikedGenre().get(i))) {
+                        filterByGenre.add(events);
+                        break;
+                    }
                 }
             }
-        }
 //        System.out.println("Filter by genre: "+filterByGenre.size());
-        logger.info("Filter by genre: "+filterByGenre.size());
+            logger.info("Filter by genre: " + filterByGenre.size());
 
-        //list of wishlist of user
-        List<Events> userWishlist= new ArrayList<>();
-        List<String> eventId= user.getWishlist();
-        for(int i=1; i<eventId.size(); i++){
-            Events events= eventsRepo.findById(eventId.get(i)).get();
-            if(events.getEndDate().compareTo(date)>=0) {
-                userWishlist.add(events);
-            }
-        }
-
-        //filter events in descending order of likes
-        List<Events> filterByLikes= filteredListByDate;
-        List<Integer> likes= new ArrayList<>();
-        for(int i=0; i<filterByLikes.size(); i++){
-            likes.add(filterByLikes.get(i).getLikes());
-        }
-//        System.out.println("Likes list: "+likes);
-        logger.info("Likes list: "+likes);
-        int temp=0;
-        for(int i=0; i<likes.size(); i++){
-            for(int j=i+1; j<likes.size(); j++) {
-                if (likes.get(i) < likes.get(j)) {
-                    temp = likes.get(i);
-                    likes.set(i, likes.get(j));
-                    likes.set(j, temp);
-
-                    temp = filterByLikes.get(i).getLikes();
-                    filterByLikes.get(i).setLikes(filterByLikes.get(j).getLikes());
-                    filterByLikes.get(j).setLikes(temp);
+            //list of wishlist of user
+            List<Events> userWishlist = new ArrayList<>();
+            List<String> eventId = user.getWishlist();
+            for (int i = 1; i < eventId.size(); i++) {
+                Events events = eventsRepo.findById(eventId.get(i)).get();
+                if (events.getEndDate().compareTo(date) >= 0) {
+                    userWishlist.add(events);
                 }
             }
-        }
+
+            //filter events in descending order of likes
+            List<Events> filterByLikes = filteredListByDate;
+            List<Integer> likes = new ArrayList<>();
+            for (int i = 0; i < filterByLikes.size(); i++) {
+                likes.add(filterByLikes.get(i).getLikes());
+            }
+//        System.out.println("Likes list: "+likes);
+            logger.info("Likes list: " + likes);
+            int temp = 0;
+            for (int i = 0; i < likes.size(); i++) {
+                for (int j = i + 1; j < likes.size(); j++) {
+                    if (likes.get(i) < likes.get(j)) {
+                        temp = likes.get(i);
+                        likes.set(i, likes.get(j));
+                        likes.set(j, temp);
+
+                        temp = filterByLikes.get(i).getLikes();
+                        filterByLikes.get(i).setLikes(filterByLikes.get(j).getLikes());
+                        filterByLikes.get(j).setLikes(temp);
+                    }
+                }
+            }
 
 //        suggestionList.addAll(filterByLikes);
 //        suggestionList.addAll(filterByGenre);
 //        suggestionList.addAll(userWishlist);
 
-        for(int i=0; i<filterByLikes.size(); i++){
-            if(!suggestionList.contains(filterByLikes.get(i).getEventId())) {
-                suggestionList.add(filterByLikes.get(i).getEventId());
+            for (int i = 0; i < filterByLikes.size(); i++) {
+                if (!suggestionList.contains(filterByLikes.get(i).getEventId())) {
+                    suggestionList.add(filterByLikes.get(i).getEventId());
+                }
             }
-        }
-        for(int i=0; i<filterByGenre.size(); i++){
-            if(!suggestionList.contains(filterByGenre.get(i).getEventId())) {
-                suggestionList.add(filterByGenre.get(i).getEventId());
+            for (int i = 0; i < filterByGenre.size(); i++) {
+                if (!suggestionList.contains(filterByGenre.get(i).getEventId())) {
+                    suggestionList.add(filterByGenre.get(i).getEventId());
+                }
             }
-        }
-        for(int i=0; i<filteredListByDate.size(); i++){
-            if(!suggestionList.contains(filteredListByDate.get(i).getEventId())) {
-                suggestionList.add(filteredListByDate.get(i).getEventId());
+            for (int i = 0; i < filteredListByDate.size(); i++) {
+                if (!suggestionList.contains(filteredListByDate.get(i).getEventId())) {
+                    suggestionList.add(filteredListByDate.get(i).getEventId());
+                }
             }
-        }
 
-        for(int i=0; i<suggestionList.size(); i++){
-            suggestionEventsList.add(eventsRepo.findById(suggestionList.get(i)).get());
-        }
+            for (int i = 0; i < suggestionList.size(); i++) {
+                suggestionEventsList.add(eventsRepo.findById(suggestionList.get(i)).get());
+            }
 
-        if(suggestionEventsList.isEmpty()){
-            throw new EventNotFoundException();
-        }
-        else{
-            logger.info("Suggestion list: "+ suggestionList.size());
-            logger.info("Suggestion Event List: "+suggestionEventsList.size());
+            if (suggestionEventsList.isEmpty()) {
+                throw new EventNotFoundException();
+            } else {
+                logger.info("Suggestion list: " + suggestionList.size());
+                logger.info("Suggestion Event List: " + suggestionEventsList.size());
+            }
         }
 
         return suggestionEventsList;
+    }
+
+    public List<Events> getSuggestedEventsByCity(String city) throws EventNotFoundException{
+        List<Events> suggestionList= new ArrayList<>();
+        List<Events> allEvents = eventsRepo.findAll();
+
+        ListIterator<Events> iterator= allEvents.listIterator();
+        while (iterator.hasNext()){
+            Events events= iterator.next();
+            if(events.getCity().equals(city)){
+                suggestionList.add(events);
+            }
+        }
+        logger.info("Suggestion by city: "+suggestionList.size());
+        return suggestionList;
     }
 
     //retrieve upcoming events

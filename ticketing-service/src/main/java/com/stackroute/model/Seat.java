@@ -19,4 +19,5 @@ public class Seat implements Serializable {
     private int seatId;
     private BigDecimal seatPrice;
     private String status;
+    private String seatCategory;
 }

@@ -1,0 +1,50 @@
+
+
+<div class="seatingUI">
+  <app-navigation></app-navigation>
+
+  <p>
+    <mat-toolbar style="background-image: linear-gradient(to right,rgb(46, 1, 1),rgb(248, 52, 52));justify-content: center;
+    height: 10rem;" class="toolbar">
+      <span style="font-family: 'Marcellus SC', serif;;
+      font-size: 3.6rem; letter-spacing: 0.3rem;
+      font-weight: bolder; color: white;" class="toolbar1">
+         {{eventdetails.title}}</span>
+    </mat-toolbar>
+  </p>
+
+<mat-card>
+    <mat-card-header>
+      <mat-card-title>SEAT LAYOUT</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="cont" id="parent">
+        <div class="box" *ngFor="let e of eventdetails.seats; index as x;">
+          <input [checked]="e.status !='NOT BOOKED'" [disabled]="e.status!='NOT BOOKED'" 
+           type="checkbox" class="checkbox" style="opacity: 1;" 
+          name="" id="{{x}}" (change)="fieldsChange($event)" value="{{e.seatId}}"
+          >
+           <label for="Ford"></label>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block" (click)="holdBooking()"
+      *ngIf="selectedItems.length > 0">Book
+Ticket
+</button>
+
+    </mat-card-content>
+  </mat-card>
+
+    <div *ngIf="paymentDiv">
+      <h3 class="modal-title">Pay & Confirm</h3>
+      <div class="modal-body">
+        <p>You have 30 Secs to complete the payment!</p>
+        <p *ngFor="let item of selectedItems;index as i">{{i + 1}}.{{eventdetails.seats[item].seatPrice}}</p>
+        <p>Total Amount: {{getTotal()}} Rs.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" >Cancel</button>
+        <button type="button" class="btn btn-primary">Confirm</button>
+      </div>
+    </div>
+    </div>

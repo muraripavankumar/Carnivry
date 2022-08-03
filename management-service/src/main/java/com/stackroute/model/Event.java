@@ -22,6 +22,8 @@ public class Event {
     @NotNull
     private String userEmailId;
     @NotNull
+    private String userName;
+    @NotNull
     private String eventDescription;
     private List<String> artists;
     private List<String> genre;

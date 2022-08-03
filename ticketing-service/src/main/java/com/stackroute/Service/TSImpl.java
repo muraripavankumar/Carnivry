@@ -29,9 +29,9 @@ public class TSImpl implements TicketingService{
     public Seat getSeat(String eventId,int nid) throws EventNotFoundException {
         log.debug("Inside getSeat");
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException());
-        if(event.getSeats().get(nid).getStatus().equalsIgnoreCase("Not Booked"))
+        if(event.getSeats().get(nid).getStatus().equalsIgnoreCase("NOT BOOKED"))
         {
-            event.getSeats().get(nid).setStatus("Processing");
+            event.getSeats().get(nid).setStatus("PROCESSING");
             eventRepository.save(event);
             playgroundService.expiry(eventId,nid);
             return event.getSeats().get(nid);
@@ -48,7 +48,7 @@ public class TSImpl implements TicketingService{
     public Seat bookedTicket(String eventId, int nid) throws EventNotFoundException {
         log.debug("Inside Booked Ticket");
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException());
-        event.getSeats().get(nid).setStatus("Booked");
+        event.getSeats().get(nid).setStatus("BOOKED");
         eventRepository.save(event);
         return event.getSeats().get(nid);
     }
@@ -67,9 +67,18 @@ public class TSImpl implements TicketingService{
     public Seat cancelTicket(String eventId, int nid) throws EventNotFoundException {
         log.debug("Cancelling a ticket");
         Event event = eventRepository.findById(eventId).orElseThrow(()->new EventNotFoundException());
-        event.getSeats().get(nid).setStatus("Not Booked");
+        event.getSeats().get(nid).setStatus("NOT BOOKED");
         eventRepository.save(event);
         return event.getSeats().get(nid);
+    }
+
+    @Override
+    public Event bookTicketforNoSeat(String eventId) throws EventNotFoundException {
+        log.debug("Inside get Event by Id for seat-UI");
+        Event event =  eventRepository.findById(eventId).orElseThrow(()->new EventNotFoundException());
+        event.setTotalSeats(event.getTotalSeats()-1);
+        eventRepository.save(event);
+        return event;
     }
 
     // Service method to set the status from "Processing" to "Not Booked" after a scheduled time
@@ -79,7 +88,7 @@ public class TSImpl implements TicketingService{
 
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException());
 
-        if(event.getSeats().get(nid).getStatus().equalsIgnoreCase("Processing"))
+        if(event.getSeats().get(nid).getStatus().equalsIgnoreCase("PROCESSING"))
         {
             event.getSeats().get(nid).setStatus("Not Booked");
             eventRepository.save(event);
@@ -98,5 +107,13 @@ public class TSImpl implements TicketingService{
         log.debug("Inside get Event by Id");
         return eventRepository.findById(eventId).orElseThrow(()->new EventNotFoundException());
     }
+
+    @Override
+    public Event getEventByIdforTix(String eventId) throws EventNotFoundException {
+        log.debug("Inside get Event by Id for seat-UI");
+        return eventRepository.findById(eventId).orElseThrow(()->new EventNotFoundException());
+    }
+
+
 }
 

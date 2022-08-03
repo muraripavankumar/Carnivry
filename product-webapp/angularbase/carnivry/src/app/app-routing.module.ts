@@ -8,13 +8,18 @@ import { EmailVerificationComponent } from './email-verification/email-verificat
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { HomeComponent } from './home/home.component';
 import { HostEventComponent } from './host-event/host-event.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 import { LoginComponent } from './login/login.component';
 import { PostedEventsComponent } from './posted-events/posted-events.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { SeatingUIComponent } from './seating-ui/seating-ui.component';
 import { UpdateEventComponent } from './update-event/update-event.component';
+import { ViewPageComponent } from './view-page/view-page.component';
 
-const routes: Routes = [{
+const routes: Routes = [
+  {path: "landing-page", component: LandingPageComponent},    //added by garima
+  {
   path: 'Carnivry',
   children: [{
     path: "",
@@ -70,7 +75,16 @@ const routes: Routes = [{
   {
     path: "update-event",
     component: UpdateEventComponent
-  }]
+  },
+  {
+    path:"view-page",
+    component: ViewPageComponent
+  },
+  {
+    path:"seat-ui/:id",
+    component: SeatingUIComponent
+  }
+]
 },
 {
   path: '',
