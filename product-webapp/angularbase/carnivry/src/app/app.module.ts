@@ -55,6 +55,9 @@ import { NextDirective } from './next.directive';
 import { PrevDirective } from './prev.directive';
 import { DatePipe } from '@angular/common';
 import { CarouselModule } from './carousel/carousel.module';
+import { FooterComponent } from './footer/footer.component';
+
+// import { FlexLayoutModule } from "@angular/flex-layout";
 
 
 @NgModule({
@@ -78,7 +81,7 @@ import { CarouselModule } from './carousel/carousel.module';
     UpdateAddressDialogComponent,
     LandingPageComponent,
     NextDirective,            //added by garima
-    PrevDirective             //added by garima
+    PrevDirective, FooterComponent             //added by garima
   ],
   imports: [
     BrowserModule,
@@ -109,7 +112,8 @@ import { CarouselModule } from './carousel/carousel.module';
     MatGridListModule,
     MatToolbarModule,
     MatMenuModule,
-    CarouselModule
+    CarouselModule,
+
     
 
   ],

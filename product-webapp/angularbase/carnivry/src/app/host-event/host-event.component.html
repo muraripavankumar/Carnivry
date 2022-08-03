@@ -141,7 +141,7 @@
                   <input type="number" matInput formControlName="pincode" placeholder="Pincode">
                 </mat-form-field>
 
-                <mat-form-field class="col-sm-8">
+                <mat-form-field class="col-sm-3 col-md-3 country-field">
                   <mat-label>Country</mat-label>
                   <mat-select formControlName="country">
                     <mat-option *ngFor="let c of countries" [value]="c">
@@ -417,5 +417,6 @@
     </mat-stepper>
   </mat-card-content>
 </mat-card>
+<app-footer></app-footer>
 <!-- </div> -->
 <!-- </div> -->
