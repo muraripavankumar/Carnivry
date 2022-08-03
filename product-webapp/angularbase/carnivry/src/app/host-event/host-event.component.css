@@ -41,7 +41,7 @@
 /* Poster landscape */
 .landscape {
   height: auto;
-  /* max-width: 600px; */
+  
   width: 100%;
 }
 @media only screen  and (min-width:820px){
@@ -55,4 +55,10 @@
     -webkit-box-shadow: 0px 10px 40px -10px rgba(0, 0, 0, 0.7);
     -moz-box-shadow: 0px 10px 40px -10px rgba(0, 0, 0, 0.7);
     box-shadow: 0px 10px 40px -10px rgba(0, 0, 0, 0.7);
+}
+
+.image-div{
+  border:3px dashed lightslategrey;
+  border-radius: 25px;
+  height: max-content;
 }
