@@ -6,7 +6,6 @@ import com.stackroute.model.Preferences;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -24,6 +23,8 @@ public class CarnivryUser {
     @Email
     private String email;
 
+     private  String emailId;
+
     @NotEmpty
     private String name;
     private String phone;
@@ -34,10 +35,10 @@ public class CarnivryUser {
 
     private Preferences preferences;
 
-    private List<Event> attendedEvents;
-    private List<Event> postedEvents;
+//    private List<Event> attendedEvents;
+//    private List<Event> postedEvents;
 
-    private List<Event> wishlist;
+//    private List<Event> wishlist;
 
     private String profilePic;
 
@@ -50,5 +51,6 @@ public class CarnivryUser {
     private String passwordVerificationToken;
     private Date pvtExpTime;
 
-
+    private String phoneNoVerificationOTP;
+    private Date pvoExpTime;
 }

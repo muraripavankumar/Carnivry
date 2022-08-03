@@ -1,0 +1,128 @@
+<div class="document">
+<app-navigation></app-navigation>
+
+<p>
+    <mat-toolbar style="background-image: linear-gradient(to right,rgb(46, 1, 1),rgb(248, 52, 52));justify-content: center;
+    height: 10rem;" class="toolbar">
+      <span style="font-family: 'Marcellus SC', serif;;
+      font-size: 3.6rem; letter-spacing: 0.3rem;
+      font-weight: bolder; color: white;" class="toolbar1">
+         {{eventdetails.title}}</span>
+    </mat-toolbar>
+  </p>
+
+  <mat-card class="Poster-card">
+    <img mat-card-image src={{eventdetails.poster}} class="Poster-image border-background border-background-gradient">1
+    <!-- <hr style="border: 2px solid black;"> -->
+    <mat-card-title class="title">{{eventdetails.title}}
+      <mat-card-content class="content-card" >
+        <i class="fa fa-heart fa-7x" style="color: red; margin-top: 2rem;" aria-hidden="true"></i>
+        <p style="font-size: 3rem; padding: 2rem;">
+          {{eventdetails.likes}} users have liked this Carnivral
+        </p>
+
+      </mat-card-content>
+      <mat-card-content class="content-card">
+
+        <p style="font-size: 3rem; padding: 2rem; margin-left: auto; margin-right: auto; margin-top: -5rem ; background-color: black;"
+        class="border-background border-background-gradient">
+          Launches on: {{eventdetails.eventTimings.startDate | date}}
+        </p>
+      </mat-card-content>
+    </mat-card-title>
+
+  </mat-card>
+
+  <mat-card class="description" style="margin: 2rem;">
+<mat-card-title>
+ <h1 class="description description1"> Description</h1>
+</mat-card-title>
+<mat-card-content class="description-content" >
+  {{eventdetails.
+    eventDescription
+    }}
+</mat-card-content>
+  </mat-card>
+<div style="display: flex;" class="date-genre">
+  <mat-card  style="margin: 2rem; " class="description">
+    <mat-card-title>
+      <h1 class="description description1">
+        Carnival Timings
+      </h1>
+
+    </mat-card-title>
+      <mat-card-content class="timing-content">
+
+          Launch Date: {{eventdetails.eventTimings.startDate | date}}
+
+          <hr style="margin-left: 2rem; margin-right: 2rem; height: 2.5rem; border: 1px solid black;">
+        Ends On: {{eventdetails.eventTimings.endDate | date}}
+      </mat-card-content>
+  <mat-card-content class="timing-content">
+
+        Event starts at: {{eventdetails.eventTimings.startTime}}
+        <hr style="margin-left: 2rem; margin-right: 2rem; height: 2.5rem; border: 1px solid black;">
+        Event ends at: {{eventdetails.eventTimings.endTime}}
+</mat-card-content>
+  </mat-card>
+
+  <mat-card style="margin: 2rem;justify-content: end;" class="description">
+    <mat-card-title>
+      <h1 class="description description1">
+        Genres
+      </h1>
+    </mat-card-title>
+    <mat-card *ngFor="let genres of eventdetails.genre" class="genres">
+      {{genres}}
+        </mat-card>
+  </mat-card>
+</div>
+  <mat-card style="margin: 2rem;" class="description">
+    <mat-card-title>
+      <h1 class="description description1">
+        Artists
+      </h1>
+    </mat-card-title>
+    <mat-card *ngFor="let artists of eventdetails.artists" class="artists">
+      {{artists}}
+        </mat-card>
+  </mat-card>
+
+  
+
+  <div  class="venue-book">
+    <mat-card style="margin: 2rem;" class="description venue">
+      <mat-card-title>
+        <h1 class="description description1">
+          Venue
+        </h1>
+      </mat-card-title>
+      <mat-card-content class="venue" style="font-weight: bolder; font-size: larger; margin-top: 3rem;">
+        <p>
+          {{eventdetails.venue.venueName}}
+        </p>
+      </mat-card-content>
+      <mat-card-content class="venue">
+        <p>
+          {{eventdetails.venue.address.house}},{{eventdetails.venue.address.street}},{{eventdetails.venue.address.landmark}}
+        </p>
+        <p>
+            {{eventdetails.venue.address.city}}, {{eventdetails.venue.address.pincode}}
+        </p>
+        <p>
+          {{eventdetails.venue.address.state}}
+        </p>
+      <p>
+        {{eventdetails.venue.address.country}}
+      </p>
+      </mat-card-content>
+  
+     
+    </mat-card>
+    <button mat-raised-button class="book-button" (click)="seatview(eventdetails.eventId)"> Book Ticket</button>
+  </div>
+</div>
+
+
+
+

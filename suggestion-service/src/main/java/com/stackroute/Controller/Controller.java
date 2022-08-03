@@ -141,4 +141,19 @@ public class Controller {
         }
         return responseEntity;
     }
+
+    //retrieve recommended events for particular city
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/suggestion/{city}")
+    public ResponseEntity<?> getSuggestedEventsByCity(@PathVariable String city){
+        try {
+            responseEntity = new ResponseEntity<List<Events>>(userService.getSuggestedEventsByCity(city), HttpStatus.OK);
+        }
+        catch (EventNotFoundException e){
+            responseEntity = new ResponseEntity<String>("No Suggestions found for you", HttpStatus.OK);
+        }
+        return responseEntity;
+    }
+
+
 }

@@ -15,4 +15,5 @@ public class Seat {
     private int seatId;
     private BigDecimal seatPrice;
     private String status;
+    private String seatCategory;
 }

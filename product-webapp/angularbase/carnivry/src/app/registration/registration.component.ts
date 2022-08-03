@@ -14,19 +14,25 @@ export class RegistrationComponent implements OnInit {
 
   constructor(private regService: RegistrationService,
               private router: Router,
-              private fb:FormBuilder) { regService.updateAuthProvider('carnivry'); }
+              private fb:FormBuilder) { regService.updateAuthProvider('carnivry');
+              const currentYear = new Date().getFullYear();
+              this.minDate = new Date(currentYear - 100, 0, 1);
+              this.maxDate = new Date(currentYear - 18, 11, 31); }
 
 
   postUser!: PostUser;
   successMessage:any;
   failureMessage:any;
   registerUserForm: any;
+  minDate:Date;
+  maxDate:Date;
   
   ngOnInit(): void {
 
     this.registerUserForm= this.fb.group({
       name: new FormControl('',[Validators.required,Validators.minLength(4)]),
       email: new FormControl('',[Validators.required,Validators.email]),
+      dob: new FormControl('',[Validators.required]),
       password: new FormControl('',[Validators.required,Validators.minLength(8),Validators.maxLength(20)]),
       matchingPassword: new FormControl('',[Validators.required])
     },
@@ -43,7 +49,7 @@ export class RegistrationComponent implements OnInit {
 
     
     this.postUser= this.registerUserForm.value;
-    // console.log(this.postUser);
+    console.log(this.postUser);
 
     this.regService.register(this.postUser).subscribe( r => {
       

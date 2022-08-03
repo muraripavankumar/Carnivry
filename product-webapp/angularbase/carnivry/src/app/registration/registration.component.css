@@ -9,7 +9,7 @@
     max-width: 800px;
     height: 500px;
     margin: auto;
-    top: 50%;
+    top: 38%;
     left: 50%;
     transform: translate(-50%, -50%);
   } 
@@ -118,6 +118,25 @@
     left: 16px;
 
   }
+  .date{
+    margin-top: 0px;
+    padding-top: 0px;
+  }
+  .mat-form-field-infix {
+    display: block;
+    position: relative;
+    flex: auto;
+    min-width: 0;
+    width: 180px;
+    
+}
+.mat-form-field-infix {
+  padding:  0px;
+  border-top: 0px;
+}
+.mat-form-field-appearance-standard .mat-form-field-flex {
+  padding-top: 0px;
+}
  
   
 

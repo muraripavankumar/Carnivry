@@ -1,5 +1,6 @@
 package com.stackroute.service;
 
+//import com.stackroute.config.TwilioConfig;
 import com.stackroute.entity.CarnivryUser;
 import com.stackroute.exception.UserAlreadyExistsException;
 import com.stackroute.exception.UserNotFoundException;
@@ -7,10 +8,13 @@ import com.stackroute.model.*;
 import com.stackroute.rabbitMQ.AuthenticationUserDTO;
 import com.stackroute.rabbitMQ.MessageProducer;
 import com.stackroute.repository.UserRepository;
+//import com.twilio.rest.api.v2010.account.Message;
+//import com.twilio.type.PhoneNumber;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 @Service
@@ -21,13 +25,17 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
     private final EmailSenderService emailSenderService;
     private final MessageProducer messageProducer;
+//    private final TwilioConfig twilioConfig;
+    private final SmsSenderService smsSenderService;
 
    @Autowired
-   public UserServiceImpl(UserRepository userRepository, EmailSenderService emailSenderService, MessageProducer messageProducer) {
+   public UserServiceImpl(UserRepository userRepository, EmailSenderService emailSenderService, MessageProducer messageProducer, SmsSenderService smsSenderService) {
         this.userRepository = userRepository;
         this.emailSenderService = emailSenderService;
         this.messageProducer = messageProducer;
-    }
+
+       this.smsSenderService = smsSenderService;
+   }
 
     private static  final int EXPIRATION_TIME = 10;
 
@@ -41,8 +49,10 @@ public class UserServiceImpl implements UserService{
         else {
             CarnivryUser carnivryUser = new CarnivryUser();
             carnivryUser.setEmail(userModel.getEmail().toLowerCase());
+            carnivryUser.setEmailId(userModel.getEmail().toLowerCase());
             carnivryUser.setName(userModel.getName());
             carnivryUser.setVerified(false);
+            carnivryUser.setDob(userModel.getDob());
 
             AuthenticationUserDTO authenticationUserDTO=
                     new AuthenticationUserDTO(userModel.getEmail().toLowerCase(), userModel.getPassword());
@@ -65,6 +75,7 @@ public class UserServiceImpl implements UserService{
 
         CarnivryUser carnivryUser = new CarnivryUser();
         carnivryUser.setEmail(userRegModel.getEmail());
+        carnivryUser.setEmailId(userRegModel.getEmail());
         carnivryUser.setName(userRegModel.getName());
 
         carnivryUser.setVerified(true);
@@ -245,6 +256,102 @@ public class UserServiceImpl implements UserService{
     }
 
 
+//    public void savePhoneNumber(String email, String phone) {
+//
+//        CarnivryUser carnivryUser= userRepository.findById(email).get();
+//        carnivryUser.setPhone(phone);
+//        userRepository.save(carnivryUser);
+//    }
+
+    @Override
+    public boolean sendOTPForPhoneNoVerification(PhoneNoValidationRequestDto phoneNoValidationRequestDto) throws UserNotFoundException {
+
+        if(userRepository.findById(phoneNoValidationRequestDto.getEmail()).isEmpty()){
+            log.error("Cannot send otp to phone number of unregistered user with email id {}"
+                    ,phoneNoValidationRequestDto.getEmail());
+            throw new UserNotFoundException();
+        }
+        try {
+            CarnivryUser carnivryUser= userRepository.findById(phoneNoValidationRequestDto.getEmail()).get();
+//            PhoneNumber to = new PhoneNumber(phoneNoValidationRequestDto.getPhoneNumber());
+//            PhoneNumber from = new PhoneNumber(twilioConfig.getTrialNumber());
+            String otp = generateOTP();
+            String otpMessage = "Dear User , Your OTP is ##" + otp + "##. Use this OTP to complete your phone number verification.";
+
+//            log.info("SID: {}, Token: {}",twilioConfig.getAccountSid(),twilioConfig.getAuthToken());
+////            Twilio.init(twilioConfig.getAccountSid(),twilioConfig.getAuthToken());
+//            Message message = Message.creator( to,from, otpMessage).create();
+//            System.out.println(message.getSid());
+
+            smsSenderService.sendSms(otpMessage,phoneNoValidationRequestDto.getPhoneNumber());
+
+            carnivryUser.setPhoneNoVerificationOTP(otp);
+            carnivryUser.setPvoExpTime(calculateExpirationDate(EXPIRATION_TIME));
+            userRepository.save(carnivryUser);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            log.error("Couldn't send otp to phone number {}",phoneNoValidationRequestDto.getPhoneNumber());
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String validatePhoneVerificationOTP(PhoneNoValidationRequestDto phoneNoValidationRequestDto) throws UserNotFoundException {
+        if(userRepository.findById(phoneNoValidationRequestDto.getEmail()).isEmpty()){
+            log.error("Cannot validate phone number verification otp since no user with email id {} exists"
+                    ,phoneNoValidationRequestDto.getEmail());
+            throw new UserNotFoundException();
+        }
+        CarnivryUser carnivryUser= userRepository.findById(phoneNoValidationRequestDto.getEmail()).get();
+        if(carnivryUser.getPhoneNoVerificationOTP().equals(phoneNoValidationRequestDto.getOneTimePassword())){
+            Calendar cal = Calendar.getInstance();
+            if ((carnivryUser.getPvoExpTime().getTime() - cal.getTime().getTime()) <= 0){
+                log.debug("Phone Number verification otp expired for user with email id {}",carnivryUser.getEmail());
+                carnivryUser.setPhoneNoVerificationOTP(null);
+                carnivryUser.setPvoExpTime(null);
+                userRepository.save(carnivryUser);
+                return "Otp expired";
+            }
+            else {
+                log.info("Phone number verified successfully for user with email id {}",carnivryUser.getEmail());
+                carnivryUser.setPhoneNoVerificationOTP(null);
+                carnivryUser.setPvoExpTime(null);
+                carnivryUser.setPhone(phoneNoValidationRequestDto.getPhoneNumber());
+                userRepository.save(carnivryUser);
+                return "Valid otp";
+            }
+        }
+        else {
+            log.debug("Invalid otp for phone number of user with email id {}",carnivryUser.getEmail());
+            return "Invalid otp";
+        }
+
+    }
+
+    @Override
+    public void saveDOB(AddDOB addDOB) throws UserNotFoundException {
+        if (userRepository.findById(addDOB.getEmail()).isEmpty())
+        {
+            log.debug("User with email id {} not found",addDOB.getEmail());
+            throw new UserNotFoundException();
+        }
+        CarnivryUser carnivryUser= userRepository.findById(addDOB.getEmail()).get();
+        carnivryUser.setDob(addDOB.getDob());
+        userRepository.save(carnivryUser);
+    }
+
+    @Override
+    public void saveAddress(AddAddress addAddress) throws UserNotFoundException {
+        if (userRepository.findById(addAddress.getEmail()).isEmpty())
+        {
+            log.debug("User with email id {} not found",addAddress.getEmail());
+            throw new UserNotFoundException();
+        }
+        CarnivryUser carnivryUser= userRepository.findById(addAddress.getEmail()).get();
+        carnivryUser.setAddress(addAddress.getAddress());
+        userRepository.save(carnivryUser);
+    }
 
     private Date calculateExpirationDate(int expirationTime) {
         Calendar calendar = Calendar.getInstance();
@@ -252,6 +359,11 @@ public class UserServiceImpl implements UserService{
         calendar.add(Calendar.MINUTE, expirationTime);
         log.debug("Expiration Time is Generated");
         return new Date(calendar.getTime().getTime());
+    }
+
+    private String generateOTP() {
+        return new DecimalFormat("000000")
+                .format(new Random().nextInt(999999));
     }
 }
 

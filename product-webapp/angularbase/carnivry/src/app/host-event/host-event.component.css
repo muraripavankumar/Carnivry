@@ -1,46 +1,58 @@
-.mat-stepper-horizontal {
-  margin-top: 8px;
-}
-
-.mat-form-field {
-  margin-top: 16px;
-  width: 100%;
-}
-
-.mat-card {
-  margin: 0 auto;
-  width: fit-content;
-}
-
-.shortinput {
-  width: 20%;
-  margin-right: 5%;
-}
-
-.mediuminput {
-  width: 30%;
-  margin-right: 5%;
-}
-
 .root {
   --colNum: 5;
 }
 
+/* Seat layout container */
 .cont {
   display: grid;
   grid-gap: 3px;
   grid-template-columns: repeat(var(--colNum), 1fr);
-  max-width: fit-content;
-  background-color: blue;
+  /* max-width: fit-content; */
+  width: fit-content;
 
 }
 
+/* Seat layout checkbox */
 .box {
   height: auto;
-  width: 20px;
-  background-color: brown;
+  width: auto;
+  /* background-color: aqua; */
+  border-top-left-radius: 50pt;
+  border-top-right-radius: 50pt;
+
 }
-.alert{
+
+/* Error message */
+.alert {
   color: red;
-  
+}
+
+.header {
+  font-size: 100vw;
+}
+
+/* Poster thumbnail */
+.thumbnail {
+  height: auto;
+  max-width: 300px;
+  width: 100%;
+}
+
+/* Poster landscape */
+.landscape {
+  height: auto;
+  /* max-width: 600px; */
+  width: 100%;
+}
+@media only screen  and (min-width:820px){
+  .country-field{
+    min-width:150px;
+  }
+}
+
+.form-box{
+  border-radius: 25px;
+    -webkit-box-shadow: 0px 10px 40px -10px rgba(0, 0, 0, 0.7);
+    -moz-box-shadow: 0px 10px 40px -10px rgba(0, 0, 0, 0.7);
+    box-shadow: 0px 10px 40px -10px rgba(0, 0, 0, 0.7);
 }

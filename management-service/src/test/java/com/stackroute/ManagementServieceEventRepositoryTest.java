@@ -30,18 +30,21 @@ public class ManagementServieceEventRepositoryTest {
         ArrayList<String> artistList= new ArrayList<String>(Arrays.asList("artist","artists"));
         ArrayList<String> genreList=new ArrayList<String>(Arrays.asList("genre1","genre2"));
         ArrayList<String> languageList=new ArrayList<String>(Arrays.asList("language1","language2"));
+        ArrayList<String> posters=new ArrayList<String>(Arrays.asList("poster_thumbnail","poster_landscape"));
         ArrayList<Seat> seatArrayList=new ArrayList<>();
         ArrayList<String> emailList=new ArrayList<>(Arrays.asList("user1@ex.com","user2@ex.com","user3@ex.com"));
         Address address=new Address("23","Test street","Test landmark","Test city","Test state","Test Country",123456);
         Venue venue=new Venue("Test venue name",address);
         EventTiming eventTiming=new EventTiming(new Date(),new Date(),"11:24","04:06");
-        Seat seat1=new Seat(5,6,1,new BigDecimal(100.05),"NOT_BOOKED");
-        Seat seat2=new Seat(5,6,2,new BigDecimal(200.05),"NOT_BOOKED");
-        Seat seat3=new Seat(5,6,3,new BigDecimal(10.05),"NOT_BOOKED");
+        Seat seat1=new Seat(5,6,1,new BigDecimal("100.05"),"NOT_BOOKED","platinum");
+        Seat seat2=new Seat(5,6,2,new BigDecimal("200.05"),"NOT_BOOKED","silver");
+        Seat seat3=new Seat(5,6,3,new BigDecimal("10.05"),"NOT_BOOKED","gold");
         seatArrayList.add(seat1);
         seatArrayList.add(seat2);
         seatArrayList.add(seat3);
-        event=new Event("101","Test example tile","testuser@example.com","name1","test event description",artistList,genreList,languageList,eventTiming,"poster url", venue,new BigDecimal(2000),250,450,seatArrayList,300,emailList);
+
+        event=new Event("101","Test example tile","testuser@example.com","name1","test event description",artistList,genreList,languageList,eventTiming,posters, venue,new BigDecimal(2000),250,450,seatArrayList,300,emailList);
+
     }
     @AfterEach
     public void conclude(){
@@ -50,6 +53,7 @@ public class ManagementServieceEventRepositoryTest {
     }
     @Test
     public void addEvent(){
+        eventRepository.deleteAll();
         eventRepository.insert(event);
         List<Event> events=eventRepository.findAll();
         assertEquals(1,events.size());

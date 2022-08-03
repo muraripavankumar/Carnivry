@@ -40,6 +40,41 @@ public class TicketController {
         }
 
     }
+
+    // http://localhost:5300/ticket/seat/{eventId} get
+    @GetMapping("/seat/{eventId}")
+    public ResponseEntity<?> getEventByEventIdforTickets(@PathVariable String eventId) {
+        try {
+            return new ResponseEntity<>(ticketingService.getEventByIdforTix(eventId), HttpStatus.OK);
+        }
+        catch (EventNotFoundException e){
+            log.error("Exception occured in TicketController->getEventByEventId");
+            return new ResponseEntity<>("The Event is not currently available. We will be back soon",HttpStatus.CONFLICT);
+        }
+        catch (Exception ex){
+            log.error("Exception occured in TicketController->getEventByEventId");
+            return new ResponseEntity<>("Unexpected Error happened. We will be back soon",HttpStatus.CONFLICT);
+        }
+
+    }
+
+
+    // http://localhost:5300/ticket/book/{eventId} get
+    @GetMapping("/book/{eventId}")
+    public ResponseEntity<?> bookTicketsnoSeats(@PathVariable String eventId) {
+        try {
+            return new ResponseEntity<>(ticketingService.bookTicketforNoSeat(eventId), HttpStatus.OK);
+        }
+        catch (EventNotFoundException e){
+            log.error("Exception occured in TicketController->getEventByEventId");
+            return new ResponseEntity<>("The Event is not currently available. We will be back soon",HttpStatus.CONFLICT);
+        }
+        catch (Exception ex){
+            log.error("Exception occured in TicketController->getEventByEventId");
+            return new ResponseEntity<>("Unexpected Error happened. We will be back soon",HttpStatus.CONFLICT);
+        }
+
+    }
     // http://localhost:5300/ticket/{eventId}/{nid} get
     @GetMapping("/{eventId}/{nid}")
     public ResponseEntity<?> getTicket(@PathVariable String eventId,@PathVariable int nid)  {
