@@ -16,7 +16,6 @@
 .box {
   height: auto;
   width: auto;
-  /* background-color: aqua; */
   border-top-left-radius: 50pt;
   border-top-right-radius: 50pt;
 
@@ -31,34 +30,67 @@
   font-size: 100vw;
 }
 
-/* Poster thumbnail */
-.thumbnail {
-  height: auto;
-  max-width: 300px;
-  width: 100%;
-}
+/* Small and Medium Screen */
+@media only screen and (max-width:820px) {
 
-/* Poster landscape */
-.landscape {
-  height: auto;
-  
-  width: 100%;
-}
-@media only screen  and (min-width:820px){
-  .country-field{
-    min-width:150px;
+  /* Poster thumbnail */
+  .thumbnail {
+    display: block;
+    max-height: 300px;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+  }
+
+  /* Poster landscape */
+  .landscape {
+    display: block;
+    max-height: 200px;
+    max-width: 100%;
+    width: auto;
+    height: auto;
   }
 }
 
-.form-box{
-  border-radius: 25px;
-    -webkit-box-shadow: 0px 10px 40px -10px rgba(0, 0, 0, 0.7);
-    -moz-box-shadow: 0px 10px 40px -10px rgba(0, 0, 0, 0.7);
-    box-shadow: 0px 10px 40px -10px rgba(0, 0, 0, 0.7);
+/* Large screen media querry */
+@media only screen and (min-width:820px) {
+  .country-field {
+    min-width: 150px;
+  }
+
+  /* Poster thumbnail */
+  .thumbnail {
+    height: 400px;
+    max-width: 100%;
+    width: auto;
+  }
+
+  /* Poster landscape */
+  .landscape {
+    height: 400px;
+    width: 100%;
+  }
 }
 
-.image-div{
-  border:3px dashed lightslategrey;
+.form-box {
+  border-radius: 25px;
+  -webkit-box-shadow: 0px 10px 40px -10px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 0px 10px 40px -10px rgba(0, 0, 0, 0.7);
+  box-shadow: 0px 10px 40px -10px rgba(0, 0, 0, 0.7);
+}
+
+.image-div {
+  border: 3px dashed lightslategrey;
   border-radius: 25px;
   height: max-content;
+}
+
+.color-card {
+  height: 20px;
+  width: 40px;
+}
+
+.scrollable{
+  overflow: auto;
+  white-space: nowrap;
 }
