@@ -41,6 +41,8 @@ import { UpdateDOBDialogComponent } from './update-dobdialog/update-dobdialog.co
 import { UpdateProfilePicDialogComponent } from './update-profile-pic-dialog/update-profile-pic-dialog.component';
 import { UpdatePhoneDialogComponent } from './update-phone-dialog/update-phone-dialog.component';
 import { UpdateAddressDialogComponent } from './update-address-dialog/update-address-dialog.component';
+import { PostedEventsComponent } from './posted-events/posted-events.component';
+import { MyGenreDialogComponent } from './my-genre-dialog/my-genre-dialog.component';
 
 
 @NgModule({
@@ -61,7 +63,9 @@ import { UpdateAddressDialogComponent } from './update-address-dialog/update-add
     UpdateDOBDialogComponent,
     UpdateProfilePicDialogComponent,
     UpdatePhoneDialogComponent,
-    UpdateAddressDialogComponent
+    UpdateAddressDialogComponent,
+    PostedEventsComponent,
+    MyGenreDialogComponent
     
   ],
   imports: [

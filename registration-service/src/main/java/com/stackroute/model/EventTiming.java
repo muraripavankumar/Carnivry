@@ -11,9 +11,10 @@ import java.util.Date;
 @NoArgsConstructor
 public class EventTiming {
 
-    Date startDate;
-    Date endDate;
-    String startTime;
-    String endTime;
+
+    private Date startDate;
+    private Date endDate;
+    private String startTime;
+    private String endTime;
 
 }

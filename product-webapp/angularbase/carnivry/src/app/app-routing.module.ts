@@ -9,6 +9,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { HomeComponent } from './home/home.component';
 import { HostEventComponent } from './host-event/host-event.component';
 import { LoginComponent } from './login/login.component';
+import { PostedEventsComponent } from './posted-events/posted-events.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { UpdateEventComponent } from './update-event/update-event.component';
@@ -44,16 +45,23 @@ const routes: Routes = [{
     component: LoginComponent
   },
   {
-    path:"emailLink",
-    component:EmailLinkComponent
+    path: "emailLink",
+    component: EmailLinkComponent
   },
   {
-    path:"forgotpassword",
-    component:ForgotPasswordComponent,
+    path: "forgotpassword",
+    component: ForgotPasswordComponent,
   },
   {
     path: "account",
-    component: ProfileComponent
+    children: [{
+      path: "",
+      component: ProfileComponent
+    },
+    {
+      path: "postedEvents",
+      component: PostedEventsComponent
+    }]
   },
   {
     path: "host-event",

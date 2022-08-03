@@ -41,6 +41,7 @@ export class LoginComponent implements OnInit {
     this.userservice.logincheck(this.loginuser).subscribe(
       success => {
        this.rtr.navigate(['Carnivry/home']);
+       this.regService.updateAuthProvider('carnivry');
         console.log(success);
         alert("Logged Successfully!!");
          this.registration.updateToken(success.token);
