@@ -8,12 +8,15 @@ import { EmailVerificationComponent } from './email-verification/email-verificat
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { HomeComponent } from './home/home.component';
 import { HostEventComponent } from './host-event/host-event.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { UpdateEventComponent } from './update-event/update-event.component';
 
-const routes: Routes = [{
+const routes: Routes = [
+  {path: "landing-page", component: LandingPageComponent},    //added by garima
+  {
   path: 'Carnivry',
   children: [{
     path: "",

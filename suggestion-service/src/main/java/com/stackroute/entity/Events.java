@@ -35,10 +35,10 @@ public class Events {
     private String city;
     private String state;
     private int pincode;
-    private Double revenueGenerated;
     private int ticketsSold;
+    private Double revenueGenerated;
+    private Double price;
     private int totalSeats;
-//    private List<Seat> seats;
     private int likes;
     private List<String> emailOfUsersLikedEvent;
 }
