@@ -41,7 +41,7 @@ public class ManagementServieceEventRepositoryTest {
         seatArrayList.add(seat1);
         seatArrayList.add(seat2);
         seatArrayList.add(seat3);
-        event=new Event("101","Test example tile","testuser@example.com","test event description",artistList,genreList,languageList,eventTiming,"poster url", venue,new BigDecimal(2000),250,450,seatArrayList,300,emailList);
+        event=new Event("101","Test example tile","testuser@example.com","name1","test event description",artistList,genreList,languageList,eventTiming,"poster url", venue,new BigDecimal(2000),250,450,seatArrayList,300,emailList);
     }
     @AfterEach
     public void conclude(){
