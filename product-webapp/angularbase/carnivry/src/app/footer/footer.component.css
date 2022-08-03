@@ -1,4 +1,10 @@
 .social-media{
-    height: 4rem;
-    margin-right:10px;
+    height: 3rem;
+    margin-right:25px;
+}
+
+@media only screen  and (min-width: 820px ){
+    .copyright{
+        margin-left: 150px;
+    }
 }
