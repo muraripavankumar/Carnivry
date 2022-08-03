@@ -1,0 +1,78 @@
+
+.root {
+    --colNum: 5;
+  }
+  
+  .cont {
+    display: grid;
+    grid-gap: .1rem;
+    grid-template-columns: repeat(var(--colNum), 1fr);
+    max-width: fit-content;
+    background-color: rgb(255, 255, 255);
+    
+    border-radius: 10px;
+
+  }
+
+
+  input[type=checkbox] {
+
+    -webkit-appearance: none;
+        width: 5rem;
+        height: 6rem;
+        background: white;
+        border-radius: 5px;
+        
+        vertical-align:middle;
+        background-image: url('src\assets\seat-book.png');
+        background-size: 90%;
+        background-position: right center;
+        background-repeat: no-repeat;
+        
+        background-color: rgb(220, 255, 253);
+}
+
+input[type='checkbox']:checked {
+  background-image: url("src\assets\cc1.webp");
+  background-size: 85%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* input[type=checkbox] + label {
+    display:inline-block;
+    padding: 0 0 0 0px;
+    background:url('src\assets\shopping.png') no-repeat;
+    height: 8rem;
+    width: 10rem;
+    background-size: 50%;
+}
+
+input[type=checkbox]:checked + label {
+    background:url("src\assets\reserved 3.jpg") no-repeat;
+    height: 8rem;
+    width: 10rem;
+    display:inline-block;
+    background-size: 60%;
+} */
+
+   .box {
+    height: 5rem;
+    width: 7rem;
+    background-color:rgb(255, 255, 255) ;
+    /* background-image: url('src\assets\shopping.png'); */
+  /* background-position: center; 
+  /* background-size: 4rem 5rem; 
+  background-repeat: no-repeat; */
+  border: 2px solid rgb(255, 255, 255);
+    padding: 0.1rem;
+ 
+  } 
+  .alert{
+    color: rgb(255, 254, 254);
+  } 
+  
+  .header{
+    font-size: 100vw;
+  }
+ 

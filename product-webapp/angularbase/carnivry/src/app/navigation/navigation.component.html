@@ -1,0 +1,31 @@
+<mat-sidenav-container class="sidenav-container" style="height: 10rem;">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="false" style="background-image: linear-gradient(to bottom right, #c85bff,#9b00e8);">
+    <mat-toolbar >Menu</mat-toolbar>
+    <mat-nav-list >
+      <a mat-list-item href="#">Home</a>
+      <a mat-list-item href="/Carnivry/host-event">Host Event</a>
+      <a mat-list-item href="#">My Login</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar style="height: 10rem;background-image: linear-gradient(to right, #c85bff,#9b00e8);
+     ">
+      <button
+      style="justify-content: right;"
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="400px">
+        <mat-icon aria-label="Side nav toggle icon" style="justify-content: left;">menu</mat-icon>
+      </button>
+      <span style="font-size: 5rem; font-weight: bold;
+      color: wheat; letter-spacing: 0.5rem;font-family: 'Mochiy Pop One', sans-serif; position:relative; margin-left: auto; margin-right: auto;">
+      CARNIVRY</span>
+    </mat-toolbar>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

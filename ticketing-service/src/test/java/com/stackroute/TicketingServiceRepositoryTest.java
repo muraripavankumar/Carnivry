@@ -34,10 +34,10 @@ public class TicketingServiceRepositoryTest {
     public void setup(){
         address = new Address("221B","Baker Street","Sherlock's House","Los Angeles","California","United States",5656568);
         eventTiming=new EventTiming(new Date(),new Date(),"17:00","19:00");
-        Seat seat1 = new Seat(10,2,1,new BigDecimal(25.00),"Not Booked");
-        Seat seat2 = new Seat(10,2,2,new BigDecimal(25.00),"Processing");
-        Seat seat3 = new Seat(10,2,3,new BigDecimal(25.00),"Booked");
-      //  ArrayList<Seat> seatList=new ArrayList<>(Arrays.asList(seat1,seat2,seat3));
+        Seat seat1 = new Seat(10,2,1,new BigDecimal(25.00),"Not Booked","Platinum");
+        Seat seat2 = new Seat(10,2,2,new BigDecimal(25.00),"Processing","Platinum");
+        Seat seat3 = new Seat(10,2,3,new BigDecimal(25.00),"Booked","Platinum");
+        //  ArrayList<Seat> seatList=new ArrayList<>(Arrays.asList(seat1,seat2,seat3));
         ArrayList<Seat> seatList=new ArrayList<>();
         seatList.add(seat1);
         seatList.add(seat2);
@@ -47,8 +47,9 @@ public class TicketingServiceRepositoryTest {
         ArrayList<String> genreList=new ArrayList<String>(Arrays.asList("genre1","genre2"));
         ArrayList<String> languageList=new ArrayList<String>(Arrays.asList("language1","language2"));
         ArrayList<String> emailList=new ArrayList<>(Arrays.asList("me@gmail.com","you@gmail.com","everyone@gmail.com"));
+        ArrayList<String> posters = new ArrayList<>(Arrays.asList("url","url"));
         event = new Event("1","Movie","thismy@email.com","Movie about movie",
-                artistList,genreList,languageList,eventTiming,"url",venue,new BigDecimal(0.00),0,
+                artistList,genreList,languageList,eventTiming,posters,venue,new BigDecimal(0.00),0,
                 200,seatList,200,emailList);
     }
 
@@ -72,19 +73,5 @@ public class TicketingServiceRepositoryTest {
         assertEquals(result.getSeats().get(0).getStatus(),event.getSeats().get(0).getStatus());
     }
 
-//    @Test
-//    public void getBookedTicket(){
-//        eventRepository.insert(event);
-//        Event result = eventRepository.findById(event.getEventId()).get();
-//        result.getSeats().get(2).setStatus("Booked");
-//        assertEquals(result.getSeats().get(2).getStatus(),event.getSeats().get(2).getStatus());
-//    }
-//
-//    @Test
-//    public void getProcessTicket(){
-//        eventRepository.insert(event);
-//        Event result = eventRepository.findById(event.getEventId()).get();
-//        result.getSeats().get(1).setStatus("Processing");
-//        assertEquals(result.getSeats().get(1).getStatus(),event.getSeats().get(1).getStatus());
-//    }
+
 }
