@@ -82,7 +82,7 @@ export class ProfileComponent implements OnInit {
   }
 
   getPostedEvents(){
-     this.router.navigate(['/account/postedEvents']);
+     this.router.navigate(['/posted-events']);
   }
 
   
