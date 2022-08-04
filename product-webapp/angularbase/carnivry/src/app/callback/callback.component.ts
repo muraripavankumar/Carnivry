@@ -45,7 +45,7 @@ export class CallbackComponent implements OnInit {
                 if(this.isPresent===false)
                    {
                     this.registerSocialUser();
-                    this.router.navigate(['/addPreference']);
+                    this.router.navigate(['/add-preference']);
                    }
                 else
                   {
@@ -77,7 +77,7 @@ export class CallbackComponent implements OnInit {
                 if(this.isPresent===false)
                    {
                     this.registerSocialUser();
-                    this.router.navigate(['/addPreference']);
+                    this.router.navigate(['/add-preference']);
                    }
                 else
                   {

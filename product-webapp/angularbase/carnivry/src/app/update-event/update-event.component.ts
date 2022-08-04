@@ -26,7 +26,7 @@ export class UpdateEventComponent implements OnInit {
   }
   updateEvent(eventObj: Event) {
     this.udateEventService.updateEventInit(eventObj);
-    this.router.navigate(['Carnivry/host-event']);
+    this.router.navigate(['/host-event']);
   }
 
 

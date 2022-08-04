@@ -59,7 +59,7 @@ export class PostedEventsComponent implements OnInit {
 
   view(e:Event){
     this.updateEventService.updateEventInit(e);
-    this.router.navigate(['host-event']);
+    this.router.navigate(['/host-event']);
   }
 
 }
