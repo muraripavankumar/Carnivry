@@ -5,7 +5,11 @@ server:
 social:
   auto-signup: false
 
+
+
 spring:
+  application:
+    name: RegistrationService
   data:
     mongodb:
       host: localhost
