@@ -53,6 +53,11 @@ public class UserController {
         }
     }
 
+    @GetMapping
+    public String testMethos(){
+        return "hello world";
+    }
+
     //    method for login to the carnivry application
     // http://localhost:64200/api/v1/login   [post]
     @PostMapping("/login")

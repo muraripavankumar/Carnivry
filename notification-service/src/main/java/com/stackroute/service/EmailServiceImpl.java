@@ -5,6 +5,7 @@ import com.stackroute.model.*;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Slf4j
 public class EmailServiceImpl implements EmailService{
 
     private JavaMailSender javaMailSender;
@@ -30,6 +32,7 @@ public class EmailServiceImpl implements EmailService{
 
     @Autowired
     public EmailServiceImpl(JavaMailSender javaMailSender, Configuration configuration) {
+        log.info("constructing EmailServiceImpl");
         this.javaMailSender = javaMailSender;
         this.configuration = configuration;
     }
@@ -41,6 +44,7 @@ public class EmailServiceImpl implements EmailService{
         MimeMessage message=javaMailSender.createMimeMessage();
 
         try{
+            log.debug("inside mailToProducer() method");
             MimeMessageHelper helper=new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
                     StandardCharsets.UTF_8.name());
             Template template=configuration.getTemplate("producerEmail-template.ftl");
@@ -74,6 +78,7 @@ public class EmailServiceImpl implements EmailService{
             mailResponse.setStatus(Boolean.TRUE);
 
         }catch (MessagingException | IOException | TemplateException e) {
+            log.error("Exception  in EmailServiceImpl class->mailToProducer() method");
             mailResponse.setMessage("Mail Sending failure : "+e.getMessage());
             mailResponse.setStatus(Boolean.FALSE);
         }
@@ -86,6 +91,7 @@ public class EmailServiceImpl implements EmailService{
         MailResponse mailResponse=new MailResponse();
         MimeMessage message=javaMailSender.createMimeMessage();
         try{
+            log.debug("inside mailToConsumer() method");
             MimeMessageHelper helper=new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
                     StandardCharsets.UTF_8.name());
             Template template=configuration.getTemplate("consumerEmail-template.ftl");
@@ -120,6 +126,7 @@ public class EmailServiceImpl implements EmailService{
             mailResponse.setMessage("mail send to : " + consumerEmail.getEventConsumerEmailId());
             mailResponse.setStatus(Boolean.TRUE);
         }catch (MessagingException | IOException | TemplateException e) {
+            log.error("Exception  in EmailServiceImpl class->mailToConsumer() method");
             mailResponse.setMessage("Mail Sending failure : "+e.getMessage());
             mailResponse.setStatus(Boolean.FALSE);
         }
