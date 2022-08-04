@@ -18,7 +18,7 @@ public class EventController {
     //addEvent               = POST =
     //updateEvent            = PATCH =
     //getAllEvents           = GET
-    //getEventByEventId      = GET = /{eventId}
+    //getEventByEventId      = GET = /event/{eventId}
     //getEventByUserEmailId  =GET = /{userEmail}
 
 
@@ -59,7 +59,7 @@ public class EventController {
     }
 
     //method to accept HTTP GET request to retrieve an event(searched by its eventId) and send the object as response
-    @GetMapping("/{eventId}")
+    @GetMapping("/event/{eventId}")
     public ResponseEntity<?> getEventByEventId(@PathVariable String eventId) throws EventNotFoundException, Exception {
         try {
             return new ResponseEntity<>(eventService.getEventById(eventId),HttpStatus.OK);

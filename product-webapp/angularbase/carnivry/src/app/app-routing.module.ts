@@ -25,9 +25,9 @@ const routes: Routes = [
       {
         path: "", component: LandingPageComponent
       },
-      {
-        path: "host-event", component: HostEventComponent
-      },
+      // {
+      //   path: "host-event", component: HostEventComponent
+      // },
       {
         path: "view-page/:id", component: ViewPageComponent
       },
@@ -41,7 +41,11 @@ const routes: Routes = [
   },
   {
     path: "register", component: RegistrationComponent
-  }                                                                          //added by garima
+  },
+  {
+    path: "host-event", component: HostEventComponent
+  } ,
+                                                                     
   //   {
   //   path: 'Carnivry',
   //   children: [{

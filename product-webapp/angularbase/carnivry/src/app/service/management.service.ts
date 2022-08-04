@@ -23,7 +23,7 @@ export class ManagementService {
   getAllEvents(){
     return this.httpClient.get<Event[]>(this.managementUrl);
   }
-  getAllEventsByUserId(userEmail:string){
+  getAllEventsByUserEmailId(userEmail:string){
     return this.httpClient.get<Event[]>(this.managementUrl+"/"+userEmail);
   }
 }
