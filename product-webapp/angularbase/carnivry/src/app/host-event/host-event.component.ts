@@ -77,8 +77,8 @@ export class HostEventComponent implements OnInit {
     eventId: [''],
     title: ['', [Validators.required, Validators.maxLength(100)]],
     eventDescription: ['', [Validators.required, Validators.minLength(5)]],
-    userName:['example user'],
-    userEmailId: ['exampleHost@g.com'],
+    userName: ['example user'],
+    userEmailId: ['exampleHost1@g.com'],
     artists: this.fb.array([]),
     genre: this.fb.array([]),
     languages: this.fb.array([]),
@@ -406,35 +406,61 @@ export class HostEventComponent implements OnInit {
       this.mouseDown = false;
   }
 
-  fieldsChange(values: any): void {
-    if (values.currentTarget.checked == true) {
-      this.selectedItems.push(values.currentTarget.value);
+  // fieldsChange(values: any): void {
+  //   if (values.currentTarget.checked == true) {
+  //     this.selectedItems.push(values.currentTarget.value);
+  //     const coloring: string = '#E1AEFC';
+  //     const divId = 'd.' + values.currentTarget.id;
+  //     (document.getElementById(divId) as HTMLElement).style.backgroundColor = coloring;
+  //   }
+  //   else {
+  //     this.selectedItems.splice(this.selectedItems.indexOf(values.currentTarget.value), 1);
+  //     const coloring: string = '#FFFFFF';
+  //     const divId = 'd.' + values.currentTarget.id;
+  //     (document.getElementById(divId) as HTMLElement).style.backgroundColor = coloring;
+  //   }
+  // }
+  fieldChange(id: any) {
+    var box = (document.getElementById(id) as HTMLInputElement);
+    if (box.checked) {
+      this.selectedItems.push(id);
       const coloring: string = '#E1AEFC';
-      const divId = 'd.' + values.currentTarget.id;
+      const divId = 'd.' + id;
       (document.getElementById(divId) as HTMLElement).style.backgroundColor = coloring;
     }
     else {
-      this.selectedItems.splice(this.selectedItems.indexOf(values.currentTarget.value), 1);
+      this.selectedItems.splice(this.selectedItems.indexOf(id), 1);
       const coloring: string = '#FFFFFF';
-      const divId = 'd.' + values.currentTarget.id;
+      const divId = 'd.' + id;
       (document.getElementById(divId) as HTMLElement).style.backgroundColor = coloring;
     }
+
   }
 
-  checkBox(values: any) {
-    let box = (document.getElementById(values.currentTarget.id) as HTMLInputElement).checked;
-    if (this.mouseDown) {
-      if (box) {
-        (document.getElementById(values.currentTarget.id) as HTMLInputElement).checked = false;
-        this.fieldsChange(values);
+  checkBox(values: number) {
+    // console.log('id '+values.currentTarget.id);
+    const id = values + "";
+
+    const boxChecked = (document.getElementById(id) as HTMLInputElement).checked;
+    const boxDisabled = (document.getElementById(id) as HTMLInputElement).disabled;
+
+    if (this.mouseDown && !boxDisabled) {
+      if (boxChecked) {
+        (document.getElementById(id) as HTMLInputElement).checked = false;
+        // this.fieldsChange(id);
+        this.fieldChange(id);
       }
       else {
-        (document.getElementById(values.currentTarget.id) as HTMLInputElement).checked = true;
-
-
-        this.fieldsChange(values);
+        (document.getElementById(id) as HTMLInputElement).checked = true;
+        // this.fieldsChange(id);
+        this.fieldChange(id);
       }
     }
+  }
+  checkDiv(values: any) {
+    // console.log(values.currentTarget.id);
+    const checkboxId = values.currentTarget.id.split('.');
+    this.checkBox(checkboxId[1]);
   }
 
   setActivePrice() {
@@ -451,8 +477,8 @@ export class HostEventComponent implements OnInit {
     priceCategory.divColor = this.colorPalate[this.colorIndexCounter];
     this.priceCatogoryList.push(priceCategory);
     this.selectedItems.forEach((s: number) => {
-      this.eventData.seats[s - 1].seatPrice = this.activePrice;
-      this.eventData.seats[s - 1].seatCategory = sc;
+      this.eventData.seats[s].seatPrice = this.activePrice;
+      this.eventData.seats[s].seatCategory = sc;
       // const divId = 'd.' + (s - 1);
       // (document.getElementById(divId) as HTMLElement).style.backgroundColor = this.colorPalate[this.colorIndexCounter];
 

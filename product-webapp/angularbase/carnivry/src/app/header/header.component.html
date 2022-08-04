@@ -1,0 +1,47 @@
+<!-- Header -->
+<mat-toolbar>
+    <mat-toolbar-row>
+      <img class="logo" src="../assets/logo.png">
+      <span class="example-spacer"></span>
+      <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+      </button>
+  
+    <div style="display: flex; width: 100%;">
+
+      <!-- Search box -->
+      <button matSuffix mat-button>        
+        <input class="search" type="text" placeholder="Search any event here" [ngModel]="search">
+        <mat-icon >search</mat-icon>
+      </button>
+
+          <!-- Add Event -->
+      <div style="margin-left:200px ; display: flex;">    
+      <section>
+        <button mat-button>Add Event</button>
+      </section>
+      
+      <!-- Choose city -->
+      <section>
+        <button mat-button (click)="openDialog()">Choose city</button>
+      </section>
+
+    </div>
+
+
+      <!-- User Icon -->
+      <div style="display: flex; margin-left: 100px;">
+      <button mat-button [matMenuTriggerFor]="beforeMenu">Hi User</button>
+    </div>
+      <mat-menu #beforeMenu="matMenu" xPosition="before">
+        <button mat-menu-item>Edit profile</button>
+        <button mat-menu-item>Sign out</button>
+      </mat-menu>
+
+
+</div>
+
+    </mat-toolbar-row>
+  
+  </mat-toolbar>
+
+<app-landing-page></app-landing-page>

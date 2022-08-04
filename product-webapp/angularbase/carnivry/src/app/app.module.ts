@@ -64,6 +64,8 @@ import { PrevDirective } from './prev.directive';
 import { DatePipe } from '@angular/common';
 import { CarouselModule } from './carousel/carousel.module';
 import { FooterComponent } from './footer/footer.component';
+import { HeaderComponent } from './header/header.component';
+import { DialogBoxChooseCityComponent } from './dialog-box-choose-city/dialog-box-choose-city.component';
 
 // import { FlexLayoutModule } from "@angular/flex-layout";
 
@@ -95,7 +97,7 @@ import { FooterComponent } from './footer/footer.component';
     
     LandingPageComponent,
     NextDirective,            //added by garima
-    PrevDirective, FooterComponent             //added by garima
+    PrevDirective, FooterComponent, HeaderComponent, DialogBoxChooseCityComponent             //added by garima
   ],
   imports: [
     BrowserModule,
