@@ -13,9 +13,9 @@
             <div class="content">
                 <mat-card *ngFor="let e of postedEvents" class="event">
 
-                    <h3><b>Event Id: </b><i>{{e.eventId}}</i></h3>
+                    <!-- <h3><b>Event Id: </b><i>{{e.eventId}}</i></h3> -->
                     <h3><b>Event Title: </b><i><b>{{e.title}}</b></i></h3>
-                    <h3><b>Event Description: </b><i>{{e.eventDescription}}</i></h3>
+                    <!-- <h3><b>Event Description: </b><i>{{e.eventDescription}}</i></h3> -->
 
                     <h3><b>Posters</b></h3>
                     <div class="images">
@@ -25,7 +25,7 @@
                     </div>
 
 
-                    <h3><b>Artists: </b>
+                    <!-- <h3><b>Artists: </b>
                         <i>
                             <ul class="menu">
                                 <li *ngFor="let a of e.artists">*{{a}}*&emsp;</li>
@@ -47,14 +47,14 @@
                                 <li *ngFor="let l of e.languages">*{{l}}*&emsp;</li>
                             </ul>
                         </i>
-                    </h3>
+                    </h3> -->
 
                     <h3><b>Starts At: </b><i>{{e.eventTimings.startDate}} &nbsp;&nbsp; {{e.eventTimings.startTime}}</i>
                     </h3>
 
                     <h3><b>Ends At: </b><i>{{e.eventTimings.endDate}} &nbsp;&nbsp; {{e.eventTimings.endTime}}</i></h3>
 
-                    <h3><b>Venue Name: </b><i>{{e.venue.venueName}}</i></h3>
+                    <!-- <h3><b>Venue Name: </b><i>{{e.venue.venueName}}</i></h3>
 
                     <h3><b>Venue Address: </b>
                         <i *ngIf="e.venue.address.house">{{e.venue.address.house}}, &nbsp;</i>
@@ -64,11 +64,18 @@
                         <i *ngIf="e.venue.address.state">{{e.venue.address.state}}, &nbsp;</i>
                         <i *ngIf="e.venue.address.country">{{e.venue.address.country}}, &nbsp;</i>
                         <i *ngIf="e.venue.address.pincode">{{e.venue.address.pincode}}, &nbsp;</i>
-                    </h3>
+                    </h3> -->
+                   
+                    <hr>
+                    <div class="buttons">
+                        <button mat-raised-button class="button" (click)="view(e)">View/Update</button>
+                    </div>
+                    
 
                 </mat-card>
             </div>
 
         </div>
+        
     </div>
 </div>

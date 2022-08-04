@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { RegistrationService } from '../service/registration.service';
 import { Event } from '../model/event';
 import { T } from '@angular/cdk/keycodes';
+import { UpdateEventService } from '../service/update-event.service';
 
 @Component({
   selector: 'app-posted-events',
@@ -14,7 +15,7 @@ export class PostedEventsComponent implements OnInit {
   postedEvents: any;
   email:any
 
-  constructor(private regService:RegistrationService, private routeR: Router) {
+  constructor(private regService:RegistrationService, private router: Router, private updateEventService:UpdateEventService ) {
     this.email= regService.getEmail();
    }
 
@@ -36,6 +37,11 @@ export class PostedEventsComponent implements OnInit {
     error=>{
       console.error(error);
     })
+  }
+
+  view(e:Event){
+    this.updateEventService.updateEventInit(e);
+    this.router.navigate(['Carnivry/host-event']);
   }
 
 }
