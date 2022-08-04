@@ -1,0 +1,48 @@
+server:
+  port: 8085
+
+
+spring:
+  main:
+    web-application-type: reactive
+  application:
+    name: APIGateway
+  cloud:
+    gateway:
+      routes:
+        - id: AuthenticationService
+          uri: http://localhost:64200/
+          predicates:
+            - Path=/userauth/**
+          filters:
+            - RewritePath=/userauth(?<segment>/?.*), $\{segment}
+        - id: RegistrationService
+          uri: http://localhost:8080/
+          predicates:
+            - Path=/registration/**
+          filters:
+            - RewritePath=/registration(?<segment>/?.*), $\{segment}
+        - id: ManagementService
+          uri: http://localhost:8081/
+          predicates:
+            - Path=/management/**
+          filters:
+            - RewritePath=/management(?<segment>/?.*), $\{segment}
+        - id: NotificationService
+          uri: http://localhost:64100/
+          predicates:
+            - Path=/notification/**
+          filters:
+            - RewritePath=/notification(?<segment>/?.*), $\{segment}
+        - id: TicketingService
+          uri: http://localhost:5300/
+          predicates:
+            - Path=/ticketservice/**
+          filters:
+            - RewritePath=/ticketservice(?<segment>/?.*), $\{segment}
+        - id: SuggestionService
+          uri: http://localhost:8082/
+          predicates:
+            - Path=/suggestion/**
+          filters:
+            - RewritePath=/suggestion(?<segment>/?.*), $\{segment}

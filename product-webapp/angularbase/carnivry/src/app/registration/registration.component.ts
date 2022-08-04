@@ -67,7 +67,7 @@ export class RegistrationComponent implements OnInit {
       // localStorage.setItem("authProvider",'carnivry');
 
       setTimeout(() => {
-        this.router.navigate(["/Carnivry/verifyEmail"]);
+        this.router.navigate(["/verifyEmail"]);
       }, 1000)
 
     },

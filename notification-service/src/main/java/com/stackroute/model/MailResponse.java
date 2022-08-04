@@ -1,10 +1,12 @@
 package com.stackroute.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class MailResponse {
     private String message;
     private boolean status;

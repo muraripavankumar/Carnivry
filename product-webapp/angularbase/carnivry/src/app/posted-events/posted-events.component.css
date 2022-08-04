@@ -16,7 +16,11 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: space-evenly;
 }
 .event{
-    width: 45%;
+    width: 30%;
+}
+.buttons{
+    text-align: center;
 }

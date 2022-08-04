@@ -45,6 +45,38 @@ const routes: Routes = [
   {
     path: "host-event", component: HostEventComponent
   } ,
+  {
+        path: "callback",
+        component: CallbackComponent
+      },
+      {
+            path: "verifyEmail",
+            component: EmailVerificationComponent
+          },
+          
+              {
+                path: "addPreference",
+                component: AddPreferenceComponent
+              },
+              {
+                    path: "home",
+                    component: HomeComponent
+                  },
+              
+  {
+        path: "account",
+        children:[
+          {
+            path: "",
+            component: ProfileComponent
+          },
+          {
+            path: "postedEvents",
+            component: PostedEventsComponent
+          }
+
+        ]
+    }
                                                                      
   //   {
   //   path: 'Carnivry',
