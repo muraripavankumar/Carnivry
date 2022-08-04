@@ -211,7 +211,7 @@ export class HostEventComponent implements OnInit {
       this.totalSeating = this.existingEventData.seats.length;
       this.eventData = this.existingEventData;
 
-
+      this.alphabeticalRow(this.row);
     }
   }
   getColor(e: any): string {

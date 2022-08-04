@@ -27,7 +27,7 @@ export class AddPreferenceComponent implements OnInit {
 
   ngOnInit(): void {
 
-    clearInterval(EmailVerificationComponent.checkVerification);
+    
     this.regService.getAllGenres().subscribe(data=>
       { this.genres= new Set(data)},
       error=>{

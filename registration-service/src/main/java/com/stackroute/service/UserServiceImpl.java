@@ -349,8 +349,164 @@ public class UserServiceImpl implements UserService{
             throw new UserNotFoundException();
         }
         CarnivryUser carnivryUser= userRepository.findById(addAddress.getEmail()).get();
-        carnivryUser.setAddress(addAddress.getAddress());
+        Address address= new Address();
+        address.setHouse(addAddress.getHouse());
+        address.setStreet(addAddress.getStreet());
+        address.setLandmark(addAddress.getLandmark());
+        address.setCity(addAddress.getCity());
+        address.setState(addAddress.getState());
+        address.setCountry(addAddress.getCountry());
+        address.setPincode(address.getPincode());
+        carnivryUser.setAddress(address);
         userRepository.save(carnivryUser);
+    }
+
+    @Override
+    public String getProfilePicture(String email) throws UserNotFoundException {
+        if (userRepository.findById(email).isEmpty())
+        {
+            log.debug("User with email id {} not found",email);
+            throw new UserNotFoundException();
+        }
+        return userRepository.findById(email).get().getProfilePic();
+    }
+
+    @Override
+    public void sendNewEmailVerificationToken(AddEmail addEmail, String applicationUrl) throws UserNotFoundException {
+        if(userRepository.findById(addEmail.getOldEmail()).isEmpty()){
+            log.debug("User with email id {} not found",addEmail.getOldEmail());
+            throw new UserNotFoundException();
+        }
+
+        CarnivryUser carnivryUser= userRepository.findById(addEmail.getOldEmail()).get();
+        String token=  UUID.randomUUID().toString();
+        carnivryUser.setEmailVerificationToken(token);
+        carnivryUser.setEvtExpTime(calculateExpirationDate(EXPIRATION_TIME));
+        userRepository.save(carnivryUser);
+
+        String url =
+                applicationUrl
+                        + "/api/v1/verifyNewEmail?token="
+                        + token
+                        + "&oldEmail="
+                        + addEmail.getOldEmail()
+                        + "&newEmail="
+                        + addEmail.getNewEmail();
+
+        //sendVerificationEmail()
+        log.info("Click the link to verify your new Email: {}",
+                url);
+
+        EmailRequest emailRequest= new EmailRequest();
+        emailRequest.setSubject("Carnivry Account-New Email Verification");
+        emailRequest.setTo(addEmail.getNewEmail());
+
+        Map<String, Object> model = new HashMap<>();
+        model.put("title","Hello User,verify your new email");
+        model.put("text", "Please click on the button below to get your Carnivry Account New email verified");
+        model.put("url", url);
+        model.put("button","Verify");
+
+        emailSenderService.sendEmailWithAttachment(emailRequest,model);
+        log.info("New Email verification token for user with email id {} is generated for new email id {}"
+        ,addEmail.getOldEmail(),addEmail.getNewEmail());
+    }
+
+    @Override
+    public String verifyNewEmail(String token, String oldEmail, String newEmail) {
+        CarnivryUser carnivryUser= userRepository.findByEmailVerificationToken(token);
+        if(carnivryUser==null)
+        {
+            log.error("Email verification token {} is invalid for user with email id {}",token,oldEmail);
+            return "invalid token";
+        }
+        else {
+            if(!(carnivryUser.getEmail().equals(oldEmail)))
+            {
+                log.error("Email verification token {} is invalid for user with email id {}",token,oldEmail);
+                return "invalid token";
+            }
+            Calendar cal = Calendar.getInstance();
+            if ((carnivryUser.getEvtExpTime().getTime() - cal.getTime().getTime()) <= 0) {
+                carnivryUser.setEmailVerificationToken("");
+                carnivryUser.setEvtExpTime(null);
+                userRepository.save(carnivryUser);
+                log.error("Email verification token {} expired for user with email id {}",token,oldEmail);
+                return "token expired";
+            }
+            else{
+                carnivryUser.setEmailId(newEmail);
+                carnivryUser.setEmailVerificationToken("");
+                carnivryUser.setEvtExpTime(null);
+                userRepository.save(carnivryUser);
+                log.info("email id {} is verified",newEmail);
+                return "valid token";
+            }
+        }
+    }
+
+    @Override
+    public boolean isNewEmailVerified( AddEmail addEmail) throws UserNotFoundException {
+        log.debug("{}",addEmail.getOldEmail());
+        if (userRepository.findById(addEmail.getOldEmail()).isEmpty())
+        {
+            log.debug("User with email id {} not found",addEmail.getOldEmail());
+            throw new UserNotFoundException();
+        }
+        CarnivryUser carnivryUser= userRepository.findById(addEmail.getOldEmail()).get();
+        if(carnivryUser.getEmailId()==null)
+            return false;
+        return carnivryUser.getEmailId().equalsIgnoreCase(addEmail.getNewEmail());
+    }
+
+    @Override
+    public void savePostedEvent(String email, Event postedEvent) throws UserNotFoundException {
+        if (userRepository.findById(email).isEmpty())
+        {
+            log.debug("User with email id {} not found",email);
+            throw new UserNotFoundException();
+        }
+
+        CarnivryUser carnivryUser= userRepository.findById(email).get();
+        List<Event> postedEvents= carnivryUser.getPostedEvents();
+        if(postedEvents==null)
+            postedEvents= new ArrayList<>();
+        postedEvents.add(postedEvent);
+        carnivryUser.setPostedEvents(postedEvents);
+        userRepository.save(carnivryUser);
+    }
+
+    @Override
+    public List<Event> getPostedEvent(String email) throws UserNotFoundException {
+        if (userRepository.findById(email).isEmpty())
+        {
+            log.debug("User with email id {} not found",email);
+            throw new UserNotFoundException();
+        }
+
+        CarnivryUser carnivryUser= userRepository.findById(email).get();
+        return carnivryUser.getPostedEvents();
+    }
+
+    @Override
+    public List<String> getGenres(String email) throws UserNotFoundException {
+        if (userRepository.findById(email).isEmpty())
+        {
+            log.debug("User with email id {} not found",email);
+            throw new UserNotFoundException();
+        }
+        CarnivryUser carnivryUser= userRepository.findById(email).get();
+        Preferences preferences= carnivryUser.getPreferences();
+        if(preferences==null)
+            return null;
+        Set<Genre> genres= preferences.getLikedGenres();
+        if(genres==null)
+            return null;
+        List<String> genreList= new ArrayList<>();
+        for(Genre genre:genres) {genreList.add(genre.toString());}
+
+        log.debug("Returning favourite genres of user with email id {}",email);
+        return genreList;
     }
 
     private Date calculateExpirationDate(int expirationTime) {

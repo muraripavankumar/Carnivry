@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { HostEventComponent } from './host-event/host-event.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { LoginComponent } from './login/login.component';
+import { PostedEventsComponent } from './posted-events/posted-events.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { SeatingUIComponent } from './seating-ui/seating-ui.component';
@@ -18,6 +19,7 @@ import { UpdateEventComponent } from './update-event/update-event.component';
 import { ViewPageComponent } from './view-page/view-page.component';
 
 const routes: Routes = [
+<<<<<<< HEAD
   {path: "", component: HeaderComponent,  
   children: [
     {
@@ -106,6 +108,81 @@ const routes: Routes = [
 //   pathMatch: 'full'
 // }
 ];
+=======
+  {path: "landing-page", component: LandingPageComponent},    //added by garima
+  {
+  path: 'Carnivry',
+  children: [{
+    path: "",
+    component: AppComponent
+  },
+  {
+    path: "callback",
+    component: CallbackComponent
+  },
+  {
+    path: "home",
+    component: HomeComponent
+  },
+  {
+    path: "register",
+    component: RegistrationComponent
+  },
+  {
+    path: "verifyEmail",
+    component: EmailVerificationComponent
+  },
+  {
+    path: "addPreference",
+    component: AddPreferenceComponent
+  },
+  {
+    path: "login",
+    component: LoginComponent
+  },
+  {
+    path: "emailLink",
+    component: EmailLinkComponent
+  },
+  {
+    path: "forgotpassword",
+    component: ForgotPasswordComponent,
+  },
+  {
+    path: "account",
+    children: [{
+      path: "",
+      component: ProfileComponent
+    },
+    {
+      path: "postedEvents",
+      component: PostedEventsComponent
+    }]
+  },
+  {
+    path: "host-event",
+    component: HostEventComponent
+  },
+  {
+    path: "update-event",
+    component: UpdateEventComponent
+  },
+  {
+    path:"view-page",
+    component: ViewPageComponent
+  },
+  {
+    path:"seat-ui/:id",
+    component: SeatingUIComponent
+  }
+]
+},
+{
+  path: '',
+  redirectTo: '/Carnivry/register',
+  pathMatch: 'full'
+}];
+>>>>>>> 33897e95a6d94ad7a9b5b6379fe11c1cd3a8e7cd
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -1,6 +1,6 @@
 export class EventTiming {
-    public startDate:any;
-    public endDate: any;
+    public startDate:string;
+    public endDate: string;
     public startTime: string;
     public endTime: string;
 }

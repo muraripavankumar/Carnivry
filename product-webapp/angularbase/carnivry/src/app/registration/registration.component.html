@@ -1,9 +1,9 @@
 <div class="container registration">
-    
+
 
     <div class="myCard">
         <div class="row">
-         
+
 
 
             <div class="col-sm-6">
@@ -16,7 +16,8 @@
 
                         <div class="form-group input">
                             <i class="fas fa-user" id="fas_1"></i>
-                            <input type="text" formControlName="name" class="form-control myInput" placeholder="Full Name"
+                            <input type="text" formControlName="name" class="form-control myInput"
+                                placeholder="Full Name"
                                 [ngClass]="{'is-invalid': f['name'].errors && f['name'].touched}" />
                             <div *ngIf="f['name'].errors && (f['name'].touched || f['name'].dirty)"
                                 class="alert alert-danger" role="alert">
@@ -25,7 +26,7 @@
 
                             </div>
                         </div>
-                        
+
 
                         <div class="form-group input">
                             <i class="fas fa-envelope" id="fas_2"></i>
@@ -39,14 +40,24 @@
                         </div>
 
                         <div class="form-group input">
-                            <mat-form-field class="example-full-width" appearance="standard" class="date">
-                                <!-- <mat-label>Enter Date of Birth</mat-label> -->
+                            <!-- <mat-form-field  appearance="standard" class="date" style="border: 0px;">
+                                
                                 <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" style="padding-top: 0px;"
                                 formControlName="dob" class="form-control" placeholder="Enter Date of Birth">
                                 <mat-hint>MM/DD/YYYY- Minimum age 18 years </mat-hint>
                                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                 <mat-datepicker #picker></mat-datepicker>
-                              </mat-form-field>
+                              </mat-form-field> -->
+                            <label for="dob">Date of Birth</label>
+
+                            <input type="date" id="dob" formControlName="dob" class="form-control myInput"
+                                 [min]="minDate" [max]="maxDate"/>
+
+                            <div *ngIf="f['dob'].errors && (f['dob'].touched || f['dob'].dirty)"
+                                class="alert alert-danger" role="alert">
+                                <div *ngIf="f['dob'].errors['required']">Date of Birth Required</div>
+
+                            </div>
                         </div>
 
 
@@ -58,8 +69,10 @@
                             <div *ngIf="f['password'].errors && (f['password'].touched || f['password'].dirty)"
                                 class="alert alert-danger" role="alert">
                                 <div *ngIf="f['password'].errors['required']">Password Required</div>
-                                <div *ngIf="f['password'].errors['minlength']">Password must contain atleast 8 characters</div>
-                                <div *ngIf="f['password'].errors['maxlength']">Password must contain atmost 20 characters</div>
+                                <div *ngIf="f['password'].errors['minlength']">Password must contain atleast 8
+                                    characters</div>
+                                <div *ngIf="f['password'].errors['maxlength']">Password must contain atmost 20
+                                    characters</div>
                             </div>
                         </div>
 
@@ -75,35 +88,35 @@
                                 <div *ngIf="f['matchingPassword'].errors['matching']">Password Not Matching</div>
                             </div>
                         </div>
-                        
+
                         <div class="input fade show" *ngIf="successMessage || failureMessage">
-                        <div  *ngIf="failureMessage" class="alert alert-warning message" role="alert" >
-                            {{failureMessage}}
-                        </div>
-                        <div  *ngIf="successMessage" class="alert alert-success message" role="alert" >
-                            {{successMessage}}
-                        </div>
-                        
+                            <div *ngIf="failureMessage" class="alert alert-warning message" role="alert">
+                                {{failureMessage}}
+                            </div>
+                            <div *ngIf="successMessage" class="alert alert-success message" role="alert">
+                                {{successMessage}}
+                            </div>
+
                         </div>
                         <br>
                         <div class="butt_box">
                             <button type="submit" class="butt" [disabled]="!registerUserForm.valid">Register</button>
-                            
+
                         </div>
                         <br>
                         <div class="row">
                             <div class="col s12">
-                              <a routerLink="/Carnivry/login">Old User? Login</a>
+                                <a routerLink="/Carnivry/login">Already a User? Login</a>
+                            </div>
                         </div>
-                      </div>
-                        
+
                     </form>
-                    
+
 
                     <hr>
 
                     <div class="input">
-                        <header >Social Sign In </header>
+                        <header>Social Sign In </header>
                         <div class="social_icons">
                             <button class="btn btn-light" (click)="signinGoogle()">
                                 <i class="fab fa-google"></i>
@@ -112,11 +125,11 @@
                                 <i class="fab fa-github"></i>
                             </button>
                         </div>
-                        
+
                     </div>
 
-                    
-                    
+
+
 
                 </div>
 
@@ -137,4 +150,3 @@
         </div>
     </div>
 </div>
-
