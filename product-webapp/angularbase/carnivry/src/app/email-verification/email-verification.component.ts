@@ -22,7 +22,7 @@ export class EmailVerificationComponent implements OnInit {
       {
         
         console.log("Email veridfied");
-        this.router.navigate(["/Carnivry/addPreference"]);
+        this.router.navigate(["/addPreference"]);
         clearInterval(checkVerification);
       }}), 5000);
   }

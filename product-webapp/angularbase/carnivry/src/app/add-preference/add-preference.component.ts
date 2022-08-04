@@ -54,9 +54,9 @@ export class AddPreferenceComponent implements OnInit {
       
       console.log(r);
       if(this.authProvider==='carnivry')
-         this.router.navigate(['/Carnivry/login']);
+         this.router.navigate(['/login']);
       else
-         this.router.navigate(['/Carnivry/home']);
+         this.router.navigate(['/home']);
       
     },
       error=>{
