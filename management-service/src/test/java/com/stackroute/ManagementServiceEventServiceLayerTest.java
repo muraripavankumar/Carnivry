@@ -3,6 +3,8 @@ package com.stackroute;
 import com.stackroute.exception.EventAlreadyExistsException;
 import com.stackroute.exception.EventNotFoundException;
 import com.stackroute.model.*;
+import com.stackroute.rabbitmq.EventDTO;
+import com.stackroute.rabbitmq.Producer;
 import com.stackroute.repository.EventRepository;
 import com.stackroute.service.EventServiceImpl;
 import org.junit.jupiter.api.AfterEach;
@@ -26,6 +28,8 @@ import static org.mockito.Mockito.*;
 public class ManagementServiceEventServiceLayerTest {
     @Mock
     private EventRepository eventRepository;
+    @Mock
+    private Producer producer;
     @InjectMocks
     private EventServiceImpl eventService;
     private Event event;
@@ -53,12 +57,14 @@ public class ManagementServiceEventServiceLayerTest {
     @AfterEach
     public void conclude(){
         event=null;
+        producer=null;
         eventRepository.deleteAll();
     }
     @Test
     public void addEventReturnTrueTest() throws Exception {
         when(eventRepository.findById(any(String.class))).thenReturn(Optional.ofNullable(null));
         when(eventRepository.insert(any(Event.class))).thenReturn(event);
+        EventDTO eventDTO=new EventDTO(event.getUserEmailId(),event.getTitle(),event.getUserName(),event.getEventTimings(),event.getVenue(),event.getTotalSeats());
         assertTrue(eventService.addEvent(event));
         verify(eventRepository,times(1)).findById(event.getEventId());
     }
@@ -111,5 +117,10 @@ public class ManagementServiceEventServiceLayerTest {
     public void getAllEvents() throws Exception {
         when(eventRepository.findAll()).thenReturn(new ArrayList<>(Arrays.asList(event)));
         assertEquals(1,eventService.getAllEvents().size());
+    }
+    @Test
+    public void getAllEventsByUserEmailId() throws Exception {
+        when(eventRepository.findByUserEmailId(any(String.class))).thenReturn(new ArrayList<>(Arrays.asList(event)));
+        assertEquals(1,eventService.getAllEventsByUserEmailId("useremail@gmail.com").size());
     }
 }

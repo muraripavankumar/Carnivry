@@ -35,9 +35,9 @@ public class EventServiceImpl implements EventService{
         event.setEmailOfUsersLikedEvent(new ArrayList<>());
         event.setEventId(String.valueOf(UUID.randomUUID()));
         if(eventRepository.findById(event.getEventId()).isEmpty()) {
+            eventRepository.insert(event);
             EventDTO eventDTO=new EventDTO(event.getUserEmailId(),event.getTitle(),event.getUserName(),event.getEventTimings(),event.getVenue(),event.getTotalSeats());
             producer.sendMessageToMq(eventDTO);
-            eventRepository.insert(event);
             return true;
         }
         else {
@@ -67,18 +67,19 @@ public class EventServiceImpl implements EventService{
             log.error("EventNotFoundException occurred in EventServiceImpl-> getEventById()");
             return new EventNotFoundException();});
     }
-
+    //method to retrieve all events
     @Override
     public List<Event> getAllEvents()throws Exception{
         return eventRepository.findAll();
     }
-
+    //method to retrieve all events posted by a particular user
     @Override
     public List<Event> getAllEventsByUserEmailId( String userEmail) throws UserNotFoundException, Exception {
         List<Event> result=eventRepository.findByUserEmailId(userEmail);
         if(result.size()>0){
             return result;
         } else {
+            log.error("UserNotFoundException occurred in EventService -> getAllEventsByUserEmailId()");
             throw new  UserNotFoundException();
         }
     }
