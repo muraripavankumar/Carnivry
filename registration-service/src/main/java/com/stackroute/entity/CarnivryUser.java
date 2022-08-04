@@ -36,7 +36,7 @@ public class CarnivryUser {
     private Preferences preferences;
 
 //    private List<Event> attendedEvents;
-//    private List<Event> postedEvents;
+    private List<Event> postedEvents;
 
 //    private List<Event> wishlist;
 

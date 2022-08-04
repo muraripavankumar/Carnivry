@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { MyGenreDialogComponent } from '../my-genre-dialog/my-genre-dialog.component';
 import { RegistrationService } from '../service/registration.service';
 import { UpdateAddressDialogComponent } from '../update-address-dialog/update-address-dialog.component';
 import { UpdateDOBDialogComponent } from '../update-dobdialog/update-dobdialog.component';
 import { UpdateEmailDialogComponent } from '../update-email-dialog/update-email-dialog.component';
 import { UpdateProfilePicDialogComponent } from '../update-profile-pic-dialog/update-profile-pic-dialog.component';
 
-export interface EmailUpdateData {
+export interface UpdateData {
   
   email: string;
 }
@@ -20,7 +22,7 @@ export interface EmailUpdateData {
 
 export class ProfileComponent implements OnInit {
 
-  constructor(private regService:RegistrationService, private dialog: MatDialog) { }
+  constructor(private regService:RegistrationService, private dialog: MatDialog, private router: Router) { }
   email:any;
   avatarUrl:any;
   name:any;
@@ -28,6 +30,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.email=this.regService.getEmail();
     this.avatarUrl=this.regService.getAvatarUrl();
+    console.log(this.avatarUrl);
     setTimeout(()=>{
       if(this.avatarUrl===null)
       this.avatarUrl= "../../assets/S.jpg";
@@ -68,6 +71,18 @@ export class ProfileComponent implements OnInit {
     addressUpdation.afterClosed().subscribe(res=>{
       console.log("New Address",res);
     })
+  }
+
+  myGenre(){
+    const genreUpdation= this.dialog.open(MyGenreDialogComponent,{data: {email: this.email}});
+
+    genreUpdation.afterClosed().subscribe(res=>{
+      console.log(res);
+    })
+  }
+
+  getPostedEvents(){
+     this.router.navigate(['/Carnivry/account/postedEvents']);
   }
 
   

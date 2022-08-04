@@ -2,6 +2,7 @@ package com.stackroute.service;
 
 import com.stackroute.exception.EventAlreadyExistsException;
 import com.stackroute.exception.EventNotFoundException;
+import com.stackroute.exception.UserNotFoundException;
 import com.stackroute.model.Event;
 import com.stackroute.rabbitmq.EventDTO;
 import com.stackroute.rabbitmq.Producer;
@@ -70,5 +71,15 @@ public class EventServiceImpl implements EventService{
     @Override
     public List<Event> getAllEvents()throws Exception{
         return eventRepository.findAll();
+    }
+
+    @Override
+    public List<Event> getAllEventsByUserEmailId( String userEmail) throws UserNotFoundException, Exception {
+        List<Event> result=eventRepository.findByUserEmailId(userEmail);
+        if(result.size()>0){
+            return result;
+        } else {
+            throw new  UserNotFoundException();
+        }
     }
 }

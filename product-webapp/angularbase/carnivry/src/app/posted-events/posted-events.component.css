@@ -1,0 +1,22 @@
+.heading{
+    text-align: center;
+}
+.images{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.image{
+    width: 200px;
+}
+.menu li{
+    display: inline;
+}
+.content{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.event{
+    width: 45%;
+}

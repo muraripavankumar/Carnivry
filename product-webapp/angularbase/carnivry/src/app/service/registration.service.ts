@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { PostUser } from '../model/post-user';
+import { Event } from '../model/event';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +43,14 @@ export class RegistrationService {
     return this.myClient.get(this.registrationBaseUrl+"/userCheck/"+email);
   }
 
+  sendNewEmailVerificationLink(obj:any){
+    return this.myClient.post(this.registrationBaseUrl+"/NewEmailAddition",obj, {responseType:'text'});
+  }
+
+  isNewEmailVerified(obj:any){
+    return this.myClient.post(this.registrationBaseUrl+"/newEmailVerificationStatus",obj, {responseType:'text'});
+  }
+
   fetchCarnivryName(email:String):Observable<any>{
     return this.myClient.get(this.registrationBaseUrl+"/username/"+email, {responseType: 'text'});
   }
@@ -51,9 +60,38 @@ export class RegistrationService {
     return this.myClient.get<string[]>(this.registrationBaseUrl+"/allGenres");
   }
 
+  getGenres(email:string):Observable<string[]>
+  {
+    return this.myClient.get<string[]>(this.registrationBaseUrl+"/genres/"+email);
+  }
+
   addGenre(myGenre:any)
   {
     return this.myClient.post(this.registrationBaseUrl+"/saveGenres",myGenre, {responseType: 'text'});
+  }
+
+  addAddress(address:any)
+  {
+    return this.myClient.post(this.registrationBaseUrl+"/addressAddition",address, {responseType: 'text'});
+  }
+
+  addDOB(dob:any)
+  {
+    return this.myClient.post(this.registrationBaseUrl+"/dobAddition",dob, {responseType: 'text'});
+  }
+
+  getPostedEvents(email:string):Observable<Event[]>
+  {
+    return this.myClient.get<Event[]>(this.registrationBaseUrl+"/getPostedEvents/"+email);
+  }
+
+  addProfilePic(myProfilePic:any)
+  {
+    return this.myClient.post(this.registrationBaseUrl+"/ProfilePicAddition",myProfilePic, {responseType: 'text'});
+  }
+
+  getProfilePic(email:string){
+    return this.myClient.get(this.registrationBaseUrl+"/getProfilePic/"+email,{responseType: 'text'} );
   }
 
   googleLogin(){

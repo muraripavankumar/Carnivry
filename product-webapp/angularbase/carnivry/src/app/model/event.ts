@@ -5,6 +5,7 @@ import { Venue } from "./venue";
 export class Event {
     public eventId: string;
     public title: string;
+    public userName:string;
     public userEmailId: string;
     public eventDescription: string;
     public artists: string[];
