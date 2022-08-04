@@ -19,7 +19,6 @@ import { UpdateEventComponent } from './update-event/update-event.component';
 import { ViewPageComponent } from './view-page/view-page.component';
 
 const routes: Routes = [
-<<<<<<< HEAD
   {path: "", component: HeaderComponent,  
   children: [
     {
@@ -108,81 +107,6 @@ const routes: Routes = [
 //   pathMatch: 'full'
 // }
 ];
-=======
-  {path: "landing-page", component: LandingPageComponent},    //added by garima
-  {
-  path: 'Carnivry',
-  children: [{
-    path: "",
-    component: AppComponent
-  },
-  {
-    path: "callback",
-    component: CallbackComponent
-  },
-  {
-    path: "home",
-    component: HomeComponent
-  },
-  {
-    path: "register",
-    component: RegistrationComponent
-  },
-  {
-    path: "verifyEmail",
-    component: EmailVerificationComponent
-  },
-  {
-    path: "addPreference",
-    component: AddPreferenceComponent
-  },
-  {
-    path: "login",
-    component: LoginComponent
-  },
-  {
-    path: "emailLink",
-    component: EmailLinkComponent
-  },
-  {
-    path: "forgotpassword",
-    component: ForgotPasswordComponent,
-  },
-  {
-    path: "account",
-    children: [{
-      path: "",
-      component: ProfileComponent
-    },
-    {
-      path: "postedEvents",
-      component: PostedEventsComponent
-    }]
-  },
-  {
-    path: "host-event",
-    component: HostEventComponent
-  },
-  {
-    path: "update-event",
-    component: UpdateEventComponent
-  },
-  {
-    path:"view-page",
-    component: ViewPageComponent
-  },
-  {
-    path:"seat-ui/:id",
-    component: SeatingUIComponent
-  }
-]
-},
-{
-  path: '',
-  redirectTo: '/Carnivry/register',
-  pathMatch: 'full'
-}];
->>>>>>> 33897e95a6d94ad7a9b5b6379fe11c1cd3a8e7cd
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
