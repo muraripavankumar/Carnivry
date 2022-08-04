@@ -2,6 +2,7 @@ package com.stackroute.controller;
 
 import com.stackroute.exception.EventAlreadyExistsException;
 import com.stackroute.exception.EventNotFoundException;
+import com.stackroute.exception.UserNotFoundException;
 import com.stackroute.model.Event;
 import com.stackroute.service.EventService;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ public class EventController {
     //updateEvent            = PATCH =
     //getAllEvents           = GET
     //getEventByEventId      = GET = /{eventId}
+    //getEventByUserEmailId  =GET = /{userEmail}
 
 
     private final EventService eventService;
@@ -77,6 +79,18 @@ public class EventController {
         }catch (Exception e){
             log.error("Exception occurred in EventController -> getEventByEventId() ");
             return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/{userEmail}")
+    public ResponseEntity<?> getAllEventsByUserEmailId(@PathVariable String userEmail) throws UserNotFoundException,Exception{
+        try{
+            return new ResponseEntity<>(eventService.getAllEventsByUserEmailId(userEmail),HttpStatus.OK);
+        } catch (UserNotFoundException e) {
+            log.error("UserNotFoundException occurred in EventController -> getAllEventByUserEmailId()");
+            throw new RuntimeException(e);
+        } catch (Exception e) {
+            log.error("Exception occurred in EventController -> getAllEventsByUserEmailId()");
+            throw new RuntimeException(e);
         }
     }
 }
