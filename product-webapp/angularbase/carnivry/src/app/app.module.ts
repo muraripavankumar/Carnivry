@@ -41,6 +41,8 @@ import { UpdateDOBDialogComponent } from './update-dobdialog/update-dobdialog.co
 import { UpdateProfilePicDialogComponent } from './update-profile-pic-dialog/update-profile-pic-dialog.component';
 import { UpdatePhoneDialogComponent } from './update-phone-dialog/update-phone-dialog.component';
 import { UpdateAddressDialogComponent } from './update-address-dialog/update-address-dialog.component';
+import { PostedEventsComponent } from './posted-events/posted-events.component';
+import { MyGenreDialogComponent } from './my-genre-dialog/my-genre-dialog.component';
 import { SeatingUIComponent } from './seating-ui/seating-ui.component';
 import { ViewPageComponent } from './view-page/view-page.component';
 import { NavigationComponent } from './navigation/navigation.component';
@@ -62,6 +64,8 @@ import { PrevDirective } from './prev.directive';
 import { DatePipe } from '@angular/common';
 import { CarouselModule } from './carousel/carousel.module';
 import { FooterComponent } from './footer/footer.component';
+import { HeaderComponent } from './header/header.component';
+import { DialogBoxChooseCityComponent } from './dialog-box-choose-city/dialog-box-choose-city.component';
 
 // import { FlexLayoutModule } from "@angular/flex-layout";
 
@@ -85,13 +89,15 @@ import { FooterComponent } from './footer/footer.component';
     UpdateProfilePicDialogComponent,
     UpdatePhoneDialogComponent,
     UpdateAddressDialogComponent,
+    PostedEventsComponent,
+    MyGenreDialogComponent,
     ViewPageComponent,
     NavigationComponent,
     SeatingUIComponent,
     
     LandingPageComponent,
     NextDirective,            //added by garima
-    PrevDirective, FooterComponent             //added by garima
+    PrevDirective, FooterComponent, HeaderComponent, DialogBoxChooseCityComponent             //added by garima
   ],
   imports: [
     BrowserModule,

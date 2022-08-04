@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -162,6 +163,22 @@ public class RegistrationController {
     }
     }
 
+    @GetMapping("/genres/{email}")
+    public ResponseEntity<?> getGenres(@PathVariable String email)
+    {
+        try {
+            log.debug("User Genres Fetched");
+            return new ResponseEntity<List<String>>(userService.getGenres(email), HttpStatus.OK);
+        }catch (UserNotFoundException e){
+            log.error("User with email id {} not found",email);
+            return new ResponseEntity<>("User with email id "+email+" doesn't exists",HttpStatus.NOT_FOUND);
+        }
+        catch (Exception e){
+            log.error("Internal server error {}",e.getMessage());
+            return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/emailVerifiedStatus/{email}")
     public ResponseEntity<?> isEmailVerified(@PathVariable String email){
         try {
@@ -201,6 +218,104 @@ public class RegistrationController {
         try {
             log.debug("Email id {} 's existence is checked", email);
             return new ResponseEntity<>(userService.isUserPresent(email), HttpStatus.OK);
+        }catch (Exception e){
+            log.error("Internal server error {}",e.getMessage());
+            return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/getProfilePic/{email}")
+    public ResponseEntity<?> getProfilePic(@PathVariable String email) {
+        try {
+            log.debug("Profile picture of user with email id {} is fetched", email);
+            return new ResponseEntity<>(userService.getProfilePicture(email), HttpStatus.OK);
+        }catch (Exception e){
+            log.error("Internal server error {}",e.getMessage());
+            return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/postedEventAddition/{email}")
+    public ResponseEntity<?> addPostedEvent(@RequestBody Event postedEvent, @PathVariable String email){
+        try{
+            userService.savePostedEvent(email, postedEvent);
+            log.info("Posted event added to user with email id {}",email);
+            return new ResponseEntity<>("Posted Event added",HttpStatus.OK);
+        }catch (UserNotFoundException e)
+        {
+            log.error("User with email id {} not found",email);
+            return new ResponseEntity<>("User not found with email id "+email,HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            log.error("Internal server error {}",e.getMessage());
+            return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/getPostedEvents/{email}")
+    public ResponseEntity<?> getPostedEvents(@PathVariable String email){
+        try{
+            List<Event> postedEvents=  userService.getPostedEvent(email);
+            log.info("Posted events of user with email id {} fetched",email);
+            return new ResponseEntity<>(postedEvents,HttpStatus.OK);
+        }catch (UserNotFoundException e)
+        {
+            log.error("User with email id {} not found",email);
+            return new ResponseEntity<>("User not found with email id "+email,HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            log.error("Internal server error {}",e.getMessage());
+            return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/NewEmailAddition")
+    public ResponseEntity<?> addEmail(@RequestBody AddEmail addEmail, HttpServletRequest request){
+        String applicationUrl= applicationUrl(request);
+        try{
+            userService.sendNewEmailVerificationToken(addEmail,applicationUrl);
+            log.info("New Email Verification link sent to user with email id {}",addEmail.getOldEmail());
+            return new ResponseEntity<>("New Email Verification link sent",HttpStatus.OK);
+        }catch (UserNotFoundException e)
+        {
+            log.error("User with email id {} not found",addEmail.getOldEmail());
+            return new ResponseEntity<>("User not found with email id "+addEmail.getOldEmail(),HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            log.error("Internal server error {}",e.getMessage());
+            return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/verifyNewEmail")
+    public ResponseEntity<?> verifyAndSaveNewEmail(@RequestParam("token") String token
+            , @RequestParam("oldEmail") String oldEmail,  @RequestParam("newEmail") String newEmail){
+        try {
+            String response= userService.verifyNewEmail(token,oldEmail,newEmail);
+            if(response.equalsIgnoreCase("invalid token"))
+                return  new ResponseEntity<>("Invalid token, try again. Close this tab",HttpStatus.BAD_REQUEST);
+            else if (response.equalsIgnoreCase("token expired")) {
+                log.error("Email Verification Token Expired");
+                return new ResponseEntity<>("Your 10 minutes up, Ask for resend email and verify within 10 minutes." +
+                        " Close this tab and visit Carnivry", HttpStatus.REQUEST_TIMEOUT);
+            }
+            else {
+                log.info("New Email Verified");
+                return new ResponseEntity<>("Email: " + newEmail + " verified Successfully. Close this tab and visit Carnivry"
+                        , HttpStatus.OK);
+            }
+        }catch (Exception e){
+            log.error("Internal server error {}",e.getMessage());
+            return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/newEmailVerificationStatus")
+    public ResponseEntity<?> isNewEmailVerified(@RequestBody AddEmail addEmail){
+        try {
+            boolean answer= userService.isNewEmailVerified(addEmail);
+            return new ResponseEntity<>(answer+"",HttpStatus.OK);
+        }catch (UserNotFoundException e)
+        {
+            log.error("User with email id {} not found",addEmail.getOldEmail());
+            return new ResponseEntity<>("User not found with old email id "+addEmail.getOldEmail(),HttpStatus.NOT_FOUND);
         }catch (Exception e){
             log.error("Internal server error {}",e.getMessage());
             return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);

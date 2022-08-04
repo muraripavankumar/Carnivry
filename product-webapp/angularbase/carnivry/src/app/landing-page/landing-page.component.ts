@@ -109,8 +109,9 @@ constructor(private http: HttpClient, public datePipe: DatePipe){
     
   // Recommended events 
 
+  console.log("City value: "+sessionStorage.getItem('city'));
   
-
+  
 console.log("No city selected");
   this.http.get('http://localhost:8082/api/v1/suggest-events/gm@gmail.com', this.headers)
   .pipe(

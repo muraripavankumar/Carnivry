@@ -12,5 +12,11 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AddAddress {
     String email;
-    Address address;
+    String house;
+    String street;
+    String landmark;
+    String city;
+    String state;
+    String country;
+    String pincode;
 }

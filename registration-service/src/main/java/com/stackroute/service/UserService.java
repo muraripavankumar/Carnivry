@@ -38,4 +38,19 @@ public interface UserService {
     void saveDOB(AddDOB addDOB) throws UserNotFoundException;
 
     void saveAddress(AddAddress addAddress) throws UserNotFoundException;
+
+    String getProfilePicture(String email) throws UserNotFoundException;
+
+    void sendNewEmailVerificationToken(AddEmail addEmail, String applicationUrl) throws UserNotFoundException;
+
+    String verifyNewEmail(String token, String oldEmail, String newEmail);
+
+    boolean isNewEmailVerified(AddEmail addEmail) throws UserNotFoundException;
+
+    void savePostedEvent(String email, Event postedEvent) throws UserNotFoundException;
+
+
+    List<Event> getPostedEvent(String email) throws UserNotFoundException;
+
+    List<String> getGenres(String email) throws UserNotFoundException;
 }

@@ -1,1 +1,53 @@
-<p>update-dobdialog works!</p>
+<div class="dob">
+    <div class="container">
+        <div mat-dialog-actions>
+            <button mat-raised-button mat-dialog-close style="margin-left: 90%;">
+                <mat-icon class="icon">clear</mat-icon>
+            </button>
+        </div>
+        <div class="row">
+            <h1>Update Date of Birth</h1>
+        </div>
+        <div class="row">
+            <form [formGroup]="dobForm" (ngSubmit)="onSubmit()" class="myForm text-center">
+                <div class="form-group input">
+                    <mat-icon class="icon">mail</mat-icon>
+                    <input type="email" formControlName="email" class="form-control myInput" placeholder="Email"
+                    
+                        [ngClass]="{'is-invalid': f['email'].errors && f['email'].touched}" />
+                    <div *ngIf="f['email'].errors && (f['email'].touched || f['email'].dirty)"
+                        class="alert alert-danger" role="alert">
+                        <div *ngIf="f['email'].errors['required']">Email Required</div>
+                        <div *ngIf="f['email'].errors['email']">Invalid Email</div>
+                    </div>
+                </div>
+
+                <div class="form-group input">
+                    
+                    <label for="dob">Date of Birth</label>
+
+                    <input type="date" id="dob" formControlName="dob" class="form-control myInput"
+                         [min]="minDate" [max]="maxDate"/>
+
+                    <div *ngIf="f['dob'].errors && (f['dob'].touched || f['dob'].dirty)"
+                        class="alert alert-danger" role="alert">
+                        <div *ngIf="f['dob'].errors['required']">Date of Birth Required</div>
+
+                    </div>
+                </div>
+                
+
+                <div class="butt_box">
+                    <div mat-dialog-actions>
+  
+                        <button type="submit" class="butt" [disabled]="!dobForm.valid"
+                    [mat-dialog-close]="dobForm.value" >Submit</button>
+                      </div>
+                    
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

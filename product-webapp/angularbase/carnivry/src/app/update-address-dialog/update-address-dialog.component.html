@@ -1,1 +1,110 @@
-<p>update-address-dialog works!</p>
+<div class="address">
+    <button mat-raised-button mat-dialog-close style="margin-left: 95%;"><mat-icon class="icon">clear</mat-icon></button>
+    <div class="container">
+        <div class="row">
+            <h1>Update Address</h1>
+        </div>
+        <div class="row">
+            <form [formGroup]="addressForm" (ngSubmit)="onSubmit()" class="myForm text-center">
+                <div class="input_fields">
+                    <div class="form-group input">
+                        <mat-icon class="icon">mail</mat-icon>
+                        <input type="email" formControlName="email" class="form-control myInput" placeholder="Email"
+                            [ngClass]="{'is-invalid': f['email'].errors && f['email'].touched}" />
+                        <div *ngIf="f['email'].errors && (f['email'].touched || f['email'].dirty)"
+                            class="alert alert-danger" role="alert">
+                            <div *ngIf="f['email'].errors['required']">Email Required</div>
+                            <div *ngIf="f['email'].errors['email']">Invalid Email</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group input">
+                        <mat-icon class="icon">home</mat-icon>
+                        <input type="text" formControlName="house" class="form-control myInput" placeholder="Hovse No"
+                            [ngClass]="{'is-invalid': f['house'].errors && f['house'].touched}" />
+                        <div *ngIf="f['house'].errors && (f['house'].touched || f['house'].dirty)"
+                            class="alert alert-danger" role="alert">
+                            <div *ngIf="f['house'].errors['required']">House No. Required</div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group input">
+                        <mat-icon class="icon">streetview</mat-icon>
+                        <input type="text" formControlName="street" class="form-control myInput"
+                            placeholder="Street Name"
+                            [ngClass]="{'is-invalid': f['street'].errors && f['street'].touched}" />
+                        <div *ngIf="f['street'].errors && (f['street'].touched || f['street'].dirty)"
+                            class="alert alert-danger" role="alert">
+                            <div *ngIf="f['street'].errors['required']">Street Name Required</div>
+                            <div *ngIf="f['street'].errors['minlength']">Street Name should be atleast 4 characters
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group input">
+                        <mat-icon class="icon">place</mat-icon>
+                        <input type="text" formControlName="landmark" class="form-control myInput"
+                            placeholder="Landmark" />
+
+                    </div>
+
+                    <div class="form-group input">
+                        <mat-icon class="icon">map</mat-icon>
+                        <input type="text" formControlName="city" class="form-control myInput" placeholder="City"
+                            [ngClass]="{'is-invalid': f['city'].errors && f['city'].touched}" />
+                        <div *ngIf="f['city'].errors && (f['city'].touched || f['city'].dirty)"
+                            class="alert alert-danger" role="alert">
+                            <div *ngIf="f['city'].errors['required']">City Required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group input">
+                        <mat-icon class="icon">map</mat-icon>
+                        <input type="text" formControlName="state" class="form-control myInput" placeholder="State"
+                            [ngClass]="{'is-invalid': f['state'].errors && f['state'].touched}" />
+                        <div *ngIf="f['state'].errors && (f['state'].touched || f['state'].dirty)"
+                            class="alert alert-danger" role="alert">
+                            <div *ngIf="f['state'].errors['required']">State Required</div>
+                            <div *ngIf="f['state'].errors['minlength']">State Name should be atleast 3 characters</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group input">
+                        <mat-icon class="icon" id="country_icon">country</mat-icon>
+                        <input type="text" formControlName="country" class="form-control myInput" placeholder="Country"
+                            [ngClass]="{'is-invalid': f['country'].errors && f['country'].touched}" />
+                        <div *ngIf="f['country'].errors && (f['country'].touched || f['country'].dirty)"
+                            class="alert alert-danger" role="alert">
+                            <div *ngIf="f['country'].errors['required']">Country Required</div>
+                            <div *ngIf="f['country'].errors['minlength']">Country Name should be atleast 4 characters
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group input">
+                        <mat-icon class="icon">pin</mat-icon>
+                        <input type="text" formControlName="pincode" class="form-control myInput" placeholder="Pincode"
+                            [ngClass]="{'is-invalid': f['pincode'].errors && f['pincode'].touched}" />
+                        <div *ngIf="f['pincode'].errors && (f['pincode'].touched || f['pincode'].dirty)"
+                            class="alert alert-danger" role="alert">
+                            <div *ngIf="f['pincode'].errors['required']">Pincode Required</div>
+                            <div *ngIf="f['pincode'].errors['pattern']">Invalid Pincode</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="butt_box">
+                    <div mat-dialog-actions>
+
+                        <button type="submit" class="butt" [disabled]="!addressForm.valid"
+                            [mat-dialog-close]="addressForm.value">Submit</button>
+                    </div>
+
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
