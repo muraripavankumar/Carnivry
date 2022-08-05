@@ -20,11 +20,14 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: carnivry2022@gmail.com
+#    password: Carnivry@2022
     password: byxqowufgtlginxh
     properties:
       mail:
         smtp:
           auth: true
+          ssl:
+            trust: smtp.gmail.com
           starttls:
             enable: true
   security:

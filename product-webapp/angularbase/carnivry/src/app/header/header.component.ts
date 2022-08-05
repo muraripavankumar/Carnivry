@@ -79,7 +79,7 @@ export class HeaderComponent implements OnInit {
   SignInLogin(){
     console.log("Button value: "+this.signIn);
     if(this.signIn=="SignIn/Login"){
-    this.router.navigate(['register']);
+    this.router.navigate(['/registration/register']);
     }
   }
 

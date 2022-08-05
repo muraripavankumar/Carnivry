@@ -126,7 +126,7 @@ public class UserController {
             User result = userService.emailLink(email);
             map= securityTokenGenerator.generateToken(result);
 //            String str = map.toString();
-            String link="http://localhost:4200/Carnivry/forgotpassword";
+            String link="http://localhost:4200/registration/forgotpassword";
             sendEmail(email,link);
             return new ResponseEntity<>(map,HttpStatus.OK);
         }

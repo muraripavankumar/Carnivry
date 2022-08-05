@@ -20,113 +20,39 @@ import { UpdateEventComponent } from './update-event/update-event.component';
 import { ViewPageComponent } from './view-page/view-page.component';
 
 const routes: Routes = [
-
   {
-    path: "", component: HeaderComponent,  
-    children: [
-      {path: "", component: LandingPageComponent},
-      {path: "view-page/:id", component: ViewPageComponent},
-      {path: "seat-ui/:id", component: SeatingUIComponent},
-      {path: "host-event", component: HostEventComponent},
-      {
-        path:'account',component:HeaderComponent,
-        children:[
-          {path:'',redirectTo:'',pathMatch:'full'},
-          {path:'account',component:ProfileComponent},
-          {path:'posted-event',component:PostedEventsComponent},
-        ]
-      },
-      {path:'verify-email',component:EmailVerificationComponent},
+    path:'', component:HeaderComponent,
+    children:[
+      {path:"",redirectTo:"landing-page",pathMatch:'full'},
+      {path:"landing-page",component:LandingPageComponent},
+      {path:'host-event',component:HostEventComponent},
+      {path:'view-page/:id', component:ViewPageComponent},
+      {path:'seat-ui/:id',component:SeatingUIComponent},
+      {path:'account', component:ProfileComponent},
+      {path:'posted-events',component:PostedEventsComponent},
       {path:'add-preference',component:AddPreferenceComponent},
-      {path: "login" , component: LoginComponent},
-      {path: "register", component: RegistrationComponent},
+      {path:'home',component:HomeComponent}
     ]
   },
-    
-  {path:'callback',component:CallbackComponent},
-  {path:'forgot-password',component:ForgotPasswordComponent},
-  {path:'home',component:HomeComponent},
-  {path:'update',component:UpdateEventComponent}
-
+  {
+    path: "registration",
+    component: AppComponent,
+    children: [
+      { path: "",redirectTo:"register",pathMatch:'full' },
+      {path:"login",component:LoginComponent},
+      {path:"forgot-password",component:ForgotPasswordComponent},
+      {path:"register",component:RegistrationComponent},
+      {path:'callback', component:CallbackComponent},
+      {path:'verify-email',component:EmailVerificationComponent}
+    ]
+  },
+  {path:"**",component:PageNotFoundComponent}
 ];
-
-  @NgModule({
-    imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule]
-  })
-  export class AppRoutingModule { }
-
-
-
-
-
-
-
-//   {
-//   path: 'Carnivry',
-//   children: [{
-//     path: "",
-//     component: AppComponent
-//   },
-//   {
-//     path: "callback",
-//     component: CallbackComponent
-//   },
-//   {
-//     path: "home",
-//     component: HomeComponent
-//   },
-//   {
-//     path: "register",
-//     component: RegistrationComponent
-//   },
-//   {
-//     path: "verifyEmail",
-//     component: EmailVerificationComponent
-//   },
-//   {
-//     path: "addPreference",
-//     component: AddPreferenceComponent
-//   },
-//   {
-//     path: "login",
-//     component: LoginComponent
-//   },
-//   {
-//     path:"emailLink",
-//     component:EmailLinkComponent
-//   },
-//   {
-//     path:"forgotpassword",
-//     component:ForgotPasswordComponent,
-//   },
-//   {
-//     path: "account",
-//     component: ProfileComponent
-//   },
-//   {
-//     path: "host-event",
-//     component: HostEventComponent
-//   },
-//   {
-//     path: "update-event",
-//     component: UpdateEventComponent
-//   },
-//   {
-//     path:"view-page",
-//     component: ViewPageComponent
-//   },
-//   {
-//     path:"seat-ui/:id",
-//     component: SeatingUIComponent
-//   }
-// ]
-// },
-// {
-//   path: '',
-//   redirectTo: '/Carnivry/register',
-//   pathMatch: 'full'
-// }
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
 
 
 
