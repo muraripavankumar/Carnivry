@@ -40,6 +40,7 @@ const routes: Routes = [
     children: [
       { path: "",redirectTo:"register",pathMatch:'full' },
       {path:"login",component:LoginComponent},
+      {path:"forgotpassword",component:ForgotPasswordComponent},
       {path:"register",component:RegistrationComponent},
       {path:'callback', component:CallbackComponent},
       {path:'verify-email',component:EmailVerificationComponent}
