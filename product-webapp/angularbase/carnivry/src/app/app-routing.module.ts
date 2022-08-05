@@ -25,13 +25,13 @@ const routes: Routes = [
     path: "", component: LandingPageComponent
     },
     {
-      path: "host-event", component: HostEventComponent
-    },
-    {
       path: "view-page/:id", component: ViewPageComponent 
     },
     {
       path: "seat-ui/:id", component: SeatingUIComponent
+    },
+    {
+      path: "host-event", component: HostEventComponent
     }
   ]
     },

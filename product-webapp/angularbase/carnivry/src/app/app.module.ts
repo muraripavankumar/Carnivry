@@ -59,8 +59,6 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatMenuModule} from '@angular/material/menu';
-import { NextDirective } from './next.directive';
-import { PrevDirective } from './prev.directive';
 import { DatePipe } from '@angular/common';
 import { CarouselModule } from './carousel/carousel.module';
 import { FooterComponent } from './footer/footer.component';
@@ -95,9 +93,8 @@ import { DialogBoxChooseCityComponent } from './dialog-box-choose-city/dialog-bo
     NavigationComponent,
     SeatingUIComponent,
     
-    LandingPageComponent,
-    NextDirective,            //added by garima
-    PrevDirective, FooterComponent, HeaderComponent, DialogBoxChooseCityComponent             //added by garima
+    LandingPageComponent  ,         //added by garima
+    FooterComponent, HeaderComponent, DialogBoxChooseCityComponent             //added by garima
   ],
   imports: [
     BrowserModule,
