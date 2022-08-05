@@ -94,14 +94,14 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     NavigationComponent,
     SeatingUIComponent,
     
-<<<<<<< HEAD
+// <<<<<<< HEAD
     LandingPageComponent  ,         //added by garima
     FooterComponent, HeaderComponent, DialogBoxChooseCityComponent             //added by garima
-=======
-    LandingPageComponent,
-    NextDirective,            //added by garima
-    PrevDirective, FooterComponent, HeaderComponent, DialogBoxChooseCityComponent, PageNotFoundComponent             //added by garima
->>>>>>> 9f9ea74a9ccba887377c16ffdd8980e611e384cf
+// =======
+//     LandingPageComponent,
+//     NextDirective,            //added by garima
+//     PrevDirective, FooterComponent, HeaderComponent, DialogBoxChooseCityComponent, PageNotFoundComponent             //added by garima
+// >>>>>>> 9f9ea74a9ccba887377c16ffdd8980e611e384cf
   ],
   imports: [
     BrowserModule,

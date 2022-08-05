@@ -20,7 +20,7 @@ import { UpdateEventComponent } from './update-event/update-event.component';
 import { ViewPageComponent } from './view-page/view-page.component';
 
 const routes: Routes = [
-<<<<<<< HEAD
+
   {path: "", component: HeaderComponent,  
   children: [
     {
@@ -108,34 +108,6 @@ const routes: Routes = [
 //   redirectTo: '/Carnivry/register',
 //   pathMatch: 'full'
 // }
-=======
-  {
-    path:'', component:AppComponent,
-    children:[
-      {path:"",redirectTo:"landing-page",pathMatch:'full'},
-      {path:"landing-page",component:LandingPageComponent},
-      {path:'host-event',component:HostEventComponent},
-      {path:'view-page/:id', component:ViewPageComponent},
-      {path:'seat-ui/:id',component:SeatingUIComponent},
-      {path:'account', component:ProfileComponent},
-      {path:'posted-events',component:PostedEventsComponent},
-      {path:'add-preference',component:AddPreferenceComponent},
-      {path:'home',component:HomeComponent}
-    ]
-  },
-  {
-    path: "registration",
-    component: AppComponent,
-    children: [
-      { path: "",redirectTo:"register",pathMatch:'full' },
-      {path:"login",component:LoginComponent},
-      {path:"register",component:RegistrationComponent},
-      {path:'callback', component:CallbackComponent},
-      {path:'verify-email',component:EmailVerificationComponent}
-    ]
-  },
-  {path:"**",component:PageNotFoundComponent}
->>>>>>> 9f9ea74a9ccba887377c16ffdd8980e611e384cf
 ];
 
 @NgModule({
