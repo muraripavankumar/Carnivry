@@ -1,5 +1,6 @@
 package com.stackroute.rabbitmq;
 
+import com.stackroute.modelDTO.EventDTO;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;

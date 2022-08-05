@@ -4,16 +4,20 @@ import com.stackroute.exception.EventAlreadyExistsException;
 import com.stackroute.exception.EventNotFoundException;
 import com.stackroute.exception.UserNotFoundException;
 import com.stackroute.model.Event;
-import com.stackroute.rabbitmq.EventDTO;
+import com.stackroute.model.Seat;
+import com.stackroute.modelDTO.EventDTO;
+import com.stackroute.modelDTO.EventSuggestionsDTO;
 import com.stackroute.rabbitmq.Producer;
 import com.stackroute.repository.EventRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -36,7 +40,42 @@ public class EventServiceImpl implements EventService{
         event.setEventId(String.valueOf(UUID.randomUUID()));
         if(eventRepository.findById(event.getEventId()).isEmpty()) {
             eventRepository.insert(event);
-            EventDTO eventDTO=new EventDTO(event.getUserEmailId(),event.getTitle(),event.getUserName(),event.getEventTimings(),event.getVenue(),event.getTotalSeats());
+            EventDTO eventDTO=new EventDTO(
+                    event.getUserEmailId(),
+                    event.getTitle(),
+                    event.getUserName(),
+                    event.getEventTimings(),
+                    event.getVenue(),
+                    event.getTotalSeats());
+            BigDecimal minPrice=findMinPrice(event.getSeats());
+            EventSuggestionsDTO eventSuggestionsDTO= new EventSuggestionsDTO(
+                    event.getEventId(),
+                    event.getTitle(),
+                    eventType(event),
+                    event.getUserEmailId(),
+                    event.getEventDescription(),
+                    event.getArtists(),
+                    event.getGenre(),
+                    event.getLanguages(),
+                    event.getEventTimings().getStartDate(),
+                    event.getEventTimings().getEndDate(),
+                    event.getEventTimings().getStartTime(),
+                    event.getEventTimings().getEndTime(),
+                    event.getPosters().get(0),
+                    event.getVenue().getVenueName(),
+                    event.getVenue().getAddress().getHouse(),
+                    event.getVenue().getAddress().getStreet(),
+                    event.getVenue().getAddress().getLandmark(),
+                    event.getVenue().getAddress().getCity(),
+                    event.getVenue().getAddress().getState(),
+                    event.getVenue().getAddress().getPincode(),
+                    event.getTicketsSold(),
+                    event.getRevenueGenerated().doubleValue(),
+                    minPrice.doubleValue(),
+                    event.getTotalSeats(),
+                    event.getLikes(),
+                    event.getEmailOfUsersLikedEvent()
+                    );
             producer.sendMessageToMq(eventDTO);
             return true;
         }
@@ -44,6 +83,16 @@ public class EventServiceImpl implements EventService{
             log.error("EventAlreadyExists occurred in EventServiceImpl-> addEvent() ");
             throw new EventAlreadyExistsException();
         }
+
+    }
+    private BigDecimal findMinPrice(List<Seat> seatList){
+       List<Seat> resultList= seatList.stream().sorted((s1,s2)-> s1.getSeatPrice().compareTo(s2.getSeatPrice())).collect(Collectors.toList());
+        return resultList.get(0).getSeatPrice();
+    }
+    private String eventType(Event event){
+        if(event.getVenue().getAddress().getStreet().equals("-NA-"))
+            return "ONLINE";
+        return "OFFLINE";
 
     }
 

@@ -4,7 +4,7 @@ import com.stackroute.exception.EventAlreadyExistsException;
 import com.stackroute.exception.EventNotFoundException;
 import com.stackroute.exception.UserNotFoundException;
 import com.stackroute.model.*;
-import com.stackroute.rabbitmq.EventDTO;
+import com.stackroute.modelDTO.EventDTO;
 import com.stackroute.rabbitmq.Producer;
 import com.stackroute.repository.EventRepository;
 import com.stackroute.service.EventServiceImpl;
