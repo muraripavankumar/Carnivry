@@ -81,6 +81,7 @@ public class EventController {
             return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    //method to accept HTTP GET request to retrieve all events belonging to a particular user.
     @GetMapping("/{userEmail}")
     public ResponseEntity<?> getAllEventsByUserEmailId(@PathVariable String userEmail) throws UserNotFoundException,Exception{
         try{

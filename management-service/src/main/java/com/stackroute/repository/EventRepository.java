@@ -8,5 +8,6 @@ import java.util.List;
 
 @Repository
 public interface EventRepository extends MongoRepository<Event,String> {
+    //query to retrieve List of events posted by a particular user
     List<Event> findByUserEmailId(String userEmail);
 }

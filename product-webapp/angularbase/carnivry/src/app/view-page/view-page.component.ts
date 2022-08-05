@@ -24,7 +24,7 @@ export class ViewPageComponent implements OnInit {
   }
 
   seatview(id:any){
-    this.redirect.navigate(['Carnivry/seat-ui/',id])
+    this.redirect.navigate(['/seat-ui/',id])
   }
 
   ngOnInit(): void {

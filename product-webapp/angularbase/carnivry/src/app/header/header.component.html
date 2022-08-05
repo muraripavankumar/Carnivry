@@ -17,7 +17,7 @@
           <!-- Add Event -->
       <div style="margin-left:200px ; display: flex;">    
       <section>
-        <button mat-button>Add Event</button>
+        <button mat-button routerLink="/host-event">Add Event</button>
       </section>
       
       <!-- Choose city -->
@@ -33,7 +33,7 @@
       <button mat-button [matMenuTriggerFor]="beforeMenu">Hi User</button>
     </div>
       <mat-menu #beforeMenu="matMenu" xPosition="before">
-        <button mat-menu-item>Edit profile</button>
+        <button mat-menu-item routerLink="/account">Edit profile</button>
         <button mat-menu-item>Sign out</button>
       </mat-menu>
 
@@ -44,4 +44,3 @@
   
   </mat-toolbar>
 
-<app-landing-page></app-landing-page>

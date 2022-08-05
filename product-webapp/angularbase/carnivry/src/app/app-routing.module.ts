@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { HostEventComponent } from './host-event/host-event.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { LoginComponent } from './login/login.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { PostedEventsComponent } from './posted-events/posted-events.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegistrationComponent } from './registration/registration.component';
@@ -20,32 +21,119 @@ import { ViewPageComponent } from './view-page/view-page.component';
 
 const routes: Routes = [
   {
-    path: "", component: HeaderComponent,
-    children: [
-      {
-        path: "", component: LandingPageComponent
-      },
-      // {
-      //   path: "host-event", component: HostEventComponent
-      // },
-      {
-        path: "view-page/:id", component: ViewPageComponent
-      },
-      {
-        path: "seat-ui/:id", component: SeatingUIComponent
-      }
+    path:'', component:AppComponent,
+    children:[
+      {path:"",redirectTo:"landing-page",pathMatch:'full'},
+      {path:"landing-page",component:LandingPageComponent},
+      {path:'host-event',component:HostEventComponent},
+      {path:'view-page/:id', component:ViewPageComponent},
+      {path:'seat-ui/:id',component:SeatingUIComponent},
+      {path:'account', component:ProfileComponent},
+      {path:'posted-events',component:PostedEventsComponent},
+      {path:'add-preference',component:AddPreferenceComponent},
+      {path:'home',component:HomeComponent}
     ]
   },
   {
-    path: "login", component: LoginComponent
+    path: "registration",
+    component: AppComponent,
+    children: [
+      { path: "",redirectTo:"register",pathMatch:'full' },
+      {path:"login",component:LoginComponent},
+      {path:"register",component:RegistrationComponent},
+      {path:'callback', component:CallbackComponent},
+      {path:'verify-email',component:EmailVerificationComponent}
+    ]
   },
-  {
-    path: "register", component: RegistrationComponent
-  },
-  {
-    path: "host-event", component: HostEventComponent
-  } ,
-                                                                     
+  {path:"**",component:PageNotFoundComponent}
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+
+
+
+
+
+
+
+
+
+  // {
+  //   path: "", component: LandingPageComponent,
+  //   children: [
+  //     {path:'',redirectTo:'landing-page',pathMatch:'full'},
+  //     {
+  //       path: "landing-page", component: LandingPageComponent
+  //     },
+  //     {
+  //       path: "host-event", component: HostEventComponent
+  //     },
+  //     {
+  //       path: "view-page/:id", component: ViewPageComponent
+  //     },
+  //     {
+  //       path: "seat-ui/:id", component: SeatingUIComponent
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: "login", component: LoginComponent
+  // },
+  // {
+  //   path: "register", component: RegistrationComponent
+  // },
+  // {
+  //   path: "host-event", component: HostEventComponent
+  // },
+  // {
+  //   path: "callback",
+  //   component: CallbackComponent
+  // },
+  // {
+  //   path: "verifyEmail",
+  //   component: EmailVerificationComponent
+  // },
+
+  // {
+  //   path: "addPreference",
+  //   component: AddPreferenceComponent
+  // },
+  // {
+  //   path: "home",
+  //   component: HomeComponent
+  // },
+
+  // {
+  //   path: "account",
+  //   children: [
+  //     {
+  //       path: "",
+  //       component: ProfileComponent
+  //     },
+  //     {
+  //       path: "postedEvents",
+  //       component: PostedEventsComponent
+  //     }
+
+  //   ]
+  // }
+
+
+ 
+  // {
+  //   path:'account', component:ProfileComponent,
+  //   children:[
+  //     {path:'',redirectTo:'account',pathMatch:'full'},
+  //     {path:'account',component:ProfileComponent},
+  //     {path:'posted-events',component:PostedEventsComponent}
+  //   ]
+  // },
+  // {path:'posted-events',component:PostedEventsComponent}
+
   //   {
   //   path: 'Carnivry',
   //   children: [{
@@ -111,10 +199,3 @@ const routes: Routes = [
   //   redirectTo: '/Carnivry/register',
   //   pathMatch: 'full'
   // }
-];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }
