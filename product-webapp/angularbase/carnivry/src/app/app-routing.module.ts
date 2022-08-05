@@ -21,28 +21,47 @@ import { ViewPageComponent } from './view-page/view-page.component';
 
 const routes: Routes = [
 
-  {path: "", component: HeaderComponent,  
-  children: [
-    {
-    path: "", component: LandingPageComponent
-    },
-    {
-      path: "view-page/:id", component: ViewPageComponent 
-    },
-    {
-      path: "seat-ui/:id", component: SeatingUIComponent
-    },
-    {
-      path: "host-event", component: HostEventComponent
-    }
-  ]
-    },
-    {
-      path: "login" , component: LoginComponent
-    },
-    {
-      path: "register", component: RegistrationComponent
-    }                                                                          //added by garima
+  {
+    path: "", component: HeaderComponent,  
+    children: [
+      {path: "", component: LandingPageComponent},
+      {path: "view-page/:id", component: ViewPageComponent},
+      {path: "seat-ui/:id", component: SeatingUIComponent},
+      {path: "host-event", component: HostEventComponent},
+      {
+        path:'account',component:HeaderComponent,
+        children:[
+          {path:'',redirectTo:'',pathMatch:'full'},
+          {path:'account',component:ProfileComponent},
+          {path:'posted-event',component:PostedEventsComponent},
+        ]
+      },
+      {path:'verify-email',component:EmailVerificationComponent},
+      {path:'add-preference',component:AddPreferenceComponent},
+      {path: "login" , component: LoginComponent},
+      {path: "register", component: RegistrationComponent},
+    ]
+  },
+    
+  {path:'callback',component:CallbackComponent},
+  {path:'forgot-password',component:ForgotPasswordComponent},
+  {path:'home',component:HomeComponent},
+  {path:'update',component:UpdateEventComponent}
+
+];
+
+  @NgModule({
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
+  })
+  export class AppRoutingModule { }
+
+
+
+
+
+
+
 //   {
 //   path: 'Carnivry',
 //   children: [{
@@ -108,13 +127,7 @@ const routes: Routes = [
 //   redirectTo: '/Carnivry/register',
 //   pathMatch: 'full'
 // }
-];
 
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }
 
 
 

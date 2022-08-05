@@ -1,13 +1,13 @@
-package com.example.SuggestionService.Services;
+package com.stackroute.Services;//package com.example.SuggestionService.Services;
 
-import com.example.SuggestionService.Respository.EventsRepo;
-import com.example.SuggestionService.Respository.UserRepo;
-import com.example.SuggestionService.entity.Events;
-import com.example.SuggestionService.entity.User;
-import com.example.SuggestionService.exception.EventAlreadyExistException;
-import com.example.SuggestionService.exception.EventNotFoundException;
-import com.example.SuggestionService.exception.UserAlreadyExistException;
-import com.example.SuggestionService.exception.UserNotfoundException;
+import com.stackroute.Respository.EventsRepo;
+import com.stackroute.Respository.UserRepo;
+import com.stackroute.entity.Events;
+import com.stackroute.entity.User;
+import com.stackroute.exception.EventAlreadyExistException;
+import com.stackroute.exception.EventNotFoundException;
+import com.stackroute.exception.UserAlreadyExistException;
+import com.stackroute.exception.UserNotfoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.logging.Logger;
@@ -96,7 +96,7 @@ public class UserService {
     }
 
     //retrieving all users
-    public List<User> getAllUsers() throws UserNotfoundException{
+    public List<User> getAllUsers() throws UserNotfoundException {
         List<User> userList=userRepo.findAll();
         if(userList.isEmpty()){
             throw new UserNotfoundException();
