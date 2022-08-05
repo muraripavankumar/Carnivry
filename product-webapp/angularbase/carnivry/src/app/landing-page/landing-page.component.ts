@@ -11,11 +11,6 @@ interface carouselImage{
   imageAlt: string;
 }
 
-interface City {
-  value: string;
-  viewValue: string;
-}
-
 
 @Component({
   selector: 'app-landing-page',
@@ -24,22 +19,6 @@ interface City {
 })
 export class LandingPageComponent implements OnInit {
 
-  cities: City[] = [
-    {value: 'jodhpur', viewValue: 'Jodhpur'},
-    {value: 'mumbai', viewValue: 'Mumbai'},
-    {value: 'delhi', viewValue: 'Delhi'},
-    {value: 'bengaluru', viewValue: 'Bengaluru'},
-    {value: 'hyderabad', viewValue: 'Hyderabad'},
-    {value: 'ahmedabad', viewValue: 'Ahmedabad'},
-    {value: 'chandigarh', viewValue: 'Chandigarh'},
-    {value: 'chennai', viewValue: 'Chennai'},
-    {value: 'pune', viewValue: 'Pune'},
-    {value: 'kolkata', viewValue: 'Kolkata'}
-  ];
-  cityControl = new FormControl('None');
-  form = new FormGroup({
-    city: this.cityControl,
-  });
 
   images = [
     {
@@ -110,9 +89,8 @@ constructor(private http: HttpClient, public datePipe: DatePipe){
   // Recommended events 
 
   console.log("City value: "+sessionStorage.getItem('city'));
+  var city= sessionStorage.getItem('city');
   
-  
-console.log("No city selected");
   this.http.get('http://localhost:8082/api/v1/suggest-events/gm@gmail.com', this.headers)
   .pipe(
     tap(res=>{ sessionStorage.setItem("recom",JSON.stringify(res.body))
@@ -134,13 +112,31 @@ console.log("No city selected");
   
   var recommendedJSON: any = this.recommendData!==null ? JSON.parse(this.recommendData): this.recommendData;
 
-  
-  for(var i=0; i<recommendedJSON?.length; i++){
-    this.recommendPosterList.push(recommendedJSON[i]);
-  }
+  if(city==""){
+    console.log("No city selected");
 
-  this.recommendList=this.recommendPosterList;
-  console.log("Recommended length: "+this.recommendPosterList.length);
+    for(var i=0; i<recommendedJSON?.length; i++){
+      this.recommendPosterList.push(recommendedJSON[i]);
+    }
+  
+    this.recommendList=this.recommendPosterList;
+    console.log("Recommended length: "+this.recommendPosterList.length);
+  }
+  else{
+    console.log("City selected: "+city);
+    for(var i=0; i<recommendedJSON?.length; i++){
+      this.recommendPosterList.push(recommendedJSON[i]);
+    }
+
+    for(var i=0; i<this.recommendPosterList.length; i++){
+      if(this.recommendPosterList[i].city==city){
+        this.recommendList.push(this.recommendPosterList[i]);
+      }
+    }
+    console.log("Recommended length: "+this.recommendPosterList.length);
+  }
+  
+  
 
 
 
@@ -206,7 +202,6 @@ console.log("No city selected");
 
 }
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
   }
 
 
@@ -413,47 +408,47 @@ ifContains(list1:String[], list2:String[]): Boolean{
   return res;
 }
 
-chooseCity(city: any){
-  this.form = new FormGroup({
-    city: this.cityControl,
-  });
+// chooseCity(city: any){
+//   this.form = new FormGroup({
+//     city: this.cityControl,
+//   });
   
-  console.log("You selected city: "+ this.form.get('city')?.value);
+//   console.log("You selected city: "+ this.form.get('city')?.value);
 
-  console.log("Selected city: "+city);
-  this.http.get('http://localhost:8082/api/v1/suggestion/'+this.form.get('city')?.value, this.headers)
-  // .pipe(
-  //   tap(res=>{ sessionStorage.setItem("Ecity",JSON.stringify(res.body))
-  //       console.log(res.body);
-  //       this.recommendData=res.body;
-  //       }
-  //     )
-  //   )
-  .subscribe( (res=> {
-    this.recommendData=res.body;
-  })
-    // {
-    //   next: (response)=>console.log(response),
-    //   error: (error)=>console.log(error),
-    // }
+//   console.log("Selected city: "+city);
+//   this.http.get('http://localhost:8082/api/v1/suggestion/'+this.form.get('city')?.value, this.headers)
+//   // .pipe(
+//   //   tap(res=>{ sessionStorage.setItem("Ecity",JSON.stringify(res.body))
+//   //       console.log(res.body);
+//   //       this.recommendData=res.body;
+//   //       }
+//   //     )
+//   //   )
+//   .subscribe( (res=> {
+//     this.recommendData=res.body;
+//   })
+//     // {
+//     //   next: (response)=>console.log(response),
+//     //   error: (error)=>console.log(error),
+//     // }
 
-  )
+//   )
 
-  this.recommendData=[];
-  this.recommendPosterList=[];
-  this.recommendList=[];
-  this.recommendData = sessionStorage.getItem("Ecity");
-  // this.recommendList.push(this.recommendData);
+//   this.recommendData=[];
+//   this.recommendPosterList=[];
+//   this.recommendList=[];
+//   this.recommendData = sessionStorage.getItem("Ecity");
+//   // this.recommendList.push(this.recommendData);
   
-  var recommendedJSON: any = this.recommendData!==null ? JSON.parse(this.recommendData): this.recommendData;
+//   var recommendedJSON: any = this.recommendData!==null ? JSON.parse(this.recommendData): this.recommendData;
 
   
-  for(var i=0; i<recommendedJSON?.length; i++){
-    this.recommendPosterList.push(recommendedJSON[i]);
-  }
+//   for(var i=0; i<recommendedJSON?.length; i++){
+//     this.recommendPosterList.push(recommendedJSON[i]);
+//   }
 
-  this.recommendList=this.recommendPosterList;
-  console.log("Recommended length: "+this.recommendPosterList.length);
-}
+//   this.recommendList=this.recommendPosterList;
+//   console.log("Recommended length: "+this.recommendPosterList.length);
+// }
 
 }

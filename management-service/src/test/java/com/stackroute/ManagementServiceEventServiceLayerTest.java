@@ -2,6 +2,7 @@ package com.stackroute;
 
 import com.stackroute.exception.EventAlreadyExistsException;
 import com.stackroute.exception.EventNotFoundException;
+import com.stackroute.exception.UserNotFoundException;
 import com.stackroute.model.*;
 import com.stackroute.rabbitmq.EventDTO;
 import com.stackroute.rabbitmq.Producer;
@@ -114,13 +115,18 @@ public class ManagementServiceEventServiceLayerTest {
         assertThrows(EventNotFoundException.class,()->eventService.getEventById("101"));
     }
     @Test
-    public void getAllEvents() throws Exception {
+    public void getAllEventsTest() throws Exception {
         when(eventRepository.findAll()).thenReturn(new ArrayList<>(Arrays.asList(event)));
         assertEquals(1,eventService.getAllEvents().size());
     }
     @Test
-    public void getAllEventsByUserEmailId() throws Exception {
+    public void getAllEventsByUserEmailIdTest() throws Exception {
         when(eventRepository.findByUserEmailId(any(String.class))).thenReturn(new ArrayList<>(Arrays.asList(event)));
         assertEquals(1,eventService.getAllEventsByUserEmailId("useremail@gmail.com").size());
+    }
+    @Test
+    public void getAllEventsByUserEmailIdThrowUserNotFoundExceptionTest(){
+        when(eventRepository.findByUserEmailId(any(String.class))).thenReturn(new ArrayList<Event>());
+        assertThrows(UserNotFoundException.class,()->eventService.getAllEventsByUserEmailId("email@gmail.com"));
     }
 }

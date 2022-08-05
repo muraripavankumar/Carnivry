@@ -47,25 +47,10 @@
 }
 
 
-/* image transition  fade effect */
-.fade{
-    animation-name: fade;
-    animation-duration: 1.5s;   
-}
-
-@keyframes fade{
-    from{
-        opacity: 0.4;
-    }
-    to{
-        opacity: 1;
-    }
-}
-
 .btn-carousel{
     position: absolute;
     top: 0;
-    bottom: 150px;
+    bottom: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -79,10 +64,10 @@
 }
 
 .btn-prev{
-    left: 0;
+    left: -15px;
 }
 .btn-next{
-    right: 0;
+    right: -15px;
 }
 .icon-carousel{
     color: black;

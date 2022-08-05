@@ -59,8 +59,6 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatMenuModule} from '@angular/material/menu';
-import { NextDirective } from './next.directive';
-import { PrevDirective } from './prev.directive';
 import { DatePipe } from '@angular/common';
 import { CarouselModule } from './carousel/carousel.module';
 import { FooterComponent } from './footer/footer.component';
@@ -96,9 +94,14 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     NavigationComponent,
     SeatingUIComponent,
     
-    LandingPageComponent,
-    NextDirective,            //added by garima
-    PrevDirective, FooterComponent, HeaderComponent, DialogBoxChooseCityComponent, PageNotFoundComponent             //added by garima
+// <<<<<<< HEAD
+    LandingPageComponent  ,         //added by garima
+    FooterComponent, HeaderComponent, DialogBoxChooseCityComponent             //added by garima
+// =======
+//     LandingPageComponent,
+//     NextDirective,            //added by garima
+//     PrevDirective, FooterComponent, HeaderComponent, DialogBoxChooseCityComponent, PageNotFoundComponent             //added by garima
+// >>>>>>> 9f9ea74a9ccba887377c16ffdd8980e611e384cf
   ],
   imports: [
     BrowserModule,

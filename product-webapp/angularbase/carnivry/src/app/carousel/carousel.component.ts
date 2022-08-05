@@ -5,6 +5,7 @@ interface carouselImage{
   imageAlt: string;
 }
 
+
 @Component({
   selector: 'app-carousel',
   templateUrl: './carousel.component.html',
