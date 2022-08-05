@@ -1,0 +1,18 @@
+h1 {
+    text-align: center;
+}
+
+p {
+    text-align: center;
+}
+
+div {
+    text-align: center;
+    margin:auto auto;
+    height: fit-content;
+    width: fit-content;
+}
+
+img{
+    width: 25vw;
+}

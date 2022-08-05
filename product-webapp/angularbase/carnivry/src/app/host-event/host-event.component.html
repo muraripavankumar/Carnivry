@@ -7,8 +7,7 @@
       <header *ngIf="existingEventData.eventId">UPDATE EVENT</header>
     </mat-card-title>
   </mat-card-header>
-  <mat-card-content class="form-box">
-
+  <mat-card-content class="form-box" >
 
 
     <!-- STEPPER 1 : EVENT DETAILS -->
@@ -264,17 +263,31 @@
                     style="background-color: black; border-radius:15%; color: aliceblue; padding: 0 0.5vw; height: fit-content;">
                     {{r}}</div>
                 </div>
+                <!-- <div class="scrollable">
+                  <div class="cont" id="parent" (mousedown)="mouseDownEvent()" (mouseup)="mouseUpEvent()">
+                    <div class="box" *ngFor="let e of eventData.seats; index as x;">
+                      <div id="d.{{x}}" style="border: 0.2rem solid black;" [style.backgroundColor]=' getColor(e)' (mouseenter)="checkDiv($event)">
+                        <label for="{{x}}">{{e.seatId}}</label>
+                        <input type="checkbox" name="" id="{{x}}" (change)="fieldChange(x)" value="{{e.seatId}}"
+                          [disabled]="e.seatPrice!= 0.0001" (mouseenter)='checkBox(x)' >
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
                 <div class="scrollable">
-                <div class="cont" id="parent" (mousedown)="mouseDownEvent()" (mouseup)="mouseUpEvent()">
-                  <div class="box" *ngFor="let e of eventData.seats; index as x;">
-                    <div id="d.{{x}}" style="border: 0.2rem solid black;" [style.backgroundColor]=' getColor(e)'>
-                      <label for="{{x}}">{{e.seatId}}</label>
-                      <input type="checkbox" name="" id="{{x}}" (change)="fieldsChange($event)" value="{{e.seatId}}"
-                        [disabled]="e.seatPrice!= 0.0001" (mouseenter)='checkBox($event)'>
+                  <div class="cont" id="parent" (mousedown)="mouseDownEvent()" (mouseup)="mouseUpEvent()">
+                    <div class="box" *ngFor="let e of eventData.seats; index as x;">
+                      <div id="d.{{x}}" style="border: 0.2rem solid black;" [style.backgroundColor]=' getColor(e)'
+                        (mouseenter)="checkDiv($event)">
+                        <label for="{{x}}">{{e.seatId}}</label>
+                        <input type="checkbox" name="" id="{{x}}" (change)="fieldChange(x)" value="{{e.seatId}}"
+                          [disabled]="e.seatPrice!= 0.0001" style="display: none;">
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+
+
               </div>
 
               <div [hidden]="existingEventData.eventId!=null">
@@ -294,7 +307,7 @@
               <br>
 
               <div *ngFor="let e of priceCatogoryList;index as i">
-                
+
                 <mat-form-field>
                   <div class="color-card" [style.backgroundColor]="e.divColor"></div>
                   <mat-label>Seat Category</mat-label>
@@ -343,7 +356,8 @@
                   * Event poster is required.
                 </div>
               </div>
-              <img [src]="thumbnailPosterPicDataUrl" class="thumbnail" alt="no_img" *ngIf="thumbnailPosterPicDataUrl" style="margin:0 auto ;">
+              <img [src]="thumbnailPosterPicDataUrl" class="thumbnail" alt="no_img" *ngIf="thumbnailPosterPicDataUrl"
+                style="margin:0 auto ;">
             </div>
 
             <div class="image-div col-sm-12 col-lg-6">
@@ -354,9 +368,9 @@
 
           </div>
 
-          <div >
+          <div>
             <button mat-button matStepperPrevious class="btn btn-secondary">Back</button>
-            <button mat-button matStepperNext class="btn btn-primary float-right" >Next</button>
+            <button mat-button matStepperNext class="btn btn-primary float-right">Next</button>
           </div>
 
         </form>
@@ -369,7 +383,7 @@
 
       <mat-step label="Done">
         <h3>Preview:</h3>
-        <mat-card  class="mx-auto form-box" style="width: fit-content;" [hidden]="hostEventForm.get('title').value===''">
+        <mat-card class="mx-auto form-box" style="width: fit-content;" [hidden]="hostEventForm.get('title').value===''">
           <mat-card-header>
             <mat-card-title>{{hostEventForm.get('title').value}}</mat-card-title>
           </mat-card-header>

@@ -5,7 +5,11 @@ server:
 social:
   auto-signup: false
 
+
+
 spring:
+  application:
+    name: RegistrationService
   data:
     mongodb:
       host: localhost
@@ -30,13 +34,21 @@ spring:
           google:
             clientId: 1023149345964-e17epiqvfhgfcgbnh0dfu1u432r5p2kl.apps.googleusercontent.com
             clientSecret: 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
-            redirectUri: http://localhost:4200/Carnivry/callback
+            redirectUri: http://localhost:4200/callback
           github:
             clientId: 12880111cd52b9208c9c
             clientSecret: a9f1059fdd7c6ddc648b659ad2a9ce42cdf057ed
-            redirectUri: http://localhost:4200/Carnivry/callback
+            redirectUri: http://localhost:4200/callback
 
 #  twilio:
 #    account_sid: AC8db671d7b95d76cf3c965ddece0135e1
 #    auth_token: a1f5709d19e1c8b4211152c32a2330f78
 #    trial_number: +18507893794
+
+eureka:
+  client:
+    serverUrl:
+      defaultZone: http://localhost:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
+

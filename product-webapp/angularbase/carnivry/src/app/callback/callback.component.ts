@@ -45,11 +45,11 @@ export class CallbackComponent implements OnInit {
                 if(this.isPresent===false)
                    {
                     this.registerSocialUser();
-                    this.router.navigate(['/Carnivry/addPreference']);
+                    this.router.navigate(['/add-preference']);
                    }
                 else
                   {
-                    this.router.navigate(['/Carnivry/home']);
+                    this.router.navigate(['/home']);
                   }
               },200);
               
@@ -77,11 +77,11 @@ export class CallbackComponent implements OnInit {
                 if(this.isPresent===false)
                    {
                     this.registerSocialUser();
-                    this.router.navigate(['/Carnivry/addPreference']);
+                    this.router.navigate(['/add-preference']);
                    }
                 else
                   {
-                    this.router.navigate(['/Carnivry/home']);
+                    this.router.navigate(['/home']);
                   }
               },200);
             });

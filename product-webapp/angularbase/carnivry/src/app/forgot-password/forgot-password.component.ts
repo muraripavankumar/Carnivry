@@ -52,7 +52,7 @@ export class ForgotPasswordComponent implements OnInit {
          console.log("Password updated successfully : ");
          alert("Password updated successfully!! ")
          console.log(response);
-         this.rtr.navigate(['Carnivry/login']);
+         this.rtr.navigate(['registration/login']);
        },
        error => {
         console.log(error);
