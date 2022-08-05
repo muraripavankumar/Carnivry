@@ -30,5 +30,18 @@
 
   /* choose city */
   section {
+    border: 1px solid black;
+    border-radius: 10px;
     margin-left: 30px;
+  }
+
+
+  /* search bar */
+  .example-form {
+    margin-left: 50px;
+    width: 80%;
+  }
+  
+  .example-full-width {
+    width: 100%;
   }

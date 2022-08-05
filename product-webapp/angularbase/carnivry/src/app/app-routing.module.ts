@@ -20,33 +20,94 @@ import { UpdateEventComponent } from './update-event/update-event.component';
 import { ViewPageComponent } from './view-page/view-page.component';
 
 const routes: Routes = [
-  {
-    path:'', component:AppComponent,
-    children:[
-      {path:"",redirectTo:"landing-page",pathMatch:'full'},
-      {path:"landing-page",component:LandingPageComponent},
-      {path:'host-event',component:HostEventComponent},
-      {path:'view-page/:id', component:ViewPageComponent},
-      {path:'seat-ui/:id',component:SeatingUIComponent},
-      {path:'account', component:ProfileComponent},
-      {path:'posted-events',component:PostedEventsComponent},
-      {path:'add-preference',component:AddPreferenceComponent},
-      {path:'home',component:HomeComponent},
-      {path:'update',component:UpdateEventComponent}
-    ]
-  },
-  {
-    path: "registration",
-    component: AppComponent,
-    children: [
-      { path: "",redirectTo:"register",pathMatch:'full' },
-      {path:"login",component:LoginComponent},
-      {path:"register",component:RegistrationComponent},
-      {path:'callback', component:CallbackComponent},
-      {path:'verify-email',component:EmailVerificationComponent}
-    ]
-  },
-  {path:"**",component:PageNotFoundComponent}
+
+  {path: "", component: HeaderComponent,  
+  children: [
+    {
+    path: "", component: LandingPageComponent
+    },
+    {
+      path: "view-page/:id", component: ViewPageComponent 
+    },
+    {
+      path: "seat-ui/:id", component: SeatingUIComponent
+    },
+    {
+      path: "host-event", component: HostEventComponent
+    }
+  ]
+    },
+    {
+      path: "login" , component: LoginComponent
+    },
+    {
+      path: "register", component: RegistrationComponent
+    }                                                                          //added by garima
+//   {
+//   path: 'Carnivry',
+//   children: [{
+//     path: "",
+//     component: AppComponent
+//   },
+//   {
+//     path: "callback",
+//     component: CallbackComponent
+//   },
+//   {
+//     path: "home",
+//     component: HomeComponent
+//   },
+//   {
+//     path: "register",
+//     component: RegistrationComponent
+//   },
+//   {
+//     path: "verifyEmail",
+//     component: EmailVerificationComponent
+//   },
+//   {
+//     path: "addPreference",
+//     component: AddPreferenceComponent
+//   },
+//   {
+//     path: "login",
+//     component: LoginComponent
+//   },
+//   {
+//     path:"emailLink",
+//     component:EmailLinkComponent
+//   },
+//   {
+//     path:"forgotpassword",
+//     component:ForgotPasswordComponent,
+//   },
+//   {
+//     path: "account",
+//     component: ProfileComponent
+//   },
+//   {
+//     path: "host-event",
+//     component: HostEventComponent
+//   },
+//   {
+//     path: "update-event",
+//     component: UpdateEventComponent
+//   },
+//   {
+//     path:"view-page",
+//     component: ViewPageComponent
+//   },
+//   {
+//     path:"seat-ui/:id",
+//     component: SeatingUIComponent
+//   }
+// ]
+// },
+// {
+//   path: '',
+//   redirectTo: '/Carnivry/register',
+//   pathMatch: 'full'
+// }
 ];
 
 @NgModule({
