@@ -5,7 +5,22 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="x-apple-disable-message-reformatting">
   <title></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+    integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
+    crossorigin="anonymous" />
 
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <style>
     table, td, div, h1, p {font-family: Arial, sans-serif;}
     body{
@@ -161,7 +176,7 @@
                 <tr>
                   <td style="padding:0 0 36px 0;color:#153643;">
                     <h1 style="font-size:29px;margin:0 0 20px 0;font-family:Arial,sans-serif;">Congratulations From Carnivry</h1>
-                    <p style="margin:0 0 12px 0;font-size:24px;line-height:24px;font-family:Arial,sans-serif;">Let's celebrate a successfull event!!Looking forword to big party on the way!Continue breaking your own records!Congrats!</p>
+                    <p style="margin:0 0 12px 0;font-size:24px;line-height:24px;font-family:Arial,sans-serif;">Let's celebrate a successfull event!! Looking forword to big party on the way! Continue breaking your own records! Congrats!</p>
                     <p style="margin:0;font-size:24px;line-height:24px;font-family:Arial,sans-serif;"><a href="http://www.example.com" style="color:#ee4c50;text-decoration:underline;">Learn More</a></p>
                   </td>
                 </tr>
@@ -177,8 +192,8 @@
                   <th>Event-Title</th>
                   <th >Event-Dates <img src="https://i.postimg.cc/SsTkQc96/date.jpg" alt="" style="width: 20px;height: 20px;"></th>
                   <th>Event-Timings<img src="https://i.postimg.cc/zXLKrjhk/time.jpg" alt="" style="width: 20px;height: 20px;position: center;"></th>
-                  <th>Venue-Details <img src="https://i.postimg.cc/7YT9VDKD/location.jpg" alt="" style="width: 20px;height: 20px;"></th>
-                  <th>TotalSeats</th>
+                  <th><#if venueName??>Venue-Details</#if><img src="https://i.postimg.cc/7YT9VDKD/location.jpg" alt="" style="width: 20px;height: 20px;"></th>
+                  <th><#if TotalSeats??>TotalSeats</#if></th>
                 </tr>
               </thead>
               <tbody>

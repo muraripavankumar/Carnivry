@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
     this.loginuser = this.loginFormGroup.value;
     this.userservice.logincheck(this.loginuser).subscribe(
       success => {
-       this.rtr.navigate(['Carnivry/home']);
+       this.rtr.navigate(['home']);
        this.regService.updateAuthProvider('carnivry');
         console.log(success);
         alert("Logged Successfully!!");
