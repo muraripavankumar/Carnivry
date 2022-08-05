@@ -54,6 +54,7 @@ export class HostEventComponent implements OnInit {
   priceCatogoryList: PriceCategory[] = [];
   colorPalate: string[] = ['#DE3163', '#FF7F50', '#40E0D0', '#FFBF00', '#6495ED', '#CCCCFF', '#DFFF00', '#9FE2BF'];
   colorIndexCounter: number = 0;
+  isEventPassed:boolean=false;
 
   constructor(private fb: FormBuilder, private managementService: ManagementService, private snackbar: MatSnackBar, private updateEventService: UpdateEventService) {
     this.filteredGenres = this.genreCtrl.valueChanges.pipe(
@@ -140,6 +141,7 @@ export class HostEventComponent implements OnInit {
       this.thumbnailPosterPicDataUrl = this.existingEventData.posters[0];
       this.landscapePosterPicDataUrl = this.existingEventData.posters[1];
 
+   
       this.hostEventForm.get('eventTimings.startDate').setValue(this.existingEventData.eventTimings.startDate);
       this.hostEventForm.get('eventTimings.endDate').setValue(this.existingEventData.eventTimings.endDate);
       this.hostEventForm.get('eventTimings.startTime').setValue(this.existingEventData.eventTimings.startTime);
@@ -199,7 +201,6 @@ export class HostEventComponent implements OnInit {
             if (pcl.category === this.existingEventData.seats[index].seatCategory && pcl.price === this.existingEventData.seats[index].seatPrice) {
               pcl.divColor = this.colorPalate[this.colorIndexCounter];
             }
-
           }
           this.colorIndexCounter++;
           if (this.colorIndexCounter >= this.colorPalate.length) {
@@ -210,8 +211,8 @@ export class HostEventComponent implements OnInit {
       // this.hostEventForm.get('totalSeats').setValue(this.existingEventData.seats.length);
       this.totalSeating = this.existingEventData.seats.length;
       this.eventData = this.existingEventData;
-
       this.alphabeticalRow(this.row);
+      // this.passedEventCheck();
     }
   }
   getColor(e: any): string {
@@ -221,6 +222,16 @@ export class HostEventComponent implements OnInit {
       }
     }
     return '#FFFFFF';
+  }
+
+  passedEventCheck(){
+    console.log("Start Date"+this.existingEventData.eventTimings.startDate.split('T')[0]);
+    const sDate:Date=<Date><unknown>this.existingEventData.eventTimings.startDate.split('T')[0];
+    const today:Date=new Date();
+    const eventDate:Date=new Date(this.existingEventData.eventTimings.startDate);
+    // console.log(this.hostEventForm.get('eventTiminigs.startDate').value);
+    console.log('today'+today);
+    console.log('eventDate '+eventDate);
   }
 
   //////////////////////  Artist Input  ///////////////////////////////////

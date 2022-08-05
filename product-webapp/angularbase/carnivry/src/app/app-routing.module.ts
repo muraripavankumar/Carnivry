@@ -31,7 +31,8 @@ const routes: Routes = [
       {path:'account', component:ProfileComponent},
       {path:'posted-events',component:PostedEventsComponent},
       {path:'add-preference',component:AddPreferenceComponent},
-      {path:'home',component:HomeComponent}
+      {path:'home',component:HomeComponent},
+      {path:'update',component:UpdateEventComponent}
     ]
   },
   {
