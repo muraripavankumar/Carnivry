@@ -79,7 +79,7 @@ export class HostEventComponent implements OnInit {
     title: ['', [Validators.required, Validators.maxLength(100)]],
     eventDescription: ['', [Validators.required, Validators.minLength(5)]],
     userName: ['example user'],
-    userEmailId: ['exampleHost1@g.com'],
+    userEmailId: ['maitymayukh23@gmail.com'],
     artists: this.fb.array([]),
     genre: this.fb.array([]),
     languages: this.fb.array([]),
