@@ -4,7 +4,8 @@
   
   
   .mat-toolbar{
-    background-color: maroon;
+    /* background-color: maroon; */
+    background-image: linear-gradient(45deg, #f046ff, #9b00e8);
   }
 
   .logo{

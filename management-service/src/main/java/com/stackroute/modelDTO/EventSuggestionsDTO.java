@@ -1,20 +1,14 @@
-package com.stackroute.entity;
-import lombok.*;
-import org.neo4j.ogm.annotation.GraphId;
-import org.neo4j.ogm.annotation.NodeEntity;
-import org.springframework.data.annotation.Id;
+package com.stackroute.modelDTO;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.util.Date;
 import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
-@ToString
-@NodeEntity
-public class Events {
-    @GraphId
-    @Id
+public class EventSuggestionsDTO {
     private String eventId;
     private String title;
     private String eventType;

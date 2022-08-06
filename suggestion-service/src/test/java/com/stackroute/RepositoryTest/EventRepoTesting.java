@@ -1,8 +1,8 @@
-package com.example.SuggestionService.RepositoryTest;
+package com.stackroute.RepositoryTest;
 
-import com.example.SuggestionService.Respository.EventsRepo;
-import com.example.SuggestionService.Services.EventService;
-import com.example.SuggestionService.entity.Events;
+
+import com.stackroute.Respository.EventsRepo;
+import com.stackroute.entity.Events;
 import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

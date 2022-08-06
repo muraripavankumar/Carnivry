@@ -63,11 +63,11 @@
       <!-- Sign In -->
       <section *ngIf="login">
         <div>
-        <button mat-button [matMenuTriggerFor]="beforeMenu">Profile</button>
+        <button mat-button [matMenuTriggerFor]="beforeMenu">{{signIn}}</button>
       </div>
         <mat-menu #beforeMenu="matMenu" xPosition="before" >
-          <button mat-menu-item>Edit profile</button>
-          <button mat-menu-item>Sign out</button>
+          <button mat-menu-item routerLink="/account">Edit profile</button>
+          <button mat-menu-item (click)="logout()">Sign out</button>
         </mat-menu>
       </section>
       <button style="border:1px solid black; border-radius: 10px; margin-left: 30px;" mat-button *ngIf="!login"  (click)="SignInLogin()">SignIn/Login</button>
@@ -86,15 +86,13 @@
 
       <mat-menu #beforeMenu="matMenu" xPosition="before">
         <button mat-menu-item routerLink="/account">Edit profile</button>
-        <button mat-menu-item>Sign out</button>
+       <button mat-menu-item (click)="logout()">Sign out</button>
       </mat-menu>
-
-
+    
+    
   </mat-toolbar-row>
   
 </mat-toolbar>
-
-
 
 
 
@@ -105,4 +103,5 @@
 <!-- <app-landing-page></app-landing-page> -->
 
 <router-outlet></router-outlet>
+
 

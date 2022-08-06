@@ -20,7 +20,7 @@ export class ForgotPasswordComponent implements OnInit {
   updatePasswordForm:FormGroup;
   newPassword:FormControl;
   cnewPassword:FormControl;
-  constructor(private builder:FormBuilder,private userservice:LoginService,public rtr:Router) { }
+  constructor(private builder:FormBuilder,private userservice:LoginService,public router:Router) { }
 
   ngOnInit(): void {
     //this.emailId=this.userservice.getMessage()
@@ -52,7 +52,7 @@ export class ForgotPasswordComponent implements OnInit {
          console.log("Password updated successfully : ");
          alert("Password updated successfully!! ")
          console.log(response);
-         this.rtr.navigate(['registration/login']);
+         this.router.navigate(['/registration/login']);
        },
        error => {
         console.log(error);

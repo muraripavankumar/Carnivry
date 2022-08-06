@@ -1,13 +1,12 @@
-package com.example.SuggestionService.ServiceTest;
+package com.stackroute.ServiceTest;
 
-import com.example.SuggestionService.Respository.EventsRepo;
-import com.example.SuggestionService.Respository.UserRepo;
-import com.example.SuggestionService.Services.EventService;
-import com.example.SuggestionService.Services.UserService;
-import com.example.SuggestionService.entity.Events;
-import com.example.SuggestionService.entity.User;
-import com.example.SuggestionService.exception.UserAlreadyExistException;
-import com.example.SuggestionService.exception.UserNotfoundException;
+
+import com.stackroute.Respository.EventsRepo;
+import com.stackroute.Respository.UserRepo;
+import com.stackroute.Services.UserService;
+import com.stackroute.entity.User;
+import com.stackroute.exception.UserAlreadyExistException;
+import com.stackroute.exception.UserNotfoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

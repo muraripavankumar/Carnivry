@@ -21,7 +21,7 @@ import { ViewPageComponent } from './view-page/view-page.component';
 
 const routes: Routes = [
   {
-    path:'', component:AppComponent,
+    path:'', component:HeaderComponent,
     children:[
       {path:"",redirectTo:"landing-page",pathMatch:'full'},
       {path:"landing-page",component:LandingPageComponent},
@@ -31,7 +31,8 @@ const routes: Routes = [
       {path:'account', component:ProfileComponent},
       {path:'posted-events',component:PostedEventsComponent},
       {path:'add-preference',component:AddPreferenceComponent},
-      {path:'home',component:HomeComponent}
+      {path:'home',component:HomeComponent},
+      {path:'update',component:UpdateEventComponent}
     ]
   },
   {
@@ -40,15 +41,14 @@ const routes: Routes = [
     children: [
       { path: "",redirectTo:"register",pathMatch:'full' },
       {path:"login",component:LoginComponent},
-      {path:"forgotpassword",component:ForgotPasswordComponent},
+      {path:"forgot-password",component:ForgotPasswordComponent},
       {path:"register",component:RegistrationComponent},
       {path:'callback', component:CallbackComponent},
       {path:'verify-email',component:EmailVerificationComponent}
     ]
   },
-  {path:"**",component:PageNotFoundComponent}
+  // {path:"**",component:PageNotFoundComponent}
 ];
-
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
@@ -63,4 +63,3 @@ export class AppRoutingModule { }
 
 
 
- 

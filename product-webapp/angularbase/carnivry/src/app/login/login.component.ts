@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   loginuser: Loginuser;
 
   constructor(private fb:FormBuilder,private registration:RegistrationService,
-             private regService:RegistrationService,private userservice: LoginService,public rtr:Router,public matdialog:MatDialog) { }
+             private regService:RegistrationService,private userservice: LoginService,public router:Router,public matdialog:MatDialog) { }
 
   loginFormGroup:any;
   successMessage:any;
@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
     this.loginuser = this.loginFormGroup.value;
     this.userservice.logincheck(this.loginuser).subscribe(
       success => {
-       this.rtr.navigate(['/landing-page']);
+       this.router.navigate(['/landing-page']);
        this.regService.updateAuthProvider('carnivry');
         console.log(success);
         alert("Logged Successfully!!");

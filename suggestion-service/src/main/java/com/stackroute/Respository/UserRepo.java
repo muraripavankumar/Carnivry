@@ -1,6 +1,7 @@
-package com.example.SuggestionService.Respository;
+package com.stackroute.Respository;
 
-import com.example.SuggestionService.entity.User;
+
+import com.stackroute.entity.User;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 
 import org.springframework.data.neo4j.repository.query.Query;
