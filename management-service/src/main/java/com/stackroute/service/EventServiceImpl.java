@@ -70,13 +70,14 @@ public class EventServiceImpl implements EventService{
                     event.getVenue().getAddress().getState(),
                     event.getVenue().getAddress().getPincode(),
                     event.getTicketsSold(),
-                    event.getRevenueGenerated().doubleValue(),
+                    0.0,
                     minPrice.doubleValue(),
                     event.getTotalSeats(),
                     event.getLikes(),
                     event.getEmailOfUsersLikedEvent()
                     );
             producer.sendMessageToMq(eventDTO);
+            producer.sendEventToMq(eventSuggestionsDTO);
             return true;
         }
         else {

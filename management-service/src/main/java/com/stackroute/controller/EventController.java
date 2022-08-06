@@ -39,6 +39,7 @@ public class EventController {
             return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.CONFLICT);
         }
         catch (Exception e){
+            e.printStackTrace();
             log.error("Exception occurred in EventController -> addEvent() ");
             return new ResponseEntity<>("Sorry for inconvenience! Unexpected error occurred. Try again later..",HttpStatus.INTERNAL_SERVER_ERROR);
         }

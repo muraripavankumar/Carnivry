@@ -1,6 +1,7 @@
 package com.stackroute.rabbitmq;
 
 import com.stackroute.modelDTO.EventDTO;
+import com.stackroute.modelDTO.EventSuggestionsDTO;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,5 +20,9 @@ public class Producer {
 
     public void sendMessageToMq(EventDTO eventDTO){
         rabbitTemplate.convertAndSend(directExchange.getName(), "user_routing", eventDTO);
+    }
+
+    public void sendEventToMq(EventSuggestionsDTO eventSuggestionsDTO){
+        rabbitTemplate.convertAndSend(directExchange.getName(),"management_routing",eventSuggestionsDTO);
     }
 }
