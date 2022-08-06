@@ -27,7 +27,7 @@ export class LoginService {
    return this.httpClient.put<any>(this.userauthenticationbaseurl + "/forgotPassword",data);
   }
 
-  //http://localhost:64200/userservice/forgot-password 
+  //http://localhost:64200/api/v1/forgot-password 
   baseurl = "http://localhost:64200/api/v1";
 
   emailLink(data:String){
