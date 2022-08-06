@@ -31,7 +31,8 @@ const routes: Routes = [
       {path:'account', component:ProfileComponent},
       {path:'posted-events',component:PostedEventsComponent},
       {path:'add-preference',component:AddPreferenceComponent},
-      {path:'home',component:HomeComponent}
+      {path:'home',component:HomeComponent},
+      {path:'update',component:UpdateEventComponent}
     ]
   },
   {
@@ -46,7 +47,7 @@ const routes: Routes = [
       {path:'verify-email',component:EmailVerificationComponent}
     ]
   },
-  {path:"**",component:PageNotFoundComponent}
+  // {path:"**",component:PageNotFoundComponent}
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
