@@ -192,8 +192,8 @@
                   <th>Event-Title</th>
                   <th >Event-Dates <img src="https://i.postimg.cc/SsTkQc96/date.jpg" alt="" style="width: 20px;height: 20px;"></th>
                   <th>Event-Timings<img src="https://i.postimg.cc/zXLKrjhk/time.jpg" alt="" style="width: 20px;height: 20px;position: center;"></th>
-                  <th><#if venueName??>Venue-Details</#if><img src="https://i.postimg.cc/7YT9VDKD/location.jpg" alt="" style="width: 20px;height: 20px;"></th>
-                  <th><#if TotalSeats??>TotalSeats</#if></th>
+                  <th>Venue-Details<img src="https://i.postimg.cc/7YT9VDKD/location.jpg" alt="" style="width: 20px;height: 20px;"></th>
+                  <#assign seats=TotalSeats!"null"/><#if seats==0><th>Event Type</th><#else><th>TotalSeats</#if></th>
                 </tr>
               </thead>
               <tbody>
@@ -203,10 +203,22 @@
                   <td data-label="Event-Timings">
                       ${StartTime} TO ${EndTime}
                   </td>
-                  <td data-label="Venue-Details">${venueName},${houseNumber},${Street},${LandMark},
+                  <#assign s=houseNumber!"null"/><#if s=="unavailable">
+                  <#assign s=Street!"null"/><#if s=="unavailable">
+                  <#assign s=LandMark!"null"/><#if s=="unavailable">
+                  <#assign s=city!"null"/><#if s=="unavailable">
+                  <#assign s=State!"null"/><#if s=="unavailable">
+                  <#assign s=Pincode!"null"/><#if s==0>
+
+                  ${venueName},${Country}
+
+                  <#else>
+                  <td data-label="Venue-Details">
+                  ${venueName},${houseNumber},${Street},${LandMark},
                     ${city},${State},${Country},${Pincode}
+                  </#if></#if></#if></#if></#if></#if>
                   </td>
-                  <td data-label="TotalSeats">${TotalSeats}</td>
+                  <#assign seats=TotalSeats!"null"/><#if seats==0>Online Event<#else><td data-label="TotalSeats">${TotalSeats}</#if></td>
                 </tr>
               </tbody>
             </table>
