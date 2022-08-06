@@ -107,10 +107,12 @@ public class UserController {
             return new ResponseEntity<>(userService.forgotPassword(user), HttpStatus.CREATED);
         }
         catch (UserNotFoundException E){
+            E.getStackTrace();
             log.error("UserNotFoundException in UserController class->forgotPassword() method");
             return new ResponseEntity<>("error occurs due to user not found",HttpStatus.CONFLICT);
         }
         catch(Exception ex){
+            ex.getStackTrace();
             log.error("Exception in UserController class->forgotPassword() method");
             return new ResponseEntity<>("Other exception",HttpStatus.INTERNAL_SERVER_ERROR);
         }
