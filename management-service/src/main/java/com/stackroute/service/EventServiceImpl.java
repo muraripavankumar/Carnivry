@@ -97,11 +97,41 @@ public class EventServiceImpl implements EventService{
 
     }
 
-    //method to update an existin event with new data.
+    //method to update an existing event with new data.
     @Override
     public boolean updateEvent(Event event) throws EventNotFoundException,Exception {
         if(eventRepository.findById(event.getEventId()).isPresent()){
             eventRepository.save(event);
+            BigDecimal minPrice=findMinPrice(event.getSeats());
+            EventSuggestionsDTO eventSuggestionsDTO= new EventSuggestionsDTO(
+                    event.getEventId(),
+                    event.getTitle(),
+                    eventType(event),
+                    event.getUserEmailId(),
+                    event.getEventDescription(),
+                    event.getArtists(),
+                    event.getGenre(),
+                    event.getLanguages(),
+                    event.getEventTimings().getStartDate(),
+                    event.getEventTimings().getEndDate(),
+                    event.getEventTimings().getStartTime(),
+                    event.getEventTimings().getEndTime(),
+                    event.getPosters().get(0),
+                    event.getVenue().getVenueName(),
+                    event.getVenue().getAddress().getHouse(),
+                    event.getVenue().getAddress().getStreet(),
+                    event.getVenue().getAddress().getLandmark(),
+                    event.getVenue().getAddress().getCity(),
+                    event.getVenue().getAddress().getState(),
+                    event.getVenue().getAddress().getPincode(),
+                    event.getTicketsSold(),
+                    event.getRevenueGenerated().doubleValue(),
+                    minPrice.doubleValue(),
+                    event.getTotalSeats(),
+                    event.getLikes(),
+                    event.getEmailOfUsersLikedEvent()
+            );
+            producer.sendUpdatedEventToMq(eventSuggestionsDTO);
             return true;
         }
         else {

@@ -18,6 +18,7 @@ public class MessageConfiguration {
     private String exchangeName="user_exchange";
     private String eventQueue="management_notification_queue";
     private String eventQueue1="management_suggestion_queue";
+    private String eventQueue2="management_suggestion_update_event_queue";
 
     @Bean
     public Queue getQueue(){
@@ -54,4 +55,14 @@ public class MessageConfiguration {
     public Binding bindingUser1(@Qualifier("getQueue1") Queue queue, DirectExchange directExchange){
         return BindingBuilder.bind(queue).to(directExchange).with("management_routing");
     }
+
+    @Bean
+    public Queue getQueue2(){
+        return new Queue(eventQueue2);
+    }
+    @Bean
+    public Binding bindingUser2(@Qualifier("getQueue2") Queue queue,DirectExchange directExchange){
+        return BindingBuilder.bind(queue).to(directExchange).with("management_update_event_routing");
+    }
+
 }
