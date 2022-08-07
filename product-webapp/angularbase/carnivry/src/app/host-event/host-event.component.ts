@@ -15,6 +15,7 @@ import { UpdateEventService } from '../service/update-event.service';
 import { validateStartDate } from '../validations/startDateValidator';
 import Validation from '../validations/timeValidation';
 import { PriceCategory } from '../model/price-category';
+import { RegistrationService } from '../service/registration.service';
 
 
 
@@ -31,10 +32,13 @@ export class HostEventComponent implements OnInit {
   artists: string[] = [];
   totalSeating: number = 0;
   languages: string[] = [];
+  allLanguages: string[] = ['ASSAMESE', 'BENGALI', 'ENGLISH', 'GUJARATI', 'HINDI', 'KANNADA', 'KASHMIRI', 'KONKANI', 'MALAYALAM', 'MARATHI', 'NEPALI', 'ORIYA', 'PUNJABI', 'SANSKRIT', 'TAMIL', 'TELUGU', 'URDU'];
   genres: string[] = [];
   genreCtrl = new FormControl('');
+  languageCtrl = new FormControl('');
+  filteredLanguages: Observable<string[]>;
   filteredGenres: Observable<string[]>;
-  allGenres: string[] = ['Action', 'Adventure', 'Ceremony', 'Drama', 'Party', 'Spiritual', 'Sports', 'Thriller'];
+  allGenres: string[] = ['ADVENTURE', 'ART', 'ASTROLOGY', 'BUSINESS', 'COMEDY', 'CEREMONY', 'DANCE', 'DRAMA', 'EDUCATION', 'FOOD', 'GAMES', 'HEALTH_N_FITNESS', 'KIDS', 'LITERATURE', 'MOVIE', 'MUSIC', 'RELIGION', 'SEMINAR', 'SOCIAL', 'SPIRITUAL', 'SPORTS', 'TECHNOLOGY', 'THRILLER', 'MISCELLANEOUS'];
   countries: string[] = ['Bangladesh', 'China', 'India', 'Nepal', 'Pakistan'];
   posterPic: any;
   thumbnailPosterPicDataUrl: string = "";
@@ -54,22 +58,29 @@ export class HostEventComponent implements OnInit {
   priceCatogoryList: PriceCategory[] = [];
   colorPalate: string[] = ['#DE3163', '#FF7F50', '#40E0D0', '#FFBF00', '#6495ED', '#CCCCFF', '#DFFF00', '#9FE2BF'];
   colorIndexCounter: number = 0;
-  isEventPassed:boolean=false;
+  isEventPassed: boolean = false;
 
   constructor(private fb: FormBuilder, private managementService: ManagementService, private snackbar: MatSnackBar, private updateEventService: UpdateEventService) {
-    this.filteredGenres = this.genreCtrl.valueChanges.pipe(
-      startWith(''),
-      map((genre: string | '') => (genre ? this._filter(genre) : this.allGenres.slice())),
-    );
-    this.filteredSeatCategories = this.seatCategoryCtrl.valueChanges.pipe(
-      startWith(''),
-      map(value => this.filterSeatCategory(value || '')),
-    );
     this.eventData = new Event();
   }
 
   ngOnInit(): void {
     this.updateEventService.obj.subscribe((data) => this.existingEventData = data);
+    this.filteredGenres = this.genreCtrl.valueChanges.pipe(
+      startWith(''),
+      map((genre: string | '') => (genre ? this._filter(genre) : this.allGenres.slice())),
+    );
+
+    this.filteredLanguages = this.languageCtrl.valueChanges.pipe(
+      startWith(''),
+      map((language: string | '') => (language ? this.filterLanguages(language) : this.allLanguages.slice()))
+    );
+
+    this.filteredSeatCategories = this.seatCategoryCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this.filterSeatCategory(value || '')),
+    );
+
     this.onUpdateMode();
 
   }
@@ -78,8 +89,8 @@ export class HostEventComponent implements OnInit {
     eventId: [''],
     title: ['', [Validators.required, Validators.maxLength(100)]],
     eventDescription: ['', [Validators.required, Validators.minLength(5)]],
-    userName: ['example user'],
-    userEmailId: ['exampleHost1@g.com'],
+    userName: ['Faizal Izhar'],
+    userEmailId: ['wantobeanonymous8@gmail.com'],
     artists: this.fb.array([]),
     genre: this.fb.array([]),
     languages: this.fb.array([]),
@@ -105,7 +116,7 @@ export class HostEventComponent implements OnInit {
       }),
     }),
     seats: this.fb.array([]),
-    totalSeats: ['', Validators.required]
+    totalSeats: ['']
   });
 
   //////////////////  Initializing component for Update Event  ////////////////////
@@ -141,7 +152,7 @@ export class HostEventComponent implements OnInit {
       this.thumbnailPosterPicDataUrl = this.existingEventData.posters[0];
       this.landscapePosterPicDataUrl = this.existingEventData.posters[1];
 
-   
+
       this.hostEventForm.get('eventTimings.startDate').setValue(this.existingEventData.eventTimings.startDate);
       this.hostEventForm.get('eventTimings.endDate').setValue(this.existingEventData.eventTimings.endDate);
       this.hostEventForm.get('eventTimings.startTime').setValue(this.existingEventData.eventTimings.startTime);
@@ -224,14 +235,14 @@ export class HostEventComponent implements OnInit {
     return '#FFFFFF';
   }
 
-  passedEventCheck(){
-    console.log("Start Date"+this.existingEventData.eventTimings.startDate.split('T')[0]);
-    const sDate:Date=<Date><unknown>this.existingEventData.eventTimings.startDate.split('T')[0];
-    const today:Date=new Date();
-    const eventDate:Date=new Date(this.existingEventData.eventTimings.startDate);
+  passedEventCheck() {
+    console.log("Start Date" + this.existingEventData.eventTimings.startDate.split('T')[0]);
+    const sDate: Date = <Date><unknown>this.existingEventData.eventTimings.startDate.split('T')[0];
+    const today: Date = new Date();
+    const eventDate: Date = new Date(this.existingEventData.eventTimings.startDate);
     // console.log(this.hostEventForm.get('eventTiminigs.startDate').value);
-    console.log('today'+today);
-    console.log('eventDate '+eventDate);
+    console.log('today' + today);
+    console.log('eventDate ' + eventDate);
   }
 
   //////////////////////  Artist Input  ///////////////////////////////////
@@ -301,6 +312,7 @@ export class HostEventComponent implements OnInit {
   //////////////////////  Languages Input  /////////////////////////////////
 
   readonly separatorKeysCodes3 = [ENTER, COMMA] as const;
+  @ViewChild('languageInput') languageInput: ElementRef<HTMLInputElement>;
 
   addLanguage(lang: MatChipInputEvent): void {
     const value = (lang.value || '').trim();
@@ -319,6 +331,18 @@ export class HostEventComponent implements OnInit {
       (<FormArray>this.hostEventForm.get('languages')).removeAt(index);
       this.languages.splice(index, 1);
     }
+  }
+  selectedLanguages(event: MatAutocompleteSelectedEvent): void {
+    this.languages.push(event.option.viewValue);
+    this.languageInput.nativeElement.value = '';
+    this.languageCtrl.setValue('');
+    const lnCtrl = new FormControl(event.option.viewValue, Validators.required);
+    (<FormArray>this.hostEventForm.get('languages')).push(lnCtrl);
+  }
+
+  private filterLanguages(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.allLanguages.filter(g => g.toLowerCase().includes(filterValue));
   }
 
   ////////////////// ONLINE MODE ///////////////////////
