@@ -262,7 +262,7 @@ public class UserService {
         ListIterator<Events> iterator= allEvents.listIterator();
         while (iterator.hasNext()){
             Events events= iterator.next();
-            if(events.getCity().equals(city)){
+            if(events.getCity().equalsIgnoreCase(city)){
                 suggestionList.add(events);
             }
         }

@@ -87,31 +87,31 @@ export class LandingPageComponent implements OnInit {
     //===================================== Recommended events ==============================================
     console.log("City value: " + sessionStorage.getItem('city'));
     var city = sessionStorage.getItem('city');
-
-    this.http.get<Event[]>('http://localhost:8082/api/v1/suggest-events/gm@gmail.com', this.headers)
+    if(city=== null){
+      console.log("No city chosen");
+      this.http.get<Event[]>('http://localhost:8082/api/v1/suggest-events/maitymayukh23@gmail.com', this.headers)
       .subscribe(
         (data) => {
-          this.recommendPosterList = data.body;
-          if (city === null) {
-            console.log("City is blank");
-            this.recommendList = this.recommendPosterList;
-          }
-          else {
-            console.log("City is not blank");
-            for (var i = 0; i < this.recommendPosterList.length; i++) {
-              if (this.recommendPosterList[i].city == city) {
-                this.recommendList.push(this.recommendPosterList[i]);
-              }
-            }
-          }
+          this.recommendList = data.body;
           console.log("Recommended events in landing page: " + this.recommendList.length);
         }
       )
+    }
+    else{
+      this.http.get<Event[]>('http://localhost:8082/api/v1/suggestion/'+city, this.headers)
+      .subscribe(
+        (data) => {
+          this.recommendList = data.body;
+            console.log("City is not blank");
+          console.log("Recommended events by city in landing page: " + this.recommendList.length);
+        }
+      )
+    }
 
 
 
     //========================================== Upcoming events ===========================================
-    this.http.get<Event[]>('http://localhost:8082/api/v1/upcoming-events/gm@gmail.com', this.headers)
+    this.http.get<Event[]>('http://localhost:8082/api/v1/upcoming-events/maitymayukh23@gmail.com', this.headers)
       .subscribe(
         (data) => {
           this.upcomingPosterList = data.body;
@@ -142,7 +142,7 @@ export class LandingPageComponent implements OnInit {
 
   //user likes an event
   like(eventId: any) {
-    this.http.put('http://localhost:8082/api/v1/update-likes/gm@gmail.com/' + eventId, this.headers)
+    this.http.put('http://localhost:8082/api/v1/update-likes/maitymayukh23@gmail.com/' + eventId, this.headers)
       .pipe(
         tap(res => {
           sessionStorage.setItem("like", JSON.stringify(res))

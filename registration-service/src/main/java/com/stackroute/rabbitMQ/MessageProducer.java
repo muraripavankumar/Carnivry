@@ -28,6 +28,9 @@ public class MessageProducer {
         log.debug("Carnivry User email id {} and password sent to Authentication MicroService using AuthenticationUserDTO"
                 ,authenticationUserDTO.getEmail());
     }
+    public void sendNewUserToSuggestionService(SuggestionUserDTO suggestionUserDTO){
+        rabbitTemplate.convertAndSend(exchange.getName(),"routingKey3",suggestionUserDTO);
+    }
 
 
 

@@ -15,7 +15,6 @@ import { UpdateEventService } from '../service/update-event.service';
 import { validateStartDate } from '../validations/startDateValidator';
 import Validation from '../validations/timeValidation';
 import { PriceCategory } from '../model/price-category';
-import { RegistrationService } from '../service/registration.service';
 
 
 
@@ -58,7 +57,7 @@ export class HostEventComponent implements OnInit {
   priceCatogoryList: PriceCategory[] = [];
   colorPalate: string[] = ['#DE3163', '#FF7F50', '#40E0D0', '#FFBF00', '#6495ED', '#CCCCFF', '#DFFF00', '#9FE2BF'];
   colorIndexCounter: number = 0;
-  isEventPassed: boolean = false;
+  isEventUpdatable: boolean = false;
 
   constructor(private fb: FormBuilder, private managementService: ManagementService, private snackbar: MatSnackBar, private updateEventService: UpdateEventService) {
     this.eventData = new Event();
@@ -152,12 +151,23 @@ export class HostEventComponent implements OnInit {
       this.thumbnailPosterPicDataUrl = this.existingEventData.posters[0];
       this.landscapePosterPicDataUrl = this.existingEventData.posters[1];
 
+      // incoming date format is in ISO format, so extracting the date separately, to avoid format mismatch.
+      const sDate = this.existingEventData.eventTimings.startDate.split('T')[0];
+      const eDate = this.existingEventData.eventTimings.endDate.split('T')[0];
+      //console.log("sDate :"+sDate);
+      //console.log("eDate :"+eDate);
+      this.hostEventForm.get('eventTimings.startDate').setValue(sDate);
+      this.hostEventForm.get('eventTimings.endDate').setValue(eDate);
 
-      this.hostEventForm.get('eventTimings.startDate').setValue(this.existingEventData.eventTimings.startDate);
-      this.hostEventForm.get('eventTimings.endDate').setValue(this.existingEventData.eventTimings.endDate);
+
+      // this.hostEventForm.get('eventTimings.startDate').setValue(this.existingEventData.eventTimings.startDate);
+      // this.hostEventForm.get('eventTimings.endDate').setValue(this.existingEventData.eventTimings.endDate);
       this.hostEventForm.get('eventTimings.startTime').setValue(this.existingEventData.eventTimings.startTime);
       this.hostEventForm.get('eventTimings.endTime').setValue(this.existingEventData.eventTimings.endTime);
       this.hostEventForm.get('venue').setValue(this.existingEventData.venue);
+
+      this.isEventUpdatable = this.pastEventCheck(sDate, eDate, this.existingEventData.eventTimings.startTime);
+
       this.existingEventData.seats.forEach((s) => {
         const sCtrl = new FormGroup({});
 
@@ -223,7 +233,7 @@ export class HostEventComponent implements OnInit {
       this.totalSeating = this.existingEventData.seats.length;
       this.eventData = this.existingEventData;
       this.alphabeticalRow(this.row);
-      // this.passedEventCheck();
+
     }
   }
   getColor(e: any): string {
@@ -235,14 +245,28 @@ export class HostEventComponent implements OnInit {
     return '#FFFFFF';
   }
 
-  passedEventCheck() {
-    console.log("Start Date" + this.existingEventData.eventTimings.startDate.split('T')[0]);
-    const sDate: Date = <Date><unknown>this.existingEventData.eventTimings.startDate.split('T')[0];
+  pastEventCheck(sDate: string, eDate: string, sTime: string): boolean {
     const today: Date = new Date();
-    const eventDate: Date = new Date(this.existingEventData.eventTimings.startDate);
-    // console.log(this.hostEventForm.get('eventTiminigs.startDate').value);
-    console.log('today' + today);
-    console.log('eventDate ' + eventDate);
+    const currentHour: number = today.getHours();
+    const currentMinute: any = today.getMinutes();
+    const startingDate: Date = new Date(sDate);
+    const endingDate: Date = new Date(eDate);
+    const startTimeArray: string[] = sTime.split(':');
+    if (endingDate.getTime() < today.getTime()) {
+      return true;
+    }
+    else if (startingDate.toDateString() === today.toDateString()) {
+      //if starting hour has passed, return true (i.e. not updateable)
+      if (<number><unknown>startTimeArray[0] < currentHour) {
+        console.log(' starting hour has passed, return true (i.e. not updateable)');
+        return true;
+      }
+      //if starting hour has not passed, but minute has passed, return true(i.e. not updateable)
+      else if ((<number><unknown>startTimeArray[0] === currentHour) && (<number><unknown>startTimeArray[1] < currentMinute))
+      console.log('starting hour has not passed, but minute has passed, return true(i.e. not updateable)');  
+      return true;
+    }
+    return false;
   }
 
   //////////////////////  Artist Input  ///////////////////////////////////
