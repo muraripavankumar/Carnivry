@@ -1,13 +1,13 @@
-package com.example.SuggestionService.ControllerTest;
+package com.stackroute.ControllerTest;
 
-import com.example.SuggestionService.Controller.Controller;
-import com.example.SuggestionService.Services.EventService;
-import com.example.SuggestionService.Services.UserService;
-import com.example.SuggestionService.entity.Events;
-import com.example.SuggestionService.entity.User;
-import com.example.SuggestionService.exception.UserAlreadyExistException;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.stackroute.Controller.Controller;
+import com.stackroute.Services.EventService;
+import com.stackroute.Services.UserService;
+import com.stackroute.entity.Events;
+import com.stackroute.entity.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

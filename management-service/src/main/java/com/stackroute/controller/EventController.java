@@ -39,6 +39,7 @@ public class EventController {
             return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.CONFLICT);
         }
         catch (Exception e){
+            e.printStackTrace();
             log.error("Exception occurred in EventController -> addEvent() ");
             return new ResponseEntity<>("Sorry for inconvenience! Unexpected error occurred. Try again later..",HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -88,10 +89,10 @@ public class EventController {
             return new ResponseEntity<>(eventService.getAllEventsByUserEmailId(userEmail),HttpStatus.OK);
         } catch (UserNotFoundException e) {
             log.error("UserNotFoundException occurred in EventController -> getAllEventByUserEmailId()");
-            throw new RuntimeException(e);
+            return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.CONFLICT);
         } catch (Exception e) {
             log.error("Exception occurred in EventController -> getAllEventsByUserEmailId()");
-            throw new RuntimeException(e);
+            return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

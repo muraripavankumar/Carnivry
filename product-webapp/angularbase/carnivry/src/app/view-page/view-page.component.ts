@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class ViewPageComponent implements OnInit {
 
-  constructor(private viewEvent:ViewPageService,private redirect: Router) { }
+  constructor(private viewEvent:ViewPageService,private router: Router) { }
   eventdetails:any;
   url:String;
 
@@ -24,7 +24,7 @@ export class ViewPageComponent implements OnInit {
   }
 
   seatview(id:any){
-    this.redirect.navigate(['/seat-ui/',id])
+    this.router.navigate(['/seat-ui/',id])
   }
 
   ngOnInit(): void {

@@ -13,7 +13,7 @@ import { RegistrationService } from '../service/registration.service';
 })
 export class EmailLinkComponent implements OnInit {
 
-  constructor(private userservice: LoginService,public rtr:Router,private builder:FormBuilder,public matdialogref:MatDialogRef<EmailLinkComponent>,private registration:RegistrationService) { }
+  constructor(private userservice: LoginService,public router:Router,private builder:FormBuilder,public matdialogref:MatDialogRef<EmailLinkComponent>,private registration:RegistrationService) { }
 
   logindata:Loginuser;
   data:string;

@@ -192,21 +192,23 @@
                   <th>Event-Title</th>
                   <th >Event-Dates <img src="https://i.postimg.cc/SsTkQc96/date.jpg" alt="" style="width: 20px;height: 20px;"></th>
                   <th>Event-Timings<img src="https://i.postimg.cc/zXLKrjhk/time.jpg" alt="" style="width: 20px;height: 20px;position: center;"></th>
-                  <th><#if venueName??>Venue-Details</#if><img src="https://i.postimg.cc/7YT9VDKD/location.jpg" alt="" style="width: 20px;height: 20px;"></th>
-                  <th><#if TotalSeats??>TotalSeats</#if></th>
+                  <th>Venue-Details<img src="https://i.postimg.cc/7YT9VDKD/location.jpg" alt="" style="width: 20px;height: 20px;"></th>
+                  <#assign seats=TotalSeats!"null"/><#if seats==0><th>Event Type</th><#else><th>TotalSeats</#if></th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td data-label="Event-Title">${EventTitle}</td>
-                  <td data-label="Event-Dates">${StartDate?string("yyyy-MM-dd")} to ${EndDate?string("yyyy-MM-dd")}</td>
+                  <td data-label="Event-Dates">${StartDate?date} to ${EndDate?date}</td>
                   <td data-label="Event-Timings">
                       ${StartTime} TO ${EndTime}
                   </td>
-                  <td data-label="Venue-Details">${venueName},${houseNumber},${Street},${LandMark},
-                    ${city},${State},${Country},${Pincode}
-                  </td>
-                  <td data-label="TotalSeats">${TotalSeats}</td>
+                 <td data-label="Venue-Details">
+                                   ${venueName},${houseNumber},${Street},${LandMark},
+                                     ${city},${State},${Country},${Pincode}
+
+                   </td>
+                  <#assign seats=TotalSeats!"null"/><#if seats==0>Online Event<#else><td data-label="TotalSeats">${TotalSeats}</#if></td>
                 </tr>
               </tbody>
             </table>

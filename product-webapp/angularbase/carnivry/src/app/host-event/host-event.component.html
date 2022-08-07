@@ -7,7 +7,7 @@
       <header *ngIf="existingEventData.eventId">UPDATE EVENT</header>
     </mat-card-title>
   </mat-card-header>
-  <mat-card-content class="form-box" >
+  <mat-card-content class="form-box">
 
 
     <!-- STEPPER 1 : EVENT DETAILS -->
@@ -37,8 +37,11 @@
                   <mat-icon>cancel</mat-icon>
                 </button>
               </mat-chip>
-              <input placeholder="Add genre..." #genreInput [formControl]="genreCtrl" [matAutocomplete]="auto"
-                [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              <input placeholder="Add genre..." #genreInput 
+              [formControl]="genreCtrl" 
+              [matAutocomplete]="auto"
+                [matChipInputFor]="chipList" 
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                 (matChipInputTokenEnd)="add($event)">
             </mat-chip-list>
             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
@@ -80,10 +83,18 @@
                   <mat-icon>cancel</mat-icon>
                 </button>
               </mat-chip>
-              <input placeholder="New language..." [matChipInputFor]="chipList3"
-                [matChipInputSeparatorKeyCodes]="separatorKeysCodes3" [matChipInputAddOnBlur]="addOnBlur"
+              <input placeholder="New language..." #languageInput
+              [matChipInputFor]="chipList3"
+              [matAutocomplete]="autoLang"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes3" 
+                [matChipInputAddOnBlur]="addOnBlur"
                 (matChipInputTokenEnd)="addLanguage($event)">
             </mat-chip-list>
+            <mat-autocomplete #autoLang="matAutocomplete" (optionSelected)="selectedLanguages($event)">
+              <mat-option *ngFor="let ln of filteredLanguages | async" [value]="ln">
+                {{ln}}
+              </mat-option>
+            </mat-autocomplete>
           </mat-form-field>
 
           <div>
@@ -258,7 +269,7 @@
                   style="width: 60%;height: 50px; background-color: black; color: aliceblue; margin-bottom: 10px; border-bottom-left-radius: 25px; border-bottom-right-radius: 25px; text-align: center;">
                   <h1>STAGE</h1>
                 </div>
-                <div style="float: left; line-height: 3.375rem; margin-right: 10px;">
+                <div style="float: left; line-height: 3.20rem; margin-right: 10px;">
                   <div *ngFor="let r of alphaRows"
                     style="background-color: black; border-radius:15%; color: aliceblue; padding: 0 0.5vw; height: fit-content;">
                     {{r}}</div>
@@ -382,6 +393,10 @@
 
 
       <mat-step label="Done">
+        <div>
+  
+        </div>
+        <div>
         <h3>Preview:</h3>
         <mat-card class="mx-auto form-box" style="width: fit-content;" [hidden]="hostEventForm.get('title').value===''">
           <mat-card-header>
@@ -461,11 +476,12 @@
             </table>
           </mat-card-content>
         </mat-card>
+      </div>
         <div>
           <button mat-button matStepperPrevious class="btn btn-secondary">Back</button>
           <!-- <button mat-button (click)="stepper.reset()" class="btn btn-danger" style="margin-left:2%">Reset</button> -->
           <button mat-button type="submit" (click)="onSubmit()" class="btn btn-success" style="float: right;"
-            [hidden]="existingEventData.eventId!=null">Submit</button>
+            [hidden]="existingEventData.eventId!=null"  >Submit</button>
           <button mat-button type="submit" (click)="onUpdate()" class="btn btn-success" style="float: right;"
             [hidden]="existingEventData.eventId==null">Update</button>
         </div>

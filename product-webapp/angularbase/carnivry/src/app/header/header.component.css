@@ -4,7 +4,8 @@
   
   
   .mat-toolbar{
-    background-color: maroon;
+    /* background-color: maroon; */
+    background-image: linear-gradient(45deg, #f046ff, #9b00e8);
   }
 
   .logo{
@@ -27,8 +28,30 @@
     height: 30px;
   }
 
+.suggestion-box{
+  position: absolute;
+  background-color: white;
+  z-index: 9; 
+  width: 430px; 
+  border:1px solid black ;
+  left: 255px;
+  top: 52px;
+}
 
   /* choose city */
   section {
+    border: 1px solid black;
+    border-radius: 10px;
     margin-left: 30px;
+  }
+
+
+  /* search bar */
+  .example-form {
+    margin-left: 50px;
+    width: 80%;
+  }
+  
+  .example-full-width {
+    width: 100%;
   }

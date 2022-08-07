@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stackroute.controller.EventController;
 import com.stackroute.exception.EventAlreadyExistsException;
 import com.stackroute.exception.EventNotFoundException;
+import com.stackroute.exception.UserNotFoundException;
 import com.stackroute.model.*;
 import com.stackroute.service.EventService;
 import org.junit.jupiter.api.AfterEach;
@@ -24,6 +25,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 
 import static org.mockito.ArgumentMatchers.any;
@@ -127,7 +129,7 @@ public class ManagementServieceControllerLayerTest {
     public void getEventByEventIdReturnResponseTest() throws Exception {
         when(eventService.getEventById(any(String.class))).thenReturn(event);
         mockMvc.perform(
-                get("/api/v1/10122")
+                get("/api/v1/event/10122")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(convertToJson(event))
         ).andExpect(status().isOk()).andDo(MockMvcResultHandlers.log());
@@ -136,7 +138,7 @@ public class ManagementServieceControllerLayerTest {
     public void getEventByEventIdThrowEventNotFoundExceptionTest() throws Exception {
         when(eventService.getEventById(any(String.class))).thenThrow(EventNotFoundException.class);
         mockMvc.perform(
-                get("/api/v1/10122")
+                get("/api/v1/event/10122")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(convertToJson(event))
         ).andExpect(status().isConflict()).andDo(MockMvcResultHandlers.log());
@@ -145,7 +147,7 @@ public class ManagementServieceControllerLayerTest {
     public void getEventByEventIdThrowExceptionTest() throws Exception {
         when(eventService.getEventById(any(String.class))).thenThrow(Exception.class);
         mockMvc.perform(
-                get("/api/v1/10122")
+                get("/api/v1/event/10122")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(convertToJson(event))
         ).andExpect(status().isInternalServerError()).andDo(MockMvcResultHandlers.log());
@@ -162,7 +164,7 @@ public class ManagementServieceControllerLayerTest {
     }
     @Test
     public void getAllEventsReturnResponseTest() throws Exception {
-        when(eventService.getAllEvents()).thenReturn(new ArrayList<>(Arrays.asList(event)));
+        when(eventService.getAllEvents()).thenReturn(new ArrayList<>(List.of(event)));
         mockMvc.perform(
                 get("/api/v1")
         ).andExpect(status().isOk()).andDo(MockMvcResultHandlers.log());
@@ -173,6 +175,19 @@ public class ManagementServieceControllerLayerTest {
         mockMvc.perform(
                 get("/api/v1")
         ).andExpect(status().isInternalServerError()).andDo(MockMvcResultHandlers.log());
-
+    }
+    @Test
+    public void getAllEventsByUserEmailIdReturnResponseTest() throws Exception {
+        when(eventService.getAllEventsByUserEmailId(any(String.class))).thenReturn(new ArrayList<>(List.of(event)));
+        mockMvc.perform(
+                get("/api/v1/1011")
+        ).andExpect(status().isOk()).andDo(MockMvcResultHandlers.log());
+    }
+    @Test
+    public void getAllEventsByUserEmailIdThrowUserNotFoundExceptionTest() throws Exception {
+        when(eventService.getAllEventsByUserEmailId(any(String.class))).thenThrow(UserNotFoundException.class);
+        mockMvc.perform(
+                get("api/v1/1011")
+        ).andExpect(status().isConflict()).andDo(MockMvcResultHandlers.log());
     }
 }

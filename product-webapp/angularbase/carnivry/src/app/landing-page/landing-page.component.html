@@ -1,6 +1,7 @@
- <app-header></app-header>
+
  <!-- Carousel  -->
     <app-carousel [images]="images" [autoSlide]="true"></app-carousel>
+
   
   
   <mat-tab-group animationDuration="0ms">
@@ -13,8 +14,8 @@
     <div class="container-fluid">
       <div class="slider-wrap">
         <div class="slider-main">
-          <div class="item" *ngFor="let item of recommendPosterList">
-            <!-- <div class="text"> -->
+          <div class="item" *ngFor="let item of recommendList">
+            <a [routerLink]="['view-page',item.eventId]"><div class="text" (click)="event(item.eventId)">
               <mat-card class="example-card">
                 <img class="image" mat-card-image src={{item.poster}}>
                 <div class="likes">{{item.likes}} Likes
@@ -29,7 +30,7 @@
                 
                 
               </mat-card>
-            <!-- </div> -->
+            </div> </a> 
           </div>
         </div>
         <div class="button-area">
@@ -48,8 +49,8 @@
     <div class="container-fluid">
       <div class="slider-wrap">
         <div class="slider-main">
-          <div class="item" *ngFor="let item of upcomingPosterList">
-            <!-- <div class="text"> -->
+          <div class="item" *ngFor="let item of upcomingList">
+           <a [routerLink]="['view-page',item.eventId]"><div class="text" (click)="event(item.eventId)">
               <mat-card class="example-card">
                 <img class="image" mat-card-image src={{item.poster}}>
                 <div class="likes">{{item.likes}} Likes
@@ -64,7 +65,7 @@
                 
                 
               </mat-card>
-            <!-- </div> -->
+            </div> </a> 
           </div>
         </div>
         <div class="button-area">
@@ -170,7 +171,7 @@
           <h2>All Events</h2>
           <mat-grid-list cols="4" rowHeight="3:5">
             <mat-grid-tile *ngFor="let eventImage of runningList">
-              <mat-card class="event-card">
+             <a [routerLink]="['view-page',eventImage.eventId]"> <mat-card class="event-card" (click)="event(eventImage.eventId)">
                 <img class="image" mat-card-image src={{eventImage.poster}}>
                 <!-- <mat-card-header class="card-header"> -->
                   <div>
@@ -178,7 +179,7 @@
                     <mat-card-subtitle>{{eventImage.genre}}</mat-card-subtitle>
                   </div>  
                 <!-- </mat-card-header> -->
-              </mat-card> 
+              </mat-card> </a>
             </mat-grid-tile>
           </mat-grid-list>
         </div>

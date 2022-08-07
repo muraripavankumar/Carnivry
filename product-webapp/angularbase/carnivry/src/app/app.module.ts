@@ -59,14 +59,15 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatMenuModule} from '@angular/material/menu';
-import { NextDirective } from './next.directive';
-import { PrevDirective } from './prev.directive';
 import { DatePipe } from '@angular/common';
 import { CarouselModule } from './carousel/carousel.module';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { DialogBoxChooseCityComponent } from './dialog-box-choose-city/dialog-box-choose-city.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { NextDirective } from './next.directive';
+import { PrevDirective } from './prev.directive';
+import { SearchComponent } from './search/search.component';
 
 // import { FlexLayoutModule } from "@angular/flex-layout";
 
@@ -95,14 +96,11 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     ViewPageComponent,
     NavigationComponent,
     SeatingUIComponent,
-    
-    LandingPageComponent,
-    NextDirective,            //added by garima
-    PrevDirective, FooterComponent, HeaderComponent, DialogBoxChooseCityComponent, PageNotFoundComponent             //added by garima
+    LandingPageComponent  ,         
+    FooterComponent, HeaderComponent, DialogBoxChooseCityComponent, NextDirective, PrevDirective, SearchComponent     
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
     MatStepperModule,
     ReactiveFormsModule,
@@ -145,18 +143,12 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     LayoutModule,
     MatSidenavModule,
     MatListModule,
-
-  
-//added by garima
     MatTabsModule,
     MatExpansionModule,
     MatGridListModule,
     MatToolbarModule,
     MatMenuModule,
     CarouselModule,
-
-    
-
   ],
   providers: [
     {

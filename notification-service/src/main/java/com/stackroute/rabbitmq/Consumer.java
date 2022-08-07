@@ -15,7 +15,7 @@ public class Consumer {
         this.emailService = emailService;
     }
 
-    @RabbitListener(queues = "queue_4", returnExceptions = "true")
+    @RabbitListener(queues = "management_notification_queue")
     public void getDataAndAddToProducerEmail(EventDTO eventDTO){
         ProducerEmail producerEmail=new ProducerEmail();
         producerEmail.setEventProducerEmailId(eventDTO.getEventProducerEmailId());

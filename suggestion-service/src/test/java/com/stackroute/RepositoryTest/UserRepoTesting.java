@@ -1,8 +1,8 @@
-package com.example.SuggestionService.RepositoryTest;
+package com.stackroute.RepositoryTest;
 
-import com.example.SuggestionService.Respository.UserRepo;
-import com.example.SuggestionService.entity.Events;
-import com.example.SuggestionService.entity.User;
+
+import com.stackroute.Respository.UserRepo;
+import com.stackroute.entity.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

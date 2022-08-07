@@ -21,17 +21,18 @@ import { ViewPageComponent } from './view-page/view-page.component';
 
 const routes: Routes = [
   {
-    path:'', component:AppComponent,
+    path:'', component:HeaderComponent,
     children:[
       {path:"",redirectTo:"landing-page",pathMatch:'full'},
       {path:"landing-page",component:LandingPageComponent},
       {path:'host-event',component:HostEventComponent},
-      {path:'view-page/:id', component:ViewPageComponent},
+      {path:'view-page/:id', component:ViewPageComponent, pathMatch: 'full'},
       {path:'seat-ui/:id',component:SeatingUIComponent},
       {path:'account', component:ProfileComponent},
       {path:'posted-events',component:PostedEventsComponent},
       {path:'add-preference',component:AddPreferenceComponent},
-      {path:'home',component:HomeComponent}
+      {path:'home',component:HomeComponent},
+      {path:'update',component:UpdateEventComponent}
     ]
   },
   {
@@ -40,14 +41,14 @@ const routes: Routes = [
     children: [
       { path: "",redirectTo:"register",pathMatch:'full' },
       {path:"login",component:LoginComponent},
+      {path:"forgot-password",component:ForgotPasswordComponent},
       {path:"register",component:RegistrationComponent},
       {path:'callback', component:CallbackComponent},
       {path:'verify-email',component:EmailVerificationComponent}
     ]
   },
-  {path:"**",component:PageNotFoundComponent}
+  // {path:"**",component:PageNotFoundComponent}
 ];
-
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
@@ -62,140 +63,3 @@ export class AppRoutingModule { }
 
 
 
-  // {
-  //   path: "", component: LandingPageComponent,
-  //   children: [
-  //     {path:'',redirectTo:'landing-page',pathMatch:'full'},
-  //     {
-  //       path: "landing-page", component: LandingPageComponent
-  //     },
-  //     {
-  //       path: "host-event", component: HostEventComponent
-  //     },
-  //     {
-  //       path: "view-page/:id", component: ViewPageComponent
-  //     },
-  //     {
-  //       path: "seat-ui/:id", component: SeatingUIComponent
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: "login", component: LoginComponent
-  // },
-  // {
-  //   path: "register", component: RegistrationComponent
-  // },
-  // {
-  //   path: "host-event", component: HostEventComponent
-  // },
-  // {
-  //   path: "callback",
-  //   component: CallbackComponent
-  // },
-  // {
-  //   path: "verifyEmail",
-  //   component: EmailVerificationComponent
-  // },
-
-  // {
-  //   path: "addPreference",
-  //   component: AddPreferenceComponent
-  // },
-  // {
-  //   path: "home",
-  //   component: HomeComponent
-  // },
-
-  // {
-  //   path: "account",
-  //   children: [
-  //     {
-  //       path: "",
-  //       component: ProfileComponent
-  //     },
-  //     {
-  //       path: "postedEvents",
-  //       component: PostedEventsComponent
-  //     }
-
-  //   ]
-  // }
-
-
- 
-  // {
-  //   path:'account', component:ProfileComponent,
-  //   children:[
-  //     {path:'',redirectTo:'account',pathMatch:'full'},
-  //     {path:'account',component:ProfileComponent},
-  //     {path:'posted-events',component:PostedEventsComponent}
-  //   ]
-  // },
-  // {path:'posted-events',component:PostedEventsComponent}
-
-  //   {
-  //   path: 'Carnivry',
-  //   children: [{
-  //     path: "",
-  //     component: AppComponent
-  //   },
-  //   {
-  //     path: "callback",
-  //     component: CallbackComponent
-  //   },
-  //   {
-  //     path: "home",
-  //     component: HomeComponent
-  //   },
-  //   {
-  //     path: "register",
-  //     component: RegistrationComponent
-  //   },
-  //   {
-  //     path: "verifyEmail",
-  //     component: EmailVerificationComponent
-  //   },
-  //   {
-  //     path: "addPreference",
-  //     component: AddPreferenceComponent
-  //   },
-  //   {
-  //     path: "login",
-  //     component: LoginComponent
-  //   },
-  //   {
-  //     path:"emailLink",
-  //     component:EmailLinkComponent
-  //   },
-  //   {
-  //     path:"forgotpassword",
-  //     component:ForgotPasswordComponent,
-  //   },
-  //   {
-  //     path: "account",
-  //     component: ProfileComponent
-  //   },
-  //   {
-  //     path: "host-event",
-  //     component: HostEventComponent
-  //   },
-  //   {
-  //     path: "update-event",
-  //     component: UpdateEventComponent
-  //   },
-  //   {
-  //     path:"view-page",
-  //     component: ViewPageComponent
-  //   },
-  //   {
-  //     path:"seat-ui/:id",
-  //     component: SeatingUIComponent
-  //   }
-  // ]
-  // },
-  // {
-  //   path: '',
-  //   redirectTo: '/Carnivry/register',
-  //   pathMatch: 'full'
-  // }

@@ -1,46 +1,74 @@
 <!-- Header -->
 <mat-toolbar>
-    <mat-toolbar-row>
-      <img class="logo" src="../assets/logo.png">
-      <span class="example-spacer"></span>
-      <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-      </button>
-  
+  <mat-toolbar-row>
+
+    <!-- Logo -->
+    <div>
+      <a> <img class="logo" src="../assets/logo.png" (click)="logo()"> </a>
+    </div>
+
+
+
+
+    <!-- Search box -->
+    <app-search (searchTextChange)="onSearchTextEntered($event)"></app-search>
+    <div class="suggestion-box">
+      <div style="width:100% ;" *ngFor="let title of titleList">
+        <div>{{title}}</div>
+      </div>
+    </div>
+
+
+
+
+
+
     <div style="display: flex; width: 100%;">
 
-      <!-- Search box -->
-      <button matSuffix mat-button>        
-        <input class="search" type="text" placeholder="Search any event here" [ngModel]="search">
-        <mat-icon >search</mat-icon>
-      </button>
+      <!-- Add Event -->
+      <div style="margin-left:150px ; display: flex;">
+        
+        <section>
+          <button mat-button (click)="addEvent()">Add Event</button>
+        </section>
 
-          <!-- Add Event -->
-      <div style="margin-left:200px ; display: flex;">    
-      <section>
-        <button mat-button routerLink="/host-event">Add Event</button>
-      </section>
-      
-      <!-- Choose city -->
-      <section>
-        <button mat-button (click)="openDialog()">Choose city</button>
-      </section>
+        <!-- Choose city -->
+        <section>
+          <button mat-button (click)="openDialog()">{{city}}</button>
+        </section>
+
+
+        
+        <!-- Home -->
+        <section>
+          <button mat-button (click)="home()">Home</button>
+        </section>
+
+
+        <!-- Sign In -->
+        
+          <div style="margin-left: 30px;" *ngIf="login">
+            <!-- <p>{{signIn}}</p> -->
+            <app-home></app-home>
+            <!-- <button mat-button [matMenuTriggerFor]="beforeMenu">{{signIn}}</button> -->
+          </div>
+        
+        <button style="border:1px solid black; border-radius: 10px; margin-left: 30px;" mat-button *ngIf="!login"
+          (click)="SignInLogin()">SignIn/Login</button>
+
+      </div>
 
     </div>
+  </mat-toolbar-row>
+
+</mat-toolbar>
 
 
-      <!-- User Icon -->
-      <div style="display: flex; margin-left: 100px;">
-      <button mat-button [matMenuTriggerFor]="beforeMenu">Hi User</button>
-    </div>
-      <mat-menu #beforeMenu="matMenu" xPosition="before">
-        <button mat-menu-item routerLink="/account">Edit profile</button>
-        <button mat-menu-item>Sign out</button>
-      </mat-menu>
 
+<!-- <div style="border: 1px solid black; width: 425px; position: relative; left: 260px; top: -13px;" *ngFor="let title of searchEventList">
+  <div>{{title}}</div>
+</div> -->
 
-</div>
+<!-- <app-landing-page></app-landing-page> -->
 
-    </mat-toolbar-row>
-  
-  </mat-toolbar>
-
+<router-outlet></router-outlet>
