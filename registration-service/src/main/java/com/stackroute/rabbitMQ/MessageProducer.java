@@ -19,9 +19,6 @@ public class MessageProducer {
         this.exchange = exchange;
     }
 
-
-
-
     public void sendMessageToAuthenticationService(AuthenticationUserDTO authenticationUserDTO)
     {
         rabbitTemplate.convertAndSend(exchange.getName(),"key1", authenticationUserDTO);
@@ -29,6 +26,11 @@ public class MessageProducer {
                 ,authenticationUserDTO.getEmail());
     }
 
-
+    public void sendMessageToSuggestionService(SuggestionUserDTO suggestionUserDTO)
+    {
+        rabbitTemplate.convertAndSend(exchange.getName(),"key3", suggestionUserDTO);
+        log.debug("Details of Carnivry User with email id {}  sent to Authentication MicroService using SuggestionUserDTO"
+                ,suggestionUserDTO.getEmailId());
+    }
 
 }

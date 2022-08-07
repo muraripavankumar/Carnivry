@@ -12,10 +12,12 @@ import { HostEventComponent } from './host-event/host-event.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { PastEventsComponent } from './past-events/past-events.component';
 import { PostedEventsComponent } from './posted-events/posted-events.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { SeatingUIComponent } from './seating-ui/seating-ui.component';
+import { UpcomingEventsComponent } from './upcoming-events/upcoming-events.component';
 import { UpdateEventComponent } from './update-event/update-event.component';
 import { ViewPageComponent } from './view-page/view-page.component';
 
@@ -30,6 +32,8 @@ const routes: Routes = [
       {path:'seat-ui/:id',component:SeatingUIComponent},
       {path:'account', component:ProfileComponent},
       {path:'posted-events',component:PostedEventsComponent},
+      {path:'past-events',component:PastEventsComponent},
+      {path:'upcoming-events',component:UpcomingEventsComponent},
       {path:'add-preference',component:AddPreferenceComponent},
       {path:'home',component:HomeComponent},
       {path:'update',component:UpdateEventComponent}

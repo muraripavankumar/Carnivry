@@ -85,6 +85,17 @@ export class RegistrationService {
     return this.myClient.get<Event[]>(this.registrationBaseUrl+"/getPostedEvents/"+email);
   }
 
+  getPastEvents(email:string):Observable<Event[]>
+  {
+    return this.myClient.get<Event[]>(this.registrationBaseUrl+"/pastEvents/"+email);
+  }
+
+  getUpcomingEvents(email:string):Observable<Event[]>
+  {
+    return this.myClient.get<Event[]>(this.registrationBaseUrl+"/upcomingEvents/"+email);
+  }
+
+
   addProfilePic(myProfilePic:any)
   {
     return this.myClient.post(this.registrationBaseUrl+"/ProfilePicAddition",myProfilePic, {responseType: 'text'});

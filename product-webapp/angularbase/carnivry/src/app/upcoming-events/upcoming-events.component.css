@@ -1,0 +1,29 @@
+.heading{
+    text-align: center;
+}
+.images{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.image{
+    width: 200px;
+}
+.menu li{
+    display: inline;
+}
+.content{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+.event{
+    width: 30%;
+}
+.buttons{
+    text-align: center;
+}
+.noEvent{
+    text-align: center;
+}

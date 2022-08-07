@@ -17,6 +17,7 @@ public class MessageConfigure {
 
     public static final String routingKey1= "key1";
     public static final String routingKey2= "key2";
+    public static final String routingKey3= "key3";
 
     @Bean
     public DirectExchange exchange()
@@ -34,6 +35,12 @@ public class MessageConfigure {
     public Queue queue2()
     {
         return new Queue("queue_2");
+    }
+
+    @Bean
+    public Queue queue3()
+    {
+        return new Queue("queue_3");
     }
 
     @Bean
@@ -60,5 +67,11 @@ public class MessageConfigure {
     public Binding binding2(Queue queue2, DirectExchange exchange)
     {
         return BindingBuilder.bind(queue2).to(exchange).with(routingKey2);
+    }
+
+    @Bean
+    public Binding binding3(Queue queue3, DirectExchange exchange)
+    {
+        return BindingBuilder.bind(queue3).to(exchange).with(routingKey3);
     }
 }

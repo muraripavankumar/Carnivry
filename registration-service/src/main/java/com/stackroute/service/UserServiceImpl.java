@@ -7,6 +7,7 @@ import com.stackroute.exception.UserNotFoundException;
 import com.stackroute.model.*;
 import com.stackroute.rabbitMQ.AuthenticationUserDTO;
 import com.stackroute.rabbitMQ.MessageProducer;
+import com.stackroute.rabbitMQ.SuggestionUserDTO;
 import com.stackroute.repository.UserRepository;
 //import com.twilio.rest.api.v2010.account.Message;
 //import com.twilio.type.PhoneNumber;
@@ -27,6 +28,7 @@ public class UserServiceImpl implements UserService{
     private final MessageProducer messageProducer;
 //    private final TwilioConfig twilioConfig;
     private final SmsSenderService smsSenderService;
+    private static HashMap<String,String> passwords;
 
    @Autowired
    public UserServiceImpl(UserRepository userRepository, EmailSenderService emailSenderService, MessageProducer messageProducer, SmsSenderService smsSenderService) {
@@ -54,10 +56,7 @@ public class UserServiceImpl implements UserService{
             carnivryUser.setVerified(false);
             carnivryUser.setDob(userModel.getDob());
 
-            AuthenticationUserDTO authenticationUserDTO=
-                    new AuthenticationUserDTO(userModel.getEmail().toLowerCase(), userModel.getPassword());
-
-            messageProducer.sendMessageToAuthenticationService(authenticationUserDTO);
+            passwords.put(carnivryUser.getEmail(),userModel.getPassword());
 
             log.info("New Carnivry Account created with email id {}",userModel.getEmail());
 
@@ -109,6 +108,8 @@ public class UserServiceImpl implements UserService{
             preferences.setLikedGenres(genreList);
             carnivryUser.setPreferences(preferences);
             userRepository.save(carnivryUser);
+
+            sendDataToSuggestionService(carnivryUser);
 
             log.info("Liked Genres added to user with email id {}",addGenre.getEmail());
     }
@@ -191,6 +192,12 @@ public class UserServiceImpl implements UserService{
             else{
                 carnivryUser.setVerified(true);
                 userRepository.save(carnivryUser);
+
+                AuthenticationUserDTO authenticationUserDTO=
+                        new AuthenticationUserDTO(email.toLowerCase(), passwords.get(email));
+                passwords.remove(email.toLowerCase());
+
+                messageProducer.sendMessageToAuthenticationService(authenticationUserDTO);
                 log.info("User with email id {} is verified",email);
                 return "valid token";
             }
@@ -263,71 +270,71 @@ public class UserServiceImpl implements UserService{
 //        userRepository.save(carnivryUser);
 //    }
 
-    @Override
-    public boolean sendOTPForPhoneNoVerification(PhoneNoValidationRequestDto phoneNoValidationRequestDto) throws UserNotFoundException {
+//    @Override
+//    public boolean sendOTPForPhoneNoVerification(PhoneNoValidationRequestDto phoneNoValidationRequestDto) throws UserNotFoundException {
+//
+//        if(userRepository.findById(phoneNoValidationRequestDto.getEmail()).isEmpty()){
+//            log.error("Cannot send otp to phone number of unregistered user with email id {}"
+//                    ,phoneNoValidationRequestDto.getEmail());
+//            throw new UserNotFoundException();
+//        }
+//        try {
+//            CarnivryUser carnivryUser= userRepository.findById(phoneNoValidationRequestDto.getEmail()).get();
+////            PhoneNumber to = new PhoneNumber(phoneNoValidationRequestDto.getPhoneNumber());
+////            PhoneNumber from = new PhoneNumber(twilioConfig.getTrialNumber());
+//            String otp = generateOTP();
+//            String otpMessage = "Dear User , Your OTP is ##" + otp + "##. Use this OTP to complete your phone number verification.";
+//
+////            log.info("SID: {}, Token: {}",twilioConfig.getAccountSid(),twilioConfig.getAuthToken());
+//////            Twilio.init(twilioConfig.getAccountSid(),twilioConfig.getAuthToken());
+////            Message message = Message.creator( to,from, otpMessage).create();
+////            System.out.println(message.getSid());
+//
+//            smsSenderService.sendSms(otpMessage,phoneNoValidationRequestDto.getPhoneNumber());
+//
+//            carnivryUser.setPhoneNoVerificationOTP(otp);
+//            carnivryUser.setPvoExpTime(calculateExpirationDate(EXPIRATION_TIME));
+//            userRepository.save(carnivryUser);
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//            log.error("Couldn't send otp to phone number {}",phoneNoValidationRequestDto.getPhoneNumber());
+//            return false;
+//        }
+//        return true;
+//    }
 
-        if(userRepository.findById(phoneNoValidationRequestDto.getEmail()).isEmpty()){
-            log.error("Cannot send otp to phone number of unregistered user with email id {}"
-                    ,phoneNoValidationRequestDto.getEmail());
-            throw new UserNotFoundException();
-        }
-        try {
-            CarnivryUser carnivryUser= userRepository.findById(phoneNoValidationRequestDto.getEmail()).get();
-//            PhoneNumber to = new PhoneNumber(phoneNoValidationRequestDto.getPhoneNumber());
-//            PhoneNumber from = new PhoneNumber(twilioConfig.getTrialNumber());
-            String otp = generateOTP();
-            String otpMessage = "Dear User , Your OTP is ##" + otp + "##. Use this OTP to complete your phone number verification.";
-
-//            log.info("SID: {}, Token: {}",twilioConfig.getAccountSid(),twilioConfig.getAuthToken());
-////            Twilio.init(twilioConfig.getAccountSid(),twilioConfig.getAuthToken());
-//            Message message = Message.creator( to,from, otpMessage).create();
-//            System.out.println(message.getSid());
-
-            smsSenderService.sendSms(otpMessage,phoneNoValidationRequestDto.getPhoneNumber());
-
-            carnivryUser.setPhoneNoVerificationOTP(otp);
-            carnivryUser.setPvoExpTime(calculateExpirationDate(EXPIRATION_TIME));
-            userRepository.save(carnivryUser);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            log.error("Couldn't send otp to phone number {}",phoneNoValidationRequestDto.getPhoneNumber());
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String validatePhoneVerificationOTP(PhoneNoValidationRequestDto phoneNoValidationRequestDto) throws UserNotFoundException {
-        if(userRepository.findById(phoneNoValidationRequestDto.getEmail()).isEmpty()){
-            log.error("Cannot validate phone number verification otp since no user with email id {} exists"
-                    ,phoneNoValidationRequestDto.getEmail());
-            throw new UserNotFoundException();
-        }
-        CarnivryUser carnivryUser= userRepository.findById(phoneNoValidationRequestDto.getEmail()).get();
-        if(carnivryUser.getPhoneNoVerificationOTP().equals(phoneNoValidationRequestDto.getOneTimePassword())){
-            Calendar cal = Calendar.getInstance();
-            if ((carnivryUser.getPvoExpTime().getTime() - cal.getTime().getTime()) <= 0){
-                log.debug("Phone Number verification otp expired for user with email id {}",carnivryUser.getEmail());
-                carnivryUser.setPhoneNoVerificationOTP(null);
-                carnivryUser.setPvoExpTime(null);
-                userRepository.save(carnivryUser);
-                return "Otp expired";
-            }
-            else {
-                log.info("Phone number verified successfully for user with email id {}",carnivryUser.getEmail());
-                carnivryUser.setPhoneNoVerificationOTP(null);
-                carnivryUser.setPvoExpTime(null);
-                carnivryUser.setPhone(phoneNoValidationRequestDto.getPhoneNumber());
-                userRepository.save(carnivryUser);
-                return "Valid otp";
-            }
-        }
-        else {
-            log.debug("Invalid otp for phone number of user with email id {}",carnivryUser.getEmail());
-            return "Invalid otp";
-        }
-
-    }
+//    @Override
+//    public String validatePhoneVerificationOTP(PhoneNoValidationRequestDto phoneNoValidationRequestDto) throws UserNotFoundException {
+//        if(userRepository.findById(phoneNoValidationRequestDto.getEmail()).isEmpty()){
+//            log.error("Cannot validate phone number verification otp since no user with email id {} exists"
+//                    ,phoneNoValidationRequestDto.getEmail());
+//            throw new UserNotFoundException();
+//        }
+//        CarnivryUser carnivryUser= userRepository.findById(phoneNoValidationRequestDto.getEmail()).get();
+//        if(carnivryUser.getPhoneNoVerificationOTP().equals(phoneNoValidationRequestDto.getOneTimePassword())){
+//            Calendar cal = Calendar.getInstance();
+//            if ((carnivryUser.getPvoExpTime().getTime() - cal.getTime().getTime()) <= 0){
+//                log.debug("Phone Number verification otp expired for user with email id {}",carnivryUser.getEmail());
+//                carnivryUser.setPhoneNoVerificationOTP(null);
+//                carnivryUser.setPvoExpTime(null);
+//                userRepository.save(carnivryUser);
+//                return "Otp expired";
+//            }
+//            else {
+//                log.info("Phone number verified successfully for user with email id {}",carnivryUser.getEmail());
+//                carnivryUser.setPhoneNoVerificationOTP(null);
+//                carnivryUser.setPvoExpTime(null);
+//                carnivryUser.setPhone(phoneNoValidationRequestDto.getPhoneNumber());
+//                userRepository.save(carnivryUser);
+//                return "Valid otp";
+//            }
+//        }
+//        else {
+//            log.debug("Invalid otp for phone number of user with email id {}",carnivryUser.getEmail());
+//            return "Invalid otp";
+//        }
+//
+//    }
 
     @Override
     public void saveDOB(AddDOB addDOB) throws UserNotFoundException {
@@ -359,6 +366,10 @@ public class UserServiceImpl implements UserService{
         address.setPincode(address.getPincode());
         carnivryUser.setAddress(address);
         userRepository.save(carnivryUser);
+
+        sendDataToSuggestionService(carnivryUser);
+
+        log.info("Address of user with email id {} saved",carnivryUser.getEmail());
     }
 
     @Override
@@ -459,34 +470,34 @@ public class UserServiceImpl implements UserService{
         return carnivryUser.getEmailId().equalsIgnoreCase(addEmail.getNewEmail());
     }
 
-    @Override
-    public void savePostedEvent(String email, Event postedEvent) throws UserNotFoundException {
-        if (userRepository.findById(email).isEmpty())
-        {
-            log.debug("User with email id {} not found",email);
-            throw new UserNotFoundException();
-        }
+//    @Override
+//    public void savePostedEvent(String email, Event postedEvent) throws UserNotFoundException {
+//        if (userRepository.findById(email).isEmpty())
+//        {
+//            log.debug("User with email id {} not found",email);
+//            throw new UserNotFoundException();
+//        }
+//
+//        CarnivryUser carnivryUser= userRepository.findById(email).get();
+//        List<Event> postedEvents= carnivryUser.getPostedEvents();
+//        if(postedEvents==null)
+//            postedEvents= new ArrayList<>();
+//        postedEvents.add(postedEvent);
+//        carnivryUser.setPostedEvents(postedEvents);
+//        userRepository.save(carnivryUser);
+//    }
 
-        CarnivryUser carnivryUser= userRepository.findById(email).get();
-        List<Event> postedEvents= carnivryUser.getPostedEvents();
-        if(postedEvents==null)
-            postedEvents= new ArrayList<>();
-        postedEvents.add(postedEvent);
-        carnivryUser.setPostedEvents(postedEvents);
-        userRepository.save(carnivryUser);
-    }
-
-    @Override
-    public List<Event> getPostedEvent(String email) throws UserNotFoundException {
-        if (userRepository.findById(email).isEmpty())
-        {
-            log.debug("User with email id {} not found",email);
-            throw new UserNotFoundException();
-        }
-
-        CarnivryUser carnivryUser= userRepository.findById(email).get();
-        return carnivryUser.getPostedEvents();
-    }
+//    @Override
+//    public List<Event> getPostedEvent(String email) throws UserNotFoundException {
+//        if (userRepository.findById(email).isEmpty())
+//        {
+//            log.debug("User with email id {} not found",email);
+//            throw new UserNotFoundException();
+//        }
+//
+//        CarnivryUser carnivryUser= userRepository.findById(email).get();
+//        return carnivryUser.getPostedEvents();
+//    }
 
     @Override
     public List<String> getGenres(String email) throws UserNotFoundException {
@@ -507,6 +518,108 @@ public class UserServiceImpl implements UserService{
 
         log.debug("Returning favourite genres of user with email id {}",email);
         return genreList;
+    }
+
+    @Override
+    public void saveEventToWishlist(AddWishlist addWishlist) throws UserNotFoundException {
+        if (userRepository.findById(addWishlist.getEmail()).isEmpty())
+        {
+            log.debug("User with email id {} not found",addWishlist.getEmail());
+            throw new UserNotFoundException();
+        }
+        CarnivryUser carnivryUser= userRepository.findById(addWishlist.getEmail()).get();
+        List<String> wl= carnivryUser.getWishlist();
+        if(wl==null)
+            wl= new ArrayList<>();
+        wl.add(addWishlist.getEventId());
+        carnivryUser.setWishlist(wl);
+        userRepository.save(carnivryUser);
+
+        sendDataToSuggestionService(carnivryUser);
+
+        log.info("Event with eventId {} added to the wishlist of user with email id {}"
+                ,addWishlist.getEventId(),addWishlist.getEmail());
+    }
+
+    @Override
+    public void savePastEvents(Event pastEvent) {
+        if (userRepository.findById(pastEvent.getUserEmailId()).isPresent())
+        {
+
+            CarnivryUser carnivryUser= userRepository.findById(pastEvent.getUserEmailId()).get();
+            Set<Event> pastEvents= carnivryUser.getPastEvents();
+            if (pastEvents==null)
+                pastEvents= new HashSet<>();
+            pastEvents.add(pastEvent);
+            carnivryUser.setPastEvents(pastEvents);
+            userRepository.save(carnivryUser);
+            log.debug("Event with eventId {} is added to pastEvents of user with email id {}"
+                    ,pastEvent.getEventId(),pastEvent.getUserEmailId());
+        }
+
+
+    }
+
+    @Override
+    public void saveUpcomingEvents(Event upcomingEvent) {
+        if (userRepository.findById(upcomingEvent.getUserEmailId()).isPresent())
+        {
+
+            CarnivryUser carnivryUser= userRepository.findById(upcomingEvent.getUserEmailId()).get();
+            Set<Event> upcomingEvents= carnivryUser.getUpcomingEvents();
+            if (upcomingEvents==null)
+                upcomingEvents= new HashSet<>();
+            upcomingEvents.add(upcomingEvent);
+            carnivryUser.setPastEvents(upcomingEvents);
+            userRepository.save(carnivryUser);
+            log.debug("Event with eventId {} is added to upcomingEvents of user with email id {}"
+                    ,upcomingEvent.getEventId(),upcomingEvent.getUserEmailId());
+        }
+    }
+
+    @Override
+    public void sendDataToSuggestionService(CarnivryUser carnivryUser) {
+        SuggestionUserDTO suggestionUserDTO= new SuggestionUserDTO();
+        suggestionUserDTO.setEmailId(carnivryUser.getEmail());
+        suggestionUserDTO.setName(carnivryUser.getName());
+        suggestionUserDTO.setWishlist(carnivryUser.getWishlist());
+        Preferences preferences= carnivryUser.getPreferences();
+        if(preferences!=null)
+        {
+            List<Genre> likedGenres = new ArrayList<>(preferences.getLikedGenres());
+            suggestionUserDTO.setLikedGenre(likedGenres);
+        }
+        Address address= carnivryUser.getAddress();
+        if (address!=null)
+        {
+            suggestionUserDTO.setCity(address.getCity());
+        }
+
+        messageProducer.sendMessageToSuggestionService(suggestionUserDTO);
+
+        log.debug("Data of user with email id {} successfully sent to queue of Suggestion Service", carnivryUser.getEmail());
+    }
+
+    @Override
+    public Set<Event> getPastEvents(String email) throws UserNotFoundException {
+        if (userRepository.findById(email).isEmpty())
+        {
+            log.debug("User with email id {} not found",email);
+            throw new UserNotFoundException();
+        }
+        CarnivryUser carnivryUser= userRepository.findById(email).get();
+        return carnivryUser.getPastEvents();
+    }
+
+    @Override
+    public Set<Event> getUpcomingEvents(String email) throws UserNotFoundException {
+        if (userRepository.findById(email).isEmpty())
+        {
+            log.debug("User with email id {} not found",email);
+            throw new UserNotFoundException();
+        }
+        CarnivryUser carnivryUser= userRepository.findById(email).get();
+        return carnivryUser.getUpcomingEvents();
     }
 
     private Date calculateExpirationDate(int expirationTime) {
