@@ -15,6 +15,7 @@ import { UpdateEventService } from '../service/update-event.service';
 import { validateStartDate } from '../validations/startDateValidator';
 import Validation from '../validations/timeValidation';
 import { PriceCategory } from '../model/price-category';
+import { Router } from '@angular/router';
 
 
 
@@ -55,11 +56,14 @@ export class HostEventComponent implements OnInit {
   filteredSeatCategories: Observable<string[]>;
   seatCategoryCtrl = new FormControl('');
   priceCatogoryList: PriceCategory[] = [];
-  colorPalate: string[] = ['#DE3163', '#FF7F50', '#40E0D0', '#FFBF00', '#6495ED', '#CCCCFF', '#DFFF00', '#9FE2BF'];
+  colorPalate: string[] = ['#DE3163', '#FF7F50', '#40E0D0', '#FFBF00', '#6495ED', '#CCCCFF', '#DFFF00', '#9FE2BF','#00FF7F','#DDA0DD','#FFA500','#B0E0E6','#FAFAD2'];
   colorIndexCounter: number = 0;
   isEventUpdatable: boolean = false;
+  hostUserName:string=localStorage.getItem('name');
+  hostEmailId:string=localStorage.getItem('email');
 
-  constructor(private fb: FormBuilder, private managementService: ManagementService, private snackbar: MatSnackBar, private updateEventService: UpdateEventService) {
+
+  constructor(private fb: FormBuilder, private managementService: ManagementService, private snackbar: MatSnackBar, private updateEventService: UpdateEventService,private router:Router) {
     this.eventData = new Event();
   }
 
@@ -80,6 +84,8 @@ export class HostEventComponent implements OnInit {
       map(value => this.filterSeatCategory(value || '')),
     );
 
+
+
     this.onUpdateMode();
 
   }
@@ -88,8 +94,8 @@ export class HostEventComponent implements OnInit {
     eventId: [''],
     title: ['', [Validators.required, Validators.maxLength(100)]],
     eventDescription: ['', [Validators.required, Validators.minLength(5)]],
-    userName: ['Faizal Izhar'],
-    userEmailId: ['wantobeanonymous8@gmail.com'],
+    userName: [this.hostUserName],
+    userEmailId: [this.hostEmailId],
     artists: this.fb.array([]),
     genre: this.fb.array([]),
     languages: this.fb.array([]),
@@ -695,11 +701,14 @@ export class HostEventComponent implements OnInit {
         this.snackbar.open('Event Uploaded Successfully!', ' ', {
           duration: 3000
         });
+        this.router.navigate(['/landing-page']);
       }
-      else
+      else{
         this.snackbar.open('Sorry! Event could not be uploaded. Please try again.', ' ', {
           duration: 3000
         });
+        this.router.navigate(['/landing-page']);
+      }
     });
   }
 
@@ -713,11 +722,13 @@ export class HostEventComponent implements OnInit {
         this.snackbar.open('Event Updated Successfully!', ' ', {
           duration: 3000
         });
+        this.router.navigate(['/landing-page']);
       }
       else {
         this.snackbar.open('Sorry! Event could not be uploaded. Please try again.', ' ', {
           duration: 3000
         });
+        this.router.navigate(['/landing-page']);
       }
     });
   }
