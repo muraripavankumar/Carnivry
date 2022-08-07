@@ -2,96 +2,65 @@
 <mat-toolbar>
   <mat-toolbar-row>
 
-      <!-- Logo -->
-      <div>
-        <a> <img class="logo" src="../assets/logo.png" (click)="logo()"> </a>
+    <!-- Logo -->
+    <div>
+      <a> <img class="logo" src="../assets/logo.png" (click)="logo()"> </a>
+    </div>
+
+
+
+
+    <!-- Search box -->
+    <app-search (searchTextChange)="onSearchTextEntered($event)"></app-search>
+    <div class="suggestion-box">
+      <div style="width:100% ;" *ngFor="let title of titleList">
+        <div>{{title}}</div>
       </div>
+    </div>
 
 
 
 
-
-      <!-- Search box -->
-      <!-- <div>    
-        <input style="border-radius: 10px; height: 40px; margin-left: 40px;" class="search" type="text" placeholder="Search any event here" [(ngModel)]="search" (ngModelChange)="updateSearch(search)" />
-      </div> -->
-      
-
-
-
-
-      <form class="example-form">
-        <mat-form-field class="example-full-width" appearance="fill">
-          <input type="text"
-                 placeholder="Search Event here"
-                 matInput
-                 [formControl]="myControl"
-                 [matAutocomplete]="auto" 
-                >
-          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-              {{option}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-      </form>
-
-
-
-
-
-
-  
 
 
     <div style="display: flex; width: 100%;">
 
-          <!-- Add Event -->
-      <div style="margin-left:100px ; display: flex;">    
-      <section>
+      <!-- Add Event -->
+      <div style="margin-left:150px ; display: flex;">
+        
+        <section>
+          <button mat-button (click)="addEvent()">Add Event</button>
+        </section>
 
-        <button mat-button (click)="addEvent()">Add Event</button>
-
-      </section>
-      
-      <!-- Choose city -->
-      <section>
-        <button mat-button (click)="openDialog()">{{city}}</button>
-      </section>
+        <!-- Choose city -->
+        <section>
+          <button mat-button (click)="openDialog()">{{city}}</button>
+        </section>
 
 
-      <!-- Sign In -->
-      <section *ngIf="login">
-        <div>
-        <button mat-button [matMenuTriggerFor]="beforeMenu">{{signIn}}</button>
+        
+        <!-- Home -->
+        <section>
+          <button mat-button (click)="home()">Home</button>
+        </section>
+
+
+        <!-- Sign In -->
+        
+          <div style="margin-left: 30px;" *ngIf="login">
+            <!-- <p>{{signIn}}</p> -->
+            <app-home></app-home>
+            <!-- <button mat-button [matMenuTriggerFor]="beforeMenu">{{signIn}}</button> -->
+          </div>
+        
+        <button style="border:1px solid black; border-radius: 10px; margin-left: 30px;" mat-button *ngIf="!login"
+          (click)="SignInLogin()">SignIn/Login</button>
+
       </div>
-        <mat-menu #beforeMenu="matMenu" xPosition="before" >
-          <button mat-menu-item routerLink="/account">Edit profile</button>
-          <button mat-menu-item (click)="logout()">Sign out</button>
-        </mat-menu>
-      </section>
-      <button style="border:1px solid black; border-radius: 10px; margin-left: 30px;" mat-button *ngIf="!login"  (click)="SignInLogin()">SignIn/Login</button>
-      
-
-
-
-      <!-- Home -->
-      <section>
-        <button mat-button (click)="home()">Home</button>
-      </section>
 
     </div>
-
-    </div>
-
-      <mat-menu #beforeMenu="matMenu" xPosition="before">
-        <button mat-menu-item routerLink="/account">Edit profile</button>
-       <button mat-menu-item (click)="logout()">Sign out</button>
-      </mat-menu>
-    
-    
   </mat-toolbar-row>
-  
+
 </mat-toolbar>
 
 
@@ -103,5 +72,3 @@
 <!-- <app-landing-page></app-landing-page> -->
 
 <router-outlet></router-outlet>
-
-

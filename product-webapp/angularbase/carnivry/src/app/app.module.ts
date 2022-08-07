@@ -65,6 +65,9 @@ import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { DialogBoxChooseCityComponent } from './dialog-box-choose-city/dialog-box-choose-city.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { NextDirective } from './next.directive';
+import { PrevDirective } from './prev.directive';
+import { SearchComponent } from './search/search.component';
 
 // import { FlexLayoutModule } from "@angular/flex-layout";
 
@@ -94,7 +97,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     NavigationComponent,
     SeatingUIComponent,
     LandingPageComponent  ,         
-    FooterComponent, HeaderComponent, DialogBoxChooseCityComponent         
+    FooterComponent, HeaderComponent, DialogBoxChooseCityComponent, NextDirective, PrevDirective, SearchComponent     
   ],
   imports: [
     BrowserModule,

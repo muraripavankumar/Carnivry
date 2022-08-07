@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable, tap } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -8,6 +8,7 @@ import { DialogBoxChooseCityComponent } from '../dialog-box-choose-city/dialog-b
 import { Router } from '@angular/router';
 import { map, startWith } from 'rxjs/operators';
 import { RegistrationService } from '../service/registration.service';
+
 
 
 
@@ -24,12 +25,15 @@ export class HeaderComponent implements OnInit {
   city = "";
   login = false;
 
-  allEventsData: any;
-  allEventsList: any;
-  allEventsPosterList: any;
+  allEventsList: any[];
+  filteredList: any[]=[];
+  titleList: any[]=[];
 
-  searchEventList: any = [];
+  searchText: string='';
+  
+  
 
+  
   headers = {
     observe: 'response' as 'response'
   };
@@ -38,7 +42,7 @@ export class HeaderComponent implements OnInit {
   myControl = new FormControl('');
   filteredOptions: Observable<string[]>;
 
-  constructor(public dialog: MatDialog, private router: Router, private registrationService: RegistrationService) {
+  constructor(public dialog: MatDialog, private router: Router, private registrationService: RegistrationService, private http: HttpClient) {
 
     this.search = "";
 
@@ -50,8 +54,9 @@ export class HeaderComponent implements OnInit {
     }
 
 
-    // sessionStorage.setItem('username', "");
-    const tokenValue = localStorage.getItem('token');
+    
+    // const tokenValue = localStorage.getItem('token');
+    const tokenValue= "dksjhksjdf";
     console.log('token value : ' + tokenValue);
 
     if (tokenValue === null) {
@@ -59,7 +64,8 @@ export class HeaderComponent implements OnInit {
       this.login = false;
     }
     else {
-      this.signIn = registrationService.getName();
+      // this.signIn = registrationService.getName();
+      this.signIn="Garima";
 
       this.login = true;
     }
@@ -102,66 +108,63 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+  onSearchTextEntered(searchValue: string){
+    this.searchText=searchValue;
+    this.filteredList=[];
+    this.titleList=[];
+    // console.log("Entered value"+ this.searchText);
 
-  // updateSearch(search: String){
-  //   console.log("Update search list method called : "+search);
+    this.http.get<Event[]>('http://localhost:8082/api/v1/all-events', this.headers)
+      .subscribe(
+        (data) => {
+          this.allEventsList = data.body;
+          console.log("All events in header page: " + this.allEventsList.length);
+          
+          for(var i=0; i<this.allEventsList.length; i++){
+            if(this.allEventsList[i].title.toLowerCase().includes(this.searchText.toLowerCase()) && this.searchText!=""){
+              this.filteredList.push(this.allEventsList[i].title);
+            }
+          }
+          this.titleList=this.filteredList;
+        }
+      )
 
+    // this.allEventsList=["Bramastra", "Jug jug jeeyo", "The Kashmir Files", "Gangubai Kathiawadi", "Bachchhan Paandey", "Shamshera", "Badhaai Do", "Jhund"];
 
-  //     // this.allEventsData=[];
-  //     // this.allEventsPosterList=[];
+    // for(var i=0; i<this.allEventsList.length; i++){
+    //   if(this.allEventsList[i].toLowerCase().includes(this.searchText.toLowerCase()) && this.searchText!=""){
+    //     this.filteredList.push(this.allEventsList[i]);
+    //   }
+    // }
+    // this.titleList=this.filteredList;
 
-  //     // this.allEventsData = sessionStorage.getItem("allshows");
-
-  //     // var allEventsJSON: any = this.allEventsData!==null ? JSON.parse(this.allEventsData): this.allEventsData;
-
-  //     // for(var i=0; i<allEventsJSON?.length; i++){
-  //     //   this.allEventsPosterList.push(allEventsJSON[i]);
-  //     // }
-
-  //     // this.allEventsList=this.allEventsPosterList;
-  //     this.searchEventList=[];
-
-  //     for(var i=0; i<this.allEventsList.length; i++){
-  //       if(this.allEventsList[i].includes(search) && search!="" && !this.searchEventList.includes(this.allEventsList[i])){
-  //         this.searchEventList.push(this.allEventsList[i]);
-  //       }
-
-  //     }
-  //   console.log("Search list: "+ this.searchEventList.length);
-  // }
-
-  // private _filter(value: string): string[] {
-  //   const filterValue = value.toLowerCase();
-
-  //   return this.allEventsList.filter((title: string) => title.toLowerCase().includes(filterValue));
-  // }
-
-
-  private _filter(value: string): string[] {
-
-    this.allEventsData = [];
-    this.allEventsPosterList = [];
-    this.allEventsList = [];
-    this.allEventsData = sessionStorage.getItem("allshows");
-
-    var allEventsJSON: any = this.allEventsData !== null ? JSON.parse(this.allEventsData) : this.allEventsData;
-
-    for (var i = 0; i < allEventsJSON?.length; i++) {
-      this.allEventsPosterList.push(allEventsJSON[i]);
-    }
-
-    this.allEventsList = this.allEventsPosterList;
-    console.log("All Events length: " + this.allEventsList.length);
-
-    const filterValue = value.toLowerCase();
-
-    return this.allEventsList.filter((title: string) => title.toLowerCase().includes(filterValue));
+    // console.log("titleList length: "+ this.titleList.length);
+    
   }
 
+  
+
+
+  // private _filter(value: string): string[] {
+
+  //   this.http.get<Event[]>('http://localhost:8082/api/v1/all-events', this.headers)
+  //     .subscribe(
+  //       (data) => {
+  //         this.allEventsList = data.body;
+  //         this.allEventsList = this.allEventsList;
+  //         console.log("All events in landing page: " + this.allEventsList.length);
+  //         const filterValue = value.toLowerCase();
+  //         return this.allEventsList.filter((title: string) => title.toLowerCase().includes(filterValue));
+  //       }
+  //     )
+
+
+  // }
+
   ngOnInit(): void {
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || '')),
-    );
+    // this.filteredOptions = this.myControl.valueChanges.pipe(
+    //   startWith(''),
+    //   map(value => this._filter(value || '')),
+    // );
   }
 }

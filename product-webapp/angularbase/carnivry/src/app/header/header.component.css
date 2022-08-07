@@ -28,6 +28,15 @@
     height: 30px;
   }
 
+.suggestion-box{
+  position: absolute;
+  background-color: white;
+  z-index: 9; 
+  width: 430px; 
+  border:1px solid black ;
+  left: 255px;
+  top: 52px;
+}
 
   /* choose city */
   section {

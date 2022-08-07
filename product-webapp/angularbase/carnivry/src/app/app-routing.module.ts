@@ -26,7 +26,7 @@ const routes: Routes = [
       {path:"",redirectTo:"landing-page",pathMatch:'full'},
       {path:"landing-page",component:LandingPageComponent},
       {path:'host-event',component:HostEventComponent},
-      {path:'view-page/:id', component:ViewPageComponent},
+      {path:'view-page/:id', component:ViewPageComponent, pathMatch: 'full'},
       {path:'seat-ui/:id',component:SeatingUIComponent},
       {path:'account', component:ProfileComponent},
       {path:'posted-events',component:PostedEventsComponent},

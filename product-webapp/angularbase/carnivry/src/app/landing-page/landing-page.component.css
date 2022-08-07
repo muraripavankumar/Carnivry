@@ -3,51 +3,48 @@
   }
 
   .product{
-    padding: 20px 0;
+    /* padding: 20px 0; */
     height: 450px;
     width: 100%;
-    /* border: 1px solid black; */
 }
 .container-fluid{
     height: 100%;
-    /* border: 1px solid black; */
 }
 .slider-wrap{
     position: relative;
     overflow: hidden;
     height: 450px;
     height: 100%;
-    /* border: 1px solid black; */
 }
 .slider-main{
     position: absolute;
     width: 200%;
     width: 100%;
-    height: 100%;
-    /* border: 1px solid black; */
+    height: 450px;
 }
 .item{
     display: inline-block;
-    width: 200px;
-    height: 300px;
+    width: 210px;
+    height: 450px;
     position: relative;
-    margin: 0px 12px;
-    
-    margin: 50px 0px 0px 50px;
-    /* border: 1px solid black; */
-
+    margin: 0px 12px 0px 40px;
+    /* border: 1px solid green; */
 }
 .text{
     position: absolute;
-    top: 60%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
-    /* color: aliceblue;
-    font-size: 24px;
-    font-weight: bold; */
-    /* padding-left: 10px; */
-    /* border: 1px solid black; */
+    /* border: 1px solid red; */
 }
+
+.example-card {
+  width: 210px;
+  height: 380px;
+  /* padding-left: 30px; */
+  /* border: 1px solid black; */
+}
+
 .prev{
     position: absolute;
     left: 33px;
@@ -61,19 +58,8 @@
     transform: translate(-50%, -50%);
 }
 
-.example-card {
-    width: 200px;
-    height: 350px;
-    padding-left: 30px;
-    /* border: 1px solid black; */
-  }
   
-.image{
-    /* border: 1px solid black; */
-    width: 200px;
-    height: 300px;
-    border-radius: 10px;
-}
+
 .likes{
   background-color: black;
   color: white;
@@ -134,9 +120,17 @@ mat-expansion-panel{
 }
 
 .event-card{
-  width: 150px;
-  height: 250px;
+  width: 200px;
+  height: 300px;
   margin-bottom: 70px;
+  margin-right: 10px;
+}
+
+.image{
+  /* border: 1px solid black; */
+  width: 200px;
+  height: 300px;
+  border-radius: 10px;
 }
 
 section {
