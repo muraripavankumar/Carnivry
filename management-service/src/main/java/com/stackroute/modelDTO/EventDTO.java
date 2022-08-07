@@ -6,9 +6,6 @@ import lombok.*;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
 public class EventDTO {
     String eventProducerEmailId;
     String eventTitle;

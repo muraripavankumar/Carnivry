@@ -199,25 +199,15 @@
               <tbody>
                 <tr>
                   <td data-label="Event-Title">${EventTitle}</td>
-                  <td data-label="Event-Dates">${StartDate?string("yyyy-MM-dd")} to ${EndDate?string("yyyy-MM-dd")}</td>
+                  <td data-label="Event-Dates">${StartDate?date} to ${EndDate?date}</td>
                   <td data-label="Event-Timings">
                       ${StartTime} TO ${EndTime}
                   </td>
-                  <#assign s=houseNumber!"null"/><#if s=="unavailable">
-                  <#assign s=Street!"null"/><#if s=="unavailable">
-                  <#assign s=LandMark!"null"/><#if s=="unavailable">
-                  <#assign s=city!"null"/><#if s=="unavailable">
-                  <#assign s=State!"null"/><#if s=="unavailable">
-                  <#assign s=Pincode!"null"/><#if s==0>
+                 <td data-label="Venue-Details">
+                                   ${venueName},${houseNumber},${Street},${LandMark},
+                                     ${city},${State},${Country},${Pincode}
 
-                  ${venueName},${Country}
-
-                  <#else>
-                  <td data-label="Venue-Details">
-                  ${venueName},${houseNumber},${Street},${LandMark},
-                    ${city},${State},${Country},${Pincode}
-                  </#if></#if></#if></#if></#if></#if>
-                  </td>
+                   </td>
                   <#assign seats=TotalSeats!"null"/><#if seats==0>Online Event<#else><td data-label="TotalSeats">${TotalSeats}</#if></td>
                 </tr>
               </tbody>
