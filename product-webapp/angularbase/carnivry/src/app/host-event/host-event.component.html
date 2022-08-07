@@ -4,7 +4,8 @@
   <mat-card-header>
     <mat-card-title>
       <header *ngIf="!existingEventData.eventId">HOST NEW EVENT</header>
-      <header *ngIf="existingEventData.eventId">UPDATE EVENT</header>
+      <header *ngIf="existingEventData.eventId && !isEventUpdatable">UPDATE EVENT</header>
+      <header *ngIf="isEventUpdatable">VIEW EVENT</header>
     </mat-card-title>
   </mat-card-header>
   <mat-card-content class="form-box">
@@ -25,7 +26,7 @@
           <mat-form-field class="col-sm-6" appearance="fill">
             <mat-label>Event Title</mat-label>
             <input matInput formControlName="title" value="{{existingEventData.title}}"
-              [readonly]="existingEventData.eventId ">
+              [readonly]="existingEventData.eventId">
           </mat-form-field>
 
           <mat-form-field class="example-chip-list" class="col-sm-6">
@@ -33,7 +34,7 @@
             <mat-chip-list #chipList aria-label="Genre selection">
               <mat-chip *ngFor="let gr of genres" (removed)="remove(gr)">
                 {{gr}}
-                <button matChipRemove>
+                <button matChipRemove [hidden]="isEventUpdatable">
                   <mat-icon>cancel</mat-icon>
                 </button>
               </mat-chip>
@@ -42,7 +43,8 @@
               [matAutocomplete]="auto"
                 [matChipInputFor]="chipList" 
                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                (matChipInputTokenEnd)="add($event)">
+                (matChipInputTokenEnd)="add($event)"
+                [readonly]="isEventUpdatable">
             </mat-chip-list>
             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
               <mat-option *ngFor="let gr of filteredGenres | async" [value]="gr">
@@ -54,7 +56,7 @@
           <mat-form-field class="col-sm-12">
             <mat-label>Event Description</mat-label>
             <textarea matInput #description placeholder="Event description (minimum 50 characters)"
-              formControlName="eventDescription">
+              formControlName="eventDescription" [readonly]="isEventUpdatable">
                 </textarea>
             <mat-hint align="end">Characters: {{description.value.length}}</mat-hint>
           </mat-form-field>
@@ -64,13 +66,13 @@
             <mat-chip-list #chipList1 aria-label="Artist selection">
               <mat-chip *ngFor="let a of artists" (removed)="removeArtist(a)">
                 {{a}}
-                <button matChipRemove>
+                <button matChipRemove [hidden]="isEventUpdatable">
                   <mat-icon>cancel</mat-icon>
                 </button>
               </mat-chip>
               <input placeholder="New artist/cast..." [matChipInputFor]="chipList1"
                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes1" [matChipInputAddOnBlur]="addOnBlur"
-                (matChipInputTokenEnd)="addArtist($event)">
+                (matChipInputTokenEnd)="addArtist($event)" [readonly]="isEventUpdatable">
             </mat-chip-list>
           </mat-form-field>
 
@@ -79,7 +81,7 @@
             <mat-chip-list #chipList3 aria-label="Language selection">
               <mat-chip *ngFor="let l of languages" (removed)="removeLanguage(l)">
                 {{l}}
-                <button matChipRemove>
+                <button matChipRemove [hidden]="isEventUpdatable">
                   <mat-icon>cancel</mat-icon>
                 </button>
               </mat-chip>
@@ -88,7 +90,8 @@
               [matAutocomplete]="autoLang"
                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes3" 
                 [matChipInputAddOnBlur]="addOnBlur"
-                (matChipInputTokenEnd)="addLanguage($event)">
+                (matChipInputTokenEnd)="addLanguage($event)"
+                [readonly]="isEventUpdatable">
             </mat-chip-list>
             <mat-autocomplete #autoLang="matAutocomplete" (optionSelected)="selectedLanguages($event)">
               <mat-option *ngFor="let ln of filteredLanguages | async" [value]="ln">
@@ -123,7 +126,7 @@
 
             <mat-form-field class="col-sm-12">
               <mat-label>Venue Name</mat-label>
-              <input matInput formControlName="venueName" placeholder="Venue name or Event URL">
+              <input matInput formControlName="venueName" placeholder="Venue name or Event URL" [readonly]="isEventUpdatable">
             </mat-form-field>
 
             <div class="row">
@@ -134,42 +137,42 @@
                   [hidden]="this.hostEventForm.get('venue.address.house').value==='0'">
                   <mat-label>House No.</mat-label>
                   <input matInput formControlName="house" placeholder="House/Floor/Building"
-                    [disabled]="hostEventForm.get('venue.address.house').value!='0'">
+                    [disabled]="hostEventForm.get('venue.address.house').value!='0'" [readonly]="isEventUpdatable">
                 </mat-form-field>
 
                 <mat-form-field class="col-sm-8 col-md-6"
                   [hidden]="this.hostEventForm.get('venue.address.street').value==='-NA-'">
                   <mat-label>Street</mat-label>
-                  <input matInput formControlName="street" placeholder="Street name or Street number">
+                  <input matInput formControlName="street" placeholder="Street name or Street number" [readonly]="isEventUpdatable">
                 </mat-form-field>
 
                 <mat-form-field class="col-sm-4 col-md-6 col-lg-3"
                   [hidden]="this.hostEventForm.get('venue.address.landmark').value==='-NA-'">
                   <mat-label>Landmark</mat-label>
-                  <input matInput formControlName="landmark" placeholder="Landmark/Location of the venue">
+                  <input matInput formControlName="landmark" placeholder="Landmark/Location of the venue" [readonly]="isEventUpdatable">
                 </mat-form-field>
 
                 <mat-form-field class="col-sm-4 col-md-6 col-lg-3"
                   [hidden]="this.hostEventForm.get('venue.address.city').value==='-NA-'">
                   <mat-label>City</mat-label>
-                  <input matInput formControlName="city" placeholder="City name">
+                  <input matInput formControlName="city" placeholder="City name" [readonly]="isEventUpdatable">
                 </mat-form-field>
 
                 <mat-form-field class="col-sm-3 col-md-6 col-lg-3"
                   [hidden]="this.hostEventForm.get('venue.address.state').value==='-NA-'">
                   <mat-label>State</mat-label>
-                  <input matInput formControlName="state" placeholder="State name">
+                  <input matInput formControlName="state" placeholder="State name" [readonly]="isEventUpdatable">
                 </mat-form-field>
 
                 <mat-form-field class="col-sm-3"
                   [hidden]="this.hostEventForm.get('venue.address.pincode').value==='000000' || this.hostEventForm.get('venue.address.pincode').value=== 0 ">
                   <mat-label>Pincode</mat-label>
-                  <input type="number" matInput formControlName="pincode" placeholder="Pincode">
+                  <input type="number" matInput formControlName="pincode" placeholder="Pincode" [readonly]="isEventUpdatable">
                 </mat-form-field>
 
-                <mat-form-field class="col-sm-3 col-md-3 country-field">
+                <mat-form-field class="col-sm-3 col-md-3 country-field" >
                   <mat-label>Country</mat-label>
-                  <mat-select formControlName="country">
+                  <mat-select formControlName="country" [disabled]="isEventUpdatable">
                     <mat-option *ngFor="let c of countries" [value]="c">
                       {{c}}
                     </mat-option>
@@ -188,11 +191,11 @@
               <mat-form-field class="col-sm-12 col-md-4">
                 <mat-label>Enter a date range</mat-label>
                 <mat-date-range-input [rangePicker]="picker">
-                  <input matStartDate formControlName="startDate" placeholder="Start date">
-                  <input matEndDate formControlName="endDate" placeholder="End date">
+                  <input matStartDate formControlName="startDate" placeholder="Start date" [readonly]="isEventUpdatable">
+                  <input matEndDate formControlName="endDate" placeholder="End date" [readonly]="isEventUpdatable">
                 </mat-date-range-input>
                 <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker-toggle matSuffix [for]="picker" [disabled]="isEventUpdatable"></mat-datepicker-toggle>
                 <mat-date-range-picker #picker></mat-date-range-picker>
                 <mat-error
                   *ngIf="hostEventForm.get('eventTimings.startDate').hasError('startDateValidator') && hostEventForm.get('eventTimings.startDate').value!=''">
@@ -201,12 +204,12 @@
 
               <mat-form-field class="col-sm-12 col-md-3  mx-lg-5">
                 <mat-label>Starting time</mat-label>
-                <input type="time" matInput placeholder="Event starting time" formControlName="startTime">
+                <input type="time" matInput placeholder="Event starting time" formControlName="startTime" [disabled]="isEventUpdatable">
               </mat-form-field>
 
               <mat-form-field class="col-sm-12 col-md-3   mx-lg-5">
                 <mat-label>Ending time</mat-label>
-                <input type="time" matInput formControlName="endTime" placeholder="Event ending time">
+                <input type="time" matInput formControlName="endTime" placeholder="Event ending time" [disabled]="isEventUpdatable">
                 <mat-error *ngIf="hostEventForm.get('eventTimings').hasError('matching')">
                   * Ending time must be after starting time</mat-error>
               </mat-form-field>
@@ -239,24 +242,24 @@
 
           <mat-form-field [hidden]="seatType==='yes' || this.hostEventForm.get('venue.address.city').value==='-NA-' ">
             <mat-label>Max. Audience Capacity</mat-label>
-            <input type="number" matInput formControlName="totalSeats" (change)="changeTotalSeats($event)">
+            <input type="number" matInput formControlName="totalSeats" (change)="changeTotalSeats($event)" [readonly]="isEventUpdatable">
           </mat-form-field>
           <mat-form-field [hidden]="seatType==='yes' ">
             <mat-label>Ticket Price</mat-label>
-            <input type="number" matInput (change)="setTicketPrice($event)" value="{{priceCatogoryList[0]?.price}}">
+            <input type="number" matInput (change)="setTicketPrice($event)" value="{{priceCatogoryList[0]?.price}}" [readonly]="isEventUpdatable">
           </mat-form-field>
 
 
           <mat-form-field [hidden]="seatType==='no' || this.hostEventForm.get('venue.address.city').value==='-NA-'">
             <mat-label>Rows</mat-label>
             <input type="number" matInput (change)="calcTotalSeats()" id="totalRows" placeholder="Total number of rows"
-              value="{{row}}" [readonly]="existingEventData.eventId!=null">
+              value="{{row}}" [readonly]="existingEventData.eventId!=null || isEventUpdatable">
           </mat-form-field>
 
           <mat-form-field [hidden]="seatType==='no' || this.hostEventForm.get('venue.address.city').value==='-NA-'">
             <mat-label>Columns</mat-label>
             <input type="number" matInput (change)="calcTotalSeats()" id="totalColm"
-              placeholder="Number of columns per row" value="{{column}}" [readonly]="existingEventData.eventId!=null">
+              placeholder="Number of columns per row" value="{{column}}" [readonly]="existingEventData.eventId!=null || isEventUpdatable">
           </mat-form-field>
 
           <mat-card [hidden]="totalSeating===0 || column===0">
@@ -305,13 +308,13 @@
                 <mat-form-field>
                   <mat-label>Seat Category</mat-label>
                   <input type="text" matInput placeholder="Platinum/Gold/Silver" id="seatCategory"
-                    [matAutocomplete]="auto1">
+                    [matAutocomplete]="auto1" [readonly]="isEventUpdatable">
                   <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete">
                     <mat-option *ngFor="let option of filteredSeatCategories|async" [value]="option">{{option}}
                     </mat-option>
                   </mat-autocomplete>
                 </mat-form-field>
-                <input type="number" id="activePrice" placeholder="Price slab" (change)="setActivePrice()">
+                <input type="number" id="activePrice" placeholder="Price slab" (change)="setActivePrice()" [readonly]="isEventUpdatable">
                 <button mat-button class="btn" (click)="savePrice()" [disabled]="activePrice<0">Save
                 </button>
               </div>
@@ -327,11 +330,11 @@
                 <mat-form-field>
                   <mat-label>Price Slab :</mat-label>
                   <input matInput type="number" id="u.{{i}}" value="{{e.price}}"
-                    [readonly]="existingEventData.eventId==null">
+                    [readonly]="existingEventData.eventId==null || isEventUpdatable">
                 </mat-form-field>
                 <button mat-button class="btn btn-warning" (click)="removePrice(e.price)"
                   [hidden]="existingEventData.eventId!=null">Remove</button>
-                <button mat-button class="btn btn-info" [hidden]="existingEventData.eventId==null"
+                <button mat-button class="btn btn-info" [hidden]="existingEventData.eventId==null || isEventUpdatable"
                   (click)="onPriceUpdate(i)">Update
                   price</button>
               </div>
@@ -361,7 +364,7 @@
 
             <div class="image-div col-sm-12 col-lg-6 ">
               <label for="thumbnail">Upload Event Poster(Thumbnail)</label>
-              <input type="file" accept='image/*' (change)="onThumbnailFileChange($event)" id="thumbnail">
+              <input type="file" accept='image/*' (change)="onThumbnailFileChange($event)" id="thumbnail" [readonly]="isEventUpdatable">
               <div *ngIf="hostEventForm.get('posters').invalid" class="alert">
                 <div *ngIf="hostEventForm.get('posters').errors?.['required']">
                   * Event poster is required.
@@ -373,7 +376,7 @@
 
             <div class="image-div col-sm-12 col-lg-6">
               <label for="landscape">Upload Event Poster(Landscape)</label>
-              <input type="file" accept='image/*' (change)="onLandscapeFileChange($event)" id="landscape">
+              <input type="file" accept='image/*' (change)="onLandscapeFileChange($event)" id="landscape" [readonly]="isEventUpdatable">
               <img [src]="landscapePosterPicDataUrl" class="landscape" alt="no_img" *ngIf="landscapePosterPicDataUrl">
             </div>
 
@@ -483,7 +486,7 @@
           <button mat-button type="submit" (click)="onSubmit()" class="btn btn-success" style="float: right;"
             [hidden]="existingEventData.eventId!=null"  >Submit</button>
           <button mat-button type="submit" (click)="onUpdate()" class="btn btn-success" style="float: right;"
-            [hidden]="existingEventData.eventId==null">Update</button>
+            [hidden]="existingEventData.eventId==null || isEventUpdatable">Update</button>
         </div>
       </mat-step>
     </mat-stepper>

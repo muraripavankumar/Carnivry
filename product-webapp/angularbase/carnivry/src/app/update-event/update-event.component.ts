@@ -21,7 +21,7 @@ export class UpdateEventComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const userEmailId:string="maitymayukh23@gmail.com";
+    const userEmailId:string="wantobeanonymous8@gmail.com";
     this.managementService.getAllEventsByUserEmailId(userEmailId).subscribe((data) => this.allEvents = data);
   }
   updateEvent(eventObj: Event) {

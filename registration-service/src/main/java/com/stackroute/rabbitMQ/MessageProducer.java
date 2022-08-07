@@ -26,6 +26,7 @@ public class MessageProducer {
                 ,authenticationUserDTO.getEmail());
     }
 
+
     public void sendMessageToSuggestionService(SuggestionUserDTO suggestionUserDTO)
     {
         rabbitTemplate.convertAndSend(exchange.getName(),"key3", suggestionUserDTO);
