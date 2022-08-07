@@ -13,4 +13,6 @@ public interface EventService {
     Event getEventById(String eventId) throws Exception;
     List<Event> getAllEvents()throws Exception;
     List<Event> getAllEventsByUserEmailId(String userEmail) throws UserNotFoundException, Exception;
+    List<Event> getPastEventsByUserEmailId(String userEmail) throws UserNotFoundException, Exception;
+    List<Event> getUpcomingEventsByUserEmailId(String userEmail) throws UserNotFoundException, Exception;
 }

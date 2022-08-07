@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -162,5 +163,19 @@ public class EventServiceImpl implements EventService{
             log.error("UserNotFoundException occurred in EventService -> getAllEventsByUserEmailId()");
             throw new  UserNotFoundException();
         }
+    }
+
+    @Override
+    public List<Event> getPastEventsByUserEmailId(String userEmail) throws UserNotFoundException, Exception {
+        List<Event> allEvents=getAllEventsByUserEmailId(userEmail);
+        Date today=new Date();
+        return allEvents.stream().filter(event -> event.getEventTimings().getEndDate().compareTo(today)<0).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Event> getUpcomingEventsByUserEmailId(String userEmail) throws UserNotFoundException, Exception {
+        List<Event> allEvents=getAllEventsByUserEmailId(userEmail);
+        Date today=new Date();
+        return allEvents.stream().filter(event -> event.getEventTimings().getEndDate().compareTo(today)>=0).collect(Collectors.toList());
     }
 }
