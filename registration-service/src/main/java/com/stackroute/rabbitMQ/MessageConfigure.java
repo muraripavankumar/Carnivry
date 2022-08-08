@@ -19,6 +19,7 @@ public class MessageConfigure {
     public static final String routingKey1= "key1";
     public static final String routingKey2= "key2";
     public static final String routingKey3="key3";
+    public static final String routingKey4="key4";
 
 
     @Bean
@@ -42,6 +43,8 @@ public class MessageConfigure {
     public Queue queue3(){
         return new Queue("registration_suggestion_new_user_queue");
     }
+    @Bean
+    public Queue queue4(){return new Queue("registration_suggestion_update_user_queue");}
 
     @Bean
     public Jackson2JsonMessageConverter getDataConverter()
@@ -70,6 +73,10 @@ public class MessageConfigure {
     }
     @Bean
     public Binding binding3(@Qualifier("queue3")Queue queue, DirectExchange directExchange){
-        return BindingBuilder.bind(queue).to(directExchange).with("key3");
+        return BindingBuilder.bind(queue).to(directExchange).with(routingKey3);
+    }
+    @Bean
+    public Binding binding4(@Qualifier("queue4") Queue queue, DirectExchange directExchange){
+        return BindingBuilder.bind(queue).to(directExchange).with(routingKey4);
     }
 }

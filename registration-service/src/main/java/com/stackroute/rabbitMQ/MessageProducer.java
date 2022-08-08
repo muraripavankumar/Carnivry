@@ -19,19 +19,18 @@ public class MessageProducer {
         this.exchange = exchange;
     }
 
-
-
-
     public void sendMessageToAuthenticationService(AuthenticationUserDTO authenticationUserDTO)
     {
         rabbitTemplate.convertAndSend(exchange.getName(),"key1", authenticationUserDTO);
         log.debug("Carnivry User email id {} and password sent to Authentication MicroService using AuthenticationUserDTO"
                 ,authenticationUserDTO.getEmail());
     }
+
     public void sendNewUserToSuggestionService(SuggestionUserDTO suggestionUserDTO){
-        rabbitTemplate.convertAndSend(exchange.getName(),"routingKey3",suggestionUserDTO);
+        rabbitTemplate.convertAndSend(exchange.getName(),"key3",suggestionUserDTO);
     }
 
-
-
+    public void sendUpdatedUserToSuggestionService(SuggestionUserDTO suggestionUserDTO){
+        rabbitTemplate.convertAndSend(exchange.getName(),"key4",suggestionUserDTO);
+    }
 }
