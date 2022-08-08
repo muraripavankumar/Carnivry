@@ -87,6 +87,7 @@ export class LandingPageComponent implements OnInit {
     //===================================== Recommended events ==============================================
     console.log("City value: " + sessionStorage.getItem('city'));
     var city = sessionStorage.getItem('city');
+
     if(city=== null){
       console.log("No city chosen");
       this.http.get<Event[]>('http://localhost:8082/api/v1/suggest-events/maitymayukh23@gmail.com', this.headers)
@@ -345,9 +346,16 @@ export class LandingPageComponent implements OnInit {
   }
 
 
-  event(eventId: any){
-    console.log("Event id "+eventId+" clicked");
+  wishlist(eventId: any){
+
+    this.http.put('http://localhost:8082/api/v1/add-wishlist/gm@gmail.com/'+eventId, this.headers)
+    .subscribe(
+      (data)=> console.log(data)
+    )
+
   }
+
+
 
 
 }

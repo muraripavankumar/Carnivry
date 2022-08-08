@@ -11,29 +11,34 @@
     </mat-toolbar>
   </p>
 
-  <mat-card class="Poster-card">
-    <img mat-card-image src={{eventdetails.poster}} class="Poster-image border-background border-background-gradient">1
+  <mat-card class="Poster-card ">
+
+    <img mat-card-image [src]="posterUrl"  class="Poster-image border-background border-background-gradient">
+  
     <!-- <hr style="border: 2px solid black;"> -->
-    <mat-card-title class="title">{{eventdetails.title}}
-      <mat-card-content class="content-card" >
+    <mat-card-title class="title">
+      <div class="border-background border-background-gradient eventtitle">
+        {{eventdetails.title}}
+      </div>
+      <mat-card-content class="content-card like" style="padding-top: -2rem; position: relative; padding-bottom: 1rem;" >
         <i class="fa fa-heart fa-7x" style="color: red; margin-top: 2rem;" aria-hidden="true"></i>
-        <p style="font-size: 3rem; padding: 2rem;">
+        <p style="font-size: 3rem; padding: 2rem; padding-top: -2rem; ">
           {{eventdetails.likes}} users have liked this Carnivral
         </p>
 
       </mat-card-content>
-      <mat-card-content class="content-card">
+      <mat-card-content class="content-card timing" >
 
         <p style="font-size: 3rem; padding: 2rem; margin-left: auto; margin-right: auto; margin-top: -5rem ; background-color: black;"
         class="border-background border-background-gradient">
-          Launches on: {{eventdetails.eventTimings.startDate | date}}
+          Starts on: {{eventdetails.eventTimings.startDate | date}}
         </p>
       </mat-card-content>
     </mat-card-title>
 
   </mat-card>
 
-  <mat-card class="description" style="margin: 2rem;">
+  <mat-card class="description " style="margin: 2rem;">
 <mat-card-title>
  <h1 class="description description1"> Description</h1>
 </mat-card-title>
@@ -43,8 +48,8 @@
     }}
 </mat-card-content>
   </mat-card>
-<div style="display: flex;" class="date-genre">
-  <mat-card  style="margin: 2rem; " class="description">
+<div style="display: flex;" class="date-genre" >
+  <mat-card  style="margin: 2rem; " class="description Timings">
     <mat-card-title>
       <h1 class="description description1">
         Carnival Timings
@@ -66,7 +71,7 @@
 </mat-card-content>
   </mat-card>
 
-  <mat-card style="margin: 2rem;justify-content: end;" class="description">
+  <mat-card class="description genre">
     <mat-card-title>
       <h1 class="description description1">
         Genres
@@ -77,7 +82,9 @@
         </mat-card>
   </mat-card>
 </div>
-  <mat-card style="margin: 2rem;" class="description">
+
+<div fxLayout.gt-md="row" fxLayout.lt-md="column" class="artists-venue">
+  <mat-card  class="description art" fxFlex="45%" >
     <mat-card-title>
       <h1 class="description description1">
         Artists
@@ -88,41 +95,121 @@
         </mat-card>
   </mat-card>
 
-  
 
-  <div  class="venue-book">
-    <mat-card style="margin: 2rem;" class="description venue">
-      <mat-card-title>
-        <h1 class="description description1">
-          Venue
-        </h1>
-      </mat-card-title>
-      <mat-card-content class="venue" style="font-weight: bolder; font-size: larger; margin-top: 3rem;">
-        <p>
-          {{eventdetails.venue.venueName}}
-        </p>
-      </mat-card-content>
-      <mat-card-content class="venue">
-        <p>
-          {{eventdetails.venue.address.house}},{{eventdetails.venue.address.street}},{{eventdetails.venue.address.landmark}}
-        </p>
-        <p>
-            {{eventdetails.venue.address.city}}, {{eventdetails.venue.address.pincode}}
-        </p>
-        <p>
-          {{eventdetails.venue.address.state}}
-        </p>
+
+  <mat-card style="margin: 2rem;" class="description venue">
+    <mat-card-title>
+      <h1 class="description description1" *ngIf="eventdetails.venue.address.state!='-NA-'">
+        Venue
+      </h1>
+
+      <h1 class="description description1" *ngIf="eventdetails.venue.address.state=='-NA-'">
+       Website
+      </h1>
+      <div class="venue1" *ngIf="eventdetails.venue.address.state=='-NA-'">
+      <mat-card-content class="venue" style="font-weight: bolder; font-size: larger; " >
       <p>
-        {{eventdetails.venue.address.country}}
+        <a style=" font-style: italic;" href={{eventdetails.venue.venueName}}>{{eventdetails.venue.venueName}}</a>
+        <!-- {{eventdetails.venue.venueName}} -->
       </p>
-      </mat-card-content>
-  
-     
-    </mat-card>
-    <button mat-raised-button class="book-button" (click)="seatview(eventdetails.eventId)"> Book Ticket</button>
+    </mat-card-content>
+  </div>
+    </mat-card-title>
+
+
+    <div class="venue1" *ngIf="eventdetails.venue.address.state!='-NA-'">
+    <mat-card-content class="venue" style="font-weight: bolder; font-size: larger;">
+      <p>
+        {{eventdetails.venue.venueName}}
+      </p>
+    </mat-card-content>
+    <mat-card-content class="venue">
+      <p>
+        {{eventdetails.venue.address.house}},{{eventdetails.venue.address.street}},{{eventdetails.venue.address.landmark}}
+      </p>
+      <p>
+          {{eventdetails.venue.address.city}}, {{eventdetails.venue.address.pincode}}
+      </p>
+      <p>
+        {{eventdetails.venue.address.state}}
+      </p>
+    <p>
+      {{eventdetails.venue.address.country}}
+    </p>
+    </mat-card-content>
+  </div>
+
+   
+  </mat-card>
+</div>
+  <div class="buttons" fxLayout="row">
+    <div>
+      <button mat-raised-button class="book-button" (click)="seatview(eventdetails.eventId)"> Book Ticket</button>
+
+    </div>
+   <div>
+    <button mat-raised-button class="book-button" > Go Back</button>
+   </div>
+   
   </div>
 </div>
 
+    
+<mat-card *ngIf="paymentDiv==true" class="paymentDiv" fxLayout="center">
+
+  <div class="payed"  >
+
+ 
+  <mat-card class=" description description1" style="width: fit-content; margin: auto; margin-left:2rem ;">
+          Confirmation
+  </mat-card>
+  <mat-card class="evt-name">
+    <h1>
+      Event Name: 
+    </h1>
+     {{eventdetails.title}}
+  </mat-card>
+
+   
+<mat-card >
+  <h1 >
+    Total Seats: 
+  </h1>
+
+  <mat-form-field appearance="fill" id="noOfSeats" >
+    <mat-label>Select</mat-label>
+    <mat-select [(value)]="selected">
+      <mat-option value="1">One Seat</mat-option>
+      <mat-option value="2"  >Two Seats</mat-option>
+      <mat-option value="3"  >Three Seats</mat-option>
+      <mat-option value="4"  >Four Seats</mat-option>
+      <mat-option value="5"  >Five Seats</mat-option>
+      <mat-option value="6"  >Six Seats</mat-option>
+      <mat-option value="7"  >Seven Seats</mat-option>
+      <mat-option value="8"  >Eight Seats</mat-option>
+      <mat-option value="9"  >Nine Seats</mat-option>
+      <mat-option value="10"  >Ten Seats</mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-card>
+   
+   <mat-card class="evt-name">
+    <h1 >
+      Total Amount:
+    </h1>
+    {{getTotal()}} Rs.
+   </mat-card>
+    
+       
+   
+
+  <button mat-raised-button class="book-button btn1" style="width: 3cm;" (click)="pay()" >Pay</button>
+</div> 
 
 
+</mat-card>
 
+
+<mat-card *ngIf="soldout==true">
+We are really sorry, all tickets are sold out
+</mat-card>

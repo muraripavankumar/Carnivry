@@ -25,4 +25,6 @@ export class ViewPageService {
   getHostEventforSeats(url:any){
     return this.httpClient.get<any>(this.viewEventurl+"/"+"seat/"+url)
   }
+
+  
 }
