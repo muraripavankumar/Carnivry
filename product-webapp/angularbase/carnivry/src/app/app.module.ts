@@ -71,7 +71,7 @@ import { SearchComponent } from './search/search.component';
 import { PastEventsComponent } from './past-events/past-events.component';
 import { UpcomingEventsComponent } from './upcoming-events/upcoming-events.component';
 
-// import { FlexLayoutModule } from "@angular/flex-layout";
+import { FlexLayoutModule } from "@angular/flex-layout";
 
 
 @NgModule({
@@ -151,6 +151,7 @@ import { UpcomingEventsComponent } from './upcoming-events/upcoming-events.compo
     MatToolbarModule,
     MatMenuModule,
     CarouselModule,
+    FlexLayoutModule
   ],
   providers: [
     {
