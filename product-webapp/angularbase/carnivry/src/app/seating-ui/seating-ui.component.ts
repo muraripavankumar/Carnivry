@@ -46,17 +46,22 @@ export class SeatingUIComponent implements OnInit {
   colorIndexCounter: number = 0;
 
   constructor(private viewEvent:ViewPageService,private httpClient:HttpClient,
-    private location: Location,private ActivatedRoute: ActivatedRoute,private ticketingService: TicketingServiceService) { }
+    private location: Location,private ActivatedRoute: ActivatedRoute,private ticketingService: TicketingServiceService) { 
+      this.email=localStorage.getItem('email')
+    }
   eventdetails:Event=new Event();
   url:string;
+  email:any;
 
 
   display(url:string){
     console.log(url)
+    
     this.viewEvent.getHostEventforSeats(url).subscribe(
       result=>{
        
         this.eventdetails=result;
+        
         this.onDisplay1();
         this.uniquecategories();
         document.documentElement.style.setProperty("--colNum",<string><unknown>this.eventdetails.seats[1].colm)
@@ -144,6 +149,7 @@ onDisplay1(){
     alert("Ticket not available")
   }
 ))
+
 this.showBooking();
     }
 
@@ -178,7 +184,10 @@ this.config = { ...this.config, leftTime: value };
       
     }
 
+
     pay(){
+      // this.ticketingService.paymentCon()
+      console.log(this.email)
 
     }
   ngOnInit(): void {
