@@ -149,7 +149,7 @@ this.showBooking();
 
     showBooking(){
         this.paymentDiv=true;
-        // this.showtimer();
+        this.showtimer();
     }
 
     showtimer(){

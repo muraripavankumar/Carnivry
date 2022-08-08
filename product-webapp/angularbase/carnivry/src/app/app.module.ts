@@ -52,6 +52,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 
@@ -153,6 +154,7 @@ import { UpcomingEventsComponent } from './upcoming-events/upcoming-events.compo
     MatToolbarModule,
     MatMenuModule,
     CarouselModule,
+    FlexLayoutModule,
   ],
   providers: [
     {
