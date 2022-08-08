@@ -179,7 +179,27 @@ this.config = { ...this.config, leftTime: value };
     }
 
     pay(){
+          
+      let bookedSeats: any[]= [];
+      this.selectedItems.forEach((item)=>{
+        bookedSeats.concat(this.eventdetails.seats[item-1]);
+      })
 
+
+
+      var data= {
+            "email" :"abc@gmail.com",
+            "eventId": this.eventdetails.eventId,
+            "amount": this.getTotal(),
+            "title": this.eventdetails.title,
+            "description": this.eventdetails.eventDescription,
+            "venue": this.eventdetails.venue,
+            "timings": this.eventdetails.eventTimings,
+            "seats": bookedSeats,
+          }
+
+        console.log(data);
+        
     }
   ngOnInit(): void {
     let id = this.ActivatedRoute.snapshot.paramMap.get('id');
