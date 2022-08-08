@@ -203,12 +203,10 @@
                   <td data-label="Event-Timings">
                       ${StartTime} TO ${EndTime}
                   </td>
-                 <td data-label="Venue-Details">
-                                   ${venueName},${houseNumber},${Street},${LandMark},
-                                     ${city},${State},${Country},${Pincode}
-
-                   </td>
-                  <#assign seats=TotalSeats!"null"/><#if seats==0>Online Event<#else><td data-label="TotalSeats">${TotalSeats}</#if></td>
+                  <#assign house=houseNumber!"null"/><#if house=="0"><td data-label="Venue-Details"> ${venueName},${Country}</td>
+                  <#else>
+                  <td data-label="Venue-Details">${venueName},${houseNumber},${Street},${LandMark},${city},${State},${Country},${PinCode}</td></#if>
+                  <#assign seats=TotalSeats!"null"/><#if seats==0>Online Event<#else><td data-label="TotalSeats">${TotalSeats}</td></#if>
                 </tr>
               </tbody>
             </table>
