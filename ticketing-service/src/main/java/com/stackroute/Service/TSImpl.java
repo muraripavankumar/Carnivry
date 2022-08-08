@@ -1,6 +1,7 @@
 package com.stackroute.Service;
 
 import com.stackroute.Exceptions.EventNotFoundException;
+import com.stackroute.Exceptions.SeatNotFoundException;
 import com.stackroute.SchedulerService.PlaygroundService;
 import com.stackroute.model.Event;
 import com.stackroute.Repository.EventRepository;
@@ -42,12 +43,13 @@ public class TSImpl implements TicketingService{
         }
     }
 
-    // Service method to book a ticket
+    // Service method to book a ticket with seats
     @Override
     @Cacheable(value="Seat")
     public Seat bookedTicket(String eventId, int nid) throws EventNotFoundException {
         log.debug("Inside Booked Ticket");
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException());
+        event.setTicketsSold(event.getTicketsSold()+1);
         event.getSeats().get(nid).setStatus("BOOKED");
         eventRepository.save(event);
         return event.getSeats().get(nid);
@@ -68,17 +70,35 @@ public class TSImpl implements TicketingService{
         log.debug("Cancelling a ticket");
         Event event = eventRepository.findById(eventId).orElseThrow(()->new EventNotFoundException());
         event.getSeats().get(nid).setStatus("NOT BOOKED");
+        event.setTicketsSold(event.getTicketsSold()-1);
         eventRepository.save(event);
         return event.getSeats().get(nid);
     }
 
+    //Service method to book tickets with events having no seats
+
     @Override
-    public Event bookTicketforNoSeat(String eventId) throws EventNotFoundException {
-        log.debug("Inside get Event by Id for seat-UI");
+    public Event bookTicketforNoSeat(String eventId) throws EventNotFoundException, SeatNotFoundException {
+        log.debug("Inside book ticket for seat-UI with no defined layout");
         Event event =  eventRepository.findById(eventId).orElseThrow(()->new EventNotFoundException());
-        event.setTotalSeats(event.getTotalSeats()-1);
+        if(event.getTicketsSold()<event.getTotalSeats()){
+            event.setTicketsSold(event.getTicketsSold()+1);
+        }
+        else{
+            throw new SeatNotFoundException();
+        }
+
         eventRepository.save(event);
         return event;
+    }
+
+    @Override
+    public int bookTicketforforStreaming(String eventId) throws EventNotFoundException {
+        Event event =  eventRepository.findById(eventId).orElseThrow(()->new EventNotFoundException());
+        event.setTotalSeats(event.getTotalSeats()+1);
+        event.setTicketsSold(event.getTicketsSold()+1);
+        eventRepository.save(event);
+        return event.getTicketsSold();
     }
 
     // Service method to set the status from "Processing" to "Not Booked" after a scheduled time
@@ -90,7 +110,7 @@ public class TSImpl implements TicketingService{
 
         if(event.getSeats().get(nid).getStatus().equalsIgnoreCase("PROCESSING"))
         {
-            event.getSeats().get(nid).setStatus("Not Booked");
+            event.getSeats().get(nid).setStatus("NOT BOOKED");
             eventRepository.save(event);
             return event.getSeats().get(nid);
         }
@@ -108,6 +128,7 @@ public class TSImpl implements TicketingService{
         return eventRepository.findById(eventId).orElseThrow(()->new EventNotFoundException());
     }
 
+    //Non cacheable method to get seats
     @Override
     public Event getEventByIdforTix(String eventId) throws EventNotFoundException {
         log.debug("Inside get Event by Id for seat-UI");

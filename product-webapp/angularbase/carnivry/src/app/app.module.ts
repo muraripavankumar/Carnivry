@@ -26,6 +26,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { EmailVerificationComponent } from './email-verification/email-verification.component';
 import { AddPreferenceComponent } from './add-preference/add-preference.component';
+import { CountdownModule } from 'ngx-countdown';
 
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
@@ -106,6 +107,7 @@ import { UpcomingEventsComponent } from './upcoming-events/upcoming-events.compo
     BrowserAnimationsModule,
     MatStepperModule,
     ReactiveFormsModule,
+    CountdownModule,
     FormsModule,
     HttpClientModule,
     MatInputModule,
