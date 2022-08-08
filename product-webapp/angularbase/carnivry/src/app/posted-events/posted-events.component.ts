@@ -25,22 +25,7 @@ export class PostedEventsComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.email);
-    // this.regService.getPostedEvents(this.email).subscribe(res=>{
-    //   this.postedEvents= res;
-    //   console.log(this.postedEvents);
-    //   // this.postedEvents.forEach((item:Event) => {
-    //   //   console.log(item.eventTimings);
-    //   // });
-    //   this.postedEvents.map((event:Event)=>{
-           
-    //        event.eventTimings.startDate= event.eventTimings.startDate.substring(0,10);
-    //        event.eventTimings.endDate= event.eventTimings.endDate.substring(0,10);
-          
-    //   })
-    // },
-    // error=>{
-    //   console.error(error);
-    // })
+   
 
     this.managementService.getAllEventsByUserEmailId(this.email).subscribe(res=>{
       this.postedEvents= res;

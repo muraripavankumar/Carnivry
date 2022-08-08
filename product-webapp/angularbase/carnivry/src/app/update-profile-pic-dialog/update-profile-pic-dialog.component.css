@@ -1,0 +1,48 @@
+.close_btn{
+    margin-left: 92%;
+    color: white;
+    background-image: linear-gradient(45deg, #f046ff, #9b00e8);
+}
+.body{
+    text-align: center;
+    width: 100%;
+}
+.profilePic{
+    text-align: center;
+    border: 2px solid #9b00e8;
+    border-radius: 25px;
+}
+.heading{
+    font-weight: 900;
+}
+.input{
+    position: relative;
+    width: 80%;
+}
+.fas{
+    position: absolute;
+    top: 40%;
+    left: -30%;
+    color: #9b00e8;
+}
+.myForm{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+    padding-bottom: 20px;
+   
+}
+.butt_box{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+.butt{
+    background-image: linear-gradient(45deg, #f046ff, #9b00e8);
+    color: white;
+    border-radius: 25px;
+}

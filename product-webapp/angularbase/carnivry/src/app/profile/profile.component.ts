@@ -50,7 +50,8 @@ export class ProfileComponent implements OnInit {
   }
 
   updateProfilePic(){
-    const profilePicUpdation= this.dialog.open(UpdateProfilePicDialogComponent,{data: {email: this.email}});
+    const profilePicUpdation= this.dialog.open(UpdateProfilePicDialogComponent,
+      {width: '70vw',data: {email: this.email}});
 
     profilePicUpdation.afterClosed().subscribe(res=>{
       console.log("New Pofile Picture",res);
@@ -84,6 +85,14 @@ export class ProfileComponent implements OnInit {
   getPostedEvents(){
      this.router.navigate(['/posted-events']);
   }
+  
+  getPastEvents(){
+    this.router.navigate(['/past-events']);
+ }
+
+ getUpcomingEvents(){
+  this.router.navigate(['/upcoming-events']);
+}
 
   
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -235,37 +236,37 @@ public class RegistrationController {
         }
     }
 
-    @PostMapping("/postedEventAddition/{email}")
-    public ResponseEntity<?> addPostedEvent(@RequestBody Event postedEvent, @PathVariable String email){
-        try{
-            userService.savePostedEvent(email, postedEvent);
-            log.info("Posted event added to user with email id {}",email);
-            return new ResponseEntity<>("Posted Event added",HttpStatus.OK);
-        }catch (UserNotFoundException e)
-        {
-            log.error("User with email id {} not found",email);
-            return new ResponseEntity<>("User not found with email id "+email,HttpStatus.NOT_FOUND);
-        }catch (Exception e){
-            log.error("Internal server error {}",e.getMessage());
-            return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+//    @PostMapping("/postedEventAddition/{email}")
+//    public ResponseEntity<?> addPostedEvent(@RequestBody Event postedEvent, @PathVariable String email){
+//        try{
+//            userService.savePostedEvent(email, postedEvent);
+//            log.info("Posted event added to user with email id {}",email);
+//            return new ResponseEntity<>("Posted Event added",HttpStatus.OK);
+//        }catch (UserNotFoundException e)
+//        {
+//            log.error("User with email id {} not found",email);
+//            return new ResponseEntity<>("User not found with email id "+email,HttpStatus.NOT_FOUND);
+//        }catch (Exception e){
+//            log.error("Internal server error {}",e.getMessage());
+//            return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 
-    @GetMapping("/getPostedEvents/{email}")
-    public ResponseEntity<?> getPostedEvents(@PathVariable String email){
-        try{
-            List<Event> postedEvents=  userService.getPostedEvent(email);
-            log.info("Posted events of user with email id {} fetched",email);
-            return new ResponseEntity<>(postedEvents,HttpStatus.OK);
-        }catch (UserNotFoundException e)
-        {
-            log.error("User with email id {} not found",email);
-            return new ResponseEntity<>("User not found with email id "+email,HttpStatus.NOT_FOUND);
-        }catch (Exception e){
-            log.error("Internal server error {}",e.getMessage());
-            return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+//    @GetMapping("/getPostedEvents/{email}")
+//    public ResponseEntity<?> getPostedEvents(@PathVariable String email){
+//        try{
+//            List<Event> postedEvents=  userService.getPostedEvent(email);
+//            log.info("Posted events of user with email id {} fetched",email);
+//            return new ResponseEntity<>(postedEvents,HttpStatus.OK);
+//        }catch (UserNotFoundException e)
+//        {
+//            log.error("User with email id {} not found",email);
+//            return new ResponseEntity<>("User not found with email id "+email,HttpStatus.NOT_FOUND);
+//        }catch (Exception e){
+//            log.error("Internal server error {}",e.getMessage());
+//            return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 
     @PostMapping("/NewEmailAddition")
     public ResponseEntity<?> addEmail(@RequestBody AddEmail addEmail, HttpServletRequest request){
@@ -354,59 +355,114 @@ public class RegistrationController {
         }
     }
 
-    @PostMapping("/PhoneNumberAddition")
-    public ResponseEntity<?> addPhoneNumber(@RequestBody PhoneNoValidationRequestDto phoneNoValidationRequestDto){
-        try {
-            boolean result= userService.sendOTPForPhoneNoVerification(phoneNoValidationRequestDto);
-            if (result){
-                log.debug("Otp send to phone number {}",phoneNoValidationRequestDto.getPhoneNumber());
-                return new ResponseEntity<>("OTP sent to phone number ********"
-                        +phoneNoValidationRequestDto.getPhoneNumber().substring(11),HttpStatus.OK);
-            }
-            else {
-                log.debug("Couldn't send OTP to phone number {}",phoneNoValidationRequestDto.getPhoneNumber());
-                return new ResponseEntity<>("Couldn't send OTP to phone number ********"
-                        +phoneNoValidationRequestDto.getPhoneNumber().substring(11)+" .Try Again."
-                        ,HttpStatus.EXPECTATION_FAILED);
-            }
+//    @PostMapping("/PhoneNumberAddition")
+//    public ResponseEntity<?> addPhoneNumber(@RequestBody PhoneNoValidationRequestDto phoneNoValidationRequestDto){
+//        try {
+//            boolean result= userService.sendOTPForPhoneNoVerification(phoneNoValidationRequestDto);
+//            if (result){
+//                log.debug("Otp send to phone number {}",phoneNoValidationRequestDto.getPhoneNumber());
+//                return new ResponseEntity<>("OTP sent to phone number ********"
+//                        +phoneNoValidationRequestDto.getPhoneNumber().substring(11),HttpStatus.OK);
+//            }
+//            else {
+//                log.debug("Couldn't send OTP to phone number {}",phoneNoValidationRequestDto.getPhoneNumber());
+//                return new ResponseEntity<>("Couldn't send OTP to phone number ********"
+//                        +phoneNoValidationRequestDto.getPhoneNumber().substring(11)+" .Try Again."
+//                        ,HttpStatus.EXPECTATION_FAILED);
+//            }
+//        }catch (UserNotFoundException e)
+//        {
+//            log.error("User with email id {} not found",phoneNoValidationRequestDto.getEmail());
+//            return new ResponseEntity<>("User not found with email id "+phoneNoValidationRequestDto.getEmail()
+//                    ,HttpStatus.NOT_FOUND);
+//        }catch (Exception e){
+//            log.error("Internal server error {}",e.getMessage());
+//            return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+
+//    @PostMapping("/PhoneNumberVerificationOTPValidation")
+//    public ResponseEntity<?> validatePVO(@RequestBody PhoneNoValidationRequestDto phoneNoValidationRequestDto){
+//        try {
+//            String result= userService.validatePhoneVerificationOTP(phoneNoValidationRequestDto);
+//            if (result.equals("Otp expired")){
+//                log.debug("Otp expired for validating phone number {}",phoneNoValidationRequestDto.getPhoneNumber());
+//                return new ResponseEntity<>("Your 10 minutes is up. Click on Resent OTP",HttpStatus.REQUEST_TIMEOUT);
+//            }
+//            else if(result.equals("Valid otp")){
+//                log.info("Phone number {} verified and added successfully to user with email id{}."
+//                        ,phoneNoValidationRequestDto.getPhoneNumber(),phoneNoValidationRequestDto.getEmail());
+//                return new ResponseEntity<>("Your phone number is verified successfully.",HttpStatus.OK);
+//            }
+//            else {
+//                log.info("Invalid OTP for phone number {}",phoneNoValidationRequestDto.getPhoneNumber());
+//                return new ResponseEntity<>("Invalid OTP. Please enter correct OTP.",HttpStatus.BAD_REQUEST);
+//            }
+//        }catch (UserNotFoundException e)
+//        {
+//            log.error("User with email id {} not found",phoneNoValidationRequestDto.getEmail());
+//            return new ResponseEntity<>("User not found with email id "+phoneNoValidationRequestDto.getEmail()
+//                    ,HttpStatus.NOT_FOUND);
+//        }catch (Exception e){
+//            log.error("Internal server error {}",e.getMessage());
+//            return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+
+    @PostMapping("/WishlistAddition")
+    public ResponseEntity<?> addEventToWishlist(@RequestBody AddWishlist addWishlist){
+        try{
+            userService.saveEventToWishlist(addWishlist);
+            log.info("Wishlist of user with email id {} is updated",addWishlist.getEmail());
+                return new ResponseEntity<>("Wishlist updated",HttpStatus.OK);
         }catch (UserNotFoundException e)
         {
-            log.error("User with email id {} not found",phoneNoValidationRequestDto.getEmail());
-            return new ResponseEntity<>("User not found with email id "+phoneNoValidationRequestDto.getEmail()
-                    ,HttpStatus.NOT_FOUND);
+            log.error("User with email id {} not found",addWishlist.getEmail());
+            return new ResponseEntity<>("User not found with email id "+addWishlist.getEmail(),HttpStatus.NOT_FOUND);
         }catch (Exception e){
             log.error("Internal server error {}",e.getMessage());
             return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PostMapping("/PhoneNumberVerificationOTPValidation")
-    public ResponseEntity<?> validatePVO(@RequestBody PhoneNoValidationRequestDto phoneNoValidationRequestDto){
+    @GetMapping("/pastEvents/{email}")
+    public ResponseEntity<?> getPastEvents(@PathVariable String email){
         try {
-            String result= userService.validatePhoneVerificationOTP(phoneNoValidationRequestDto);
-            if (result.equals("Otp expired")){
-                log.debug("Otp expired for validating phone number {}",phoneNoValidationRequestDto.getPhoneNumber());
-                return new ResponseEntity<>("Your 10 minutes is up. Click on Resent OTP",HttpStatus.REQUEST_TIMEOUT);
-            }
-            else if(result.equals("Valid otp")){
-                log.info("Phone number {} verified and added successfully to user with email id{}."
-                        ,phoneNoValidationRequestDto.getPhoneNumber(),phoneNoValidationRequestDto.getEmail());
-                return new ResponseEntity<>("Your phone number is verified successfully.",HttpStatus.OK);
-            }
-            else {
-                log.info("Invalid OTP for phone number {}",phoneNoValidationRequestDto.getPhoneNumber());
-                return new ResponseEntity<>("Invalid OTP. Please enter correct OTP.",HttpStatus.BAD_REQUEST);
-            }
+            Set<Event> pastEvents= userService.getPastEvents(email);
+            log.info("Username fetched for user with email id {}",email);
+            if(pastEvents==null)
+                return new ResponseEntity<>(null, HttpStatus.OK);
+            else
+                return new ResponseEntity<>(pastEvents,HttpStatus.OK);
         }catch (UserNotFoundException e)
         {
-            log.error("User with email id {} not found",phoneNoValidationRequestDto.getEmail());
-            return new ResponseEntity<>("User not found with email id "+phoneNoValidationRequestDto.getEmail()
-                    ,HttpStatus.NOT_FOUND);
+            log.error("User with email id {} not found",email);
+            return new ResponseEntity<>("User not found with email id "+email,HttpStatus.NOT_FOUND);
         }catch (Exception e){
             log.error("Internal server error {}",e.getMessage());
             return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/upcomingEvents/{email}")
+    public ResponseEntity<?> getUpcomingEvents(@PathVariable String email){
+        try {
+            Set<Event> upcomingEvents= userService.getUpcomingEvents(email);
+            log.info("Username fetched for user with email id {}",email);
+            if(upcomingEvents==null)
+                return new ResponseEntity<>(null, HttpStatus.OK);
+            else
+                return new ResponseEntity<>(upcomingEvents,HttpStatus.OK);
+        }catch (UserNotFoundException e)
+        {
+            log.error("User with email id {} not found",email);
+            return new ResponseEntity<>("User not found with email id "+email,HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            log.error("Internal server error {}",e.getMessage());
+            return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     private String applicationUrl(HttpServletRequest request) {
 //        System.out.println(request.getHeader("Referer"));

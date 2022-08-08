@@ -63,14 +63,14 @@ public class EmailServiceImpl implements EmailService{
             model.put("city",producerEmail.getVenue().getAddress().getCity());
             model.put("State",producerEmail.getVenue().getAddress().getState());
             model.put("Country",producerEmail.getVenue().getAddress().getCountry());
-            model.put("Pincode",producerEmail.getVenue().getAddress().getPincode());
+            model.put("PinCode",producerEmail.getVenue().getAddress().getPincode());
             model.put("TotalSeats",producerEmail.getTotalSeats());
             String html= FreeMarkerTemplateUtils.processTemplateIntoString(template,model);
 
 
             helper.setTo(producerEmail.getEventProducerEmailId());
             helper.setText(html,true);
-            helper.setSubject("sending host event details");
+            helper.setSubject("Sending Your new-event details");
           //  helper.setFrom(sender);
             javaMailSender.send(message);
 
@@ -119,7 +119,7 @@ public class EmailServiceImpl implements EmailService{
 
             helper.setTo(consumerEmail.getEventConsumerEmailId());
             helper.setText(html,true);
-            helper.setSubject("sending ticketing details");
+            helper.setSubject("Sending ticketing details");
             //  helper.setFrom(sender);
             javaMailSender.send(message);
 

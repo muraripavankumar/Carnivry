@@ -26,6 +26,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { EmailVerificationComponent } from './email-verification/email-verification.component';
 import { AddPreferenceComponent } from './add-preference/add-preference.component';
+import { CountdownModule } from 'ngx-countdown';
 
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
@@ -51,6 +52,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 
@@ -68,6 +70,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { NextDirective } from './next.directive';
 import { PrevDirective } from './prev.directive';
 import { SearchComponent } from './search/search.component';
+import { PastEventsComponent } from './past-events/past-events.component';
+import { UpcomingEventsComponent } from './upcoming-events/upcoming-events.component';
 
 // import { FlexLayoutModule } from "@angular/flex-layout";
 
@@ -97,13 +101,14 @@ import { SearchComponent } from './search/search.component';
     NavigationComponent,
     SeatingUIComponent,
     LandingPageComponent  ,         
-    FooterComponent, HeaderComponent, DialogBoxChooseCityComponent, NextDirective, PrevDirective, SearchComponent     
+    FooterComponent, HeaderComponent, DialogBoxChooseCityComponent, NextDirective, PrevDirective, SearchComponent, PastEventsComponent, UpcomingEventsComponent     
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     MatStepperModule,
     ReactiveFormsModule,
+    CountdownModule,
     FormsModule,
     HttpClientModule,
     MatInputModule,
@@ -149,6 +154,7 @@ import { SearchComponent } from './search/search.component';
     MatToolbarModule,
     MatMenuModule,
     CarouselModule,
+    FlexLayoutModule,
   ],
   providers: [
     {

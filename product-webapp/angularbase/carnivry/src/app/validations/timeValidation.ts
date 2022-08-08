@@ -35,7 +35,7 @@ export default class Validation {
       else {
         //if hours same, then endTime minutes must be greater than startTime minutes, otherwise invalid 
         if (startTimeArray[0] === endTimeArray[0] && startTimeArray[1] > endTimeArray[1]) {
-          console.log('hour same');
+          // console.log('hour same');
           controls.get('endTime')?.setErrors({ matching: true });
           return {
             matching: true
@@ -43,13 +43,13 @@ export default class Validation {
         }
         //if startTime hour > endTime hour then invalid
         else if (startTimeArray[0] > endTimeArray[0]) {
-          console.log('start hour>end hour');
+          // console.log('start hour>end hour');
           controls.get('endTime')?.setErrors({ matching: true });
           return {
             matching: true
           }
         }
-        console.log('other');
+        // console.log('other');
         return null;
       }
     }

@@ -84,7 +84,7 @@ export class HeaderComponent implements OnInit {
 
   addEvent() {
     console.log("Add event clicked");
-    this.router.navigate(['host-event']);
+    this.router.navigate(['/host-event']);
   }
 
   SignInLogin() {

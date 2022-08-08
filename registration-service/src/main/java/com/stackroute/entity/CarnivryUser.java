@@ -13,6 +13,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Document
 @Data
@@ -35,10 +36,12 @@ public class CarnivryUser {
 
     private Preferences preferences;
 
-//    private List<Event> attendedEvents;
+    private Set<Event> pastEvents;
+    private Set<Event> upcomingEvents;
+
     private List<Event> postedEvents;
 
-//    private List<Event> wishlist;
+    private List<String> wishlist;
 
     private String profilePic;
 
