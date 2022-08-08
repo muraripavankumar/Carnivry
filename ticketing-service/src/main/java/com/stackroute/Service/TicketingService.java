@@ -2,6 +2,7 @@ package com.stackroute.Service;
 
 import com.stackroute.Exceptions.EventNotFoundException;
 
+import com.stackroute.Exceptions.SeatNotFoundException;
 import com.stackroute.model.Event;
 import com.stackroute.model.Seat;
 
@@ -23,6 +24,8 @@ public interface TicketingService {
 
     Seat cancelTicket(String eventId, int nid) throws EventNotFoundException;
 
-    Event bookTicketforNoSeat(String eventId) throws EventNotFoundException;
+    Event bookTicketforNoSeat(String eventId) throws EventNotFoundException, SeatNotFoundException;
+
+    int bookTicketforforStreaming(String eventId) throws EventNotFoundException;
 
 }

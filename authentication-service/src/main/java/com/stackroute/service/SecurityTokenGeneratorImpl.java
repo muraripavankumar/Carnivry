@@ -30,7 +30,7 @@ public class SecurityTokenGeneratorImpl implements SecurityTokenGenerator {
 
         Map<String,String> map = new HashMap<>();
         map.put("token",jwttoken);
-        map.put("message","User successfully logged in");
+        map.put("message","Token generated successfully");
         return map;
     }
 }
