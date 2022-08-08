@@ -61,12 +61,12 @@
   
 
 .likes{
-  background-color: black;
-  color: white;
+  /* background-color: black; */
+  color: black;
   font-size: 15px;
 }
 .likeImage{
-    /* margin-left: 150px; */
+    margin-right: 10px;
     width: 20px;
     height: 20px;
     float: right;

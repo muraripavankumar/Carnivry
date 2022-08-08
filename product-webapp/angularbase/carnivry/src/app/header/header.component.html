@@ -13,8 +13,8 @@
     <!-- Search box -->
     <app-search (searchTextChange)="onSearchTextEntered($event)"></app-search>
     <div class="suggestion-box">
-      <div style="width:100% ;" *ngFor="let title of titleList">
-        <div>{{title}}</div>
+      <div style="width:100% ;" *ngFor="let event of titleList">
+        <div (click)="openViewPage(event.eventId)">{{event.title}}</div>
       </div>
     </div>
 
