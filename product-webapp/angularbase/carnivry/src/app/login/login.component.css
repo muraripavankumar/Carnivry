@@ -23,7 +23,7 @@
     padding: 25px;
     color: rgb(192, 192, 192);
     font-size: 12px; 
-    display: flex;
+    /* display: flex; */
     justify-content: center;
     align-items: center;
   }
@@ -64,9 +64,16 @@
   }
   .box {
     position: relative;
+    width: auto;
     margin: 20px;
     margin-bottom: 100px;
+    padding-top: 25%;
+    height: 70%;
   } 
+  #clear:hover{
+    color: #ce97ea;
+    size: 50px;
+ }
   .myRightCtn .myInput {
     width: 230px;
     margin: 10px 0px;

@@ -17,7 +17,6 @@ export class ManagementService {
     return this.httpClient.get<any>(this.managementUrl+"/" + eventId);
   }
   updateHostEvent(eventData: Event) {
-    console.log(eventData);
     return this.httpClient.patch<any>(this.managementUrl, eventData,{ observe: 'response' });
   }
   getAllEvents(){
@@ -25,5 +24,11 @@ export class ManagementService {
   }
   getAllEventsByUserEmailId(userEmail:string){
     return this.httpClient.get<Event[]>(this.managementUrl+"/"+userEmail);
+  }
+  getPastEventsByUserEmailId(userEmail:string){
+    return this.httpClient.get<Event[]>(this.managementUrl+'/past/'+userEmail);
+  }
+  getUpcomingEventsByUserEmailId(userEmail:string){
+    return this.httpClient.get<Event[]>(this.managementUrl+'/upcoming/'+userEmail);
   }
 }

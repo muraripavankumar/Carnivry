@@ -84,6 +84,14 @@ export class ProfileComponent implements OnInit {
   getPostedEvents(){
      this.router.navigate(['/posted-events']);
   }
+  
+  getPastEvents(){
+    this.router.navigate(['/past-events']);
+ }
+
+ getUpcomingEvents(){
+  this.router.navigate(['/upcoming-events']);
+}
 
   
 }

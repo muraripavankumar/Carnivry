@@ -14,12 +14,16 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequestMapping("/api/v1")
+//http://localhost:8081/api/v1
 public class EventController {
     //addEvent               = POST =
     //updateEvent            = PATCH =
     //getAllEvents           = GET
     //getEventByEventId      = GET = /event/{eventId}
     //getEventByUserEmailId  =GET = /{userEmail}
+    //getPastEventsByUserEmailId =GET = /past/{userEmail}
+    //getUpcomingEventByUserEmailId =GET = /upcoming/{userEmail}
+
 
 
     private final EventService eventService;
@@ -95,4 +99,32 @@ public class EventController {
             return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    //method to accept HTTP GET request to retrieve all past events belonging to a particular user
+    @GetMapping("/past/{userEmail}")
+    public ResponseEntity<?> getPastEventsByUserEmailId(@PathVariable String userEmail) throws Exception {
+        try {
+            return new ResponseEntity<>(eventService.getPastEventsByUserEmailId(userEmail),HttpStatus.OK);
+        }catch (UserNotFoundException e) {
+            log.error("UserNotFoundException occurred in EventController -> getPastEventByUserEmailId()");
+            return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.CONFLICT);
+        } catch (Exception e) {
+            log.error("Exception occurred in EventController -> getPastEventsByUserEmailId()");
+            return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    //method to accept HTTP GET request to retrieve all past events belonging to a particular user
+    @GetMapping("/upcoming/{userEmail}")
+    public ResponseEntity<?> getUpcomingEventsByUserEmailId(@PathVariable String userEmail) throws Exception {
+        try {
+            return new ResponseEntity<>(eventService.getPastEventsByUserEmailId(userEmail),HttpStatus.OK);
+        }catch (UserNotFoundException e) {
+            log.error("UserNotFoundException occurred in EventController -> getPastEventByUserEmailId()");
+            return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.CONFLICT);
+        } catch (Exception e) {
+            log.error("Exception occurred in EventController -> getPastEventsByUserEmailId()");
+            return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

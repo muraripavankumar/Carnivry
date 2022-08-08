@@ -6,6 +6,7 @@ import com.stackroute.exception.UserNotFoundException;
 import com.stackroute.model.*;
 
 import java.util.List;
+import java.util.Set;
 
 public interface UserService {
     CarnivryUser registerUser(UserRegModel userModel) throws UserAlreadyExistsException;
@@ -31,9 +32,9 @@ public interface UserService {
 
     String getUsername(String email) throws UserNotFoundException;
 
-    boolean sendOTPForPhoneNoVerification(PhoneNoValidationRequestDto phoneNoValidationRequestDto) throws UserNotFoundException;
+//    boolean sendOTPForPhoneNoVerification(PhoneNoValidationRequestDto phoneNoValidationRequestDto) throws UserNotFoundException;
 
-    String validatePhoneVerificationOTP(PhoneNoValidationRequestDto phoneNoValidationRequestDto) throws UserNotFoundException;
+//    String validatePhoneVerificationOTP(PhoneNoValidationRequestDto phoneNoValidationRequestDto) throws UserNotFoundException;
 
     void saveDOB(AddDOB addDOB) throws UserNotFoundException;
 
@@ -47,10 +48,22 @@ public interface UserService {
 
     boolean isNewEmailVerified(AddEmail addEmail) throws UserNotFoundException;
 
-    void savePostedEvent(String email, Event postedEvent) throws UserNotFoundException;
+//    void savePostedEvent(String email, Event postedEvent) throws UserNotFoundException;
 
 
-    List<Event> getPostedEvent(String email) throws UserNotFoundException;
+//    List<Event> getPostedEvent(String email) throws UserNotFoundException;
 
     List<String> getGenres(String email) throws UserNotFoundException;
+
+    void saveEventToWishlist(AddWishlist addWishlist) throws UserNotFoundException;
+
+    void savePastEvents(Event pastEvent) ;
+
+    void saveUpcomingEvents(Event upcomingEvent) ;
+
+    void sendDataToSuggestionService(CarnivryUser carnivryUser);
+
+    Set<Event> getPastEvents(String email) throws UserNotFoundException;
+
+    Set<Event> getUpcomingEvents(String email) throws UserNotFoundException;
 }

@@ -68,6 +68,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { NextDirective } from './next.directive';
 import { PrevDirective } from './prev.directive';
 import { SearchComponent } from './search/search.component';
+import { PastEventsComponent } from './past-events/past-events.component';
+import { UpcomingEventsComponent } from './upcoming-events/upcoming-events.component';
 
 // import { FlexLayoutModule } from "@angular/flex-layout";
 
@@ -97,7 +99,7 @@ import { SearchComponent } from './search/search.component';
     NavigationComponent,
     SeatingUIComponent,
     LandingPageComponent  ,         
-    FooterComponent, HeaderComponent, DialogBoxChooseCityComponent, NextDirective, PrevDirective, SearchComponent     
+    FooterComponent, HeaderComponent, DialogBoxChooseCityComponent, NextDirective, PrevDirective, SearchComponent, PastEventsComponent, UpcomingEventsComponent     
   ],
   imports: [
     BrowserModule,
