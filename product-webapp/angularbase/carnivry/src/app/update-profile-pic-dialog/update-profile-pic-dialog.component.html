@@ -1,14 +1,13 @@
 <div class="profilePic">
     <div mat-dialog-actions>
-        <button mat-raised-button mat-dialog-close style="margin-left: 90%;">
+        <button mat-raised-button mat-dialog-close class="close_btn">
             <mat-icon class="icon">clear</mat-icon>
         </button>
     </div>
-    <div class="container">
-        <div class="row">
-            <h1>Update Profile Photo</h1>
-        </div>
-        <div class="row">
+    <div class="container body">
+       
+       
+            <h1 class="heading">Update Profile Photo</h1>
             <form [formGroup]="profilePicForm" (ngSubmit)="onSubmit()" class="myForm text-center">
                 <div class="form-group input">
                     <i class="fas fa-envelope" id="fas_2"></i>
@@ -44,7 +43,7 @@
 
                 </div>
             </form>
-        </div>
+        
     </div>
 
 </div>
