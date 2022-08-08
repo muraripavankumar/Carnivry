@@ -18,8 +18,9 @@ public class MessageConfigure {
 
     public static final String routingKey1= "key1";
     public static final String routingKey2= "key2";
-    public static final String routingKey3="key3";
-    public static final String routingKey4="key4";
+
+
+    public static final String routingKey3= "key3";
 
 
     @Bean
@@ -39,9 +40,12 @@ public class MessageConfigure {
     {
         return new Queue("queue_2");
     }
+
+
     @Bean
-    public Queue queue3(){
-        return new Queue("registration_suggestion_new_user_queue");
+    public Queue queue3()
+    {
+        return new Queue("queue_3");
     }
     @Bean
     public Queue queue4(){return new Queue("registration_suggestion_update_user_queue");}
@@ -71,12 +75,14 @@ public class MessageConfigure {
     {
         return BindingBuilder.bind(queue2).to(exchange).with(routingKey2);
     }
+
+
     @Bean
-    public Binding binding3(@Qualifier("queue3")Queue queue, DirectExchange directExchange){
-        return BindingBuilder.bind(queue).to(directExchange).with(routingKey3);
-    }
-    @Bean
-    public Binding binding4(@Qualifier("queue4") Queue queue, DirectExchange directExchange){
-        return BindingBuilder.bind(queue).to(directExchange).with(routingKey4);
+
+    public Binding binding3(Queue queue3, DirectExchange exchange)
+    {
+        return BindingBuilder.bind(queue3).to(exchange).with(routingKey3);
+
+
     }
 }

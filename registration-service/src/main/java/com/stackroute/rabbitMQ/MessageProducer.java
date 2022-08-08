@@ -26,11 +26,14 @@ public class MessageProducer {
                 ,authenticationUserDTO.getEmail());
     }
 
-    public void sendNewUserToSuggestionService(SuggestionUserDTO suggestionUserDTO){
-        rabbitTemplate.convertAndSend(exchange.getName(),"key3",suggestionUserDTO);
+
+
+    public void sendMessageToSuggestionService(SuggestionUserDTO suggestionUserDTO)
+    {
+        rabbitTemplate.convertAndSend(exchange.getName(),"key3", suggestionUserDTO);
+        log.debug("Details of Carnivry User with email id {}  sent to Authentication MicroService using SuggestionUserDTO"
+                ,suggestionUserDTO.getEmailId());
     }
 
-    public void sendUpdatedUserToSuggestionService(SuggestionUserDTO suggestionUserDTO){
-        rabbitTemplate.convertAndSend(exchange.getName(),"key4",suggestionUserDTO);
-    }
+
 }

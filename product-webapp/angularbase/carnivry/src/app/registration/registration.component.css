@@ -21,8 +21,9 @@
     padding: 25px;
     color: rgb(192, 192, 192);
     font-size: 12px; 
-    display: flex;
-    justify-content: center;
+    /* display: flex; */
+    justify-content: space-evenly;
+    flex-wrap: wrap;
     align-items: center;
   }
   .myLeftCtn {
@@ -58,10 +59,22 @@
     margin-bottom: 40px;
     
   }
+  #clear:hover{
+     color: #ce97ea;
+     size: 50px;
+  }
+  .close_button{
+    padding-left: 90%;
+    width: 100%;
+    
+  }
   .box {
     position: relative;
+    width: auto;
+    padding-top: 30%;
     margin: 20px;
     margin-bottom: 100px;
+    height: 70%;
   } 
   .myLeftCtn .myInput {
     width: 230px;
