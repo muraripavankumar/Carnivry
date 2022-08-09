@@ -542,7 +542,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void savePastEvents(Event pastEvent) {
+    public void saveBookedTickets(Event pastEvent) {
         if (userRepository.findById(pastEvent.getUserEmailId()).isPresent())
         {
 
@@ -558,23 +558,6 @@ public class UserServiceImpl implements UserService{
         }
 
 
-    }
-
-    @Override
-    public void saveUpcomingEvents(Event upcomingEvent) {
-        if (userRepository.findById(upcomingEvent.getUserEmailId()).isPresent())
-        {
-
-            CarnivryUser carnivryUser= userRepository.findById(upcomingEvent.getUserEmailId()).get();
-            Set<Event> upcomingEvents= carnivryUser.getUpcomingEvents();
-            if (upcomingEvents==null)
-                upcomingEvents= new HashSet<>();
-            upcomingEvents.add(upcomingEvent);
-            carnivryUser.setPastEvents(upcomingEvents);
-            userRepository.save(carnivryUser);
-            log.debug("Event with eventId {} is added to upcomingEvents of user with email id {}"
-                    ,upcomingEvent.getEventId(),upcomingEvent.getUserEmailId());
-        }
     }
 
     @Override

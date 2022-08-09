@@ -1,44 +1,53 @@
 <div class="myGenres">
-    <div mat-dialog-actions>
-        <button mat-raised-button mat-dialog-close style="margin-left: 90%;">
+    <div mat-dialog-actions class="close_btn_box">
+        <button mat-raised-button mat-dialog-close class="close_btn">
             <mat-icon class="icon">clear</mat-icon>
         </button>
     </div>
-    <div class="container">
-        <h1>Your Favourite Genres</h1>
-        <div class="content">
-            <mat-chip-list #chipList aria-label="Favourite genres" multiple>
-                <mat-chip *ngFor="let genre of myGenres">
-                    {{genre}}
-                </mat-chip>
 
-            </mat-chip-list>
+    <div class="container body">
+        <h1 class="heading">Your Favourite Genres</h1>
+        <div class="content">
+            <mat-dialog-content class="mat-typography">
+                <mat-chip-list #chipList aria-label="Favourite genres" multiple>
+                    <mat-chip *ngFor="let genre of myGenres">
+                        {{genre}}
+                    </mat-chip>
+
+                </mat-chip-list>
+            </mat-dialog-content>
         </div>
         <br>
-        <div class="buttons">
-            <button mat-raised-button color="primary" (click)="changeGenres()">Change Favourite Genres</button>
+        <div class="butt_box">
+            <button mat-raised-button class="butt" (click)="changeGenres()">Change Favourite Genres</button>
         </div>
-        <div class="allGenres" *ngIf="willChange">
-            <div class="genre_chips">
-                <mat-form-field class="genre_list" appearance="fill">
-                    <mat-label>Event Genres</mat-label>
-                    <mat-chip-list #chipList aria-label="Event genres" multiple [formControl]="formControl">
-                        <mat-chip *ngFor="let genre of allGenres" [selected]="genre" [value]="genre"
-                            (removed)="removeGenre(genre)">
-                            {{genre}}
-                        </mat-chip>
 
-                    </mat-chip-list>
+        <div class="allGenres" *ngIf="willChange">
+            <mat-dialog-content class="mat-typography">
+                <mat-form-field class="genre_list" appearance="fill">
+                    <div class="genre_chips">
+
+                        <mat-label>Event Genres</mat-label>
+
+                        <mat-chip-list #chipList aria-label="Event genres" multiple [formControl]="formControl">
+                            <mat-chip *ngFor="let genre of allGenres" [selected]="genre" [value]="genre"
+                                (removed)="removeGenre(genre)">
+                                {{genre}}
+                            </mat-chip>
+
+                        </mat-chip-list>
+                    </div>
+
                 </mat-form-field>
                 <br>
-                <div class="buttons">
+                <div class="butt_box">
 
-                    <button mat-raised-button color="primary" (click)="onSubmit()">Submit </button>
+                    <button mat-raised-button color="primary" class="butt" (click)="onSubmit()">Submit </button>
                 </div>
 
-                <p *ngIf="warning" class="alert alert-danger">{{warning}}</p> 
-
-            </div>
+                <p *ngIf="warning" class="alert alert-danger">{{warning}}</p>
+            </mat-dialog-content>
         </div>
+
     </div>
 </div>

@@ -1,17 +1,16 @@
 <div class="dob">
-    <div class="container">
-        <div mat-dialog-actions>
-            <button mat-raised-button mat-dialog-close style="margin-left: 90%;">
-                <mat-icon class="icon">clear</mat-icon>
-            </button>
-        </div>
-        <div class="row">
-            <h1>Update Date of Birth</h1>
-        </div>
-        <div class="row">
+    <div mat-dialog-actions class="close_btn_box">
+        <button mat-raised-button mat-dialog-close class="close_btn">
+            <mat-icon class="icon">clear</mat-icon>
+        </button>
+    </div>    
+    
+    <div class="container body">
+       
+           <h1 class="heading">Update Date of Birth</h1>
             <form [formGroup]="dobForm" (ngSubmit)="onSubmit()" class="myForm text-center">
                 <div class="form-group input">
-                    <mat-icon class="icon">mail</mat-icon>
+                    <label for="email">Your email</label>
                     <input type="email" formControlName="email" class="form-control myInput" placeholder="Email"
                     
                         [ngClass]="{'is-invalid': f['email'].errors && f['email'].touched}" />
@@ -38,16 +37,13 @@
                 
 
                 <div class="butt_box">
-                    <div mat-dialog-actions>
   
                         <button type="submit" class="butt" [disabled]="!dobForm.valid"
                     [mat-dialog-close]="dobForm.value" >Submit</button>
-                      </div>
-                    
-
+                      
                 </div>
             </form>
         </div>
-    </div>
+    
 
 </div>

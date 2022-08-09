@@ -57,9 +57,7 @@ public interface UserService {
 
     void saveEventToWishlist(AddWishlist addWishlist) throws UserNotFoundException;
 
-    void savePastEvents(Event pastEvent) ;
-
-    void saveUpcomingEvents(Event upcomingEvent) ;
+    void saveBookedTickets(Event pastEvent) ;
 
     void sendDataToSuggestionService(CarnivryUser carnivryUser);
 

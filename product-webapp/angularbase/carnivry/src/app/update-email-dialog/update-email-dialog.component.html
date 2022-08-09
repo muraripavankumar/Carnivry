@@ -1,62 +1,47 @@
-<div class="profilePic">
-  <div mat-dialog-actions>
-    <button mat-raised-button mat-dialog-close style="margin-left: 90%;">
-        <mat-icon class="icon">clear</mat-icon>
+<div class="newEmail">
+  <div mat-dialog-actions class="close_btn_box">
+    <button mat-raised-button mat-dialog-close class="close_btn">
+      <mat-icon class="icon">clear</mat-icon>
     </button>
-</div>
-  <div class="container">
-    <div class="row">
-     
-    </div>
-      <div class="row">
-          <h1>Update Email</h1>
-      </div>
-      <div class="row">
-          <form [formGroup]="newEmailForm" (ngSubmit)="onSubmit()" class="myForm text-center">
-              <div class="form-group input">
-                  <i class="fas fa-envelope" id="fas_2"></i>
-                  <input type="email" formControlName="oldEmail" class="form-control myInput" placeholder="Old Email"
-                  
-                      [ngClass]="{'is-invalid': f['oldEmail'].errors && f['oldEmail'].touched}" />
-                  <div *ngIf="f['oldEmail'].errors && (f['oldEmail'].touched || f['oldEmail'].dirty)"
-                      class="alert alert-danger" role="alert">
-                      <div *ngIf="f['oldEmail'].errors['required']">Old Email Required</div>
-                      <div *ngIf="f['oldEmail'].errors['email']">Invalid Email</div>
-                  </div>
-              </div>
-              <div class="form-group input">
-                <i class="fas fa-envelope" id="fas_2"></i>
-                <input type="email" formControlName="newEmail" class="form-control myInput" placeholder="New Email"
-                
-                    [ngClass]="{'is-invalid': f['newEmail'].errors && f['newEmail'].touched}" />
-                <div *ngIf="f['newEmail'].errors && (f['newEmail'].touched || f['newEmail'].dirty)"
-                    class="alert alert-danger" role="alert">
-                    <div *ngIf="f['newEmail'].errors['required']">New Email Required</div>
-                    <div *ngIf="f['newEmail'].errors['email']">Invalid Email</div>
-                </div>
-            </div>
-
-              <div class="butt_box">
-                  <div mat-dialog-actions>
-
-                      <button type="submit" class="butt" [disabled]="!newEmailForm.valid">Submit</button>
-                  <!-- [mat-dialog-close]="f['newEmail'].value"  -->
-                    </div>
-                  
-
-              </div>
-          </form>
-
-          
-      </div>
-      <div class="row">
-        <div id="response"></div>
-      </div>
-      <div class="row" id="resendBtn" *ngIf="resendBtnEnable">
-        <button (click)="sendVerificationLink()" >Resend Verification Link</button>
-      </div>
-      <div class="row" id="resendResponse"></div>
   </div>
 
-</div>
+  <div class="container body">
+    <h1 class="heading">Update Email</h1>
+    <form [formGroup]="newEmailForm" (ngSubmit)="onSubmit()" class="myForm text-center">
+      <div class="form-group input">
+        <label for="email">Your old email</label>
+        <input type="email" formControlName="oldEmail" class="form-control myInput" placeholder="Old Email"
+          [ngClass]="{'is-invalid': f['oldEmail'].errors && f['oldEmail'].touched}" />
+        <div *ngIf="f['oldEmail'].errors && (f['oldEmail'].touched || f['oldEmail'].dirty)" class="alert alert-danger"
+          role="alert">
+          <div *ngIf="f['oldEmail'].errors['required']">Old Email Required</div>
+          <div *ngIf="f['oldEmail'].errors['email']">Invalid Email</div>
+        </div>
+      </div>
+      <div class="form-group input">
+        <label for="email">Your new email</label>
+        <input type="email" formControlName="newEmail" class="form-control myInput" placeholder="New Email"
+          [ngClass]="{'is-invalid': f['newEmail'].errors && f['newEmail'].touched}" />
+        <div *ngIf="f['newEmail'].errors && (f['newEmail'].touched || f['newEmail'].dirty)" class="alert alert-danger"
+          role="alert">
+          <div *ngIf="f['newEmail'].errors['required']">New Email Required</div>
+          <div *ngIf="f['newEmail'].errors['email']">Invalid Email</div>
+        </div>
+      </div>
 
+      <div class="butt_box">
+          <button type="submit" class="butt" [disabled]="!newEmailForm.valid">Submit</button>
+          <!-- [mat-dialog-close]="f['newEmail'].value"  -->
+      </div>
+    </form>
+  </div>
+
+  <div class="dynamic">
+    <div id="response"></div>
+  </div>
+  <div class="butt_box" id="resendBtn" *ngIf="resendBtnEnable">
+    <button class="butt" (click)="sendVerificationLink()">Resend Verification Link</button>
+  </div>
+  <div class="dynamic" id="resendResponse"></div>
+
+</div>
