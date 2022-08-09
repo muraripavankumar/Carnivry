@@ -49,7 +49,7 @@ export class CallbackComponent implements OnInit {
                    }
                 else
                   {
-                    this.router.navigate(['/home']);
+                    this.router.navigate(['']);
                   }
               },200);
               
@@ -81,7 +81,7 @@ export class CallbackComponent implements OnInit {
                    }
                 else
                   {
-                    this.router.navigate(['/home']);
+                    this.router.navigate(['']);
                   }
               },200);
             });

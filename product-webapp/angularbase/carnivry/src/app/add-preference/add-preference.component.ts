@@ -48,6 +48,8 @@ export class AddPreferenceComponent implements OnInit {
       'email': this.email,
       'genres': this.formControl.value
     }
+    console.log('myGenres : ');
+    console.log(myGenres);
     let f= this.formControl.value;
     if(f.length>2)
     this.regService.addGenre(myGenres).subscribe(r=>{

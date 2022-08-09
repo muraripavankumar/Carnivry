@@ -32,7 +32,10 @@ export class ViewPageComponent implements OnInit {
       result=>{
         console.log(this.eventdetails)
         this.eventdetails=result;
-        this.posterUrl=this.eventdetails.posters[1];
+        
+          this.posterUrl=this.eventdetails.posters[1];
+  
+       
         
       },
       error=>{

@@ -111,6 +111,7 @@ public class RegistrationController {
             log.error("User with email id {} not found",addGenre.getEmail());
             return new ResponseEntity<>("User not found with email id "+addGenre.getEmail(),HttpStatus.NOT_FOUND);
         }catch (Exception e){
+            e.printStackTrace();
             log.error("Internal server error {}",e.getMessage());
             return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);
         }

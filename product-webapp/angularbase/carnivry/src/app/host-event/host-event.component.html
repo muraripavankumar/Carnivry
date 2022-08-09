@@ -38,13 +38,9 @@
                   <mat-icon>cancel</mat-icon>
                 </button>
               </mat-chip>
-              <input placeholder="Add genre..." #genreInput 
-              [formControl]="genreCtrl" 
-              [matAutocomplete]="auto"
-                [matChipInputFor]="chipList" 
-                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                (matChipInputTokenEnd)="add($event)"
-                [readonly]="isEventUpdatable">
+              <input placeholder="Add genre..." #genreInput [formControl]="genreCtrl" [matAutocomplete]="auto"
+                [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                (matChipInputTokenEnd)="add($event)" [readonly]="isEventUpdatable">
             </mat-chip-list>
             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
               <mat-option *ngFor="let gr of filteredGenres | async" [value]="gr">
@@ -85,12 +81,9 @@
                   <mat-icon>cancel</mat-icon>
                 </button>
               </mat-chip>
-              <input placeholder="New language..." #languageInput
-              [matChipInputFor]="chipList3"
-              [matAutocomplete]="autoLang"
-                [matChipInputSeparatorKeyCodes]="separatorKeysCodes3" 
-                [matChipInputAddOnBlur]="addOnBlur"
-                (matChipInputTokenEnd)="addLanguage($event)"
+              <input placeholder="New language..." #languageInput [matChipInputFor]="chipList3"
+                [matAutocomplete]="autoLang" [matChipInputSeparatorKeyCodes]="separatorKeysCodes3"
+                [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addLanguage($event)"
                 [readonly]="isEventUpdatable">
             </mat-chip-list>
             <mat-autocomplete #autoLang="matAutocomplete" (optionSelected)="selectedLanguages($event)">
@@ -126,7 +119,8 @@
 
             <mat-form-field class="col-sm-12">
               <mat-label>Venue Name</mat-label>
-              <input matInput formControlName="venueName" placeholder="Venue name or Event URL" [readonly]="isEventUpdatable">
+              <input matInput formControlName="venueName" placeholder="Venue name or Event URL"
+                [readonly]="isEventUpdatable">
             </mat-form-field>
 
             <div class="row">
@@ -143,13 +137,15 @@
                 <mat-form-field class="col-sm-8 col-md-6"
                   [hidden]="this.hostEventForm.get('venue.address.street').value==='-NA-'">
                   <mat-label>Street</mat-label>
-                  <input matInput formControlName="street" placeholder="Street name or Street number" [readonly]="isEventUpdatable">
+                  <input matInput formControlName="street" placeholder="Street name or Street number"
+                    [readonly]="isEventUpdatable">
                 </mat-form-field>
 
                 <mat-form-field class="col-sm-4 col-md-6 col-lg-3"
                   [hidden]="this.hostEventForm.get('venue.address.landmark').value==='-NA-'">
                   <mat-label>Landmark</mat-label>
-                  <input matInput formControlName="landmark" placeholder="Landmark/Location of the venue" [readonly]="isEventUpdatable">
+                  <input matInput formControlName="landmark" placeholder="Landmark/Location of the venue"
+                    [readonly]="isEventUpdatable">
                 </mat-form-field>
 
                 <mat-form-field class="col-sm-4 col-md-6 col-lg-3"
@@ -167,10 +163,11 @@
                 <mat-form-field class="col-sm-3"
                   [hidden]="this.hostEventForm.get('venue.address.pincode').value==='000000' || this.hostEventForm.get('venue.address.pincode').value=== 0 ">
                   <mat-label>Pincode</mat-label>
-                  <input type="number" matInput formControlName="pincode" placeholder="Pincode" [readonly]="isEventUpdatable">
+                  <input type="number" matInput formControlName="pincode" placeholder="Pincode"
+                    [readonly]="isEventUpdatable">
                 </mat-form-field>
 
-                <mat-form-field class="col-sm-3 col-md-3 country-field" >
+                <mat-form-field class="col-sm-3 col-md-3 country-field">
                   <mat-label>Country</mat-label>
                   <mat-select formControlName="country" [disabled]="isEventUpdatable">
                     <mat-option *ngFor="let c of countries" [value]="c">
@@ -191,7 +188,8 @@
               <mat-form-field class="col-sm-12 col-md-4">
                 <mat-label>Enter a date range</mat-label>
                 <mat-date-range-input [rangePicker]="picker">
-                  <input matStartDate formControlName="startDate" placeholder="Start date" [readonly]="isEventUpdatable">
+                  <input matStartDate formControlName="startDate" placeholder="Start date"
+                    [readonly]="isEventUpdatable">
                   <input matEndDate formControlName="endDate" placeholder="End date" [readonly]="isEventUpdatable">
                 </mat-date-range-input>
                 <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
@@ -204,12 +202,14 @@
 
               <mat-form-field class="col-sm-12 col-md-3  mx-lg-5">
                 <mat-label>Starting time</mat-label>
-                <input type="time" matInput placeholder="Event starting time" formControlName="startTime" [disabled]="isEventUpdatable">
+                <input type="time" matInput placeholder="Event starting time" formControlName="startTime"
+                  [disabled]="isEventUpdatable">
               </mat-form-field>
 
               <mat-form-field class="col-sm-12 col-md-3   mx-lg-5">
                 <mat-label>Ending time</mat-label>
-                <input type="time" matInput formControlName="endTime" placeholder="Event ending time" [disabled]="isEventUpdatable">
+                <input type="time" matInput formControlName="endTime" placeholder="Event ending time"
+                  [disabled]="isEventUpdatable">
                 <mat-error *ngIf="hostEventForm.get('eventTimings').hasError('matching')">
                   * Ending time must be after starting time</mat-error>
               </mat-form-field>
@@ -242,11 +242,13 @@
 
           <mat-form-field [hidden]="seatType==='yes' || this.hostEventForm.get('venue.address.city').value==='-NA-' ">
             <mat-label>Max. Audience Capacity</mat-label>
-            <input type="number" matInput formControlName="totalSeats" (change)="changeTotalSeats($event)" [readonly]="isEventUpdatable">
+            <input type="number" matInput formControlName="totalSeats" (change)="changeTotalSeats($event)"
+              [readonly]="isEventUpdatable">
           </mat-form-field>
           <mat-form-field [hidden]="seatType==='yes' ">
             <mat-label>Ticket Price</mat-label>
-            <input type="number" matInput (change)="setTicketPrice($event)" value="{{priceCatogoryList[0]?.price}}" [readonly]="isEventUpdatable">
+            <input type="number" matInput (change)="setTicketPrice($event)" value="{{priceCatogoryList[0]?.price}}"
+              [readonly]="isEventUpdatable">
           </mat-form-field>
 
 
@@ -259,7 +261,8 @@
           <mat-form-field [hidden]="seatType==='no' || this.hostEventForm.get('venue.address.city').value==='-NA-'">
             <mat-label>Columns</mat-label>
             <input type="number" matInput (change)="calcTotalSeats()" id="totalColm"
-              placeholder="Number of columns per row" value="{{column}}" [readonly]="existingEventData.eventId!=null || isEventUpdatable">
+              placeholder="Number of columns per row" value="{{column}}"
+              [readonly]="existingEventData.eventId!=null || isEventUpdatable">
           </mat-form-field>
 
           <mat-card [hidden]="totalSeating===0 || column===0">
@@ -267,42 +270,32 @@
               <mat-card-title>SEAT LAYOUT</mat-card-title>
             </mat-card-header>
             <mat-card-content (mouseup)="mouseUpEvent()">
-              <div style="margin: 0 auto;">
+              <!-- <div class="mx-auto"> -->
                 <div
-                  style="width: 60%;height: 50px; background-color: black; color: aliceblue; margin-bottom: 10px; border-bottom-left-radius: 25px; border-bottom-right-radius: 25px; text-align: center;">
+                  style="width: 60%;height: 50px; background-color: black; color: aliceblue; margin: 10px auto; border-bottom-left-radius: 25px; border-bottom-right-radius: 25px; text-align: center;">
                   <h1>STAGE</h1>
                 </div>
-                <div style="float: left; line-height: 3.20rem; margin-right: 10px;">
-                  <div *ngFor="let r of alphaRows"
-                    style="background-color: black; border-radius:15%; color: aliceblue; padding: 0 0.5vw; height: fit-content;">
-                    {{r}}</div>
-                </div>
-                <!-- <div class="scrollable">
-                  <div class="cont" id="parent" (mousedown)="mouseDownEvent()" (mouseup)="mouseUpEvent()">
-                    <div class="box" *ngFor="let e of eventData.seats; index as x;">
-                      <div id="d.{{x}}" style="border: 0.2rem solid black;" [style.backgroundColor]=' getColor(e)' (mouseenter)="checkDiv($event)">
-                        <label for="{{x}}">{{e.seatId}}</label>
-                        <input type="checkbox" name="" id="{{x}}" (change)="fieldChange(x)" value="{{e.seatId}}"
-                          [disabled]="e.seatPrice!= 0.0001" (mouseenter)='checkBox(x)' >
+                <!-- <div class="mx-auto"> -->
+                  <div style="float: left; line-height: 3.20rem; margin-right: 10px;">
+                    <div *ngFor="let r of alphaRows"
+                      style="background-color: black; border-radius:15%; color: aliceblue; padding: 0 0.5vw; height: fit-content;">
+                      {{r}}</div>
+                  </div>
+
+                  <div class="scrollable">
+                    <div class="cont" id="parent" (mousedown)="mouseDownEvent()" (mouseup)="mouseUpEvent()">
+                      <div class="box" *ngFor="let e of eventData.seats; index as x;">
+                        <div id="d.{{x}}" style="border: 0.2rem solid black;" [style.backgroundColor]=' getColor(e)'
+                          (mouseenter)="checkDiv($event)">
+                          <label for="{{x}}">{{e.seatId}}</label>
+                          <input type="checkbox" name="" id="{{x}}" (change)="fieldChange(x)" value="{{e.seatId}}"
+                            [disabled]="e.seatPrice!= 0.0001" style="display: none;">
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div> -->
-                <div class="scrollable">
-                  <div class="cont" id="parent" (mousedown)="mouseDownEvent()" (mouseup)="mouseUpEvent()">
-                    <div class="box" *ngFor="let e of eventData.seats; index as x;">
-                      <div id="d.{{x}}" style="border: 0.2rem solid black;" [style.backgroundColor]=' getColor(e)'
-                        (mouseenter)="checkDiv($event)">
-                        <label for="{{x}}">{{e.seatId}}</label>
-                        <input type="checkbox" name="" id="{{x}}" (change)="fieldChange(x)" value="{{e.seatId}}"
-                          [disabled]="e.seatPrice!= 0.0001" style="display: none;">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-              </div>
+                <!-- </div> -->
+              <!-- </div> -->
 
               <div [hidden]="existingEventData.eventId!=null">
                 <mat-form-field>
@@ -314,7 +307,8 @@
                     </mat-option>
                   </mat-autocomplete>
                 </mat-form-field>
-                <input type="number" id="activePrice" placeholder="Price slab" (change)="setActivePrice()" [readonly]="isEventUpdatable">
+                <input type="number" id="activePrice" placeholder="Price slab" (change)="setActivePrice()"
+                  [readonly]="isEventUpdatable">
                 <button mat-button class="btn" (click)="savePrice()" [disabled]="activePrice<0">Save
                 </button>
               </div>
@@ -364,7 +358,8 @@
 
             <div class="image-div col-sm-12 col-lg-6 ">
               <label for="thumbnail">Upload Event Poster(Thumbnail)</label>
-              <input type="file" accept='image/*' (change)="onThumbnailFileChange($event)" id="thumbnail" [readonly]="isEventUpdatable">
+              <input type="file" accept='image/*' (change)="onThumbnailFileChange($event)" id="thumbnail"
+                [readonly]="isEventUpdatable">
               <div *ngIf="hostEventForm.get('posters').invalid" class="alert">
                 <div *ngIf="hostEventForm.get('posters').errors?.['required']">
                   * Event poster is required.
@@ -376,7 +371,8 @@
 
             <div class="image-div col-sm-12 col-lg-6">
               <label for="landscape">Upload Event Poster(Landscape)</label>
-              <input type="file" accept='image/*' (change)="onLandscapeFileChange($event)" id="landscape" [readonly]="isEventUpdatable">
+              <input type="file" accept='image/*' (change)="onLandscapeFileChange($event)" id="landscape"
+                [readonly]="isEventUpdatable">
               <img [src]="landscapePosterPicDataUrl" class="landscape" alt="no_img" *ngIf="landscapePosterPicDataUrl">
             </div>
 
@@ -397,94 +393,95 @@
 
       <mat-step label="Done">
         <div>
-  
+
         </div>
         <div>
-        <h3>Preview:</h3>
-        <mat-card class="mx-auto form-box" style="width: fit-content;" [hidden]="hostEventForm.get('title').value===''">
-          <mat-card-header>
-            <mat-card-title>{{hostEventForm.get('title').value}}</mat-card-title>
-          </mat-card-header>
-          <img [src]="thumbnailPosterPicDataUrl" height="200">
-          <img [src]="landscapePosterPicDataUrl" height="200">
-          <mat-card-content>
-            <table>
-              <tr>
-                <th>Event Description : </th>
-                <td>{{hostEventForm.get('eventDescription').value}}</td>
-              </tr>
-              <tr>
-                <th>Artists : </th>
-                <td>{{hostEventForm.get('artists').value}}</td>
-              </tr>
-              <tr>
-                <th>Genres : </th>
-                <td>{{hostEventForm.get('genre').value}}</td>
-              </tr>
-              <tr>
-                <th>Languages : </th>
-                <td>{{hostEventForm.get('languages').value}}</td>
-              </tr>
-              <tr>
-                <th>Venue Name : </th>
-                <td>{{hostEventForm.get('venue.venueName').value}}</td>
-              </tr>
-              <tr>
-                <th>Venue Address : </th>
-              </tr>
-              <tr>
-                <th> House No. : </th>
-                <td>{{hostEventForm.get('venue.address.house').value}}</td>
-              </tr>
-              <tr>
-                <th> Street : </th>
-                <td>{{hostEventForm.get('venue.address.street').value}}</td>
-              </tr>
-              <tr>
-                <th> Landmark : </th>
-                <td>{{hostEventForm.get('venue.address.landmark').value}}</td>
-              </tr>
-              <tr>
-                <th> City : </th>
-                <td>{{hostEventForm.get('venue.address.city').value}}</td>
-              </tr>
-              <tr>
-                <th> State : </th>
-                <td>{{hostEventForm.get('venue.address.state').value}}</td>
-              </tr>
-              <tr>
-                <th> Country : </th>
-                <td>{{hostEventForm.get('venue.address.country').value}}</td>
-              </tr>
-              <tr>
-                <th> Pincode : </th>
-                <td>{{hostEventForm.get('venue.address.pincode').value}}</td>
-              </tr>
-              <tr>
-                <th>Event Starting Date : </th>
-                <td>{{hostEventForm.get('eventTimings.startDate').value}}</td>
-              </tr>
-              <tr>
-                <th>Event Ending Date : </th>
-                <td>{{hostEventForm.get('eventTimings.endDate').value}}</td>
-              </tr>
-              <tr>
-                <th>Event Strting Time : </th>
-                <td>{{hostEventForm.get('eventTimings.startTime').value}}</td>
-              </tr>
-              <tr>
-                <th>Event Ending Time : </th>
-                <td>{{hostEventForm.get('eventTimings.endTime').value}}</td>
-              </tr>
-            </table>
-          </mat-card-content>
-        </mat-card>
-      </div>
+          <h3>Preview:</h3>
+          <mat-card class="mx-auto form-box" style="width: fit-content;"
+            [hidden]="hostEventForm.get('title').value===''">
+            <mat-card-header>
+              <mat-card-title>{{hostEventForm.get('title').value}}</mat-card-title>
+            </mat-card-header>
+            <img [src]="thumbnailPosterPicDataUrl" height="200">
+            <img [src]="landscapePosterPicDataUrl" height="200">
+            <mat-card-content>
+              <table>
+                <tr>
+                  <th>Event Description : </th>
+                  <td>{{hostEventForm.get('eventDescription').value}}</td>
+                </tr>
+                <tr>
+                  <th>Artists : </th>
+                  <td>{{hostEventForm.get('artists').value}}</td>
+                </tr>
+                <tr>
+                  <th>Genres : </th>
+                  <td>{{hostEventForm.get('genre').value}}</td>
+                </tr>
+                <tr>
+                  <th>Languages : </th>
+                  <td>{{hostEventForm.get('languages').value}}</td>
+                </tr>
+                <tr>
+                  <th>Venue Name : </th>
+                  <td>{{hostEventForm.get('venue.venueName').value}}</td>
+                </tr>
+                <tr>
+                  <th>Venue Address : </th>
+                </tr>
+                <tr>
+                  <th> House No. : </th>
+                  <td>{{hostEventForm.get('venue.address.house').value}}</td>
+                </tr>
+                <tr>
+                  <th> Street : </th>
+                  <td>{{hostEventForm.get('venue.address.street').value}}</td>
+                </tr>
+                <tr>
+                  <th> Landmark : </th>
+                  <td>{{hostEventForm.get('venue.address.landmark').value}}</td>
+                </tr>
+                <tr>
+                  <th> City : </th>
+                  <td>{{hostEventForm.get('venue.address.city').value}}</td>
+                </tr>
+                <tr>
+                  <th> State : </th>
+                  <td>{{hostEventForm.get('venue.address.state').value}}</td>
+                </tr>
+                <tr>
+                  <th> Country : </th>
+                  <td>{{hostEventForm.get('venue.address.country').value}}</td>
+                </tr>
+                <tr>
+                  <th> Pincode : </th>
+                  <td>{{hostEventForm.get('venue.address.pincode').value}}</td>
+                </tr>
+                <tr>
+                  <th>Event Starting Date : </th>
+                  <td>{{hostEventForm.get('eventTimings.startDate').value}}</td>
+                </tr>
+                <tr>
+                  <th>Event Ending Date : </th>
+                  <td>{{hostEventForm.get('eventTimings.endDate').value}}</td>
+                </tr>
+                <tr>
+                  <th>Event Strting Time : </th>
+                  <td>{{hostEventForm.get('eventTimings.startTime').value}}</td>
+                </tr>
+                <tr>
+                  <th>Event Ending Time : </th>
+                  <td>{{hostEventForm.get('eventTimings.endTime').value}}</td>
+                </tr>
+              </table>
+            </mat-card-content>
+          </mat-card>
+        </div>
         <div>
           <button mat-button matStepperPrevious class="btn btn-secondary">Back</button>
           <!-- <button mat-button (click)="stepper.reset()" class="btn btn-danger" style="margin-left:2%">Reset</button> -->
           <button mat-button type="submit" (click)="onSubmit()" class="btn btn-success" style="float: right;"
-            [hidden]="existingEventData.eventId!=null"  >Submit</button>
+            [hidden]="existingEventData.eventId!=null">Submit</button>
           <button mat-button type="submit" (click)="onUpdate()" class="btn btn-success" style="float: right;"
             [hidden]="existingEventData.eventId==null || isEventUpdatable">Update</button>
         </div>
