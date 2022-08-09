@@ -32,17 +32,19 @@
   position: absolute;
   background-color: white;
   z-index: 9; 
-  width: 430px; 
-  border:1px solid black ;
-  left: 255px;
-  top: 52px;
+  width: 430px;
+  /* border:1px solid black ; */
+  border-bottom-left-radius:7px ;
+  border-bottom-right-radius:7px ;
+  left: 256px;
+  top: 53px;
+  box-shadow: 2px 2px 2px 2px purple;
 }
 
   /* choose city */
   section {
-    border: 1px solid black;
+    border: 0px solid black;
     border-radius: 10px;
-    margin-left: 30px;
   }
 
 
@@ -54,4 +56,9 @@
   
   .example-full-width {
     width: 100%;
+  }
+
+  .suggestions:hover{
+    background-color: rgb(230, 19, 230);
+    cursor: pointer;
   }

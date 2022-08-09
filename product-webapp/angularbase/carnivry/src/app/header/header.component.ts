@@ -55,8 +55,7 @@ export class HeaderComponent implements OnInit {
 
 
     
-    // const tokenValue = localStorage.getItem('token');
-    const tokenValue= "dksjhksjdf";
+    const tokenValue = localStorage.getItem('token');
     console.log('token value : ' + tokenValue);
 
     if (tokenValue === null) {
@@ -64,9 +63,7 @@ export class HeaderComponent implements OnInit {
       this.login = false;
     }
     else {
-      // this.signIn = registrationService.getName();
-      this.signIn="Garima";
-
+      this.signIn = registrationService.getName();
       this.login = true;
     }
     console.log('signIn value' + this.signIn);

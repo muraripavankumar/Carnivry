@@ -1,4 +1,8 @@
 export class RazorpayOrder {
+    razorpay_order_id(razorpay_order_id: any, paymentId: string, signature: string) {
+      throw new Error('Method not implemented.');
+    }
+    email:string;
     amount: any;
     amount_paid:any;
     notes:any;

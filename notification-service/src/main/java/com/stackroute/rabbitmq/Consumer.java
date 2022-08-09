@@ -1,5 +1,6 @@
 package com.stackroute.rabbitmq;
 
+import com.stackroute.model.ConsumerEmail;
 import com.stackroute.model.ProducerEmail;
 import com.stackroute.service.EmailService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -26,4 +27,18 @@ public class Consumer {
         producerEmail.setTotalSeats(eventDTO.getTotalSeats());
         emailService.mailToProducer(producerEmail);
     }
+
+//    @RabbitListener(queues = "payment_notification_queue")
+//    public void getDataAndAddToConsumerEmail(EventDetailsDTO eventDetailsDTO){
+//        ConsumerEmail consumerEmail=new ConsumerEmail();
+//        consumerEmail.setEventConsumerEmailId(eventDetailsDTO.getEventConsumerEmailId());
+//        consumerEmail.setEventConsumerName(eventDetailsDTO.getEventConsumerName());
+//        consumerEmail.setEventTitle(eventDetailsDTO.getEventTitle());
+//        consumerEmail.setEventDescription(eventDetailsDTO.getEventDescription());
+//        consumerEmail.setEventTimings(eventDetailsDTO.getEventTimings());
+//        consumerEmail.setVenue(eventDetailsDTO.getVenue());
+//        consumerEmail.setBoughtSeats(eventDetailsDTO.getBoughtSeats());
+//        consumerEmail.setTicketPrice(eventDetailsDTO.getTicketPrice());
+//        emailService.mailToConsumer(consumerEmail);
+//    }
 }
