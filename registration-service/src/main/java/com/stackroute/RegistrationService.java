@@ -2,6 +2,7 @@ package com.stackroute;
 
 import com.stackroute.config.TwilioConfig;
 import com.twilio.Twilio;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,6 +18,7 @@ import javax.annotation.PostConstruct;
 
 @SpringBootApplication
 @EnableEurekaClient
+@Slf4j
 public class RegistrationService {
 
 //    @Autowired
@@ -37,6 +39,7 @@ public class RegistrationService {
     public static void main(String[] args) {
 
         SpringApplication.run(RegistrationService.class,args);
+        log.info("REGISTRATION SERVICE RUNNING!");
 
     }
 

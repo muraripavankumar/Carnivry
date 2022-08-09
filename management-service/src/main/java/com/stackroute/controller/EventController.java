@@ -58,6 +58,7 @@ public class EventController {
             log.error("EventNotFoundError occurred in EventController -> updateEvent()");
             return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.CONFLICT);
         }catch (Exception e){
+            e.printStackTrace();
             log.error("Exception occurred in EventController -> updateEvent() ");
             return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.INTERNAL_SERVER_ERROR);
         }

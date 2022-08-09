@@ -55,8 +55,7 @@ public class UserServiceImpl implements UserService{
             carnivryUser.setEmailId(userModel.getEmail().toLowerCase());
             carnivryUser.setName(userModel.getName());
             carnivryUser.setVerified(false);
-            carnivryUser.setDob(userModel.getDob());
-
+            passwords= new HashMap<>();
             passwords.put(carnivryUser.getEmail(),userModel.getPassword());
 
             log.info("New Carnivry Account created with email id {}",userModel.getEmail());

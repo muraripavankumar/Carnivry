@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit {
   logout() {
     this.regService.logout().subscribe(() => {
       localStorage.clear();
-      this.router.navigate(['registration/login']);
+      this.router.navigate(['']);
     });
   }
 
