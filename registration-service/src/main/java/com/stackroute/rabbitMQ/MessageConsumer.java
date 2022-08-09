@@ -21,5 +21,5 @@ public class MessageConsumer {
     public void addbookedTickets(Event pastEvent){
         userService.saveBookedTickets(pastEvent);
     }
-    
+
 }
