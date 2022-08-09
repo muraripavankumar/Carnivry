@@ -1,127 +1,128 @@
+<!-- Carousel  -->
+<app-carousel [images]="images" [autoSlide]="true"></app-carousel>
 
- <!-- Carousel  -->
-    <app-carousel [images]="images" [autoSlide]="true"></app-carousel>
+
+
+<mat-tab-group animationDuration="0ms">
 
   
-  
-  <mat-tab-group animationDuration="0ms">
-  
-    <!-- Second tab -->
-    <mat-tab label="Events For You">
-      <!-- Recommendation -->
-  <!-- <div style="margin-left: 10px; font-weight: bold; font-size: 20px; margin-top: 10px;">Recommended Events</div> -->
-  <section class="product">
-    <div class="container-fluid">
-      <div class="slider-wrap">
-        <div class="slider-main">
-          <div style="margin-left: 10px; font-weight: bold; font-size: 20px; margin-top: 10px;">Recommended Events</div>
-          <div class="item" *ngFor="let item of recommendList">
-            <div class="text">
-              <mat-card class="example-card">
-                <a [routerLink]="['/view-page',item.eventId]"><img class="image" mat-card-image src={{item.poster}}></a> 
-                <div class="likes">{{item.likes}} Likes
-                  <mat-icon (click)="like(item.eventId)" class="likeImage">thumb_up</mat-icon>
-                  <mat-icon (click)="wishlist(item.eventId)" class="likeImage">favorite</mat-icon>
-                  <!-- <img   src="../assets/like.png"> -->
-              </div>
-                <!-- <mat-card-header class="card-header"> -->
+  <!-- First tab-->
+  <mat-tab label="Events For You">
+    <!-- Recommendation -->
+    <!-- <div style="margin-left: 10px; font-weight: bold; font-size: 20px; margin-top: 10px;">Recommended Events</div> -->
+    <div style="margin-left: 50px; font-weight: bold; font-size: 20px; margin-top: 40px;">Recommended Events</div>
+    <section class="product">
+      <div class="container-fluid">
+        <div class="slider-wrap">
+          <div class="slider-main">
+            <div class="item" *ngFor="let item of recommendList">
+              <div class="text">
+                <mat-card class="example-card">
+                  <a [routerLink]="['/view-page',item.eventId]"><img class="image" mat-card-image
+                      src={{item.poster}}></a>
+                  <div class="likes">{{item.likes}} Likes
+                    <mat-icon (click)="like(item.eventId)" class="likeImage">thumb_up</mat-icon>
+                    <mat-icon (click)="wishlist(item.eventId)" class="likeImage">favorite</mat-icon>
+                    <!-- <img   src="../assets/like.png"> -->
+                  </div>
+                  <!-- <mat-card-header class="card-header"> -->
                   <div>
                     <mat-card-title>{{item.title}}</mat-card-title>
-                    <mat-card-subtitle>{{item.genre}}</mat-card-subtitle>
-                  </div>  
-                <!-- </mat-card-header> -->
-                
-                
-              </mat-card>
-            </div> 
-          </div>
-        </div>
-        <div *ngIf="controls" class="btn-carousel btn-prev" appPrev>
-          <i class="fas fa-arrow-circle-left icon-carousel icon-prev" appNext></i>
-      </div>
-      <div *ngIf="controls" class="btn-carousel btn-next">
-          <i class="fas fa-arrow-circle-right icon-carousel icon-next"></i>
-      </div>
-        <!-- <div class="button-area">
-          <button type="button" class="prev" appPrev>Prev</button>
-          <button type="button" class="next" appNext>Next</button>
-        </div> -->
-      </div>
-    </div>
-  </section>
-  
-  
-  
-  <!-- Upcoming Events -->
-  <!-- <div style="margin-left: 10px; font-weight: bold; font-size: 20px; margin-top: 10px;">Upcoming Events</div> -->
-  <section class="product">
-    <div class="container-fluid">
-      <div class="slider-wrap">
-        <div class="slider-main">
-          <div style="margin-left: 10px; font-weight: bold; font-size: 20px; margin-top: 10px;">Upcoming Events</div>
-          <div class="item" *ngFor="let item of upcomingList">
-           <div class="text">
-              <mat-card class="example-card">
-                <a [routerLink]="['/view-page',item.eventId]"><img class="image" mat-card-image src={{item.poster}}></a>
-                <div class="likes">{{item.likes}} Likes
-                  <mat-icon (click)="like(item.eventId)" class="likeImage">thumb_up</mat-icon>
-                  <mat-icon (click)="wishlist(item.eventId)" class="likeImage">favorite</mat-icon>
-                  <!-- <img (click)="like(item.eventId)" class="likeImage" src="../assets/like.png"> -->
+                    <mat-card-subtitle>Price: {{item.price}}/-</mat-card-subtitle>
+                  </div>
+                  <!-- </mat-card-header> -->
+
+
+                </mat-card>
               </div>
-                <!-- <mat-card-header class="card-header"> -->
-                  <div>
-                    <mat-card-title>{{item.title}}</mat-card-title>
-                    <mat-card-subtitle>{{item.genre}}</mat-card-subtitle>
-                  </div>  
-                <!-- </mat-card-header> -->
-                
-                
-              </mat-card>
             </div>
           </div>
-        </div>
-        <div *ngIf="controls" class="btn-carousel btn-prev" appPrev>
-          <i class="fas fa-arrow-circle-left icon-carousel icon-prev" appNext></i>
-      </div>
-      <div *ngIf="controls" class="btn-carousel btn-next">
-          <i class="fas fa-arrow-circle-right icon-carousel icon-next"></i>
-      </div>
-        <!-- <div class="button-area">
+          <div class="btn-carousel btn-prev">
+            <i class="fas fa-arrow-circle-left icon-carousel icon-prev" appPrev></i>
+          </div>
+          <div class="btn-carousel btn-next">
+            <i class="fas fa-arrow-circle-right icon-carousel icon-next" appNext></i>
+          </div>
+          <!-- <div class="button-area">
           <button type="button" class="prev" appPrev>Prev</button>
           <button type="button" class="next" appNext>Next</button>
         </div> -->
+        </div>
       </div>
-    </div>
-  </section>
-    </mat-tab>
-  
-    <!-- First tab-->
-    <mat-tab label="All Events">
-      <div class="allEvents">
-        <div class="filters">
-          <h2>Filters</h2>
-          <mat-accordion class="example-headers-align" multi>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Date
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-  
-              <mat-form-field appearance="fill">
-                <mat-label>Enter a date range</mat-label>
-                <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-                  <input matStartDate formControlName="start" placeholder="Start date">
-                  <input matEndDate formControlName="end" placeholder="End date">
-                </mat-date-range-input>
-                <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-date-range-picker #picker></mat-date-range-picker>
-              </mat-form-field>
-              
-              <p>Selected range: {{range.value | json}}</p>
-              
-              <!-- <mat-form-field appearance="fill">
+    </section>
+
+
+
+    <!-- Upcoming Events -->
+    <div style="margin-left: 50px; font-weight: bold; font-size: 20px; ">Upcoming Events</div>
+    <section class="product">
+      <div class="container-fluid">
+        <div class="slider-wrap">
+          <div class="slider-main">
+            <div class="item" *ngFor="let item of upcomingList">
+              <div class="text">
+                <mat-card class="example-card">
+                  <a [routerLink]="['/view-page',item.eventId]"><img class="image" mat-card-image
+                      src={{item.poster}}></a>
+                  <div class="likes">{{item.likes}} Likes
+                    <mat-icon (click)="like(item.eventId)" class="likeImage">thumb_up</mat-icon>
+                    <mat-icon (click)="wishlist(item.eventId)" class="likeImage">favorite</mat-icon>
+                    <!-- <img (click)="like(item.eventId)" class="likeImage" src="../assets/like.png"> -->
+                  </div>
+                  <!-- <mat-card-header class="card-header"> -->
+                  <div>
+                    <mat-card-title>{{item.title}}</mat-card-title>
+                    <mat-card-subtitle>Price: {{item.price}}/-</mat-card-subtitle>
+                  </div>
+                  <!-- </mat-card-header> -->
+
+
+                </mat-card>
+              </div>
+            </div>
+          </div>
+          <div class="btn-carousel btn-prev">
+            <i class="fas fa-arrow-circle-left icon-carousel icon-prev" appPrev></i>
+          </div>
+          <div class="btn-carousel btn-next">
+            <i class="fas fa-arrow-circle-right icon-carousel icon-next" appNext></i>
+          </div>
+          <!-- <div class="button-area">
+          <button type="button" class="prev" appPrev>Prev</button>
+          <button type="button" class="next" appNext>Next</button>
+        </div> -->
+        </div>
+      </div>
+    </section>
+  </mat-tab>
+
+  <!-- Second tab -->
+  <mat-tab label="All Events">
+    <div class="allEvents">
+      <div class="filters">
+        <h2>Filters</h2>
+        <mat-accordion class="example-headers-align" multi>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Date
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <mat-form-field appearance="fill">
+              <mat-label>Enter a date range</mat-label>
+              <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                <input matStartDate formControlName="start" placeholder="Start date">
+                <input matEndDate formControlName="end" placeholder="End date">
+              </mat-date-range-input>
+              <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+
+            <p>Selected range: {{range.value | json}}</p>
+
+            <!-- <mat-form-field appearance="fill">
                 <mat-label>Enter date</mat-label>
                 <form [formGroup]="form">
                   <input matInput [matDatepicker]="picker"
@@ -131,81 +132,86 @@
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
               </mat-form-field> -->
-            </mat-expansion-panel>
-  
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Language
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <mat-chip-list aria-label="Fish selection">
-                <mat-chip (click)="language('English')" [ngClass]="{'grey':!english , 'blue': english}">English</mat-chip>
-                <mat-chip (click)="language('Hindi')" [ngClass]="{'grey':!hindi , 'blue': hindi}">Hindi</mat-chip>
-                <mat-chip (click)="language('Bengali')" [ngClass]="{'grey':!bengali , 'blue': bengali}">Bengali</mat-chip>
-                <mat-chip (click)="language('Telugu')" [ngClass]="{'grey':!telugu , 'blue': telugu}">Telugu</mat-chip>
-              </mat-chip-list>
-            </mat-expansion-panel>
-  
-  
-  
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Genre
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <mat-chip-list aria-label="Fish selection">
-                <mat-chip (click)="genre('Sports')" [ngClass]="{'grey':!sports , 'blue': sports}">Sports</mat-chip>
-                <mat-chip (click)="genre('Action')" [ngClass]="{'grey':!action , 'blue': action}">Action</mat-chip>
-                <mat-chip (click)="genre('Thriller')" [ngClass]="{'grey':!thriller , 'blue': thriller}">Thriller</mat-chip>
-                <mat-chip (click)="genre('Drama')" [ngClass]="{'grey':!drama , 'blue': drama}">Drama</mat-chip>
-              </mat-chip-list>
-            </mat-expansion-panel>
-  
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Price
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <mat-chip-list aria-label="Fish selection">
-                <mat-chip (click)="price('free')" [ngClass]="{'grey':!free , 'blue': free}">Free</mat-chip>
-                <mat-chip (click)="price('0-500')" [ngClass]="{'grey':!lessThan500 , 'blue': lessThan500}">0-500</mat-chip>
-                <mat-chip (click)="price('500-2000')" [ngClass]="{'grey':!bet500And2000 , 'blue': bet500And2000}">500-2000</mat-chip>
-                <mat-chip (click)="price('above2000')" [ngClass]="{'grey':!above2000 , 'blue': above2000}">Above 2000</mat-chip>
-              </mat-chip-list>
-            </mat-expansion-panel>
-          </mat-accordion>
-          <section>
-            <div class="example-label"></div>
-            <div class="example-button-row">
-              <button mat-raised-button color="primary" (click)="apply()">Apply</button>
-            </div>
-          </section>
-        </div>
-  
-        <div class="events">
-          <h2>All Events</h2>
-          <mat-grid-list cols="4" rowHeight="3:5">
-            <mat-grid-tile *ngFor="let eventImage of runningList">
-             <a [routerLink]="['/view-page',eventImage.eventId]"> <mat-card class="event-card">
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Language
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-chip-list aria-label="Fish selection">
+              <mat-chip (click)="language('English')" [ngClass]="{'grey':!english , 'blue': english}">English</mat-chip>
+              <mat-chip (click)="language('Hindi')" [ngClass]="{'grey':!hindi , 'blue': hindi}">Hindi</mat-chip>
+              <mat-chip (click)="language('Bengali')" [ngClass]="{'grey':!bengali , 'blue': bengali}">Bengali</mat-chip>
+              <mat-chip (click)="language('Telugu')" [ngClass]="{'grey':!telugu , 'blue': telugu}">Telugu</mat-chip>
+            </mat-chip-list>
+          </mat-expansion-panel>
+
+
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Genre
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-chip-list aria-label="Fish selection">
+              <mat-chip (click)="genre('Sports')" [ngClass]="{'grey':!sports , 'blue': sports}">Sports</mat-chip>
+              <mat-chip (click)="genre('Action')" [ngClass]="{'grey':!action , 'blue': action}">Action</mat-chip>
+              <mat-chip (click)="genre('Thriller')" [ngClass]="{'grey':!thriller , 'blue': thriller}">Thriller
+              </mat-chip>
+              <mat-chip (click)="genre('Drama')" [ngClass]="{'grey':!drama , 'blue': drama}">Drama</mat-chip>
+            </mat-chip-list>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Price
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-chip-list aria-label="Fish selection">
+              <mat-chip (click)="price('free')" [ngClass]="{'grey':!free , 'blue': free}">Free</mat-chip>
+              <mat-chip (click)="price('0-500')" [ngClass]="{'grey':!lessThan500 , 'blue': lessThan500}">0-500
+              </mat-chip>
+              <mat-chip (click)="price('500-2000')" [ngClass]="{'grey':!bet500And2000 , 'blue': bet500And2000}">500-2000
+              </mat-chip>
+              <mat-chip (click)="price('above2000')" [ngClass]="{'grey':!above2000 , 'blue': above2000}">Above 2000
+              </mat-chip>
+            </mat-chip-list>
+          </mat-expansion-panel>
+        </mat-accordion>
+        <section>
+          <div class="example-label"></div>
+          <div class="example-button-row">
+            <button mat-raised-button color="primary" (click)="apply()">Apply</button>
+          </div>
+        </section>
+      </div>
+
+      <div class="events">
+        <h2>All Events</h2>
+        <mat-grid-list cols="4" rowHeight="3:5">
+          <mat-grid-tile *ngFor="let eventImage of runningList">
+            <a [routerLink]="['/view-page',eventImage.eventId]">
+              <mat-card class="event-card">
                 <img class="image" mat-card-image src={{eventImage.poster}}>
                 <!-- <mat-card-header class="card-header"> -->
-                  <div>
-                    <mat-card-title>{{eventImage.title}}</mat-card-title>
-                    <mat-card-subtitle>{{eventImage.genre}}</mat-card-subtitle>
-                  </div>  
+                <div>
+                  <mat-card-title>{{eventImage.title}}</mat-card-title>
+                  <mat-card-subtitle>{{eventImage.genre}}</mat-card-subtitle>
+                </div>
                 <!-- </mat-card-header> -->
-              </mat-card> </a>
-            </mat-grid-tile>
-          </mat-grid-list>
-        </div>
-  
+              </mat-card>
+            </a>
+          </mat-grid-tile>
+        </mat-grid-list>
       </div>
-  
-      
-    </mat-tab>
-  
-  </mat-tab-group>
-  
+
+    </div>
+
+
+  </mat-tab>
+
+</mat-tab-group>

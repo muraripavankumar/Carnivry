@@ -57,3 +57,8 @@
   .example-full-width {
     width: 100%;
   }
+
+  .suggestions:hover{
+    background-color: rgb(230, 19, 230);
+    cursor: pointer;
+  }

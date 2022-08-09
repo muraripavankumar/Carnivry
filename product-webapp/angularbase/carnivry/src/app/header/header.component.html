@@ -14,7 +14,7 @@
     <app-search (searchTextChange)="onSearchTextEntered($event)"></app-search>
     <div class="suggestion-box">
       <div style="width:100% ;" *ngFor="let event of titleList">
-        <div (click)="openViewPage(event.eventId)">{{event.title}}</div>
+        <div (click)="openViewPage(event.eventId)" class="suggestions">{{event.title}}</div>
       </div>
     </div>
 
@@ -34,10 +34,13 @@
 
         <!-- Choose city -->
         <section>
-          <button mat-button (click)="openDialog()">{{city}}</button>
+          <button mat-button  (click)="openDialog()">{{city}}
+            <mat-icon>location_city</mat-icon>
+          </button>
+        
         </section>
 
-
+ 
         
         <!-- Home -->
         <section>

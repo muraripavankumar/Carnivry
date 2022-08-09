@@ -71,13 +71,13 @@ export class LandingPageComponent implements OnInit {
   dateInput: MatDatepickerInputEvent<Date>;
 
   recommendList: any[];
-  recommendPosterList: any[];
+  modifiedRecommendList: any[];
 
   upcomingList: any[];
-  upcomingPosterList: any[];
+  modifiedUpcomingList: any[];
 
   allEventsList: any[];
-  allEventsPosterList: any[];
+  modifiedAllEventsList: any[];
 
   runningList: any = [];
   appliedLanguage: any = [];
@@ -92,11 +92,19 @@ export class LandingPageComponent implements OnInit {
 
     if(city=== null){
       console.log("No city chosen");
-      this.http.get<Event[]>('http://localhost:8082/api/v1/suggest-events/maitymayukh23@gmail.com', this.headers)
+      this.http.get<Event[]>('http://localhost:8082/api/v1/suggest-events/gm@gmail.com', this.headers)
       .subscribe(
         (data) => {
           this.recommendList = data.body;
+          this.modifiedRecommendList=data.body;
           console.log("Recommended events in landing page: " + this.recommendList.length);
+          for(var i=0; i<this.modifiedRecommendList.length;i++){
+            if(this.modifiedRecommendList[i].title.length>10){
+              for(var j=0; j<10; j++){
+                this.modifiedRecommendList[i].title=this.modifiedRecommendList[i].title.substring(0,10)+"...";
+              }
+            }
+          }
         }
       )
     }
@@ -105,8 +113,16 @@ export class LandingPageComponent implements OnInit {
       .subscribe(
         (data) => {
           this.recommendList = data.body;
+          this.modifiedRecommendList=data.body;
             console.log("City is not blank");
           console.log("Recommended events by city in landing page: " + this.recommendList.length);
+          for(var i=0; i<this.modifiedRecommendList.length;i++){
+            if(this.modifiedRecommendList[i].title.length>10){
+              for(var j=0; j<10; j++){
+                this.modifiedRecommendList[i].title=this.modifiedRecommendList[i].title.substring(0,10)+"...";
+              }
+            }
+          }
         }
       )
     }
@@ -114,12 +130,19 @@ export class LandingPageComponent implements OnInit {
 
 
     //========================================== Upcoming events ===========================================
-    this.http.get<Event[]>('http://localhost:8082/api/v1/upcoming-events/maitymayukh23@gmail.com', this.headers)
+    this.http.get<Event[]>('http://localhost:8082/api/v1/upcoming-events/gm@gmail.com', this.headers)
       .subscribe(
         (data) => {
-          this.upcomingPosterList = data.body;
-          this.upcomingList = this.upcomingPosterList;
+          this.upcomingList=data.body;
+          this.modifiedUpcomingList = data.body;
           console.log("Upcoming events in landing page: " + this.upcomingList.length);
+          for(var i=0; i<this.modifiedUpcomingList.length;i++){
+            if(this.modifiedUpcomingList[i].title.length>10){
+              for(var j=0; j<10; j++){
+                this.modifiedUpcomingList[i].title=this.modifiedUpcomingList[i].title.substring(0,10)+"...";
+              }
+            }
+          }
         }
       )
 
@@ -129,9 +152,17 @@ export class LandingPageComponent implements OnInit {
     this.http.get<Event[]>('http://localhost:8082/api/v1/all-events', this.headers)
       .subscribe(
         (data) => {
+          this.modifiedAllEventsList=data.body;
           this.runningList = data.body;
           this.allEventsList = this.runningList;
           console.log("All events in landing page: " + this.runningList.length);
+          for(var i=0; i<this.modifiedAllEventsList.length;i++){
+            if(this.modifiedAllEventsList[i].title.length>10){
+              for(var j=0; j<10; j++){
+                this.modifiedAllEventsList[i].title=this.modifiedAllEventsList[i].title.substring(0,10)+"...";
+              }
+            }
+          }
         }
       )
       console.log("All events outside subscribe: " +this.allEventsList);
@@ -334,14 +365,18 @@ export class LandingPageComponent implements OnInit {
 
   ifContains(list1: String[], list2: String[]): Boolean {
 
-    var l1: any[];
-    var l2: any[];
+    var l1: any[]=[];
+    var l2: any[]=[];
 
 
-    for(var i=0, j=0; i<list1.length, j<list2.length; i++, j++){
-      l1.push(list1[i].toLowerCase);
-      l2.push(list2[j].toLowerCase);
+    for(var i=0; i<list1.length; i++){
+      l1.push(list1[i].toLowerCase( ));
     }
+    for(var j=0; j<list2.length; j++){
+      l2.push(list2[j].toLowerCase( ));
+    }
+    console.log("l1: "+l1);
+    console.log("l2: "+l2);
 
     var res: boolean = false;
     console.log("list1: " + l1.length + " list2: " + l2.length);
