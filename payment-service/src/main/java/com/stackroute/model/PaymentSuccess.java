@@ -8,5 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaymentSuccess {
-    String orderId, paymentId, signature;
+    String orderId, paymentId, signature, eventId, amount, title, description, username, email;
+    private Venue venue;
+    private EventTiming timings;
+    private Seat seats;
 }
