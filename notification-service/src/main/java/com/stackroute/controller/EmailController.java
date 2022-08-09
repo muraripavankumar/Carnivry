@@ -2,6 +2,7 @@ package com.stackroute.controller;
 
 import com.stackroute.model.ConsumerEmail;
 
+import com.stackroute.model.MailResponse;
 import com.stackroute.model.ProducerEmail;
 import com.stackroute.service.EmailService;
 import freemarker.template.TemplateException;
@@ -44,15 +45,14 @@ public class EmailController {
     }
 
     @PostMapping("/sendingEmailToConsumer")
-    public ResponseEntity sendEmailtoConsumer(@RequestBody ConsumerEmail consumerEmail) throws MessagingException, TemplateException, IOException {
-        try {
+    public MailResponse sendEmailtoConsumer(@RequestBody ConsumerEmail consumerEmail) throws MessagingException, TemplateException, IOException {
+//        try {
             log.debug("inside sendEmailtoConsumer() method");
-            emailService.mailToConsumer(consumerEmail);
-            return new ResponseEntity<>("ticket details sucessfully sent to useremail",HttpStatus.OK);
-        }catch (Exception ex){
-            log.error("Exception in EmailController class->sendEmailtoConsumer() method");
-            return new ResponseEntity<>("error occurs due to exception case",HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+            return emailService.mailToConsumer(consumerEmail);
+//        }catch (Exception ex){
+//            log.error("Exception in EmailController class->sendEmailtoConsumer() method");
+//            return new ResponseEntity<>("error occurs due to exception case",HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
 
     }
 

@@ -97,9 +97,11 @@ public class EmailServiceImpl implements EmailService{
             Template template=configuration.getTemplate("consumerEmail-template.ftl");
             List<Seat> seat=new ArrayList<Seat>();
             seat.addAll(consumerEmail.getBoughtSeats());
+            List<SeatDetails> s1=convert(seat);
             Map<String, Object> model = new HashMap<>();
             model.put("consumerName",consumerEmail.getEventConsumerName());
             model.put("eventTitle",consumerEmail.getEventTitle());
+            model.put("eventDescription",consumerEmail.getEventDescription());
             model.put("StartDate",consumerEmail.getEventTimings().getStartDate());
             model.put("EndDate",consumerEmail.getEventTimings().getEndDate());
             model.put("StartTime",consumerEmail.getEventTimings().getStartTime());
@@ -113,7 +115,7 @@ public class EmailServiceImpl implements EmailService{
             model.put("Country",consumerEmail.getVenue().getAddress().getCountry());
             model.put("Pincode",consumerEmail.getVenue().getAddress().getPincode());
             model.put("totalTickerPrice",consumerEmail.getTicketPrice());
-            model.put("listOfSeats",seat);
+            model.put("listOfSeats",s1);
             String html= FreeMarkerTemplateUtils.processTemplateIntoString(template,model);
 
 
@@ -133,6 +135,18 @@ public class EmailServiceImpl implements EmailService{
 
         return mailResponse;
 
+    }
+
+    public List<SeatDetails> convert(List<Seat> seat) {
+        List<SeatDetails> pros = new ArrayList<>();
+        for (Seat seat1: seat) {
+            SeatDetails seatDetails=new SeatDetails();
+            seatDetails.setSeatId(seat1.getSeatId());
+            seatDetails.setSeatCategory(seat1.getSeatCategory());
+            seatDetails.setSeatPrice(seat1.getSeatPrice());
+            pros.add(seatDetails);
+        }
+        return pros;
     }
 
 
