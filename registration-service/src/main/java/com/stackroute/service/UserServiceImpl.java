@@ -8,6 +8,7 @@ import com.stackroute.model.*;
 import com.stackroute.rabbitMQ.AuthenticationUserDTO;
 import com.stackroute.rabbitMQ.MessageProducer;
 import com.stackroute.rabbitMQ.SuggestionUserDTO;
+import com.stackroute.rabbitMQ.TicketDTO;
 import com.stackroute.repository.UserRepository;
 //import com.twilio.rest.api.v2010.account.Message;
 //import com.twilio.type.PhoneNumber;
@@ -542,19 +543,19 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void saveBookedTickets(Event pastEvent) {
-        if (userRepository.findById(pastEvent.getUserEmailId()).isPresent())
+    public void saveBookedTickets(TicketDTO ticket) {
+        if (userRepository.findById(ticket.getEmail()).isPresent())
         {
 
-            CarnivryUser carnivryUser= userRepository.findById(pastEvent.getUserEmailId()).get();
-            Set<Event> pastEvents= carnivryUser.getPastEvents();
-            if (pastEvents==null)
-                pastEvents= new HashSet<>();
-            pastEvents.add(pastEvent);
-            carnivryUser.setPastEvents(pastEvents);
+            CarnivryUser carnivryUser= userRepository.findById(ticket.getEmail()).get();
+            Set<TicketDTO> bookedTickets= carnivryUser.getTickets();
+            if (bookedTickets==null)
+                bookedTickets= new HashSet<>();
+            bookedTickets.add(ticket);
+            carnivryUser.setTickets(bookedTickets);
             userRepository.save(carnivryUser);
-            log.debug("Event with eventId {} is added to pastEvents of user with email id {}"
-                    ,pastEvent.getEventId(),pastEvent.getUserEmailId());
+            log.debug("Ticket for event with eventId {} is added to booked tickets of user with email id {}"
+                    ,ticket.getEventId(),ticket.getEmail());
         }
 
 
@@ -584,25 +585,53 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Set<Event> getPastEvents(String email) throws UserNotFoundException {
+    public List<TicketDTO> getPastEvents(String email) throws UserNotFoundException {
         if (userRepository.findById(email).isEmpty())
         {
             log.debug("User with email id {} not found",email);
             throw new UserNotFoundException();
         }
         CarnivryUser carnivryUser= userRepository.findById(email).get();
-        return carnivryUser.getPastEvents();
+        List<TicketDTO> pastEvents = new ArrayList<>();
+        Set<TicketDTO> allTickets= carnivryUser.getTickets();
+        if(allTickets==null)
+            return null;
+        for(TicketDTO ticket:allTickets){
+
+            Date endDate= ticket.getTimings().getEndDate();
+            Date date= new Date();
+            if(endDate.getTime()<date.getTime())
+                pastEvents.add(ticket);
+        }
+//        pastEvents.sort(Comparator.comparing(o1 -> o1.getTimings().getStartDate()));
+        pastEvents.sort((o1, o2) -> o2.getTimings().getStartDate().compareTo(o1.getTimings().getStartDate()));
+
+        return pastEvents;
     }
 
     @Override
-    public Set<Event> getUpcomingEvents(String email) throws UserNotFoundException {
+    public List<TicketDTO> getUpcomingEvents(String email) throws UserNotFoundException {
         if (userRepository.findById(email).isEmpty())
         {
             log.debug("User with email id {} not found",email);
             throw new UserNotFoundException();
         }
         CarnivryUser carnivryUser= userRepository.findById(email).get();
-        return carnivryUser.getUpcomingEvents();
+        List<TicketDTO> upcomingEvents = new ArrayList<>();
+        Set<TicketDTO> allTickets= carnivryUser.getTickets();
+        if(allTickets==null)
+            return null;
+        for(TicketDTO ticket:allTickets){
+
+           Date endDate= ticket.getTimings().getEndDate();
+           Date date= new Date();
+           if(endDate.getTime()>date.getTime())
+               upcomingEvents.add(ticket);
+        }
+//        upcomingEvents.sort(Comparator.comparing(o1 -> o1.getTimings().getStartDate()));
+        upcomingEvents.sort((o1, o2) -> o2.getTimings().getStartDate().compareTo(o1.getTimings().getStartDate()));
+
+        return upcomingEvents;
     }
 
     private Date calculateExpirationDate(int expirationTime) {

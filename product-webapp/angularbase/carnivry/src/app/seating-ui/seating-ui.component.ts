@@ -229,12 +229,13 @@ this.config = { ...this.config, leftTime: value };
             "email" :"abc@gmail.com",
             "eventId": this.eventdetails.eventId,
             "amount": this.getTotal(),
+            "username": "hello",
             "title": this.eventdetails.title,
             "description": this.eventdetails.eventDescription,
             "venue": this.eventdetails.venue,
             "timings": this.eventdetails.eventTimings,
             "seats": bookedSeats,
-            "username": "teo234",
+            "artists": this.eventdetails.artists,
             "orderId" : orderId,
             "paymentId" : paymentId,
             "signature" : signature
@@ -331,7 +332,7 @@ this.config = { ...this.config, leftTime: value };
               rzp1.open();
              let check= setInterval(() => {
                 if(ispaid===true){
-                  this.bookeddatadetails(orderId,paymentId,signature);
+                  this.bookeddatadetails(res.id,paymentId,signature);
                   clearInterval(check)
                 }
               }, 10000);

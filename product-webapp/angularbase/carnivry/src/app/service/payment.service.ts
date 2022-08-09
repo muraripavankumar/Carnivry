@@ -17,7 +17,7 @@ export class PaymentService {
     return this.myClient.post<RazorpayOrder>(this.baseUrl+"/create_order",data, {responseType: 'json'});
   }
 
-  paymentSuccess(data:any):Observable<RazorpaySuccess>{
-    return this.myClient.post<RazorpaySuccess>(this.baseUrl+"/payment_success",data, {responseType: 'json'});
+  paymentSuccess(data:any){
+    return this.myClient.post(this.baseUrl+"/payment_success",data, {responseType: 'text'});
   }
 }
