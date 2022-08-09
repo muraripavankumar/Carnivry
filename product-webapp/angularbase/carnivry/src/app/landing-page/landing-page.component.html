@@ -9,11 +9,12 @@
     <!-- Second tab -->
     <mat-tab label="Events For You">
       <!-- Recommendation -->
-  <div style="margin-left: 10px; font-weight: bold; font-size: 20px; margin-top: 10px;">Recommended Events</div>
+  <!-- <div style="margin-left: 10px; font-weight: bold; font-size: 20px; margin-top: 10px;">Recommended Events</div> -->
   <section class="product">
     <div class="container-fluid">
       <div class="slider-wrap">
         <div class="slider-main">
+          <div style="margin-left: 10px; font-weight: bold; font-size: 20px; margin-top: 10px;">Recommended Events</div>
           <div class="item" *ngFor="let item of recommendList">
             <div class="text">
               <mat-card class="example-card">
@@ -35,10 +36,16 @@
             </div> 
           </div>
         </div>
-        <div class="button-area">
+        <div *ngIf="controls" class="btn-carousel btn-prev" appPrev>
+          <i class="fas fa-arrow-circle-left icon-carousel icon-prev" appNext></i>
+      </div>
+      <div *ngIf="controls" class="btn-carousel btn-next">
+          <i class="fas fa-arrow-circle-right icon-carousel icon-next"></i>
+      </div>
+        <!-- <div class="button-area">
           <button type="button" class="prev" appPrev>Prev</button>
           <button type="button" class="next" appNext>Next</button>
-        </div>
+        </div> -->
       </div>
     </div>
   </section>
@@ -46,17 +53,20 @@
   
   
   <!-- Upcoming Events -->
-  <div style="margin-left: 10px; font-weight: bold; font-size: 20px; margin-top: 10px;">Upcoming Events</div>
+  <!-- <div style="margin-left: 10px; font-weight: bold; font-size: 20px; margin-top: 10px;">Upcoming Events</div> -->
   <section class="product">
     <div class="container-fluid">
       <div class="slider-wrap">
         <div class="slider-main">
+          <div style="margin-left: 10px; font-weight: bold; font-size: 20px; margin-top: 10px;">Upcoming Events</div>
           <div class="item" *ngFor="let item of upcomingList">
-           <a><div class="text">
+           <div class="text">
               <mat-card class="example-card">
-                <img class="image" mat-card-image src={{item.poster}}>
+                <a [routerLink]="['/view-page',item.eventId]"><img class="image" mat-card-image src={{item.poster}}></a>
                 <div class="likes">{{item.likes}} Likes
-                  <img (click)="like(item.eventId)" class="likeImage" src="../assets/like.png">
+                  <mat-icon (click)="like(item.eventId)" class="likeImage">thumb_up</mat-icon>
+                  <mat-icon (click)="wishlist(item.eventId)" class="likeImage">favorite</mat-icon>
+                  <!-- <img (click)="like(item.eventId)" class="likeImage" src="../assets/like.png"> -->
               </div>
                 <!-- <mat-card-header class="card-header"> -->
                   <div>
@@ -67,13 +77,19 @@
                 
                 
               </mat-card>
-            </div> </a> 
+            </div>
           </div>
         </div>
-        <div class="button-area">
+        <div *ngIf="controls" class="btn-carousel btn-prev" appPrev>
+          <i class="fas fa-arrow-circle-left icon-carousel icon-prev" appNext></i>
+      </div>
+      <div *ngIf="controls" class="btn-carousel btn-next">
+          <i class="fas fa-arrow-circle-right icon-carousel icon-next"></i>
+      </div>
+        <!-- <div class="button-area">
           <button type="button" class="prev" appPrev>Prev</button>
           <button type="button" class="next" appNext>Next</button>
-        </div>
+        </div> -->
       </div>
     </div>
   </section>
