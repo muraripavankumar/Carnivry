@@ -9,11 +9,9 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Seat {
-    private int row;
-    private int colm;
+public class SeatDetails {
     private int seatId;
-    private BigDecimal seatPrice;
-    private String status;
     private String seatCategory;
+    private BigDecimal seatPrice;
+
 }

@@ -14,8 +14,8 @@ export class ViewPageService {
 
   viewEventurl="http://localhost:5300/ticket"
 
-  getHostEventById() {
-    return this.httpClient.get<any>(this.viewEventurl+ "/" + "22b8f962-a9ad-49da-b531-337fa8592d72");
+  getHostEventById(eventId:string) {
+    return this.httpClient.get<any>(this.viewEventurl+ "/" + eventId);
   }
 
   getHostEventById1(url:any) {

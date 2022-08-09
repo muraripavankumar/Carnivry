@@ -1,5 +1,8 @@
-package com.stackroute.model;
+package com.stackroute.rabbitmq;
 
+import com.stackroute.model.EventTiming;
+import com.stackroute.model.Seat;
+import com.stackroute.model.Venue;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -10,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ConsumerEmail {
+public class EventDetailsDTO {
     String eventConsumerEmailId;
     String eventTitle;
     String eventDescription;

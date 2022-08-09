@@ -84,11 +84,11 @@ public class NotificationControllerTest {
         Address address=new Address("23","Test street","Test landmark","Test city","Test state","Test Country",123456);
         Venue venue=new Venue("Test venue name",address);
         ArrayList<Seat> seatArrayList=new ArrayList<>();
-        Seat seat1=new Seat(5,6,1,new BigDecimal("100.05"),"NOT_BOOKED");
-        Seat seat2=new Seat(5,6,2,new BigDecimal("200.05"),"NOT_BOOKED");
+        Seat seat1=new Seat(5,6,1,new BigDecimal("100.05"),"NOT_BOOKED","common");
+        Seat seat2=new Seat(5,6,2,new BigDecimal("200.05"),"NOT_BOOKED","common");
         seatArrayList.add(seat1);
         seatArrayList.add(seat2);
-        consumerEmail=new ConsumerEmail("muraripavankumar24@gmail.com","title1","name1",eventTiming,venue,250.0,seatArrayList);
+        consumerEmail=new ConsumerEmail("muraripavankumar24@gmail.com","title1","description1","name1",eventTiming,venue,new BigDecimal(2000),seatArrayList);
         mailResponse=new MailResponse("mail sent to consumer successfully",true);
         when(emailService.mailToConsumer(consumerEmail)).thenReturn(mailResponse);
         try {

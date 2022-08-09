@@ -280,10 +280,10 @@
     border-image-source: linear-gradient(to left, #0616f4, #06acf9);
     width: fit-content;
     padding: 1rem;
-    background-image: linear-gradient(to right, #1f3ebc, #01a5c2);
+    /* background-image: linear-gradient(to right, #1f3ebc, #01a5c2); */
     padding: 0.8rem;
     box-shadow: 3px 3px 15px 3px rgb(134, 134, 134);
-    color: white;
+
 }
 
 .timing-content{
@@ -513,7 +513,7 @@
  -webkit-box-shadow: 0px 10px 41px -11px rgba(0, 0, 0, 0.7);
   -moz-box-shadow: 0px 10px 41px -11px rgba(0, 0, 0, 0.7);
  box-shadow: 0px 10px 41px -11px rgba(0, 0, 0, 0.7);
- background: linear-gradient(45deg, #ff11a0, rgba(110, 112, 255, 0.714));
+ background: linear-gradient(45deg, #bb36fd, #9b00e8);
   margin-top: 5rem;
   margin-right: 10rem;
  }
@@ -522,6 +522,7 @@
                                         
  .book-button:hover{
     background: linear-gradient(45deg, #c85bff, #b726ff);
+
                    }
 
                    .artists-venue{
