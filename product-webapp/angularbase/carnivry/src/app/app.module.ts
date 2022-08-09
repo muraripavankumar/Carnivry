@@ -100,7 +100,7 @@ import { UpcomingEventsComponent } from './upcoming-events/upcoming-events.compo
     ViewPageComponent,
     NavigationComponent,
     SeatingUIComponent,
-    LandingPageComponent  ,         
+    LandingPageComponent,         
     FooterComponent, HeaderComponent, DialogBoxChooseCityComponent, NextDirective, PrevDirective, SearchComponent, PastEventsComponent, UpcomingEventsComponent     
   ],
   imports: [

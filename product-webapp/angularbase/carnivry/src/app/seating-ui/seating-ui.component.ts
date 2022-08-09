@@ -10,10 +10,11 @@ import { Observable } from 'rxjs';
 
 import { CountdownConfig, CountdownEvent } from 'ngx-countdown';
 import { TicketingServiceService } from '../service/ticketing-service.service';
+import { PaymentService } from '../service/payment.service';
 
 const KEY = 'time';
 const DEFAULT = 20;
-
+declare var Razorpay:any;
 @Component({
   selector: 'app-seating-ui',
   templateUrl: './seating-ui.component.html',
@@ -46,17 +47,22 @@ export class SeatingUIComponent implements OnInit {
   colorIndexCounter: number = 0;
 
   constructor(private viewEvent:ViewPageService,private httpClient:HttpClient,
-    private location: Location,private ActivatedRoute: ActivatedRoute,private ticketingService: TicketingServiceService) { }
+    private location: Location,private ActivatedRoute: ActivatedRoute,private ticketingService: TicketingServiceService,private paymentService:PaymentService) { 
+      this.email=localStorage.getItem('email')
+    }
   eventdetails:Event=new Event();
   url:string;
+  email:any;
 
 
   display(url:string){
     console.log(url)
+    
     this.viewEvent.getHostEventforSeats(url).subscribe(
       result=>{
        
         this.eventdetails=result;
+        
         this.onDisplay1();
         this.uniquecategories();
         document.documentElement.style.setProperty("--colNum",<string><unknown>this.eventdetails.seats[1].colm)
@@ -144,6 +150,7 @@ onDisplay1(){
     alert("Ticket not available")
   }
 ))
+
 this.showBooking();
     }
 
@@ -178,16 +185,17 @@ this.config = { ...this.config, leftTime: value };
       
     }
 
-    pay(){
-          
+    
+
+    confirm(){
       let bookedSeats: any[]= [];
       this.selectedItems.forEach((item)=>{
-        bookedSeats.concat(this.eventdetails.seats[item-1]);
+        bookedSeats.push(this.eventdetails.seats[item-1]);
       })
 
 
 
-      var data= {
+      var successData= {
             "email" :"abc@gmail.com",
             "eventId": this.eventdetails.eventId,
             "amount": this.getTotal(),
@@ -196,11 +204,100 @@ this.config = { ...this.config, leftTime: value };
             "venue": this.eventdetails.venue,
             "timings": this.eventdetails.eventTimings,
             "seats": bookedSeats,
+            "username": "teo234",
+            
+            
           }
-
-        console.log(data);
+        console.log(successData);
         
     }
+
+    bookeddatadetails(){
+
+    }
+
+    
+    pay(){
+      let orderId;
+      let paymentId;
+      let signature;
+        var bookData={
+          "email" :"abc@gmail.com",
+          "eventId": this.eventdetails.eventId,
+          "amount": this.getTotal()
+        }
+
+
+        this.paymentService.createOrder(bookData).subscribe(res=>{
+      
+          console.log("Order created");
+          console.log(res);
+          if(res.status==='created')
+           {
+            console.log(true);
+            
+            var options = {
+              "key": "rzp_test_Sxqcnn9dko0BzB", // Enter the Key ID generated from the Dashboard
+              "amount": res.amount, // Amount is in currency subunits. Default currency is
+              
+              "currency": res.currency,
+              "name": "Carnivry",
+              "description": "Carnivry Ticket Booking",
+              "image": "https://www.digitaloutlook.com.au/wp-content/uploads/2017/09/future_payment_methods-compressor-1.jpg",
+              "order_id": res.id, //This is a sample Order ID.
+              "handler": function (res: { razorpay_payment_id: any; razorpay_order_id: any; razorpay_signature: any; }){
+
+              console.log(res.razorpay_payment_id);
+              console.log(res.razorpay_order_id);
+              console.log(res.razorpay_signature);
+              console.log("Payment Successful");
+              orderId=res.razorpay_order_id;
+              paymentId=res.razorpay_payment_id;
+              signature=res.razorpay_signature;
+
+              },
+              "prefill": {
+              "name": "Carnivryuser1",
+              "email": bookData.email,
+              "contact": ""
+              },
+              "notes": {
+              "address": "Carnivry Pvt. Ltd."
+              
+              },
+              "theme": {
+              "color": "#3399cc"
+              }
+              };
+    
+              // var rzp1 = new Razorpay(options);
+              var rzp1 = new Razorpay(options);
+              rzp1.on('payment.failed', function (response: { error: { code: any; description: any; source: any; step: any; reason: any; metadata: { order_id: any; payment_id: any; }; }; }){
+              console.log(response.error.code);
+              console.log(response.error.description);
+              console.log(response.error.source);
+              console.log(response.error.step);
+              console.log(response.error.reason);
+              console.log(response.error.metadata.order_id);
+              console.log(response.error.metadata.payment_id);
+    
+              alert("Sorry! Payment failed.");
+              });
+    
+              rzp1.open(); 
+    
+           
+           }
+        },
+        error=>{
+          console.log(error);
+        })
+      }
+
+
+  
+
+
   ngOnInit(): void {
     let id = this.ActivatedRoute.snapshot.paramMap.get('id');
 this.url=id;
