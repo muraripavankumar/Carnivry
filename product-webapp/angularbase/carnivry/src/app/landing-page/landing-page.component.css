@@ -8,9 +8,11 @@
     width: 100%;
 }
 .container-fluid{
+  
     height: 100%;
 }
 .slider-wrap{
+  
     position: relative;
     overflow: hidden;
     height: 450px;
@@ -23,6 +25,7 @@
     height: 450px;
 }
 .item{
+  
     display: inline-block;
     width: 210px;
     height: 450px;
@@ -200,4 +203,31 @@ section {
   outline: none;
   width: 430px;
   height: 30px;
+}
+
+
+.icon-prev,
+.icon-next{
+    font-size: 35px;
+}
+.btn-prev{
+  left: -2px;
+}
+.btn-next{
+  right: -2px;
+}
+.btn-carousel{
+  position: absolute;
+  top: 0;
+  bottom: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3%;
+  padding: 0;
+  color: black;
+  text-align: center;
+  background: 0 0;
+  border: 0;
+  cursor: pointer;
 }

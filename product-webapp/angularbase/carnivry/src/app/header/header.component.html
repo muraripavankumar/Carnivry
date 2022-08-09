@@ -23,10 +23,10 @@
 
 
 
-    <div style="display: flex; width: 100%;">
+    <div style="margin-left: 200px;display: flex; width: 450px; height: 50px; align-items: center;">
 
       <!-- Add Event -->
-      <div style="margin-left:150px ; display: flex;">
+      <div style="display: flex;">
         
         <section>
           <button mat-button (click)="addEvent()">Add Event</button>
@@ -53,7 +53,7 @@
             <!-- <button mat-button [matMenuTriggerFor]="beforeMenu">{{signIn}}</button> -->
           </div>
         
-        <button style="border:1px solid black; border-radius: 10px; margin-left: 30px;" mat-button *ngIf="!login"
+        <button style="border:1px solid black; border-radius: 10px; margin-left: 30px; background-color: white;" mat-button *ngIf="!login"
           (click)="SignInLogin()">SignIn/Login</button>
 
       </div>

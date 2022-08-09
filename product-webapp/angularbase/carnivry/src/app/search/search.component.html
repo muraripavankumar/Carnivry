@@ -1,4 +1,9 @@
 <!-- Search box -->
-<div class="search-container">    
-    <input style="height: 40px; margin-left: 40px;" class="search" type="search" placeholder="Search event" [(ngModel)]="enteredSearchValue" (input)="onSearchTextChanged()" >
+<div class="search-container">  
+  <div class="search">
+    <div style="margin-top: 7px;">
+    <mat-icon>search</mat-icon>
+    </div>
+    <input style="border: none;outline: 0;font-size: 18px;width: 405px; border-top-left-radius: 7px; border-top-right-radius: 7px;"  type="search" placeholder="Search event" [(ngModel)]="enteredSearchValue" (input)="onSearchTextChanged()" >
   </div>
+</div>

@@ -1,5 +1,11 @@
 .search{
     outline: none;
     width: 430px;
-    height: 30px;
+    height: 40px;
+    margin-left: 40px;
+    border: 0px solid black;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    background-color: white;
+    display: flex;
   }
