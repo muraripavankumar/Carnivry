@@ -17,13 +17,13 @@ public class MessageConsumer {
     }
 
     //old bought ticket
-    @RabbitListener(queues = "queue_5")
+//    @RabbitListener(queues = "queue_5")
     public void addPastEvents(Event pastEvent){
         userService.savePastEvents(pastEvent);
     }
 
     //new bought ticket
-    @RabbitListener(queues = "queue_6")
+//    @RabbitListener(queues = "queue_6")
     public void addUpcomingEvents(Event upcomingEvent){
         userService.saveUpcomingEvents(upcomingEvent);
     }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewPageService } from '../service/view-page.service';
 import { Event } from '../model/event';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { TicketingServiceService } from '../service/ticketing-service.service';
 
@@ -12,7 +12,7 @@ import { TicketingServiceService } from '../service/ticketing-service.service';
 })
 export class ViewPageComponent implements OnInit {
 
-  constructor(private viewEvent:ViewPageService,private redirect: Router,private ticketingService:TicketingServiceService) { }
+  constructor(private viewEvent:ViewPageService,private redirect: Router,private ticketingService:TicketingServiceService, private routeUrl:ActivatedRoute) { }
   eventdetails:any;
   url:string;
   posterUrl:string;
@@ -26,7 +26,9 @@ export class ViewPageComponent implements OnInit {
 
 
   display(){
-    this.viewEvent.getHostEventById().subscribe(
+    console.log(this.routeUrl.snapshot.paramMap.get('id'));
+    const eventId:string=this.routeUrl.snapshot.paramMap.get('id');
+    this.viewEvent.getHostEventById(eventId).subscribe(
       result=>{
         console.log(this.eventdetails)
         this.eventdetails=result;
@@ -35,7 +37,7 @@ export class ViewPageComponent implements OnInit {
       },
       error=>{
         alert("this webpage is not curently available")
-        this.redirect.navigate(['Carnivry/'])
+        this.redirect.navigate([''])
         console.log(error)
       }
     )
