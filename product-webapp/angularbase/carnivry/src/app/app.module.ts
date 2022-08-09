@@ -26,6 +26,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { EmailVerificationComponent } from './email-verification/email-verification.component';
 import { AddPreferenceComponent } from './add-preference/add-preference.component';
+import { CountdownModule } from 'ngx-countdown';
 
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
@@ -51,6 +52,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 
@@ -98,7 +100,7 @@ import { UpcomingEventsComponent } from './upcoming-events/upcoming-events.compo
     ViewPageComponent,
     NavigationComponent,
     SeatingUIComponent,
-    LandingPageComponent  ,         
+    LandingPageComponent,         
     FooterComponent, HeaderComponent, DialogBoxChooseCityComponent, NextDirective, PrevDirective, SearchComponent, PastEventsComponent, UpcomingEventsComponent     
   ],
   imports: [
@@ -106,6 +108,7 @@ import { UpcomingEventsComponent } from './upcoming-events/upcoming-events.compo
     BrowserAnimationsModule,
     MatStepperModule,
     ReactiveFormsModule,
+    CountdownModule,
     FormsModule,
     HttpClientModule,
     MatInputModule,
@@ -151,6 +154,7 @@ import { UpcomingEventsComponent } from './upcoming-events/upcoming-events.compo
     MatToolbarModule,
     MatMenuModule,
     CarouselModule,
+    FlexLayoutModule,
   ],
   providers: [
     {

@@ -122,7 +122,7 @@ export class HeaderComponent implements OnInit {
           
           for(var i=0; i<this.allEventsList.length; i++){
             if(this.allEventsList[i].title.toLowerCase().includes(this.searchText.toLowerCase()) && this.searchText!=""){
-              this.filteredList.push(this.allEventsList[i].title);
+              this.filteredList.push(this.allEventsList[i]);
             }
           }
           this.titleList=this.filteredList;
@@ -142,29 +142,14 @@ export class HeaderComponent implements OnInit {
     
   }
 
+  openViewPage(eventId: any){
+    this.titleList=[];
+    this.router.navigate(['/view-page',eventId]);
+  }
+
   
 
 
-  // private _filter(value: string): string[] {
-
-  //   this.http.get<Event[]>('http://localhost:8082/api/v1/all-events', this.headers)
-  //     .subscribe(
-  //       (data) => {
-  //         this.allEventsList = data.body;
-  //         this.allEventsList = this.allEventsList;
-  //         console.log("All events in landing page: " + this.allEventsList.length);
-  //         const filterValue = value.toLowerCase();
-  //         return this.allEventsList.filter((title: string) => title.toLowerCase().includes(filterValue));
-  //       }
-  //     )
-
-
-  // }
-
   ngOnInit(): void {
-    // this.filteredOptions = this.myControl.valueChanges.pipe(
-    //   startWith(''),
-    //   map(value => this._filter(value || '')),
-    // );
   }
 }

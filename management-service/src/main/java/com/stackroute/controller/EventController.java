@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1")
 //http://localhost:8081/api/v1
 public class EventController {
-    //addEvent               = POST =
-    //updateEvent            = PATCH =
-    //getAllEvents           = GET
-    //getEventByEventId      = GET = /event/{eventId}
-    //getEventByUserEmailId  =GET = /{userEmail}
-    //getPastEventsByUserEmailId =GET = /past/{userEmail}
+    //addEvent                      = POST =
+    //updateEvent                   = PATCH =
+    //getAllEvents                  = GET
+    //getEventByEventId             = GET = /event/{eventId}
+    //getEventByUserEmailId         =GET = /{userEmail}
+    //getPastEventsByUserEmailId    =GET = /past/{userEmail}
     //getUpcomingEventByUserEmailId =GET = /upcoming/{userEmail}
 
 

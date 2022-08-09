@@ -2,6 +2,7 @@ package com.stackroute.Controller;
 
 
 import com.stackroute.Exceptions.EventNotFoundException;
+import com.stackroute.Exceptions.SeatNotFoundException;
 import com.stackroute.Service.TicketingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class TicketController {
             return new ResponseEntity<>("The Event is not currently available. We will be back soon",HttpStatus.CONFLICT);
         }
         catch (Exception ex){
-            log.error("Exception occured in TicketController->getEventByEventId");
+            log.error("Exception occured in TicketController->getEventByEventId" + ex);
             return new ResponseEntity<>("Unexpected Error happened. We will be back soon",HttpStatus.CONFLICT);
         }
 
@@ -66,15 +67,36 @@ public class TicketController {
             return new ResponseEntity<>(ticketingService.bookTicketforNoSeat(eventId), HttpStatus.OK);
         }
         catch (EventNotFoundException e){
-            log.error("Exception occured in TicketController->getEventByEventId");
+            log.error("Exception occured in TicketController->bookTicketswithnoSeats");
             return new ResponseEntity<>("The Event is not currently available. We will be back soon",HttpStatus.CONFLICT);
         }
         catch (Exception ex){
-            log.error("Exception occured in TicketController->getEventByEventId");
+            log.error("Exception occured in TicketController->bookTicketswithnoSeats");
+            return new ResponseEntity<>("Unexpected Error happened. We will be back soon",HttpStatus.CONFLICT);
+        } catch (SeatNotFoundException e) {
+            log.error("Exception occured in TicketController->bookTicketswithnoSeats");
+            return new ResponseEntity<>("All seats are booked",HttpStatus.CONFLICT);
+        }
+
+    }
+
+    // http://localhost:5300/ticket/stream/book/{eventId} get
+    @GetMapping("/stream/book/{eventId}")
+    public ResponseEntity<?> bookTicketsonStream(@PathVariable String eventId) {
+        try {
+            return new ResponseEntity<>(ticketingService.bookTicketforforStreaming(eventId), HttpStatus.OK);
+        }
+        catch (EventNotFoundException e){
+            log.error("Exception occured in TicketController->bookTicketsOnStream");
+            return new ResponseEntity<>("The Event is not currently available. We will be back soon",HttpStatus.CONFLICT);
+        }
+        catch (Exception ex){
+            log.error("Exception occured in TicketController->bookTicketsOnStream");
             return new ResponseEntity<>("Unexpected Error happened. We will be back soon",HttpStatus.CONFLICT);
         }
 
     }
+
     // http://localhost:5300/ticket/{eventId}/{nid} get
     @GetMapping("/{eventId}/{nid}")
     public ResponseEntity<?> getTicket(@PathVariable String eventId,@PathVariable int nid)  {
@@ -92,8 +114,9 @@ public class TicketController {
         log.error("Exception occured in TicketController->getTicket");
         return new ResponseEntity<>("Unexpected Error happened. We will be back soon",HttpStatus.CONFLICT);
          }
-
     }
+
+
 
     // http://localhost:5300/ticket/book/{eventId}/{nid} get
     @GetMapping("/book/{eventId}/{nid}")

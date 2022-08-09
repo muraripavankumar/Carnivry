@@ -1,0 +1,75 @@
+.close_btn_box{
+    width: 100%;
+    padding: 0px 10px;
+    display: flex;
+    justify-content: end;
+    margin-bottom: 10px;
+}
+.close_btn{
+    width: 10%;
+    color: white;
+    background-image: linear-gradient(45deg, #f046ff, #9b00e8);
+}
+.body{
+    text-align: center;
+    width: 100%;
+}
+.dob{
+    text-align: center;
+    border: 2px solid #9b00e8;
+    border-radius: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+}
+.heading{
+    font-weight: 900;
+    font-size: 30px;
+    color: #9b00e8;
+}
+.input{
+    position: relative;
+    width: 80%;
+}
+.fas{
+    position: absolute;
+    top: 40%;
+    left: 0%;
+    color: #9b00e8;
+}
+.myForm{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+    padding-bottom: 20px;
+   
+}
+.butt_box{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+}
+.butt{
+    background-image: linear-gradient(45deg, #f046ff, #9b00e8);
+    color: white;
+    border-radius: 25px;
+    margin: 0px;
+    padding: 0px;
+    width: 25%;
+    height: 4vh;
+}
+.butt:hover {
+    background: linear-gradient(45deg, #c85bff, #b726ff);
+    color: rgb(234, 211, 245);
+  }
+.myInput{
+    width: 100%;
+    border-radius: 10px;
+    border: 2px solid #9b00e8;
+}

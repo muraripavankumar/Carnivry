@@ -22,7 +22,7 @@ public class Consumer {
     }
 
 //    @RabbitListener(queues = "management_suggestion_update_event_queue")
-//    public void getDataAndUpdateEvents(Events events) throws EventAlreadyExistException, EventNotFoundException {
-//        eventService.updateEvent(events);
-//    }
+    public void getDataAndUpdateEvents(Events events) throws EventAlreadyExistException, EventNotFoundException {
+        eventService.updateEvent(events);
+    }
 }

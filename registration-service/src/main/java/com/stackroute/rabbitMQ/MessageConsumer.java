@@ -16,13 +16,10 @@ public class MessageConsumer {
         this.userService = userService;
     }
 
+    //old bought ticket
 //    @RabbitListener(queues = "queue_5")
-    public void addPastEvents(Event pastEvent){
-        userService.savePastEvents(pastEvent);
+    public void addbookedTickets(Event pastEvent){
+        userService.saveBookedTickets(pastEvent);
     }
-
-//    @RabbitListener(queues = "queue_6")
-    public void addUpcomingEvents(Event upcomingEvent){
-        userService.saveUpcomingEvents(upcomingEvent);
-    }
+    
 }

@@ -1,18 +1,18 @@
 <div class="profilePic">
-    <div mat-dialog-actions>
-        <button mat-raised-button mat-dialog-close style="margin-left: 90%;">
+    <div mat-dialog-actions class="close_btn_box">
+        <button mat-raised-button mat-dialog-close class="close_btn">
             <mat-icon class="icon">clear</mat-icon>
         </button>
     </div>
-    <div class="container">
-        <div class="row">
-            <h1>Update Profile Photo</h1>
-        </div>
-        <div class="row">
+    <div class="container body">
+       
+       
+            <h1 class="heading">Update Profile Photo</h1>
             <form [formGroup]="profilePicForm" (ngSubmit)="onSubmit()" class="myForm text-center">
                 <div class="form-group input">
-                    <i class="fas fa-envelope" id="fas_2"></i>
-                    <input type="email" formControlName="email" class="form-control myInput" placeholder="Email"
+                    <!-- <i class="fas fa-envelope" id="fas_2"></i> -->
+                    <label for="email">Your email</label>
+                    <input type="email" formControlName="email" class="myInput" placeholder="Email"
                     
                         [ngClass]="{'is-invalid': f['email'].errors && f['email'].touched}" />
                     <div *ngIf="f['email'].errors && (f['email'].touched || f['email'].dirty)"
@@ -24,7 +24,7 @@
                 <div class="form-group input">
 
                     <label for="profilePic">Upload Profile Picture</label>
-                    <input type="file"  (change)="onFileChanged($event)" name="profilePic" class="form-control myInput">
+                    <input type="file"  (change)="onFileChanged($event)" name="profilePic" class="myInput">
                     <br>
                     <img [src]="profilePicUrl" height="200" *ngIf="profilePicUrl">
                     <div *ngIf="f['profilePic'].errors && (f['profilePic'].touched || f['profilePic'].dirty)"
@@ -35,16 +35,16 @@
                 </div>
 
                 <div class="butt_box">
-                    <div mat-dialog-actions>
+                    
   
                         <button type="submit" class="butt" [disabled]="!profilePicForm.valid"
                     [mat-dialog-close]="profilePicUrl" >Submit</button>
-                      </div>
+                      
                     
 
                 </div>
             </form>
-        </div>
+        
     </div>
 
 </div>
