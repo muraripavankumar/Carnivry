@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RazorpayOrder } from '../model/razorpay-order';
+import { RazorpaySuccess } from '../model/razorpay-success';
 
 @Injectable({
   providedIn: 'root'
@@ -14,5 +15,9 @@ export class PaymentService {
 
   createOrder(data: any):Observable<RazorpayOrder>{
     return this.myClient.post<RazorpayOrder>(this.baseUrl+"/create_order",data, {responseType: 'json'});
+  }
+
+  paymentSuccess(data:any):Observable<RazorpaySuccess>{
+    return this.myClient.post<RazorpaySuccess>(this.baseUrl+"/payment_success",data, {responseType: 'json'});
   }
 }

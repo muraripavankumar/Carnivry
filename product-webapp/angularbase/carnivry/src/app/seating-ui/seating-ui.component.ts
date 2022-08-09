@@ -11,6 +11,9 @@ import { Observable } from 'rxjs';
 import { CountdownConfig, CountdownEvent } from 'ngx-countdown';
 import { TicketingServiceService } from '../service/ticketing-service.service';
 import { PaymentService } from '../service/payment.service';
+import { stringToKeyValue } from '@angular/flex-layout/extended/style/style-transforms';
+import { RazorpaySuccess } from '../model/razorpay-success';
+
 
 const KEY = 'time';
 const DEFAULT = 20;
@@ -187,7 +190,32 @@ this.config = { ...this.config, leftTime: value };
 
     
 
-    confirm(){
+    // confirm(){
+    //   let bookedSeats: any[]= [];
+    //   this.selectedItems.forEach((item)=>{
+    //     bookedSeats.push(this.eventdetails.seats[item-1]);
+    //   })
+
+
+
+    //   var successData= {
+    //         "email" :"abc@gmail.com",
+    //         "eventId": this.eventdetails.eventId,
+    //         "amount": this.getTotal(),
+    //         "title": this.eventdetails.title,
+    //         "description": this.eventdetails.eventDescription,
+    //         "venue": this.eventdetails.venue,
+    //         "timings": this.eventdetails.eventTimings,
+    //         "seats": bookedSeats,
+    //         "username": "teo234",
+            
+            
+    //       }
+    //     console.log(successData);
+        
+    // }
+
+    bookeddatadetails(orderId:any,paymentId:any,signature:any ){
       let bookedSeats: any[]= [];
       this.selectedItems.forEach((item)=>{
         bookedSeats.push(this.eventdetails.seats[item-1]);
@@ -196,6 +224,8 @@ this.config = { ...this.config, leftTime: value };
 
 
       var successData= {
+            "image":this.eventdetails.posters[0],
+            "host" : this.eventdetails.userEmailId,
             "email" :"abc@gmail.com",
             "eventId": this.eventdetails.eventId,
             "amount": this.getTotal(),
@@ -205,22 +235,31 @@ this.config = { ...this.config, leftTime: value };
             "timings": this.eventdetails.eventTimings,
             "seats": bookedSeats,
             "username": "teo234",
+            "orderId" : orderId,
+            "paymentId" : paymentId,
+            "signature" : signature
             
             
           }
-        console.log(successData);
+          this.paymentService.paymentSuccess(successData).subscribe(
+            result=>{
+              console.log("Payment Successful, data is transferred")
+            },
+            error=>{
+              console.log("Payment successful, data is not transferred")
+            }
+          )
         
-    }
-
-    bookeddatadetails(){
 
     }
 
     
+    
     pay(){
-      let orderId;
-      let paymentId;
-      let signature;
+      let orderId: string;
+      let paymentId: string;
+      let signature: string;
+      let ispaid=false;
         var bookData={
           "email" :"abc@gmail.com",
           "eventId": this.eventdetails.eventId,
@@ -237,6 +276,8 @@ this.config = { ...this.config, leftTime: value };
             console.log(true);
             
             var options = {
+
+              
               "key": "rzp_test_Sxqcnn9dko0BzB", // Enter the Key ID generated from the Dashboard
               "amount": res.amount, // Amount is in currency subunits. Default currency is
               
@@ -246,7 +287,6 @@ this.config = { ...this.config, leftTime: value };
               "image": "https://www.digitaloutlook.com.au/wp-content/uploads/2017/09/future_payment_methods-compressor-1.jpg",
               "order_id": res.id, //This is a sample Order ID.
               "handler": function (res: { razorpay_payment_id: any; razorpay_order_id: any; razorpay_signature: any; }){
-
               console.log(res.razorpay_payment_id);
               console.log(res.razorpay_order_id);
               console.log(res.razorpay_signature);
@@ -254,12 +294,15 @@ this.config = { ...this.config, leftTime: value };
               orderId=res.razorpay_order_id;
               paymentId=res.razorpay_payment_id;
               signature=res.razorpay_signature;
+              ispaid=true;
 
+            
+            
               },
               "prefill": {
               "name": "Carnivryuser1",
               "email": bookData.email,
-              "contact": ""
+              "contact": "111111111"
               },
               "notes": {
               "address": "Carnivry Pvt. Ltd."
@@ -267,7 +310,8 @@ this.config = { ...this.config, leftTime: value };
               },
               "theme": {
               "color": "#3399cc"
-              }
+              },
+              
               };
     
               // var rzp1 = new Razorpay(options);
@@ -283,15 +327,25 @@ this.config = { ...this.config, leftTime: value };
     
               alert("Sorry! Payment failed.");
               });
+              
+              rzp1.open();
+             let check= setInterval(() => {
+                if(ispaid===true){
+                  this.bookeddatadetails(orderId,paymentId,signature);
+                  clearInterval(check)
+                }
+              }, 10000);
+             
     
-              rzp1.open(); 
-    
-           
+             
            }
+          
+           
         },
         error=>{
           console.log(error);
-        })
+        });
+
       }
 
 
@@ -317,3 +371,4 @@ handleEvent(ev: CountdownEvent) {
 
 
 }
+
