@@ -30,6 +30,7 @@ public class UserServiceImpl implements UserService{
 //    private final TwilioConfig twilioConfig;
     private final SmsSenderService smsSenderService;
     private static HashMap<String,String> passwords;
+    private static CarnivryUser carnivryUser;
 
    @Autowired
    public UserServiceImpl(UserRepository userRepository, EmailSenderService emailSenderService, MessageProducer messageProducer, SmsSenderService smsSenderService) {
