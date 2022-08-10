@@ -54,28 +54,15 @@ public class EventServiceImpl implements EventService{
                     event.getTitle(),
                     eventType(event),
                     event.getUserEmailId(),
-                    event.getEventDescription(),
-                    event.getArtists(),
                     event.getGenre(),
                     event.getLanguages(),
                     event.getEventTimings().getStartDate(),
                     event.getEventTimings().getEndDate(),
-                    event.getEventTimings().getStartTime(),
-                    event.getEventTimings().getEndTime(),
                     event.getPosters().get(0),
-                    event.getVenue().getVenueName(),
-                    event.getVenue().getAddress().getHouse(),
-                    event.getVenue().getAddress().getStreet(),
-                    event.getVenue().getAddress().getLandmark(),
                     event.getVenue().getAddress().getCity(),
-                    event.getVenue().getAddress().getState(),
-                    event.getVenue().getAddress().getPincode(),
                     event.getTicketsSold(),
-                    0.0,
                     minPrice.doubleValue(),
-                    event.getTotalSeats(),
-                    event.getLikes(),
-                    event.getEmailOfUsersLikedEvent()
+                    event.getTotalSeats()
                     );
             producer.sendMessageToMq(eventDTO);
             producer.sendEventToMq(eventSuggestionsDTO);
@@ -109,28 +96,15 @@ public class EventServiceImpl implements EventService{
                     event.getTitle(),
                     eventType(event),
                     event.getUserEmailId(),
-                    event.getEventDescription(),
-                    event.getArtists(),
                     event.getGenre(),
                     event.getLanguages(),
                     event.getEventTimings().getStartDate(),
                     event.getEventTimings().getEndDate(),
-                    event.getEventTimings().getStartTime(),
-                    event.getEventTimings().getEndTime(),
                     event.getPosters().get(0),
-                    event.getVenue().getVenueName(),
-                    event.getVenue().getAddress().getHouse(),
-                    event.getVenue().getAddress().getStreet(),
-                    event.getVenue().getAddress().getLandmark(),
                     event.getVenue().getAddress().getCity(),
-                    event.getVenue().getAddress().getState(),
-                    event.getVenue().getAddress().getPincode(),
                     event.getTicketsSold(),
-                    event.getRevenueGenerated().doubleValue(),
                     minPrice.doubleValue(),
-                    event.getTotalSeats(),
-                    event.getLikes(),
-                    event.getEmailOfUsersLikedEvent()
+                    event.getTotalSeats()
             );
             producer.sendUpdatedEventToMq(eventSuggestionsDTO);
             return true;

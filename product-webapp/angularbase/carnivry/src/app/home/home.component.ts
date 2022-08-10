@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { RefreshingService } from '../service/refreshing.service';
 import { RegistrationService } from '../service/registration.service';
 
 @Component({
@@ -14,8 +15,10 @@ export class HomeComponent implements OnInit {
   email: any;
   avatarUrl: any;
   authProvider: any;
+  profilePic: string;
   constructor(private http: HttpClient,
     private regService: RegistrationService,
+    private refreshingService: RefreshingService,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -23,6 +26,19 @@ export class HomeComponent implements OnInit {
 
     this.email = this.regService.getEmail();
     this.authProvider = this.regService.getAuthProvider();
+
+    this.refreshingService.notifyObservable.subscribe(res => {
+      if (res.refresh) {
+        this.ngOnInit();
+      }
+    });
+
+    //retrieving profile picture from backend Registration Service
+    this.regService.getProfilePic(this.email).subscribe(r => this.profilePic = r);
+    if (this.profilePic === '' || this.profilePic === undefined || this.profilePic === null) {
+      this.avatarUrl = this.regService.getAvatarUrl();
+      this.profilePic = this.avatarUrl;
+    }
 
     if (this.authProvider === 'carnivry') {
       this.regService.getProfilePic(this.email).subscribe(res => {
@@ -44,7 +60,8 @@ export class HomeComponent implements OnInit {
   logout() {
     this.regService.logout().subscribe(() => {
       localStorage.clear();
-      this.router.navigate(['']);
+      this.router.navigate(['/landing-page']);
+      this.ngOnInit();
     });
   }
 
