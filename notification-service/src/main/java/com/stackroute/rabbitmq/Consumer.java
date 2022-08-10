@@ -16,17 +16,17 @@ public class Consumer {
         this.emailService = emailService;
     }
 
-    @RabbitListener(queues = "management_notification_queue")
-    public void getDataAndAddToProducerEmail(EventDTO eventDTO){
-        ProducerEmail producerEmail=new ProducerEmail();
-        producerEmail.setEventProducerEmailId(eventDTO.getEventProducerEmailId());
-        producerEmail.setEventProducerName(eventDTO.getEventProducerName());
-        producerEmail.setEventTitle(eventDTO.getEventTitle());
-        producerEmail.setEventTimings(eventDTO.getEventTimings());
-        producerEmail.setVenue(eventDTO.getVenue());
-        producerEmail.setTotalSeats(eventDTO.getTotalSeats());
-        emailService.mailToProducer(producerEmail);
-    }
+//    @RabbitListener(queues = "management_notification_queue")
+//    public void getDataAndAddToProducerEmail(EventDTO eventDTO){
+//        ProducerEmail producerEmail=new ProducerEmail();
+//        producerEmail.setEventProducerEmailId(eventDTO.getEventProducerEmailId());
+//        producerEmail.setEventProducerName(eventDTO.getEventProducerName());
+//        producerEmail.setEventTitle(eventDTO.getEventTitle());
+//        producerEmail.setEventTimings(eventDTO.getEventTimings());
+//        producerEmail.setVenue(eventDTO.getVenue());
+//        producerEmail.setTotalSeats(eventDTO.getTotalSeats());
+//        emailService.mailToProducer(producerEmail);
+//    }
 
     @RabbitListener(queues = "payment_notification_queue")
     public void getDataAndAddToConsumerEmail(NotificationServiceDTO notificationServiceDTO){

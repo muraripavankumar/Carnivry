@@ -1,188 +1,267 @@
-
-
 <div class="seatingUI">
-<mat-card>
-  <p>
-    <mat-toolbar style="background-image: linear-gradient(to right,rgb(46, 1, 1),rgb(248, 52, 52));justify-content: center;" class="toolbar">
-      <span  class="toolbar1">
-         {{eventdetails.title}}</span>
-    </mat-toolbar>
-  </p>
-</mat-card>
-
-
-
-
-<mat-card class="seat-card1" >
-  <mat-card-header id="header" >
-    <mat-card-title id="title1" >SEAT LAYOUT</mat-card-title>
-  </mat-card-header>
+  <mat-card>
+    <p>
+      <mat-toolbar
+        style="
+          background-image: linear-gradient(
+            to right,
+            rgb(46, 1, 1),
+            rgb(248, 52, 52)
+          );
+          justify-content: center;
+        "
+        class="toolbar"
+      >
+        <span class="toolbar1"> {{ eventdetails.title }}</span>
+      </mat-toolbar>
+    </p>
   </mat-card>
 
-  <mat-card  *ngIf="timex==true" class="timer description description1"  fxLayout="row"> 
+  <mat-card class="seat-card1">
+    <mat-card-header id="header">
+      <mat-card-title id="title1">SEAT LAYOUT</mat-card-title>
+    </mat-card-header>
+  </mat-card>
+
+  <mat-card
+    *ngIf="timex == true"
+    class="timer description description1"
+    fxLayout="row"
+  >
     <!-- <div class="card-header">
       
         <view-code name="keeping-when-refresh"></view-code>
      </div> -->
-     <div  class="card-body ">
-      TIME REMAINING  
-       <countdown [config]="config" (event)="handleEvent($event)"></countdown>
-     </div>
+    <div class="card-body">
+      TIME REMAINING
+      <countdown [config]="config" (event)="handleEvent($event)"></countdown>
+    </div>
   </mat-card>
-<div class="stage-v">
-  <div class="stage border-background border-background-gradient">
-    <img src="../assets/stage.webp" alt="Imagine a screen here">
+  <div class="stage-v">
+    <div class="stage border-background border-background-gradient">
+      <img src="../assets/stage.webp" alt="Imagine a screen here" />
+    </div>
   </div>
-</div>
-  
- <mat-card class="seat-card">
-    <mat-card-content >
-      <div class="cont" id="parent" >
-       
-        <div class="box" *ngFor="let e of eventdetails.seats; index as x; ">
-          <input [checked]="e.status !='NOT BOOKED'" [disabled]="e.status!='NOT BOOKED'" 
-           type="checkbox" class="checkbox"  [style.backgroundColor] =' getColor(e)'
-          name="" id="{{x}}" (change)="fieldsChange($event)" value="{{e.seatId}}"
-          >
-           <label for="Ford"></label>
+
+  <mat-card class="seat-card">
+    <mat-card-content>
+      <div class="cont" id="parent">
+        <div class="box" *ngFor="let e of eventdetails.seats; index as x">
+          <input
+            [checked]="e.status != 'NOT BOOKED'"
+            [disabled]="e.status != 'NOT BOOKED'"
+            type="checkbox"
+            class="checkbox"
+            [style.backgroundColor]="getColor(e)"
+            name=""
+            id="{{ x }}"
+            (change)="fieldsChange($event)"
+            value="{{ e.seatId }}"
+          />
+          <label for="{{ x }}" style="font-size: 0.8em; padding-bottom: 2rem">{{
+            e.seatId
+          }}</label>
         </div>
-
-        
       </div>
-
     </mat-card-content>
-  </mat-card> 
-     
-  
-     
+  </mat-card>
 
-
-
-
-   <div fxLayout.md="row" fxLayout.lt-md="column" class="price-add" fxLayoutAlign="space-evenly start" style=" margin: 5rem; position: relative;">
-
-    <mat-card class="col-cat"
-     fxFlex.md="40%"  fxFlex.lt-md="95&">
-     <mat-card-title>
-     <h1 fxLayout="column" class="description description1">
-      Price Categories
-    </h1>
-  </mat-card-title>
-      <mat-card *ngFor="let e of categories" [style.backgroundColor] =' getColor(e)'
-        class="colour-cat">
-    {{e.seatCategory}}: Rs.{{e.seatPrice}}
-      </mat-card>
-    </mat-card>
-
-
-    <mat-card fxFlex.md="40%"  fxFlex.lt-md="90&" fxHide.lt-sm="true" style="font-family: 'Josefin Sans', sans-serif; font-weight: bolder;">
+  <div
+    fxLayout.md="row"
+    fxLayout.lt-md="column"
+    class="price-add"
+    fxLayoutAlign="space-evenly start"
+    style="margin: 5rem; position: relative"
+  >
+    <mat-card class="col-cat" fxFlex.md="40%" fxFlex.lt-md="95&">
       <mat-card-title>
-        <h1 class="description description1">
-          Venue
+        <h1 fxLayout="column" class="description description1">
+          Price Categories
         </h1>
       </mat-card-title>
-    
-    
-      <div >
-      <mat-card-content  style=" font-size: 2.5rem; margin-top: 3rem;">
-        <p  style="font-weight: 2.5rem; font-weight: bolder;">
-          {{eventdetails.venue.venueName}}
-        </p>
-      </mat-card-content>
-      <mat-card-content style="font-size: 1.8rem;">
-        <p>
-          {{eventdetails.venue.address.house}},{{eventdetails.venue.address.street}},{{eventdetails.venue.address.landmark}}
-            {{eventdetails.venue.address.city}}
-        </p>
-        <p>
-          {{eventdetails.venue.address.state}}, {{eventdetails.venue.address.pincode}}
-        </p>
-      <p>
-        {{eventdetails.venue.address.country}}
-      </p>
-      </mat-card-content>
-    </div>
-    </mat-card> 
-</div>
-
-<!-- Pay and Confirm -->
-<div fxLayout.md="row" fxLayout.lt-md="column" fxLayoutAlign.lt-md="center center" class="tix12" >
-  <h3 class="pay-title description description1 ">Pay & Confirm</h3>
-  <div class="pay-body">
-    <p class="alert alert-warning" role="alert" style="color: red;">You will have 15 minutes to complete the payment after you click on Proceed</p>
-    <mat-card class="seat-price" *ngFor="let item of selectedItems;index as i">
-      <div style="font-size: 0;" class="div-space"><div style="font-size: 0"><h4>
-            SeatId:<p>
-              {{eventdetails.seats[item-1].seatId}}
-             </p></h4>
-        </div><div><h4>
-            Seat Category:<p>
-              {{eventdetails.seats[item-1].seatCategory}}
-             </p></h4>
-        </div><div class="tired" ><h4 >
-            Seat Price:<p>
-              {{eventdetails.seats[item-1].seatPrice}}</p>
-          </h4></div></div>   
-    </mat-card> 
-
-    <mat-card class="totalPay">
-      <p>
-        Total Amount: {{getTotal()}} Rs.</p>
+      <mat-card
+        *ngFor="let e of categories"
+        [style.backgroundColor]="getColor(e)"
+        class="colour-cat"
+      >
+        {{ e.seatCategory }}: Rs.{{ e.seatPrice }}
+      </mat-card>
     </mat-card>
-    
+
+    <mat-card
+      fxFlex.md="40%"
+      fxFlex.lt-md="90&"
+      fxHide.lt-sm="true"
+      class="ven"
+    >
+      <mat-card-title>
+        <h1 class="description description1">Venue</h1>
+      </mat-card-title>
+
+      <div>
+        <mat-card-content style="font-size: 2.5rem; margin-top: 3rem">
+          <p style="font-weight: 2.5rem; font-weight: bolder">
+            {{ eventdetails.venue.venueName }}
+          </p>
+        </mat-card-content>
+        <mat-card-content style="font-size: 1.8rem">
+          <p>
+            {{ eventdetails.venue.address.house }},{{
+              eventdetails.venue.address.street
+            }},{{ eventdetails.venue.address.landmark }}
+            {{ eventdetails.venue.address.city }}
+          </p>
+          <p>
+            {{ eventdetails.venue.address.state }},
+            {{ eventdetails.venue.address.pincode }}
+          </p>
+          <p>
+            {{ eventdetails.venue.address.country }}
+          </p>
+        </mat-card-content>
+      </div>
+    </mat-card>
+  </div>
+
+  <!-- Pay and Confirm -->
+  <div
+    fxLayout.md="row"
+    fxLayout.lt-md="column"
+    fxLayoutAlign.lt-md="center center"
+    class="tix12"
+  >
+    <h3 class="pay-title description description1">Pay & Confirm</h3>
+    <div class="pay-body">
+      <p class="alert alert-warning" role="alert" style="color: red">
+        You will have 15 minutes to complete the payment after you click on
+        Proceed
+      </p>
+      <mat-card
+        class="seat-price"
+        *ngFor="let item of selectedItems; index as i"
+      >
+        <div class="div-space">
+          <div>
+            <h4>
+              SeatId:
+              <p>
+                {{ eventdetails.seats[item - 1].seatId }}
+              </p>
+            </h4>
+          </div>
+          <div>
+            <h4>
+              Seat Category:
+              <p>
+                {{ eventdetails.seats[item - 1].seatCategory }}
+              </p>
+            </h4>
+          </div>
+          <div class="tired">
+            <h4>
+              Seat Price:
+              <p>
+                {{ eventdetails.seats[item - 1].seatPrice }}
+              </p>
+            </h4>
+          </div>
+        </div>
+      </mat-card>
+
+      <mat-card class="totalPay">
+        <p>Total Amount: {{ getTotal() }} Rs.</p>
+      </mat-card>
+    </div>
+  </div>
+  <hr style="border: 1px solid black" />
+
+  <div class="buttons" fxLayout="row">
+    <button
+      mat-raised-button
+      class="book-button"
+      (click)="holdBooking()"
+      *ngIf="selectedItems.length > 0"
+    >
+      Proceed
+    </button>
+    <button
+      mat-raised-button
+      class="book-button"
+      (click)="cancel()"
+      *ngIf="selectedItems.length > 0"
+    >
+      Go Back
+    </button>
   </div>
 </div>
-<hr style="border: 1px solid black;">
 
-   <div class="buttons" fxLayout="row" >
-  
-        <button mat-raised-button class="book-button" (click)="cancel()" *ngIf="selectedItems.length > 0" >Go Back</button>
-        <button mat-raised-button class="book-button" (click)="holdBooking()"
-      *ngIf="selectedItems.length > 0">Proceed
-</button>
-      </div>
+<br />
+
+<mat-card *ngIf="paymentDiv == true" class="paymentDiv" fxLayout="center">
+  <div class="payed">
+    <mat-card
+      class="description description1"
+      style="width: fit-content; margin: auto; margin-left: 2rem"
+    >
+      Confirmation
+    </mat-card>
+    <mat-card>
+      <h1>Event Name:</h1>
+      {{ eventdetails.title }}
+    </mat-card>
+
+    <mat-card>
+      <h1>Total Seats:</h1>
+
+      {{ selectedItems.length }}
+    </mat-card>
+
+    <mat-card>
+      <h1>Total Amount:</h1>
+      {{ getTotal() }} Rs.
+    </mat-card>
+
+    <button
+      mat-raised-button
+      class="book-button"
+      style="width: 3cm"
+      (click)="pay()"
+    >
+      Pay
+    </button>
+  </div>
+</mat-card>
+
+<div class="description description1" id="htmlData" *ngIf="pdfhidden == true">
+  <div class="namepdf">
+    <div>
+      <h4>Name:</h4>
+      {{ Name }}
     </div>
-   
- <br>
+    <div>
+      <h4>Total amount</h4>
+      {{ getTotal() }}. Rs
+    </div>
+    <div>
+      <h4>Email ID</h4>
+      {{ EmailID }}
+      <h4>Event name</h4>
+      {{ eventdetails.title }}
+    </div>
+  </div>
 
-    <mat-card *ngIf="paymentDiv==true" class="paymentDiv" fxLayout="center">
-
-      <div class="payed"  >
-
-     
-      <mat-card class=" description description1" style="width: fit-content; margin: auto; margin-left:2rem ;">
-              Confirmation
-      </mat-card>
-      <mat-card >
-        <h1>
-          Event Name: 
-        </h1>
-         {{eventdetails.title}}
-      </mat-card>
-
-       
-    <mat-card >
-      <h1 >
-        Total Seats: 
-      </h1>
-    
-      {{selectedItems.length}}
-    </mat-card>
-       
-       <mat-card >
-        <h1 >
-          Total Amount:
-        </h1>
-        {{getTotal()}} Rs.
-       </mat-card>
-        
-           
-       
-
-      <button mat-raised-button class="book-button" style="width: 3cm;" (click)="pay()" >Pay</button>
-</div> 
-
-
-    </mat-card>
-
-   
+  <div class="col-md-8">
+    <table class="table table-bordered">
+      <tr class="table-primary">
+        <th>SeatId</th>
+        <th>Seat Price</th>
+        <th>Seat Category</th>
+      </tr>
+      <tr *ngFor="let item of selectedItems; index as i">
+        <th>{{ eventdetails.seats[item - 1].seatId }}</th>
+        <td>{{ eventdetails.seats[item - 1].seatPrice }}</td>
+        <td>{{ eventdetails.seats[item - 1].seatCategory }}</td>
+      </tr>
+    </table>
+  </div>
+</div>
