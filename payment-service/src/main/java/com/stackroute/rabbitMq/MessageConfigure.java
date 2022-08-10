@@ -34,7 +34,7 @@ public class MessageConfigure {
     @Bean
     public Queue queue12()
     {
-        return new Queue("queue_12");
+        return new Queue("payment_notification_queue");
     }
 
 

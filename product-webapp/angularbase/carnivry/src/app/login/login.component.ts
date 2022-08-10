@@ -7,6 +7,7 @@ import { LoginService } from '../service/login.service';
 import { RegistrationService } from '../service/registration.service';
 import { Loginuser } from '../model/loginuser';
 import { EmailLinkComponent } from '../email-link/email-link.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ export class LoginComponent implements OnInit {
   loginuser: Loginuser;
 
   constructor(private fb:FormBuilder,private registration:RegistrationService,
-             private regService:RegistrationService,private userservice: LoginService,public router:Router,public matdialog:MatDialog) { }
+             private regService:RegistrationService,private userservice: LoginService,public router:Router,public matdialog:MatDialog,private snackbar: MatSnackBar) { }
 
   loginFormGroup:any;
   successMessage:any;
@@ -43,7 +44,9 @@ export class LoginComponent implements OnInit {
        this.router.navigate(['/landing-page']);
        this.regService.updateAuthProvider('carnivry');
         console.log(success);
-        alert("Logged Successfully!!");
+        this.snackbar.open('SignIn Successfully!', ' ', {
+          duration: 3000
+        });
          this.registration.updateToken(success.token);
          this.regService.updateEmail(this.loginFormGroup.value["email"]);
          this.regService.fetchCarnivryName(this.loginFormGroup.value["email"]).subscribe((data)=>{
@@ -53,7 +56,9 @@ export class LoginComponent implements OnInit {
       },
       error => {
         console.log(error);
-        alert("User does not exist");
+        this.snackbar.open('Invalid email or Invalid Password !!', ' ', {
+          duration: 3000
+        });
       });
   }
 

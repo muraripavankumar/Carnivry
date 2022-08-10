@@ -28,17 +28,18 @@ public class Consumer {
         emailService.mailToProducer(producerEmail);
     }
 
-//    @RabbitListener(queues = "payment_notification_queue")
-//    public void getDataAndAddToConsumerEmail(EventDetailsDTO eventDetailsDTO){
-//        ConsumerEmail consumerEmail=new ConsumerEmail();
-//        consumerEmail.setEventConsumerEmailId(eventDetailsDTO.getEventConsumerEmailId());
-//        consumerEmail.setEventConsumerName(eventDetailsDTO.getEventConsumerName());
-//        consumerEmail.setEventTitle(eventDetailsDTO.getEventTitle());
-//        consumerEmail.setEventDescription(eventDetailsDTO.getEventDescription());
-//        consumerEmail.setEventTimings(eventDetailsDTO.getEventTimings());
-//        consumerEmail.setVenue(eventDetailsDTO.getVenue());
-//        consumerEmail.setBoughtSeats(eventDetailsDTO.getBoughtSeats());
-//        consumerEmail.setTicketPrice(eventDetailsDTO.getTicketPrice());
-//        emailService.mailToConsumer(consumerEmail);
-//    }
+    @RabbitListener(queues = "payment_notification_queue")
+    public void getDataAndAddToConsumerEmail(NotificationServiceDTO notificationServiceDTO){
+        ConsumerEmail consumerEmail=new ConsumerEmail();
+        consumerEmail.setEventConsumerEmailId(notificationServiceDTO.getEmail());
+        consumerEmail.setEventConsumerName(notificationServiceDTO.getUsername());
+        consumerEmail.setEventTitle(notificationServiceDTO.getTitle());
+        consumerEmail.setEventDescription(notificationServiceDTO.getDescription());
+        consumerEmail.setEventTimings(notificationServiceDTO.getTimings());
+        consumerEmail.setVenue(notificationServiceDTO.getVenue());
+        consumerEmail.setBoughtSeats(notificationServiceDTO.getSeats());
+        consumerEmail.setTicketPrice(notificationServiceDTO.getAmount());
+        consumerEmail.setNoOfSeats(notificationServiceDTO.getNoOfSeats());
+        emailService.mailToConsumer(consumerEmail);
+    }
 }
