@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MyGenreDialogComponent } from '../my-genre-dialog/my-genre-dialog.component';
+import { RefreshingService } from '../service/refreshing.service';
 import { RegistrationService } from '../service/registration.service';
 import { UpdateAddressDialogComponent } from '../update-address-dialog/update-address-dialog.component';
 import { UpdateDOBDialogComponent } from '../update-dobdialog/update-dobdialog.component';
@@ -22,15 +23,28 @@ export interface UpdateData {
 
 export class ProfileComponent implements OnInit {
 
-  constructor(private regService:RegistrationService, private dialog: MatDialog, private router: Router) { }
+  constructor(private regService:RegistrationService,private refreshingService:RefreshingService, private dialog: MatDialog, private router: Router) { }
   email:any;
   avatarUrl:any;
   name:any;
+  profilePic:string;
 
   ngOnInit(): void {
     this.email=this.regService.getEmail();
-    this.avatarUrl=this.regService.getAvatarUrl();
-    console.log(this.avatarUrl);
+    this.regService.getProfilePic(this.email).subscribe(r=>this.profilePic=r);
+
+    this.refreshingService.notifyObservable.subscribe(res => {
+      if (res.refresh) {
+        this.ngOnInit();
+      }
+    });
+
+    if(this.profilePic==='' || this.profilePic===undefined || this.profilePic===null){
+      this.avatarUrl=this.regService.getAvatarUrl();
+      this.profilePic=this.avatarUrl;
+    }
+   
+    // console.log(this.avatarUrl);
     setTimeout(()=>{
       if(this.avatarUrl===null)
       this.avatarUrl= "../../assets/S.jpg";

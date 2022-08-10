@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UpdateData } from '../profile/profile.component';
+import { RefreshingService } from '../service/refreshing.service';
 import { RegistrationService } from '../service/registration.service';
 
 @Component({
@@ -13,7 +14,7 @@ export class UpdateProfilePicDialogComponent implements OnInit {
   profilePic: any;
   profilePicUrl: string | ArrayBuffer;
 
-  constructor(private fb:FormBuilder,private regService:RegistrationService, @Inject(MAT_DIALOG_DATA) public data:UpdateData) { }
+  constructor(private fb:FormBuilder, private refreshingService: RefreshingService,private regService:RegistrationService, @Inject(MAT_DIALOG_DATA) public data:UpdateData) { }
 
   profilePicForm:any;
 
@@ -47,6 +48,7 @@ export class UpdateProfilePicDialogComponent implements OnInit {
     console.log(this.profilePicForm.value);
 
     this.regService.addProfilePic(this.profilePicForm.value).subscribe((res: any)=>{
+      this.refreshingService.notifyOther({refresh: true});
       console.log(res);
     },
       (error: any)=>{
