@@ -96,7 +96,7 @@
 .stage-v{
   background: linear-gradient(to bottom, #dcdcdc, rgba(255, 241, 214, 0.863)); margin-bottom: -1.95rem;
   padding-top: 2px;
-   height: 27rem;
+   height: 23rem;
 }
 
 @media only screen and (min-width:100px) and (max-width:600px){
@@ -117,7 +117,7 @@ margin-right: auto;
   }
 
   .stage img{
-    width: 380px;
+    width: 320px;
     box-shadow: -5px 60px 50px 15px rgb(9, 9, 9);
   }
 
@@ -132,8 +132,8 @@ margin-right: auto;
   .cont {
     display: grid;
     /* grid-gap: 1.4rem; */
-    grid-column-gap: 2rem;
-    grid-row-gap: .5rem;
+    grid-column-gap: .7rem;
+    grid-row-gap: .3rem;
     grid-template-columns: repeat(var(--colNum), 1fr);
     max-width: fit-content;
   
@@ -148,11 +148,11 @@ margin-right: auto;
   
   }
   @media only screen and  (max-width:1600px){
-.cont{
+/* .cont{
   
-box-shadow: 20px 10px 20px 10px rgb(222, 180, 180);
+box-shadow: 30px 30px 30px 10px rgb(222, 180, 180);
 
-}
+} */
   }
 
   @media only screen and (min-width:100px) and (max-width:600px) {
@@ -190,8 +190,8 @@ box-shadow: 20px 10px 20px 10px rgb(222, 180, 180);
    input[type=checkbox] {
 
     -webkit-appearance: none;
-        width: 6rem;
-        height: 7rem;
+        width: 4.3rem;
+        height: 5rem;
         background: grey;
         border-radius: 5px;
         
@@ -241,9 +241,9 @@ box-shadow: 20px 10px 20px 10px rgb(222, 180, 180);
 
 
    .box {
-    height: 5.5rem;
-    width: 6rem;
-    margin: .7rem;
+    height: 5rem;
+    width: 4.5rem;
+    margin: .5rem;
     background-color:rgb(134, 134, 134);
     padding-left: 2px;
     padding-bottom: 3px;
