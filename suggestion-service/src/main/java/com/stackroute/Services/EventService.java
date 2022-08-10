@@ -1,12 +1,11 @@
-package com.stackroute.Services;
+package com.example.SuggestionService.Services;
 
-
-import com.stackroute.Respository.EventsRepo;
-import com.stackroute.Respository.UserRepo;
-import com.stackroute.entity.Events;
-import com.stackroute.entity.User;
-import com.stackroute.exception.EventAlreadyExistException;
-import com.stackroute.exception.EventNotFoundException;
+import com.example.SuggestionService.Respository.EventsRepo;
+import com.example.SuggestionService.Respository.UserRepo;
+import com.example.SuggestionService.entity.Events;
+import com.example.SuggestionService.entity.User;
+import com.example.SuggestionService.exception.EventAlreadyExistException;
+import com.example.SuggestionService.exception.EventNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -77,22 +76,27 @@ public class EventService {
 
         String response="";
 
-        Events events=eventsRepo.findById(eventId).get();
-
-        if(events.getEmailOfUsersLikedEvent().contains(emailId)){
-            response="You have already liked this event";
-            throw new Exception();
+        if(emailId==null){
+            response="Please log in before liking an event";
         }
-        else{
-            int totalLikes= events.getLikes();
-            totalLikes++;
-            events.setLikes(totalLikes);
-            List<String> allEmailIds= events.getEmailOfUsersLikedEvent();
-            allEmailIds.add(emailId);
-            events.setEmailOfUsersLikedEvent(allEmailIds);
-            eventsRepo.save(events);
-            logger.info("Likes upadated and total likes are :"+events.getLikes());
-            response="Likes upadated";
+
+        else {
+            Events events = eventsRepo.findById(eventId).get();
+
+            if (events.getEmailOfUsersLikedEvent().contains(emailId)) {
+                response = "You have already liked this event";
+                throw new Exception();
+            } else {
+                int totalLikes = events.getLikes();
+                totalLikes++;
+                events.setLikes(totalLikes);
+                List<String> allEmailIds = events.getEmailOfUsersLikedEvent();
+                allEmailIds.add(emailId);
+                events.setEmailOfUsersLikedEvent(allEmailIds);
+                eventsRepo.save(events);
+                logger.info("Likes upadated and total likes are :" + events.getLikes());
+                response = "Likes upadated";
+            }
         }
         return response;
     }

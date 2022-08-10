@@ -150,8 +150,10 @@ export class SeatingUIComponent implements OnInit {
 
   holdBooking() {
     const request = new Event();
+    var inerval=1000;
     request.seats = [];
-    this.selectedItems.forEach((s: number) =>
+    this.selectedItems.forEach((s: number,i) =>
+    setTimeout(() => {
       this.ticketingService.getTicket1(this.url, s - 1).subscribe(
         (result) => {
           console.log(this.seat);
@@ -162,6 +164,8 @@ export class SeatingUIComponent implements OnInit {
           alert('Ticket not available');
         }
       )
+    }, i*1000)
+   
     );
 
     this.showBooking();
@@ -195,7 +199,8 @@ export class SeatingUIComponent implements OnInit {
   bookticket() {
     const request = new Event();
     request.seats = [];
-    this.selectedItems.forEach((s: number) =>
+    this.selectedItems.forEach((s: number,i) =>
+    setTimeout(() => {
       this.ticketingService.bookseat(this.url, s - 1).subscribe(
         (result) => {
           this.status = result.status;
@@ -206,7 +211,9 @@ export class SeatingUIComponent implements OnInit {
           console.log(error);
           // alert("Ticket not available")
         }
-      )
+      )  
+    }, i*1000)
+  
     );
   }
 
@@ -219,10 +226,12 @@ export class SeatingUIComponent implements OnInit {
     var successData = {
       image: this.eventdetails.posters[0],
       host: this.eventdetails.userEmailId,
-      email: 'abc@gmail.com',
+      email:localStorage.getItem('email'),
+      
+      // email: 'abc@gmail.com',
       eventId: this.eventdetails.eventId,
       amount: this.getTotal(),
-      username: 'hello',
+      username: localStorage.getItem('name'),
       NoOfSeats:this.selectedItems.length,
       title: this.eventdetails.title,
       description: this.eventdetails.eventDescription,
