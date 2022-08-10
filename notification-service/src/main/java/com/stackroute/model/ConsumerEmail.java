@@ -19,5 +19,5 @@ public class ConsumerEmail {
     Venue venue;
     BigDecimal ticketPrice;
     List<Seat> boughtSeats;
-    private int NoOfSeats;
+     int NoOfSeats;
 }
