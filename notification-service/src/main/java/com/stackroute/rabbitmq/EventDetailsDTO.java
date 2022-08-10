@@ -22,4 +22,5 @@ public class EventDetailsDTO {
     Venue venue;
     BigDecimal ticketPrice;
     List<Seat> boughtSeats;
+    private int NoOfSeats;
 }

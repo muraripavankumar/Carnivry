@@ -105,11 +105,11 @@ public class TicketingServiceTests {
         assertThrows(EventNotFoundException.class,()->ticketingService.getSeat("1",1));
     }
 
-    @Test
-    public void getBookedTicketTest() throws EventNotFoundException {
-        when(eventRepository.findById(any(String.class))).thenReturn(Optional.ofNullable(event));
-        assertEquals("Booked",ticketingService.bookedTicket("1",1).getStatus());
-    }
+//    @Test
+//    public void getBookedTicketTest() throws EventNotFoundException {
+//        when(eventRepository.findById(any(String.class))).thenReturn(Optional.ofNullable(event));
+//        assertEquals("Booked",ticketingService.bookedTicket("1",1).getStatus());
+//    }
 
     @Test
     public void getBookedTicketthrowErrorTest() {

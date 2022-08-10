@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { PostUser } from '../model/post-user';
 import { Event } from '../model/event';
+import { Ticket } from '../model/ticket';
 
 @Injectable({
   providedIn: 'root'
@@ -85,14 +86,14 @@ export class RegistrationService {
     return this.myClient.get<Event[]>(this.registrationBaseUrl+"/getPostedEvents/"+email);
   }
 
-  getPastEvents(email:string):Observable<Event[]>
+  getPastEvents(email:string):Observable<Ticket[]>
   {
-    return this.myClient.get<Event[]>(this.registrationBaseUrl+"/pastEvents/"+email);
+    return this.myClient.get<Ticket[]>(this.registrationBaseUrl+"/pastEvents/"+email);
   }
 
-  getUpcomingEvents(email:string):Observable<Event[]>
+  getUpcomingEvents(email:string):Observable<Ticket[]>
   {
-    return this.myClient.get<Event[]>(this.registrationBaseUrl+"/upcomingEvents/"+email);
+    return this.myClient.get<Ticket[]>(this.registrationBaseUrl+"/upcomingEvents/"+email);
   }
 
 
