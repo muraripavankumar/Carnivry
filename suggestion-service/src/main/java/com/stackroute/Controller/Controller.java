@@ -1,14 +1,13 @@
-package com.stackroute.Controller;
+package com.example.SuggestionService.Controller;
 
-
-import com.stackroute.Services.EventService;
-import com.stackroute.Services.UserService;
-import com.stackroute.entity.Events;
-import com.stackroute.entity.User;
-import com.stackroute.exception.EventAlreadyExistException;
-import com.stackroute.exception.EventNotFoundException;
-import com.stackroute.exception.UserAlreadyExistException;
-import com.stackroute.exception.UserNotfoundException;
+import com.example.SuggestionService.Services.EventService;
+import com.example.SuggestionService.Services.UserService;
+import com.example.SuggestionService.entity.Events;
+import com.example.SuggestionService.entity.User;
+import com.example.SuggestionService.exception.EventAlreadyExistException;
+import com.example.SuggestionService.exception.EventNotFoundException;
+import com.example.SuggestionService.exception.UserAlreadyExistException;
+import com.example.SuggestionService.exception.UserNotfoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -97,7 +96,7 @@ public class Controller {
     @GetMapping("/all-events")
     public ResponseEntity<?> getAllEvents() {
         try {
-            responseEntity = new ResponseEntity<List<Events>>(eventService.getAllEvents(), HttpStatus.OK);
+            responseEntity = new ResponseEntity<>(eventService.getAllEvents(), HttpStatus.OK);
         }
         catch (EventNotFoundException e){
             responseEntity = new ResponseEntity<String>("No Event list found", HttpStatus.OK);
@@ -119,6 +118,7 @@ public class Controller {
     }
 
     //update the wishlist of the user
+    @CrossOrigin(origins = "http://localhost:4200")
     @PutMapping("/add-wishlist/{emailId}/{eventId}")
     public ResponseEntity<?> updateUserWishlist(@PathVariable String emailId, @PathVariable String eventId){
         try {
@@ -143,6 +143,19 @@ public class Controller {
         return responseEntity;
     }
 
+    //retrieve recommended events for particular log out session
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/suggest-events/no-user")
+    public ResponseEntity<?> getSuggestedEventsForLogout(){
+        try {
+            responseEntity = new ResponseEntity<List<Events>>(userService.getSuggestedEventsForLogout(), HttpStatus.OK);
+        }
+        catch (EventNotFoundException e){
+            responseEntity = new ResponseEntity<String>("No Suggestions found for you", HttpStatus.OK);
+        }
+        return responseEntity;
+    }
+
     //retrieve recommended events for particular city
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/suggestion/{city}")
@@ -155,6 +168,4 @@ public class Controller {
         }
         return responseEntity;
     }
-
-
 }
