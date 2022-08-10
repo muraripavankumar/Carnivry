@@ -14,7 +14,7 @@ export class RazorpaySuccess {
      image:string;
      amount:number;
      host:string;
-      venue:Venue;
+    venue:Venue;
      timings:EventTiming;
      seats:Seat[];
 

@@ -5,6 +5,7 @@ import com.stackroute.event.RegistrationCompleteEvent;
 import com.stackroute.exception.UserAlreadyExistsException;
 import com.stackroute.exception.UserNotFoundException;
 import com.stackroute.model.*;
+import com.stackroute.rabbitMQ.TicketDTO;
 import com.stackroute.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,6 +112,7 @@ public class RegistrationController {
             log.error("User with email id {} not found",addGenre.getEmail());
             return new ResponseEntity<>("User not found with email id "+addGenre.getEmail(),HttpStatus.NOT_FOUND);
         }catch (Exception e){
+            e.printStackTrace();
             log.error("Internal server error {}",e.getMessage());
             return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -428,7 +430,7 @@ public class RegistrationController {
     @GetMapping("/pastEvents/{email}")
     public ResponseEntity<?> getPastEvents(@PathVariable String email){
         try {
-            Set<Event> pastEvents= userService.getPastEvents(email);
+            List<TicketDTO> pastEvents= userService.getPastEvents(email);
             log.info("Username fetched for user with email id {}",email);
             if(pastEvents==null)
                 return new ResponseEntity<>(null, HttpStatus.OK);
@@ -447,7 +449,7 @@ public class RegistrationController {
     @GetMapping("/upcomingEvents/{email}")
     public ResponseEntity<?> getUpcomingEvents(@PathVariable String email){
         try {
-            Set<Event> upcomingEvents= userService.getUpcomingEvents(email);
+            List<TicketDTO> upcomingEvents= userService.getUpcomingEvents(email);
             log.info("Username fetched for user with email id {}",email);
             if(upcomingEvents==null)
                 return new ResponseEntity<>(null, HttpStatus.OK);

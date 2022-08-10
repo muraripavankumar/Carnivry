@@ -1,6 +1,5 @@
 package com.stackroute.rabbitMQ;
 
-import com.stackroute.model.Event;
 import com.stackroute.service.UserService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +16,9 @@ public class MessageConsumer {
     }
 
     //old bought ticket
-//    @RabbitListener(queues = "queue_5")
-    public void addbookedTickets(Event pastEvent){
-        userService.saveBookedTickets(pastEvent);
+    @RabbitListener(queues = "queue_11")
+    public void addbookedTickets(TicketDTO ticket){
+        userService.saveBookedTickets(ticket);
     }
-    
+
 }

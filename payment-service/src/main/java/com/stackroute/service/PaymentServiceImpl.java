@@ -7,6 +7,9 @@ import com.stackroute.entity.Payment;
 import com.stackroute.exception.OrderIdNotFoundException;
 import com.stackroute.model.PaymentRequest;
 import com.stackroute.model.PaymentSuccess;
+import com.stackroute.rabbitMq.MessageProducer;
+import com.stackroute.rabbitMq.NotificationServiceDTO;
+import com.stackroute.rabbitMq.RegistrationServiceDTO;
 import com.stackroute.repository.PaymentRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
@@ -20,11 +23,13 @@ import java.util.Date;
 public class PaymentServiceImpl implements PaymentService{
 
 
-    PaymentRepository repository;
+    private final PaymentRepository repository;
+    private final MessageProducer messageProducer;
 
     @Autowired
-    public PaymentServiceImpl(PaymentRepository repository) {
+    public PaymentServiceImpl(PaymentRepository repository, MessageProducer messageProducer) {
         this.repository = repository;
+        this.messageProducer = messageProducer;
     }
 
     @Override
@@ -43,7 +48,7 @@ public class PaymentServiceImpl implements PaymentService{
 
         Payment payment= new Payment();
         payment.setOrderId(orderId);
-        payment.setEmail(payment.getEmail());
+        payment.setEmail(paymentRequest.getEmail());
         payment.setAmount(amount);
         payment.setEventId(paymentRequest.getEventId());
         payment.setPaid(false);
@@ -61,13 +66,48 @@ public class PaymentServiceImpl implements PaymentService{
             log.error("OrderId {} doesn't exists",paymentSuccess.getOrderId());
             throw new OrderIdNotFoundException();
         }
+        //Saving data to payment database
         Payment payment= repository.findById(paymentSuccess.getOrderId()).get();
         payment.setPaymentId(paymentSuccess.getPaymentId());
         payment.setSignature(paymentSuccess.getSignature());
         payment.setPaid(true);
         repository.save(payment);
-
         log.info("PaymentId for the orderId {} successfully saved",payment.getOrderId());
+
+        //Sending data to registration microservice
+        RegistrationServiceDTO registrationServiceDTO= new RegistrationServiceDTO();
+        registrationServiceDTO.setEmail(paymentSuccess.getEmail());
+        registrationServiceDTO.setEventId(paymentSuccess.getEventId());
+        registrationServiceDTO.setArtists(paymentSuccess.getArtists());
+        registrationServiceDTO.setDescription(paymentSuccess.getDescription());
+        registrationServiceDTO.setSeats(paymentSuccess.getSeats());
+        registrationServiceDTO.setHost(paymentSuccess.getHost());
+        registrationServiceDTO.setImage(paymentSuccess.getImage());
+        registrationServiceDTO.setTimings(paymentSuccess.getTimings());
+        registrationServiceDTO.setTitle(paymentSuccess.getTitle());
+        registrationServiceDTO.setVenue(paymentSuccess.getVenue());
+        registrationServiceDTO.setNoOfSeats(paymentSuccess.getNoOfSeats());
+        messageProducer.sendMessageToRegistrationService(registrationServiceDTO);
+        log.debug("Ticket details of user with email id {} sent to message producer for registration microservice"
+                ,paymentSuccess.getEmail());
+
+        //sending data to Notification microservice
+        NotificationServiceDTO notificationServiceDTO= new NotificationServiceDTO();
+        notificationServiceDTO.setAmount(paymentSuccess.getAmount());
+        notificationServiceDTO.setSeats(paymentSuccess.getSeats());
+        notificationServiceDTO.setDescription(paymentSuccess.getDescription());
+        notificationServiceDTO.setEmail(paymentSuccess.getEmail());
+        notificationServiceDTO.setTimings(paymentSuccess.getTimings());
+        notificationServiceDTO.setEventId(paymentSuccess.getEventId());
+        notificationServiceDTO.setTitle(paymentSuccess.getTitle());
+        notificationServiceDTO.setUsername(paymentSuccess.getUsername());
+        notificationServiceDTO.setVenue(paymentSuccess.getVenue());
+        notificationServiceDTO.setNoOfSeats(paymentSuccess.getNoOfSeats());
+        messageProducer.sendMessageToNotificationService(notificationServiceDTO);
+
+        log.debug("Ticket details of user with email id {} sent to message producer for notification microservice"
+                ,paymentSuccess.getEmail());
+
         return "Payment Success Data for orderId "+payment.getOrderId()+ " saved";
     }
 }

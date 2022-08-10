@@ -1,19 +1,19 @@
-package com.stackroute.model;
+package com.stackroute.rabbitMq;
 
+import com.stackroute.model.EventTiming;
+import com.stackroute.model.Seat;
+import com.stackroute.model.Venue;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaymentSuccess {
-    private String orderId, paymentId, signature, eventId, title, description, email, username, amount ,host;
-    private List<String> artists;
-    private String image;
+public class NotificationServiceDTO {
+    private String eventId, title, description, email, username, amount;
     private Venue venue;
     private EventTiming timings;
     private List<Seat> seats;

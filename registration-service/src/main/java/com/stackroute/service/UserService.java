@@ -4,6 +4,7 @@ import com.stackroute.entity.CarnivryUser;
 import com.stackroute.exception.UserAlreadyExistsException;
 import com.stackroute.exception.UserNotFoundException;
 import com.stackroute.model.*;
+import com.stackroute.rabbitMQ.TicketDTO;
 
 import java.util.List;
 import java.util.Set;
@@ -57,11 +58,11 @@ public interface UserService {
 
     void saveEventToWishlist(AddWishlist addWishlist) throws UserNotFoundException;
 
-    void saveBookedTickets(Event pastEvent) ;
+    void saveBookedTickets(TicketDTO ticket) ;
 
     void sendDataToSuggestionService(CarnivryUser carnivryUser);
 
-    Set<Event> getPastEvents(String email) throws UserNotFoundException;
+    List<TicketDTO> getPastEvents(String email) throws UserNotFoundException;
 
-    Set<Event> getUpcomingEvents(String email) throws UserNotFoundException;
+    List<TicketDTO> getUpcomingEvents(String email) throws UserNotFoundException;
 }

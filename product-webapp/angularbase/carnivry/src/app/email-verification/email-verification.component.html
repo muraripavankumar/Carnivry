@@ -1,21 +1,31 @@
 <div class="ev">
     <div class="content">
-        <div class="text"><br>
-            <br>Verification Email Sent to <br>
+        <!-- <div class="text"><br>
+            <br><b> Verification Email Sent to </b><br>
             <i style="font-size: 2vw;">{{email}}</i>
             <br>
             <br>
             
+        </div> -->
+
+        <div class="text">
+            <br>
+            Verification Email Sent to
+        </div>
+        <div class="text">
+            <i style="font-size: 2vw;">{{email}}</i>
+            <br>
+            <br>
         </div>
 
 
         <div class="buttons">
             <!-- <button class="button" id="button1" (click)="isVerified()">I have verified</button> -->
             <a routerLink="/registration/register"  style="width: 40%;">
-                <button class="button" id="button1">Back to Registraion</button>
+                <button class="button" id="button1"><span style="margin:1vh 0;">Back to Registraion</span> </button>
             </a>
-            <button class="button" id="button2" (click)="resendEmail()">Resend Verification
-                Email</button>
+            <button class="button" id="button2" (click)="resendEmail()"><span style="margin:1vh 0;">
+                Resend Verification Email</span></button>
             <p style="width: 100%;"></p>
         </div>
 

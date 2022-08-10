@@ -3,6 +3,7 @@ package com.stackroute.entity;
 import com.stackroute.model.Address;
 import com.stackroute.model.Event;
 import com.stackroute.model.Preferences;
+import com.stackroute.rabbitMQ.TicketDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,8 +37,7 @@ public class CarnivryUser {
 
     private Preferences preferences;
 
-    private Set<Event> pastEvents;
-    private Set<Event> upcomingEvents;
+   private Set<TicketDTO> tickets;
 
     private List<Event> postedEvents;
 
