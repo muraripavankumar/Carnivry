@@ -219,10 +219,12 @@ export class SeatingUIComponent implements OnInit {
     var successData = {
       image: this.eventdetails.posters[0],
       host: this.eventdetails.userEmailId,
-      email: 'abc@gmail.com',
+      email:localStorage.getItem('email'),
+      
+      // email: 'abc@gmail.com',
       eventId: this.eventdetails.eventId,
       amount: this.getTotal(),
-      username: 'hello',
+      username: localStorage.getItem('name'),
       NoOfSeats:this.selectedItems.length,
       title: this.eventdetails.title,
       description: this.eventdetails.eventDescription,
