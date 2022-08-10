@@ -20,4 +20,5 @@ public class TicketDTO {
     private Venue venue;
     private EventTiming timings;
     private Seat seats;
+    private int NoOfSeats;
 }
