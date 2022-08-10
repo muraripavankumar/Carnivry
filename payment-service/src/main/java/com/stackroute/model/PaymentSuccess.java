@@ -16,5 +16,5 @@ public class PaymentSuccess {
     private String image;
     private Venue venue;
     private EventTiming timings;
-    private Seat seats;
+    private List<Seat> seats;
 }

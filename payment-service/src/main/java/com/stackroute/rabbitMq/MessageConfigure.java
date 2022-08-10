@@ -59,9 +59,9 @@ public class MessageConfigure {
     }
 
     @Bean
-    public Binding binding12(Queue queue2, DirectExchange exchange)
+    public Binding binding12(Queue queue12, DirectExchange exchange)
     {
-        return BindingBuilder.bind(queue2).to(exchange).with(routingKey12);
+        return BindingBuilder.bind(queue12).to(exchange).with(routingKey12);
     }
 
 
