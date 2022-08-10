@@ -22,7 +22,7 @@ public class MessageProducer {
     public void sendMessageToRegistrationService(RegistrationServiceDTO registrationServiceDTO)
     {
         rabbitTemplate.convertAndSend(exchange.getName(),"key11", registrationServiceDTO);
-        log.debug("Ticket booked by Carnivry User  having email id {} is sent to Registration MicroService"
+        log.debug("Ticket booked by Carnivry User having email id {} is sent to Registration MicroService"
                 ,registrationServiceDTO.getEmail());
     }
 
@@ -31,7 +31,7 @@ public class MessageProducer {
     public void sendMessageToNotificationService(NotificationServiceDTO notificationServiceDTO)
     {
         rabbitTemplate.convertAndSend(exchange.getName(),"key12", notificationServiceDTO);
-        log.debug("Ticket details booked by Carnivry User  having email id {} is sent to Notification MicroService"
+        log.debug("Ticket details booked by Carnivry User having email id {} is sent to Notification MicroService"
                 ,notificationServiceDTO.getEmail());
     }
 

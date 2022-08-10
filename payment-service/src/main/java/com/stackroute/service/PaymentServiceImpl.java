@@ -86,6 +86,7 @@ public class PaymentServiceImpl implements PaymentService{
         registrationServiceDTO.setTimings(paymentSuccess.getTimings());
         registrationServiceDTO.setTitle(paymentSuccess.getTitle());
         registrationServiceDTO.setVenue(paymentSuccess.getVenue());
+        registrationServiceDTO.setNoOfSeats(paymentSuccess.getNoOfSeats());
         messageProducer.sendMessageToRegistrationService(registrationServiceDTO);
         log.debug("Ticket details of user with email id {} sent to message producer for registration microservice"
                 ,paymentSuccess.getEmail());
@@ -101,7 +102,9 @@ public class PaymentServiceImpl implements PaymentService{
         notificationServiceDTO.setTitle(paymentSuccess.getTitle());
         notificationServiceDTO.setUsername(paymentSuccess.getUsername());
         notificationServiceDTO.setVenue(paymentSuccess.getVenue());
+        notificationServiceDTO.setNoOfSeats(paymentSuccess.getNoOfSeats());
         messageProducer.sendMessageToNotificationService(notificationServiceDTO);
+
         log.debug("Ticket details of user with email id {} sent to message producer for notification microservice"
                 ,paymentSuccess.getEmail());
 

@@ -12,7 +12,7 @@ export class TicketingServiceService {
 
   viewEventurl="http://localhost:5300/ticket"
 
-  bookurl="http://localhost:9000/api/v1"
+
 
   getTicket1(url:string,s:number){
     return this.httpClient.get<any>(this.viewEventurl+"/" + url+"/"+s)
@@ -26,8 +26,7 @@ export class TicketingServiceService {
     return this.httpClient.get<any>(this.viewEventurl+"/"+"stream"+"/" +"book" +"/"+ url)
   }
 
-  paymentCon(data:any){
-    return this.httpClient.post<any>(this.bookurl+"/"+"create_order",data)
-
+  bookseat(url:string,s:number){
+    return this.httpClient.get<any>(this.viewEventurl+"/book/"+url+"/"+s)
   }
 }
