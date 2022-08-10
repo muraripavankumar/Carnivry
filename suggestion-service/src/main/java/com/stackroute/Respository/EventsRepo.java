@@ -1,7 +1,6 @@
-package com.stackroute.Respository;
+package com.example.SuggestionService.Respository;
 
-
-import com.stackroute.entity.Events;
+import com.example.SuggestionService.entity.Events;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 import org.springframework.stereotype.Repository;

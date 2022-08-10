@@ -45,7 +45,7 @@ public class TSImpl implements TicketingService{
 
     // Service method to book a ticket with seats
     @Override
-    @Cacheable(value="Seat")
+//    @Cacheable(value="Seat")
     public Seat bookedTicket(String eventId, int nid) throws EventNotFoundException {
         log.debug("Inside Booked Ticket");
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new EventNotFoundException());
@@ -122,7 +122,7 @@ public class TSImpl implements TicketingService{
 
     // Service method to retrieve an Event by Id
     @Override
-    @Cacheable(value="Event", key="#p0")
+//    @Cacheable(value="Event", key="#p0")
     public Event getEventById(String eventId) throws EventNotFoundException {
         log.debug("Inside get Event by Id");
         return eventRepository.findById(eventId).orElseThrow(()->new EventNotFoundException());
