@@ -122,7 +122,7 @@ public class TSImpl implements TicketingService{
 
     // Service method to retrieve an Event by Id
     @Override
-    @Cacheable(value="Event", key="#p0")
+//    @Cacheable(value="Event", key="#p0")
     public Event getEventById(String eventId) throws EventNotFoundException {
         log.debug("Inside get Event by Id");
         return eventRepository.findById(eventId).orElseThrow(()->new EventNotFoundException());

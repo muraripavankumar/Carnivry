@@ -120,12 +120,13 @@ export class ViewPageComponent implements OnInit {
       description: this.eventdetails.eventDescription,
       venue: this.eventdetails.venue,
       timings: this.eventdetails.eventTimings,
-      seats: this.eventdetails.seats[0],
+      seats: [this.eventdetails.seats[0]],
       artists: this.eventdetails.artists,
       orderId: orderId,
       paymentId: paymentId,
       signature: signature,
     };
+    console.log(successData)
     this.paymentService.paymentSuccess(successData).subscribe(
       (result) => {
         console.log('Payment Successful, data is transferred');
@@ -133,6 +134,7 @@ export class ViewPageComponent implements OnInit {
         console.log(successData)
       },
       (error) => {
+        console.log(error)
         console.log('Payment successful, data is not transferred');
       }
     );
@@ -222,6 +224,7 @@ export class ViewPageComponent implements OnInit {
           rzp1.open();
           let check = setInterval(() => {
             if (ispaid === true) {
+             
               this.bookeddatadetails(res.id, paymentId, signature);
               
               clearInterval(check);

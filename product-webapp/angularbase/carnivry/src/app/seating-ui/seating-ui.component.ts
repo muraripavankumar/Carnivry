@@ -150,8 +150,10 @@ export class SeatingUIComponent implements OnInit {
 
   holdBooking() {
     const request = new Event();
+    var inerval=1000;
     request.seats = [];
-    this.selectedItems.forEach((s: number) =>
+    this.selectedItems.forEach((s: number,i) =>
+    setTimeout(() => {
       this.ticketingService.getTicket1(this.url, s - 1).subscribe(
         (result) => {
           console.log(this.seat);
@@ -162,6 +164,8 @@ export class SeatingUIComponent implements OnInit {
           alert('Ticket not available');
         }
       )
+    }, i*1000)
+   
     );
 
     this.showBooking();
@@ -195,7 +199,8 @@ export class SeatingUIComponent implements OnInit {
   bookticket() {
     const request = new Event();
     request.seats = [];
-    this.selectedItems.forEach((s: number) =>
+    this.selectedItems.forEach((s: number,i) =>
+    setTimeout(() => {
       this.ticketingService.bookseat(this.url, s - 1).subscribe(
         (result) => {
           this.status = result.status;
@@ -206,7 +211,9 @@ export class SeatingUIComponent implements OnInit {
           console.log(error);
           // alert("Ticket not available")
         }
-      )
+      )  
+    }, i*1000)
+  
     );
   }
 
