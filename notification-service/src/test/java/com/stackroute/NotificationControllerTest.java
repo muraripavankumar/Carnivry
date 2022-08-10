@@ -88,7 +88,7 @@ public class NotificationControllerTest {
         Seat seat2=new Seat(5,6,2,new BigDecimal("200.05"),"NOT_BOOKED","common");
         seatArrayList.add(seat1);
         seatArrayList.add(seat2);
-        consumerEmail=new ConsumerEmail("muraripavankumar24@gmail.com","title1","description1","name1",eventTiming,venue,new BigDecimal(2000),seatArrayList);
+//        consumerEmail=new ConsumerEmail("muraripavankumar24@gmail.com","title1","description1","name1",eventTiming,venue,new BigDecimal(2000),seatArrayList);
         mailResponse=new MailResponse("mail sent to consumer successfully",true);
         when(emailService.mailToConsumer(consumerEmail)).thenReturn(mailResponse);
         try {

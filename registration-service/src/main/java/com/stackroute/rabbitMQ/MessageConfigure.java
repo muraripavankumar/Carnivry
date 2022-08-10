@@ -15,11 +15,8 @@ import org.springframework.context.annotation.Configuration;
 public class MessageConfigure {
 
     public static final String exchangeName="user_exchange";
-
     public static final String routingKey1= "key1";
     public static final String routingKey2= "key2";
-
-
     public static final String routingKey3= "key3";
 
 
@@ -32,7 +29,7 @@ public class MessageConfigure {
     @Bean
     public Queue queue1()
     {
-        return new Queue("queue_1");
+        return new Queue("registration_authentication_queue");
     }
 
     @Bean
@@ -45,7 +42,7 @@ public class MessageConfigure {
     @Bean
     public Queue queue3()
     {
-        return new Queue("queue_3");
+        return new Queue("registration_suggestion_queue");
     }
     @Bean
     public Queue queue4(){return new Queue("registration_suggestion_update_user_queue");}
@@ -78,11 +75,8 @@ public class MessageConfigure {
 
 
     @Bean
-
     public Binding binding3(Queue queue3, DirectExchange exchange)
     {
         return BindingBuilder.bind(queue3).to(exchange).with(routingKey3);
-
-
     }
 }

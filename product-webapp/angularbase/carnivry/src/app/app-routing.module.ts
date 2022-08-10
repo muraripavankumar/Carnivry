@@ -51,7 +51,7 @@ const routes: Routes = [
       {path:'verify-email',component:EmailVerificationComponent}
     ]
   },
-  // {path:"**",component:PageNotFoundComponent}
+  {path:"**",component:PageNotFoundComponent}
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
