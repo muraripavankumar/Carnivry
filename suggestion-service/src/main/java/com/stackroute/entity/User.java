@@ -1,4 +1,4 @@
-package com.stackroute.entity;
+package com.example.SuggestionService.entity;
 
 import lombok.*;
 import org.neo4j.ogm.annotation.GraphId;

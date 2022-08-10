@@ -20,5 +20,5 @@ public class RegistrationServiceDTO {
     private Venue venue;
     private EventTiming timings;
     private List<Seat> seats;
-    private int NoOfSeats;
+    private int noOfSeats;
 }

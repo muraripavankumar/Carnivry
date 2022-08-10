@@ -1,13 +1,13 @@
-package com.stackroute.Services;//package com.example.SuggestionService.Services;
+package com.example.SuggestionService.Services;
 
-import com.stackroute.Respository.EventsRepo;
-import com.stackroute.Respository.UserRepo;
-import com.stackroute.entity.Events;
-import com.stackroute.entity.User;
-import com.stackroute.exception.EventAlreadyExistException;
-import com.stackroute.exception.EventNotFoundException;
-import com.stackroute.exception.UserAlreadyExistException;
-import com.stackroute.exception.UserNotfoundException;
+import com.example.SuggestionService.Respository.EventsRepo;
+import com.example.SuggestionService.Respository.UserRepo;
+import com.example.SuggestionService.entity.Events;
+import com.example.SuggestionService.entity.User;
+import com.example.SuggestionService.exception.EventAlreadyExistException;
+import com.example.SuggestionService.exception.EventNotFoundException;
+import com.example.SuggestionService.exception.UserAlreadyExistException;
+import com.example.SuggestionService.exception.UserNotfoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.logging.Logger;
@@ -20,11 +20,14 @@ public class UserService {
 
     UserRepo userRepo;
     EventsRepo eventsRepo;
+    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+    Date date = new Date();
 
     @Autowired
     public UserService(UserRepo userRepo, EventsRepo eventsRepo) {
         this.userRepo = userRepo;
         this.eventsRepo = eventsRepo;
+        date.setDate(4);
     }
 
     Logger logger
@@ -32,8 +35,10 @@ public class UserService {
             UserService.class.getName());
 
 
-    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-    Date date = new Date();
+
+
+
+
 
     //add new user
     public User addUser(User user) throws UserAlreadyExistException {
@@ -72,31 +77,36 @@ public class UserService {
     public String updateUserWishlist(String emailId, String eventId) throws EventAlreadyExistException {
         String response="";
 
-        //adding event in wishlist
-        User user= userRepo.findByEmailId(emailId);
-        String event= eventsRepo.findById(eventId).get().getEventId();
-        List<String> userWishlist= user.getWishlist();
-//        System.out.println("Wishlist: "+userWishlist);
-        logger.info("Wishlist: "+userWishlist);
-        if(userWishlist.contains(event)){
-            response="You have already added this event in wishlist";
-//            System.out.println("You have already added this event in wishlist");
-            logger.info("You have already added this event in wishlist");
-            throw new EventAlreadyExistException();
+        if(emailId==null){
+            response="Please login before adding wishlist";
         }
         else {
-            userWishlist.add(event);
-            user.setWishlist(userWishlist);
+
+            //adding event in wishlist
+            User user = userRepo.findByEmailId(emailId);
+            String event = eventsRepo.findById(eventId).get().getEventId();
+            List<String> userWishlist = user.getWishlist();
+//        System.out.println("Wishlist: "+userWishlist);
+            logger.info("Wishlist: " + userWishlist);
+            if (userWishlist.contains(event)) {
+                response = "You have already added this event in wishlist";
+//            System.out.println("You have already added this event in wishlist");
+                logger.info("You have already added this event in wishlist");
+                throw new EventAlreadyExistException();
+            } else {
+                userWishlist.add(event);
+                user.setWishlist(userWishlist);
 //            System.out.println("Updated wishlist: " + user.getWishlist());
-            logger.info("Updated wishlist: " + user.getWishlist());
-            userRepo.save(user);
-            response = "Event saved in wishlist";
+                logger.info("Updated wishlist: " + user.getWishlist());
+                userRepo.save(user);
+                response = "Event saved in wishlist";
+            }
         }
         return response;
     }
 
     //retrieving all users
-    public List<User> getAllUsers() throws UserNotfoundException {
+    public List<User> getAllUsers() throws UserNotfoundException{
         List<User> userList=userRepo.findAll();
         if(userList.isEmpty()){
             throw new UserNotfoundException();
@@ -109,7 +119,6 @@ public class UserService {
 
     //retrieve events for user suggestion
     public List<Events> getSuggestedEvents(String emailId) throws EventNotFoundException {
-
         List<String> suggestionList= new ArrayList<>();
         List<Events> suggestionEventsList= new ArrayList<>();
         ListIterator<Events> iterator;
@@ -255,6 +264,42 @@ public class UserService {
         return suggestionEventsList;
     }
 
+
+    //retrieve events for user suggestion
+    public List<Events> getSuggestedEventsForLogout() throws EventNotFoundException {
+        List<Events> suggestionEventsList= new ArrayList<>();
+
+        //retrieving the events of that city
+        List<Events> allEvents = eventsRepo.findAll();
+        logger.info("All Events: "+ allEvents.size());
+            logger.info("==============Email id id blank====================");
+            int temp = 0;
+
+            List<Integer> likes = new ArrayList<>();
+            for (int i = 0; i < allEvents.size(); i++) {
+                likes.add(allEvents.get(i).getLikes());
+            }
+
+            for (int i = 0; i < likes.size(); i++) {
+                for (int j = i + 1; j < likes.size(); j++) {
+                    if (likes.get(i) < likes.get(j)) {
+                        temp = likes.get(i);
+                        likes.set(i, likes.get(j));
+                        likes.set(j, temp);
+
+                        temp = allEvents.get(i).getLikes();
+                        allEvents.get(i).setLikes(allEvents.get(j).getLikes());
+                        allEvents.get(j).setLikes(temp);
+                    }
+                }
+            }
+            suggestionEventsList = allEvents;
+            logger.info("User log out suggestions: "+suggestionEventsList.size());
+
+        return suggestionEventsList;
+    }
+
+    //retrieve events for user suggestion by city
     public List<Events> getSuggestedEventsByCity(String city) throws EventNotFoundException{
         List<Events> suggestionList= new ArrayList<>();
         List<Events> allEvents = eventsRepo.findAll();
@@ -272,6 +317,9 @@ public class UserService {
 
     //retrieve upcoming events
     public List<Events> getUpcomingEvents(String emailId) throws EventNotFoundException{
+
+        logger.info("Date: "+date);
+
         List<Events> eventsList= new ArrayList<>();
 
         List<Events> allEvents= eventsRepo.findAll();

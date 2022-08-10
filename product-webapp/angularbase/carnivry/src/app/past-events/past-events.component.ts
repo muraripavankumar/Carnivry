@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Event } from '../model/event';
+import { Ticket } from '../model/ticket';
 import { RegistrationService } from '../service/registration.service';
 
 @Component({
@@ -30,10 +31,10 @@ export class PastEventsComponent implements OnInit {
       if(res===null)
          this.noEventMessage= "No Events to Dispaly";
       else
-      this.pastEvents.map((event:Event)=>{
+      this.pastEvents.map((event:Ticket)=>{
            
-        event.eventTimings.startDate= event.eventTimings.startDate.substring(0,10);
-        event.eventTimings.endDate= event.eventTimings.endDate.substring(0,10);
+        event.timings.startDate= event.timings.startDate.substring(0,10);
+        event.timings.endDate= event.timings.endDate.substring(0,10);
        })
     },
     error=>{

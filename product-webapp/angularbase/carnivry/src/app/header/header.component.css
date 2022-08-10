@@ -33,12 +33,10 @@
   background-color: white;
   z-index: 9; 
   width: 430px;
-  /* border:1px solid black ; */
   border-bottom-left-radius:7px ;
   border-bottom-right-radius:7px ;
   left: 256px;
   top: 53px;
-  box-shadow: 2px 2px 2px 2px purple;
 }
 
   /* choose city */
