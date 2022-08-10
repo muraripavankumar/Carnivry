@@ -19,5 +19,5 @@ public class RegistrationServiceDTO {
     private List<String> artists;
     private Venue venue;
     private EventTiming timings;
-    private Seat seats;
+    private List<Seat> seats;
 }

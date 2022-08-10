@@ -48,7 +48,7 @@ public class PaymentServiceImpl implements PaymentService{
 
         Payment payment= new Payment();
         payment.setOrderId(orderId);
-        payment.setEmail(payment.getEmail());
+        payment.setEmail(paymentRequest.getEmail());
         payment.setAmount(amount);
         payment.setEventId(paymentRequest.getEventId());
         payment.setPaid(false);
