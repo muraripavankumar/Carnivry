@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { Event } from '../model/event';
 
 @Injectable({
@@ -9,7 +10,8 @@ export class ManagementService {
 
   constructor(private httpClient: HttpClient) { }
 
-  managementUrl = "http://localhost:8081/api/v1";
+  // managementUrl = "http://localhost:8081/api/v1";
+  managementUrl = `${environment.baseUrl}/management/api/v1`;
   postHostEvent(eventData: Event) {
     return this.httpClient.post(this.managementUrl, eventData, { observe: 'response' });
   }
