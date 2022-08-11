@@ -7,7 +7,6 @@ import com.stackroute.model.*;
 import com.stackroute.rabbitMQ.TicketDTO;
 
 import java.util.List;
-import java.util.Set;
 
 public interface UserService {
     CarnivryUser registerUser(UserRegModel userModel) throws UserAlreadyExistsException;
@@ -65,4 +64,6 @@ public interface UserService {
     List<TicketDTO> getPastEvents(String email) throws UserNotFoundException;
 
     List<TicketDTO> getUpcomingEvents(String email) throws UserNotFoundException;
+
+    List<String> getWishlist(String email) throws UserNotFoundException;
 }

@@ -48,8 +48,10 @@
                                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                 <mat-datepicker #picker></mat-datepicker>
                               </mat-form-field> -->
-                            <label for="dob">Date of Birth</label>
-
+                           
+                            <i class="fas fa-birthday-cake" ></i>
+                          
+                            
                             <input type="date" id="dob" formControlName="dob" class="form-control myInput"
                                  [min]="minDate" [max]="maxDate"/>
 
@@ -89,7 +91,8 @@
                             </div>
                         </div>
 
-                        <div class="input fade show" *ngIf="successMessage || failureMessage">
+                        
+                        <div class="input " *ngIf="failureMessage">
                             <div *ngIf="failureMessage" class="alert alert-warning message" role="alert">
                                 {{failureMessage}}
                             </div>
