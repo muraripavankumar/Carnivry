@@ -194,14 +194,14 @@
                   <th >Event-Dates <img src="https://i.postimg.cc/SsTkQc96/date.jpg" alt="" style="width: 20px;height: 20px;"></th>
                   <th>Event-Timings<img src="https://i.postimg.cc/zXLKrjhk/time.jpg" alt="" style="width: 20px;height: 20px;position: center;"></th>
                   <th>Venue-Details<img src="https://i.postimg.cc/7YT9VDKD/location.jpg" alt="" style="width: 20px;height: 20px;"></th>
-                  <th>Total-Seats</th>
+                  <th>NoOfSeats</th>
                   <th>TotalPrice</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td data-label="Event-Title">${eventTitle},
-                   ${eventDescription}</td>
+                  <td data-label="Event-Title">${eventTitle}
+                   [${eventDescription}]</td>
                   <td data-label="Event-Dates">${StartDate?date} to ${EndDate?date}</td>
                   <td data-label="Event-Timings">
                       ${StartTime} TO ${EndTime}
@@ -209,7 +209,7 @@
                   <#assign house=houseNumber!"null"/><#if house=="0"><td data-label="Venue-Details"> ${venueName},${Country}</td>
                   <#else>
                   <td data-label="Venue-Details">${venueName},${houseNumber},${Street},${LandMark},${city},${State},${Country},${Pincode}</td></#if>
-                  <td data=label="Total-Seats">${totalSeats}</td>
+                  <td data=label="NoOfSeats">${noOfSeats}</td>
                   <td data-label="TotalPrice">${totalTickerPrice}</td>
                 </tr>
               </tbody>
