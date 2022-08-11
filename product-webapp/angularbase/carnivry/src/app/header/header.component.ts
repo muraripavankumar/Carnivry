@@ -26,14 +26,14 @@ export class HeaderComponent implements OnInit {
   login = false;
 
   allEventsList: any[];
-  filteredList: any[]=[];
-  titleList: any[]=[];
+  filteredList: any[] = [];
+  titleList: any[] = [];
 
-  searchText: string='';
-  
-  
+  searchText: string = '';
 
-  
+
+
+
   headers = {
     observe: 'response' as 'response'
   };
@@ -54,18 +54,18 @@ export class HeaderComponent implements OnInit {
     }
 
 
-    
-    const tokenValue = localStorage.getItem('token');
-    console.log('token value : ' + tokenValue);
 
-    if (tokenValue === null) {
-      this.signIn = "SignIn/Login";
-      this.login = false;
-    }
-    else {
-      this.signIn = registrationService.getName();
-      this.login = true;
-    }
+    // const tokenValue = localStorage.getItem('token');
+    // console.log('token value : ' + tokenValue);
+
+    // if (tokenValue === null) {
+    //   this.signIn = "SignIn/Login";
+    //   this.login = false;
+    // }
+    // else {
+    //   this.signIn = registrationService.getName();
+    //   this.login = true;
+    // }
     console.log('signIn value' + this.signIn);
   }
 
@@ -84,12 +84,12 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/host-event']);
   }
 
-  SignInLogin() {
-    console.log("Button value: " + this.signIn);
-    if (this.signIn == "SignIn/Login") {
-      this.router.navigate(['/registration/register']);
-    }
-  }
+  // SignInLogin() {
+  //   console.log("Button value: " + this.signIn);
+  //   if (this.signIn == "SignIn/Login") {
+  //     this.router.navigate(['/registration/register']);
+  //   }
+  // }
 
   home() {
     this.router.navigate(['']);
@@ -98,17 +98,17 @@ export class HeaderComponent implements OnInit {
   logout() {
     console.log('log out triggered');
     this.registrationService.logout().subscribe(() => {
-      this.signIn='SignIn/Login';
+      this.signIn = 'SignIn/Login';
       localStorage.clear();
       sessionStorage.clear();
       this.router.navigate(['/landing-page']);
     });
   }
 
-  onSearchTextEntered(searchValue: string){
-    this.searchText=searchValue;
-    this.filteredList=[];
-    this.titleList=[];
+  onSearchTextEntered(searchValue: string) {
+    this.searchText = searchValue;
+    this.filteredList = [];
+    this.titleList = [];
     // console.log("Entered value"+ this.searchText);
 
     this.http.get<Event[]>('http://localhost:8082/api/v1/all-events', this.headers)
@@ -116,13 +116,13 @@ export class HeaderComponent implements OnInit {
         (data) => {
           this.allEventsList = data.body;
           console.log("All events in header page: " + this.allEventsList.length);
-          
-          for(var i=0; i<this.allEventsList.length; i++){
-            if(this.allEventsList[i].title.toLowerCase().includes(this.searchText.toLowerCase()) && this.searchText!=""){
+
+          for (var i = 0; i < this.allEventsList.length; i++) {
+            if (this.allEventsList[i].title.toLowerCase().includes(this.searchText.toLowerCase()) && this.searchText != "") {
               this.filteredList.push(this.allEventsList[i]);
             }
           }
-          this.titleList=this.filteredList;
+          this.titleList = this.filteredList;
         }
       )
 
@@ -136,15 +136,15 @@ export class HeaderComponent implements OnInit {
     // this.titleList=this.filteredList;
 
     // console.log("titleList length: "+ this.titleList.length);
-    
+
   }
 
-  openViewPage(eventId: any){
-    this.titleList=[];
-    this.router.navigate(['/view-page',eventId]);
+  openViewPage(eventId: any) {
+    this.titleList = [];
+    this.router.navigate(['/view-page', eventId]);
   }
 
-  
+
 
 
   ngOnInit(): void {

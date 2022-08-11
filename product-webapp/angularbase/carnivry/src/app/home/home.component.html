@@ -1,8 +1,14 @@
 <!-- <p> Hello {{name}}</p> -->
-<img class="profile_pic" [src]="profilePic" [matMenuTriggerFor]="beforeMenu">
-<mat-menu #beforeMenu="matMenu" xPosition="before">
-  <button mat-menu-item routerLink="/account">Edit profile</button>
-  <button mat-menu-item (click)="logout()">Sign out</button>
-</mat-menu>
+<div style="margin-left: 30px;" *ngIf="login">
+  <img class="profile_pic" [src]="profilePic" [matMenuTriggerFor]="beforeMenu">
+  <mat-menu #beforeMenu="matMenu" xPosition="before">
+
+    <button mat-menu-item routerLink="/account">Edit profile</button>
+    <button mat-menu-item (click)="logout()">Sign out</button>
+  </mat-menu>
+</div>
+<button style="border:1px solid black; border-radius: 10px; margin-left: 30px; background-color: white;" mat-button
+  *ngIf="!login" (click)="SignInLogin()">SignIn/Login</button>
+
 <!-- <p> Your Email Id: {{email}} </p>
 <button class="btn btn-success"  (click)="logout()">Logout</button> -->

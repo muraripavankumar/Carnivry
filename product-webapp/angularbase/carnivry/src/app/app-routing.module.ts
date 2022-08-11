@@ -23,32 +23,32 @@ import { ViewPageComponent } from './view-page/view-page.component';
 
 const routes: Routes = [
   {
-    path:'', component:HeaderComponent,
-    children:[
-      {path:"",redirectTo:"landing-page",pathMatch:'full'},
-      {path:"landing-page",component:LandingPageComponent},
-      {path:'host-event',component:HostEventComponent},
-      {path:'view-page/:id', component:ViewPageComponent, pathMatch: 'full'},
-      
-      {path:'account', component:ProfileComponent},
-      {path:'posted-events',component:PostedEventsComponent},
-      {path:'past-events',component:PastEventsComponent},
-      {path:'upcoming-events',component:UpcomingEventsComponent},
-      {path:'add-preference',component:AddPreferenceComponent},
-      {path:'home',component:HomeComponent},
-      {path:'update',component:UpdateEventComponent}
+    path: '', component: HeaderComponent,
+    children: [
+      { path: "", redirectTo: "landing-page", pathMatch: 'full' },
+      { path: "landing-page", component: LandingPageComponent },
+      { path: 'host-event', component: HostEventComponent },
+      { path: 'view-page/:id', component: ViewPageComponent, pathMatch: 'full' },
+      { path: 'seat-ui/:id', component: SeatingUIComponent },
+      { path: 'account', component: ProfileComponent },
+      { path: 'posted-events', component: PostedEventsComponent },
+      { path: 'past-events', component: PastEventsComponent },
+      { path: 'upcoming-events', component: UpcomingEventsComponent },
+      { path: 'add-preference', component: AddPreferenceComponent },
+      { path: 'home', component: HomeComponent },
+      { path: 'update', component: UpdateEventComponent },
     ]
   },
   {
     path: "registration",
     component: AppComponent,
     children: [
-      { path: "",redirectTo:"register",pathMatch:'full' },
-      {path:"login",component:LoginComponent},
-      {path:"forgot-password",component:ForgotPasswordComponent},
-      {path:"register",component:RegistrationComponent},
-      {path:'callback', component:CallbackComponent},
-      {path:'verify-email',component:EmailVerificationComponent}
+      { path: "", redirectTo: "register", pathMatch: 'full' },
+      { path: "login", component: LoginComponent },
+      { path: "forgot-password", component: ForgotPasswordComponent },
+      { path: "register", component: RegistrationComponent },
+      { path: 'callback', component: CallbackComponent },
+      { path: 'verify-email', component: EmailVerificationComponent }
     ]
   },
   {path:"**",component:PageNotFoundComponent}
