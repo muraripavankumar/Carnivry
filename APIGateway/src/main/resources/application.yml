@@ -1,5 +1,5 @@
 server:
-  port: 8085
+  port: 8080
 
 eureka:
   client:
@@ -23,7 +23,7 @@ spring:
           filters:
             - RewritePath=/userauth(?<segment>/?.*), $\{segment}
         - id: RegistrationService
-          uri: http://localhost:8080/
+          uri: http://localhost:8085/
           predicates:
             - Path=/registration/**
           filters:

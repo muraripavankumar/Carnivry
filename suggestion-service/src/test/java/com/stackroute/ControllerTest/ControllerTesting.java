@@ -101,12 +101,12 @@ public class ControllerTesting {
         user.setName("Gita");
         user.setWishlist(wishlist);
         user.setLikedGenre(likedGenre);
-        user.setHouseNo("201");
-        user.setStreet("Street 1");
-        user.setLandmark("Landmark 1");
+//        user.setHouseNo("201");
+//        user.setStreet("Street 1");
+//        user.setLandmark("Landmark 1");
         user.setCity("Jodhpur");
-        user.setState("Rajasthan");
-        user.setPincode(342005);
+//        user.setState("Rajasthan");
+//        user.setPincode(342005);
 
 
         mockMvc= MockMvcBuilders.standaloneSetup(controller).build();

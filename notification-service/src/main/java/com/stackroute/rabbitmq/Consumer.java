@@ -16,6 +16,7 @@ public class Consumer {
         this.emailService = emailService;
     }
 
+
     @RabbitListener(queues = "management_notification_queue")
     public void getDataAndAddToProducerEmail(EventDTO eventDTO){
         ProducerEmail producerEmail=new ProducerEmail();
@@ -27,19 +28,20 @@ public class Consumer {
         producerEmail.setTotalSeats(eventDTO.getTotalSeats());
         emailService.mailToProducer(producerEmail);
     }
-//
-//    @RabbitListener(queues = "payment_notification_queue")
-//    public void getDataAndAddToConsumerEmail(NotificationServiceDTO notificationServiceDTO){
-//        ConsumerEmail consumerEmail=new ConsumerEmail();
-//        consumerEmail.setEventConsumerEmailId(notificationServiceDTO.getEmail());
-//        consumerEmail.setEventConsumerName(notificationServiceDTO.getUsername());
-//        consumerEmail.setEventTitle(notificationServiceDTO.getTitle());
-//        consumerEmail.setEventDescription(notificationServiceDTO.getDescription());
-//        consumerEmail.setEventTimings(notificationServiceDTO.getTimings());
-//        consumerEmail.setVenue(notificationServiceDTO.getVenue());
-//        consumerEmail.setBoughtSeats(notificationServiceDTO.getSeats());
-//        consumerEmail.setTicketPrice(notificationServiceDTO.getAmount());
-//        consumerEmail.setNoOfSeats(notificationServiceDTO.getNoOfSeats());
-//        emailService.mailToConsumer(consumerEmail);
-//    }
+
+    @RabbitListener(queues = "payment_notification_queue")
+    public void getDataAndAddToConsumerEmail(NotificationServiceDTO notificationServiceDTO){
+        ConsumerEmail consumerEmail=new ConsumerEmail();
+        consumerEmail.setEventConsumerEmailId(notificationServiceDTO.getEmail());
+        consumerEmail.setEventConsumerName(notificationServiceDTO.getUsername());
+        consumerEmail.setEventTitle(notificationServiceDTO.getTitle());
+        consumerEmail.setEventDescription(notificationServiceDTO.getDescription());
+        consumerEmail.setEventTimings(notificationServiceDTO.getTimings());
+        consumerEmail.setVenue(notificationServiceDTO.getVenue());
+        consumerEmail.setBoughtSeats(notificationServiceDTO.getSeats());
+        consumerEmail.setTicketPrice(notificationServiceDTO.getAmount());
+        consumerEmail.setNoOfSeats(notificationServiceDTO.getNoOfSeats());
+        emailService.mailToConsumer(consumerEmail);
+    }
+
 }

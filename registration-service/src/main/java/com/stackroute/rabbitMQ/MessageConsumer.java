@@ -16,7 +16,7 @@ public class MessageConsumer {
     }
 
     //old bought ticket
-    @RabbitListener(queues = "queue_11")
+    @RabbitListener(queues = "payment_registration_queue")
     public void addbookedTickets(TicketDTO ticket){
         userService.saveBookedTickets(ticket);
     }
