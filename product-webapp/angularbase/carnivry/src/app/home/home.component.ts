@@ -16,9 +16,12 @@ export class HomeComponent implements OnInit {
   avatarUrl: any;
   authProvider: any;
   profilePic: string;
+  signIn:string="";
+  login:boolean=false;
   constructor(private http: HttpClient,
     private regService: RegistrationService,
     private refreshingService: RefreshingService,
+    private registrationService: RegistrationService,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -55,13 +58,32 @@ export class HomeComponent implements OnInit {
         this.avatarUrl = "../../assets/S.jpg";
       this.name = this.regService.getName();
     }, 100)
+
+    const tokenValue = localStorage.getItem('token');
+    console.log('token value : ' + tokenValue);
+
+    if (tokenValue === null) {
+      this.signIn = "SignIn/Login";
+      this.login = false;
+    }
+    else {
+      this.signIn = this.registrationService.getName();
+      this.login = true;
+    }
+  }
+
+  SignInLogin() {
+    console.log("Button value: " + this.signIn);
+    if (this.signIn == "SignIn/Login") {
+      this.router.navigate(['/registration/register']);
+    }
   }
 
   logout() {
     this.regService.logout().subscribe(() => {
       localStorage.clear();
-      this.router.navigate(['/landing-page']);
       this.ngOnInit();
+      this.router.navigate(['/landing-page']);
     });
   }
 

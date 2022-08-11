@@ -3,7 +3,7 @@
   <mat-toolbar-row>
 
     <!-- Logo -->
-    <div >
+    <div>
       <a> <img class="logo" src="assets\\logo.png" (click)="logo()"> </a>
     </div>
 
@@ -24,21 +24,21 @@
 
       <!-- Add Event -->
       <div style="display: flex;">
-        
+
         <section>
           <button mat-button (click)="addEvent()">Add Event</button>
         </section>
 
         <!-- Choose city -->
         <section>
-          <button mat-button  (click)="openDialog()">{{city}}
+          <button mat-button (click)="openDialog()">{{city}}
             <mat-icon>location_city</mat-icon>
           </button>
-        
+
         </section>
 
- 
-        
+
+
         <!-- Home -->
         <section>
           <button mat-button (click)="home()">Home</button>
@@ -46,15 +46,17 @@
 
 
         <!-- Sign In -->
+        <app-home></app-home>
+
         
-          <div style="margin-left: 30px;" *ngIf="login">
-            <!-- <p>{{signIn}}</p> -->
-            <app-home></app-home>
-            <!-- <button mat-button [matMenuTriggerFor]="beforeMenu">{{signIn}}</button> -->
-          </div>
-        
-        <button style="border:1px solid black; border-radius: 10px; margin-left: 30px; background-color: white;" mat-button *ngIf="!login"
-          (click)="SignInLogin()">SignIn/Login</button>
+        <!-- <div style="margin-left: 30px;" *ngIf="login"> -->
+          <!-- <p>{{signIn}}</p> -->
+          <!-- <app-home></app-home> -->
+          <!-- <button mat-button [matMenuTriggerFor]="beforeMenu">{{signIn}}</button> -->
+        <!-- </div> -->
+
+        <!-- <button style="border:1px solid black; border-radius: 10px; margin-left: 30px; background-color: white;" -->
+          <!-- mat-button *ngIf="!login" (click)="SignInLogin()">SignIn/Login</button> -->
 
       </div>
 

@@ -1,4 +1,4 @@
-package com.stackroute.rabbitMQ;
+package com.stackroute.model;
 
 
 import com.stackroute.model.Genre;

@@ -1,4 +1,4 @@
-package com.stackroute.rabbitMq;
+package com.stackroute.rabbitmq;
 
 import com.stackroute.model.EventTiming;
 import com.stackroute.model.Seat;

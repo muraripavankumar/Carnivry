@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Loginuser } from '../model/loginuser';
 import { LoginService } from '../service/login.service';
@@ -13,7 +14,7 @@ import { RegistrationService } from '../service/registration.service';
 })
 export class EmailLinkComponent implements OnInit {
 
-  constructor(private userservice: LoginService,public router:Router,private builder:FormBuilder,public matdialogref:MatDialogRef<EmailLinkComponent>,private registration:RegistrationService) { }
+  constructor(private userservice: LoginService,public router:Router,private builder:FormBuilder,public matdialogref:MatDialogRef<EmailLinkComponent>,private registration:RegistrationService,private snackbar: MatSnackBar) { }
 
   logindata:Loginuser;
   data:string;
@@ -31,14 +32,18 @@ export class EmailLinkComponent implements OnInit {
     this.data=localStorage.getItem("email");
     this.userservice.emailLink(this.data).subscribe(
       success => {
-        alert("Check your Email for verification");
+        this.snackbar.open('Link has been sent,Verify your email !!', ' ', {
+          duration: 3000
+        });
         window.localStorage.setItem('token', success.token);
         this.registration.updateToken(success.token);
          console.log(success);
        },
        error => {
          console.log(error);
-         alert("Invalid or Non-registered Email!!")
+         this.snackbar.open('Invalid or Non-registered Email !!', ' ', {
+          duration: 3000
+        });
        });
   }
 

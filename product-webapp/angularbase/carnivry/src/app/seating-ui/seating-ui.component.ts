@@ -11,9 +11,11 @@ import { Observable } from 'rxjs';
 import { CountdownConfig, CountdownEvent } from 'ngx-countdown';
 import { TicketingServiceService } from '../service/ticketing-service.service';
 import { PaymentService } from '../service/payment.service';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 const KEY = 'time';
-const DEFAULT = 20;
+const DEFAULT = 100;
 declare var Razorpay: any;
 @Component({
   selector: 'app-seating-ui',
@@ -38,16 +40,19 @@ export class SeatingUIComponent implements OnInit {
   categories: any[];
   config: CountdownConfig = { leftTime: DEFAULT, notify: 0 };
   timex = false;
+  pdfhidden=false;
   status: string;
-
+  Name="Me123";
+  EmailID="me123@gmail.com"
   seatCategoryOptions: string[] = ['Platinum', 'Gold', 'Silver', 'Common'];
   filteredSeatCategories: Observable<string[]>;
   priceCatogoryList: PriceCategory[] = [];
   colorPalate: string[] = [
     '#fddbe5',
     '#dbfff8',
-    '#dcffd9',
     '#e0e0ed',
+    '#afffa8',
+    
     '#6495ED',
     '#d1fffa',
     '#DFFF00',
@@ -181,6 +186,9 @@ export class SeatingUIComponent implements OnInit {
     let value = +localStorage.getItem(KEY)!! ?? DEFAULT;
     if (value <= 0) value = DEFAULT;
     this.config = { ...this.config, leftTime: value };
+    setTimeout(function(){
+      window.location.reload();
+   }, 100000);
   }
 
   getTotal(): number {
@@ -215,6 +223,7 @@ export class SeatingUIComponent implements OnInit {
     }, i*1000)
   
     );
+    this.openPDF();
   }
 
   bookeddatadetails(orderId: any, paymentId: any, signature: any) {
@@ -227,11 +236,11 @@ export class SeatingUIComponent implements OnInit {
       image: this.eventdetails.posters[0],
       host: this.eventdetails.userEmailId,
       email:localStorage.getItem('email'),
-      
-      // email: 'abc@gmail.com',
+      username: localStorage.getItem('name'),
+      // email: 'fizhar8@gmail.com',
       eventId: this.eventdetails.eventId,
       amount: this.getTotal(),
-      username: localStorage.getItem('name'),
+      // username: 'hello',
       NoOfSeats:this.selectedItems.length,
       title: this.eventdetails.title,
       description: this.eventdetails.eventDescription,
@@ -261,7 +270,8 @@ export class SeatingUIComponent implements OnInit {
     let signature: string;
     let ispaid = false;
     var bookData = {
-      email: 'abc@gmail.com',
+      email: localStorage.getItem('email'),
+      // email: 'abc@gmail.com',
       eventId: this.eventdetails.eventId,
       amount: this.getTotal(),
     };
@@ -352,6 +362,19 @@ export class SeatingUIComponent implements OnInit {
     );
   }
 
+  public openPDF(): void {
+    let DATA: any = document.getElementById('htmlData');
+    html2canvas(DATA).then((canvas) => {
+      let fileWidth = 200;
+      let fileHeight = (canvas.height * fileWidth) / canvas.width;
+      const FILEURI = canvas.toDataURL('image/png');
+      let PDF = new jsPDF('p', 'mm', 'a4');
+      let position = 0;
+      PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
+      PDF.save('Carnivryticket.pdf');
+    });
+  }
+
   ngOnInit(): void {
     let id = this.ActivatedRoute.snapshot.paramMap.get('id');
     this.url = id;
@@ -361,6 +384,8 @@ export class SeatingUIComponent implements OnInit {
     // this.onDisplay1();
   }
 
+  
+
   handleEvent(ev: CountdownEvent) {
     if (ev.action === 'notify') {
       // Save current value
@@ -368,3 +393,5 @@ export class SeatingUIComponent implements OnInit {
     }
   }
 }
+
+

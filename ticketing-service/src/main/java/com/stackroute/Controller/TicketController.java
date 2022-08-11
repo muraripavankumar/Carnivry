@@ -32,6 +32,7 @@ public class TicketController {
             return new ResponseEntity<>(ticketingService.getEventById(eventId), HttpStatus.OK);
         }
         catch (EventNotFoundException e){
+
             log.error("Exception occured in TicketController->getEventByEventId");
             return new ResponseEntity<>("The Event is not currently available. We will be back soon",HttpStatus.CONFLICT);
         }
