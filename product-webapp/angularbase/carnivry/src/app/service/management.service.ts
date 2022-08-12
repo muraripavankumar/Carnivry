@@ -10,8 +10,11 @@ export class ManagementService {
 
   constructor(private httpClient: HttpClient) { }
 
+
   // managementUrl = "http://localhost:8081/api/v1";
-  managementUrl = `${environment.baseUrl}/management/api/v1`;
+  private cotrollerUrl="/api/v1";
+  private managementUrl = environment.baseUrl+"/management"+this.cotrollerUrl;
+
   postHostEvent(eventData: Event) {
     var reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + window.localStorage.getItem('token'));
     return this.httpClient.post(this.managementUrl, eventData, { observe: 'response', 'headers': reqHeader });

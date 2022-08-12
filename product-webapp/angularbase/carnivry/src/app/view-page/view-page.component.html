@@ -1,21 +1,20 @@
 <div class="document">
-<app-navigation></app-navigation>
 
 <p>
     <mat-toolbar style="background-image: linear-gradient(to right,rgb(46, 1, 1),rgb(248, 52, 52));justify-content: center;
-    height: 10rem;" class="toolbar">
+    height: 7rem;" class="toolbar">
       <span style="font-family: 'Marcellus SC', serif;;
       font-size: 3.6rem; letter-spacing: 0.3rem;
       font-weight: bolder; color: white;" class="toolbar1">
          {{eventdetails.title}}</span>
     </mat-toolbar>
   </p>
-
+<!-- 
   <mat-card class="Poster-card ">
 
     <img mat-card-image [src]="posterUrl"  class="Poster-image border-background border-background-gradient">
   
-    <!-- <hr style="border: 2px solid black;"> -->
+    <hr style="border: 2px solid black;"> 
     <mat-card-title class="title">
       <div class="border-background border-background-gradient eventtitle">
         {{eventdetails.title}}
@@ -36,7 +35,89 @@
       </mat-card-content>
     </mat-card-title>
 
+  </mat-card> -->
+
+  <!-- -------------------------------------------------------------------------------------------------------------------------------- -->
+
+
+
+  <mat-card class="container-image" >
+<div class="background-poster">
+  <img mat-card-image [src]="posterUrl" >
+</div>
+    
+
+
+  
+
+   
   </mat-card>
+
+
+
+
+  <mat-card class="thumbnail" fxLayout="row" fxLayoutAlign="center center">
+    <img [src]="thumbnailurl" class="thumbnailimg" >
+    <div class="details-header">
+    <div class="title">{{eventdetails.title}}</div>
+    <span class="descr">
+      {{eventdetails.eventDescription}}
+    </span>
+    <div class="like-heart">
+      <i class="fa fa-heart fa-3x heart" style="color: rgb(186 0 0);" aria-hidden="true"></i>
+      <p>
+          {{eventdetails.likes}} users have liked this Carnivral
+      </p>
+      
+    </div>
+    <div class="timing">
+      Starts on: {{eventdetails.eventTimings.startDate | date}}
+    </div>
+  </div>
+</mat-card>
+
+
+
+
+<!-- <div fxLayout.md="column" fxFlex.md="30%">
+  <div fxLayout.md="row">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laboriosam, repudiandae!</div>
+  <div fxLayout.md="row">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laboriosam, repudiandae!</div>
+  <div fxLayout.md="row">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laboriosam, repudiandae!</div>
+</div> -->
+<!-- 
+</mat-card>
+</div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- ---------------------------------------------------------------------------------------------------------------------------------- -->
 
   <mat-card class="description " style="margin: 2rem;">
 <mat-card-title>
@@ -203,7 +284,7 @@
        
    
 
-  <button mat-raised-button class="book-button btn1" style="width: 3cm;" (click)="pay()" >Pay</button>
+  <button mat-raised-button class="book-button btn1" style="width: 3cm;" (click)="payment()" >Pay</button>
 </div> 
 
 

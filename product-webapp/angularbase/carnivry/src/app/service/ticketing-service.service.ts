@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { Event } from '../model/event';
 import { Seat } from '../model/seat';
 
@@ -10,7 +11,9 @@ export class TicketingServiceService {
 
   constructor(private httpClient: HttpClient) { }
 
-  viewEventurl="http://localhost:5300/ticket"
+  // viewEventurl=environment.baseUrl+"ticketservice/api/v1";
+  private controllerUrl="/api/v1";
+  private viewEventurl=environment.baseUrl+"/ticketservice"+this.controllerUrl;
 
 
 

@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 @Slf4j
-@Component
+//@Component
 public class JwtAuthenticationFilter implements GatewayFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {

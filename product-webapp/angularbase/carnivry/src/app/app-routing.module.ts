@@ -11,18 +11,22 @@ import { HomeComponent } from './home/home.component';
 import { HostEventComponent } from './host-event/host-event.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { LoginComponent } from './login/login.component';
+import { NavigationComponent } from './navigation/navigation.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { PastEventsComponent } from './past-events/past-events.component';
 import { PostedEventsComponent } from './posted-events/posted-events.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { SeatingUIComponent } from './seating-ui/seating-ui.component';
+import { TicketComponent } from './ticket/ticket.component';
 import { UpcomingEventsComponent } from './upcoming-events/upcoming-events.component';
 import { UpdateEventComponent } from './update-event/update-event.component';
 import { ViewPageComponent } from './view-page/view-page.component';
 
 const routes: Routes = [
   {
+
+
     path: '', component: HeaderComponent,
     children: [
       { path: "", redirectTo: "landing-page", pathMatch: 'full' },
@@ -39,7 +43,7 @@ const routes: Routes = [
       { path: 'update', component: UpdateEventComponent },
     ]
   },
-  // {path:'add-preference',component:AddPreferenceComponent},
+  {path:'navigation',component:NavigationComponent},
   {
     path: "registration",
     component: AppComponent,
@@ -52,7 +56,13 @@ const routes: Routes = [
       { path: 'verify-email', component: EmailVerificationComponent }
     ]
   },
+
+
+  {
+    path:'ticket',component:TicketComponent
+  },
   {path:"**",component:PageNotFoundComponent}
+
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
