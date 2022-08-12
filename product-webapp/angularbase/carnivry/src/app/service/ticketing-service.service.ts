@@ -11,13 +11,13 @@ export class TicketingServiceService {
 
   constructor(private httpClient: HttpClient) { }
 
-<<<<<<< HEAD
+// <<<<<<< HEAD
   // viewEventurl=environment.baseUrl+"ticketservice/api/v1";
   private controllerUrl="/api/v1";
   private viewEventurl=environment.baseUrl+"/ticketservice"+this.controllerUrl;
-=======
-  viewEventurl=environment.baseUrl+"/ticketservice/api/v1"
->>>>>>> f1f6dde4c09d1c3c01c926533693aa2513f04a6f
+// =======
+//   viewEventurl=environment.baseUrl+"/ticketservice/api/v1"
+// >>>>>>> f1f6dde4c09d1c3c01c926533693aa2513f04a6f
 
 
 

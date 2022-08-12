@@ -9,13 +9,13 @@ import { RegistrationService } from './registration.service';
 })
 export class SocialUserService {
 
-<<<<<<< HEAD
+// <<<<<<< HEAD
   private controllerUrl="/api/v1/SocialUser";
   private socialUserBaseUrl= environment.baseUrl+"/registration"+this.controllerUrl;
   
-=======
-  private socialUserBaseUrl= environment.baseUrl+"/registration/api/v1/SocialUser";
->>>>>>> f1f6dde4c09d1c3c01c926533693aa2513f04a6f
+// =======
+//   private socialUserBaseUrl= environment.baseUrl+"/registration/api/v1/SocialUser";
+// >>>>>>> f1f6dde4c09d1c3c01c926533693aa2513f04a6f
 
   constructor(private myClient: HttpClient,
               private regService: RegistrationService) { }
