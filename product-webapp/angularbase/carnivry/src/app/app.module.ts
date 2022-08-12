@@ -72,6 +72,7 @@ import { PrevDirective } from './prev.directive';
 import { SearchComponent } from './search/search.component';
 import { PastEventsComponent } from './past-events/past-events.component';
 import { UpcomingEventsComponent } from './upcoming-events/upcoming-events.component';
+import { TicketComponent } from './ticket/ticket.component';
 
 
 // import { FlexLayoutModule } from "@angular/flex-layout";
@@ -102,7 +103,7 @@ import { UpcomingEventsComponent } from './upcoming-events/upcoming-events.compo
     NavigationComponent,
     SeatingUIComponent,
     LandingPageComponent,         
-    FooterComponent, HeaderComponent, DialogBoxChooseCityComponent, NextDirective, PrevDirective, SearchComponent, PastEventsComponent, UpcomingEventsComponent    
+    FooterComponent, HeaderComponent, DialogBoxChooseCityComponent, NextDirective, PrevDirective, SearchComponent, PastEventsComponent, UpcomingEventsComponent, TicketComponent    
   ],
   imports: [
     BrowserModule,

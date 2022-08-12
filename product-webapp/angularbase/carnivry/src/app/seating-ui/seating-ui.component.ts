@@ -206,6 +206,7 @@ export class SeatingUIComponent implements OnInit {
 
   bookticket() {
     const request = new Event();
+    var seatsbooked = 0;
     request.seats = [];
     this.selectedItems.forEach((s: number,i) =>
     setTimeout(() => {
@@ -214,16 +215,21 @@ export class SeatingUIComponent implements OnInit {
           this.status = result.status;
           console.log(result);
           console.log(s);
+          seatsbooked++;
+          if(this.selectedItems.length==seatsbooked){
+            this.openPDF();
+          }
         },
         (error) => {
           console.log(error);
           // alert("Ticket not available")
         }
       )  
-    }, i*1000)
-  
+    }, i*1000),
     );
-    this.openPDF();
+
+ 
+    
   }
 
   bookeddatadetails(orderId: any, paymentId: any, signature: any) {
@@ -254,6 +260,7 @@ export class SeatingUIComponent implements OnInit {
       (result) => {
         console.log('Payment Successful, data is transferred');
         console.log(successData)
+        this.pdfhidden=true;
         this.bookticket();
       },
       (error) => {
@@ -358,17 +365,25 @@ export class SeatingUIComponent implements OnInit {
       }
     );
   }
-
+refreshpage(){
+  window.location.reload();
+}
   public openPDF(): void {
     let DATA: any = document.getElementById('htmlData');
     html2canvas(DATA).then((canvas) => {
-      let fileWidth = 200;
+      let fileWidth = 100;
       let fileHeight = (canvas.height * fileWidth) / canvas.width;
       const FILEURI = canvas.toDataURL('image/png');
       let PDF = new jsPDF('p', 'mm', 'a4');
-      let position = 0;
-      PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
+      let position = 10;
+      
+      PDF.addImage(FILEURI, 'PNG', 40, position, fileWidth, fileHeight);
       PDF.save('Carnivryticket.pdf');
+
+      setTimeout(() => {
+        this.refreshpage();
+      }, 3000);
+      
     });
   }
 

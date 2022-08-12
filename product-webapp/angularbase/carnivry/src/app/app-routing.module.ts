@@ -17,6 +17,7 @@ import { PostedEventsComponent } from './posted-events/posted-events.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { SeatingUIComponent } from './seating-ui/seating-ui.component';
+import { TicketComponent } from './ticket/ticket.component';
 import { UpcomingEventsComponent } from './upcoming-events/upcoming-events.component';
 import { UpdateEventComponent } from './update-event/update-event.component';
 import { ViewPageComponent } from './view-page/view-page.component';
@@ -28,6 +29,7 @@ const routes: Routes = [
       {path:"",redirectTo:"landing-page",pathMatch:'full'},
       {path:"landing-page",component:LandingPageComponent},
       {path:'host-event',component:HostEventComponent},
+      {path:'seat-ui/:id',component:SeatingUIComponent},
       {path:'view-page/:id', component:ViewPageComponent, pathMatch: 'full'},
       
       {path:'account', component:ProfileComponent},
@@ -51,7 +53,10 @@ const routes: Routes = [
       {path:'verify-email',component:EmailVerificationComponent}
     ]
   },
-  {path:'seat-ui/:id',component:SeatingUIComponent},
+
+  {
+    path:'ticket',component:TicketComponent
+  }
   // {path:"**",component:PageNotFoundComponent}
 ];
 @NgModule({

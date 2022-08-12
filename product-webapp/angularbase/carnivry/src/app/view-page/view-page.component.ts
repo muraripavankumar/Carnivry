@@ -8,6 +8,7 @@ import { PaymentService } from '../service/payment.service';
 import { Seat } from '../model/seat';
 declare var Razorpay: any;
 
+
 @Component({
   selector: 'app-view-page',
   templateUrl: './view-page.component.html',
@@ -24,12 +25,14 @@ export class ViewPageComponent implements OnInit {
   eventdetails: any;
   url: string;
   posterUrl: string;
+  thumbnailurl:string;
   paymentDiv = false;
   seats: Seat[] = [];
   noOfSeats = new FormControl('');
   selected: number = 0;
   soldout = false;
 
+  
   display() {
     console.log(this.routeUrl.snapshot.paramMap.get('id'));
     const eventId: string = this.routeUrl.snapshot.paramMap.get('id');
@@ -39,6 +42,8 @@ export class ViewPageComponent implements OnInit {
         this.eventdetails = result;
 
         this.posterUrl = this.eventdetails.posters[1];
+        this.thumbnailurl= this.eventdetails.posters[0];
+        // document.getElementById('background-image').style.backgroundImage = "url('" + this.posterUrl + "')"
       },
       (error) => {
         alert('this webpage is not curently available');
