@@ -1,13 +1,13 @@
-package com.example.SuggestionService.Services;
+package com.stackroute.Services;
 
-import com.example.SuggestionService.Respository.EventsRepo;
-import com.example.SuggestionService.Respository.UserRepo;
-import com.example.SuggestionService.entity.Events;
-import com.example.SuggestionService.entity.User;
-import com.example.SuggestionService.exception.EventAlreadyExistException;
-import com.example.SuggestionService.exception.EventNotFoundException;
-import com.example.SuggestionService.exception.UserAlreadyExistException;
-import com.example.SuggestionService.exception.UserNotfoundException;
+import com.stackroute.Respository.EventsRepo;
+import com.stackroute.entity.Events;
+import com.stackroute.entity.User;
+import com.stackroute.exception.EventAlreadyExistException;
+import com.stackroute.exception.EventNotFoundException;
+import com.stackroute.exception.UserAlreadyExistException;
+import com.stackroute.exception.UserNotfoundException;
+import com.stackroute.Respository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.logging.Logger;
@@ -30,15 +30,7 @@ public class UserService {
         date.setDate(4);
     }
 
-    Logger logger
-            = Logger.getLogger(
-            UserService.class.getName());
-
-
-
-
-
-
+    Logger logger = Logger.getLogger(UserService.class.getName());
 
     //add new user
     public User addUser(User user) throws UserAlreadyExistException {
@@ -61,13 +53,11 @@ public class UserService {
                     if (events.getGenre().contains(user.getLikedGenre().get(i))) {
                         userRepo.connectWithEvents(user.getName(), events.getTitle());
                         logger.info("Users matching the event genre: " + events.getTitle());
-//                    System.out.println("Users matching the event genre: " + events.getTitle());
                         break;
                     }
                 }
             }
 
-//        System.out.println("User added successfully");
             logger.info("User added successfully");
         }
         return user;

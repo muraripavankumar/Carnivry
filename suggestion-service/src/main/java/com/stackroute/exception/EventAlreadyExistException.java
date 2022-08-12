@@ -1,4 +1,4 @@
-package com.example.SuggestionService.exception;
+package com.stackroute.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

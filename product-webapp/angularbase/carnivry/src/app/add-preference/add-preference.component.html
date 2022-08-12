@@ -1,9 +1,9 @@
-<h1 class="mat-display-1">Welcome <i>{{name}}</i></h1>
+<h1 class="mat-display-1 heading">Welcome <i>{{name}}</i></h1>
 
 <div class="genres">
-    <h1>Please select your favourite genres</h1>
+    <h2 id="genre_heading">Please select your favourite genres</h2>
     <div class="genre_chips">
-        <mat-form-field class="genre_list" appearance="fill">
+        <mat-form-field class="genre_list" appearance="standard">
             <mat-label>Event Genres</mat-label>
             <mat-chip-list #chipList aria-label="Video genres" multiple [formControl]="formControl">
               <mat-chip
@@ -18,21 +18,21 @@
             <mat-hint>Select a genre and hit spacebar.</mat-hint>
           </mat-form-field>
           <br>
-          <div class="buttons">
-          <button mat-raised-button color="primary" (click)="show()">Selected Genres</button>
-          <button mat-raised-button color="primary" (click)="addGenre()">let's Go</button>
+          <div class="butt_box">
+          <!-- <button mat-raised-button class="butt" (click)="show()">Selected Genres</button> -->
+          <button mat-raised-button class="butt" (click)="addGenre()">Let's Go</button>
           </div>
           
-          <br>
+          <!-- <br>
           <br>
           <div class="selected_genres" *ngIf="showSelectedGenres" >
             <p *ngIf="formControl.value.length">  <b>The following genres are selected:</b> </p>
             <ul *ngFor="let key of formControl.value">
                 <li>{{key}}</li>
             </ul>
-          </div>
+          </div> -->
           
-          <p *ngIf="warning" class="alert alert-danger">{{warning}}</p>
+          <p *ngIf="warning" class="alert alert-danger message">{{warning}}</p>
           
     </div>
 </div>

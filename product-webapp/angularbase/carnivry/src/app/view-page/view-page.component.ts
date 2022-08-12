@@ -245,6 +245,6 @@ export class ViewPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.display();
-    this.url = this.eventdetails.eventId;
+    this.url = this.routeUrl.snapshot.paramMap.get('id');
   }
 }

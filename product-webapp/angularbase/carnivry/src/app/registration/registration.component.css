@@ -9,7 +9,7 @@
     max-width: 800px;
     height: 500px;
     margin: auto;
-    top: 40%;
+    top: 42%;
     left: 50%;
     transform: translate(-50%, -50%);
   } 
@@ -77,7 +77,7 @@
     height: 70%;
   } 
   .myLeftCtn .myInput {
-    width: 230px;
+    width: 260px;
     margin: 10px 0px;
     border-radius: 25px;
     padding: 10px;
@@ -88,7 +88,7 @@
     box-shadow: 0px 10px 49px -14px rgba(0, 0, 0, 0.7);
   }
   .myLeftCtn .alert{
-    width: 230px;
+    width: 260px;
     border-radius: 25px;
     padding: 10px;
     padding-left: 25px;

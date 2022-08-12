@@ -1,13 +1,16 @@
-package com.example.SuggestionService.Services;
+package com.stackroute.Services;
 
-import com.example.SuggestionService.Respository.EventsRepo;
-import com.example.SuggestionService.Respository.UserRepo;
-import com.example.SuggestionService.entity.Events;
-import com.example.SuggestionService.entity.User;
-import com.example.SuggestionService.exception.EventAlreadyExistException;
-import com.example.SuggestionService.exception.EventNotFoundException;
+import com.stackroute.Respository.EventsRepo;
+import com.stackroute.Respository.UserRepo;
+import com.stackroute.entity.Events;
+import com.stackroute.entity.User;
+import com.stackroute.exception.EventAlreadyExistException;
+import com.stackroute.exception.EventNotFoundException;
+import com.stackroute.model.EventDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.logging.Logger;
@@ -30,7 +33,25 @@ public class EventService {
             UserService.class.getName());
 
     //add new event
-    public Events addEvents(Events events) throws EventAlreadyExistException {
+    public Events addEvents(EventDTO eventDTO) throws EventAlreadyExistException {
+        Events events=new Events();
+        events.setEventId(eventDTO.getEventId());
+        events.setTitle(eventDTO.getTitle());
+        events.setEventType(eventDTO.getEventType());
+        events.setUserEmailId(eventDTO.getUserEmailId());
+        events.setGenre(eventDTO.getGenre());
+        events.setLanguages(eventDTO.getLanguages());
+        events.setStartDate(eventDTO.getStartDate());
+        events.setEndDate(eventDTO.getEndDate());
+        events.setPoster(eventDTO.getPoster());
+        events.setCity(eventDTO.getCity());
+        events.setTicketsSold(0);
+        events.setRevenueGenerated(0.0);
+        events.setPrice(eventDTO.getPrice());
+        events.setTotalSeats(eventDTO.getTotalSeats());
+        events.setLikes(0);
+        events.setEmailOfUsersLikedEvent(new ArrayList<>());
+
         //saving the event in repository
         if(eventsRepo.findById(events.getEventId()).isPresent()){
             logger.info("The event with this id already exists");
@@ -61,8 +82,27 @@ public class EventService {
 
 
     //update event
-    public Events updateEvent(Events events) throws EventNotFoundException {
-        if(eventsRepo.findById(events.getEventId()).isPresent()){
+    public Events updateEvent(EventDTO eventDTO) throws EventNotFoundException {
+        Events events = new Events();
+        if(eventsRepo.findById(eventDTO.getEventId()).isPresent()){
+            events=eventsRepo.findById(eventDTO.getEventId()).get();
+//            events.setEventId(eventDTO.getEventId());
+            events.setTitle(eventDTO.getTitle());
+            events.setEventType(eventDTO.getEventType());
+            events.setUserEmailId(eventDTO.getUserEmailId());
+            events.setGenre(eventDTO.getGenre());
+            events.setLanguages(eventDTO.getLanguages());
+            events.setStartDate(eventDTO.getStartDate());
+            events.setEndDate(eventDTO.getEndDate());
+            events.setPoster(eventDTO.getPoster());
+            events.setCity(eventDTO.getCity());
+//            events.setTicketsSold(0);
+//            events.setRevenueGenerated(0.0);
+            events.setPrice(eventDTO.getPrice());
+            events.setTotalSeats(eventDTO.getTotalSeats());
+//            events.setLikes(0);
+//            events.setEmailOfUsersLikedEvent(new ArrayList<>());
+
             eventsRepo.save(events);
         }
         else{

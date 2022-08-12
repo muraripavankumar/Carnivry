@@ -12,7 +12,7 @@ public class Consumer {
     @Autowired
     private UserService userService;
 
-    @RabbitListener(queues = "queue_1")
+    @RabbitListener(queues = "registration_authentication_queue")
     public void getDataAndAddToDatabase(AuthenticationUserDTO authenticationUserDTO) throws UserAlreadyExistsException {
         User user=new User();
         user.setEmail(authenticationUserDTO.getEmail());

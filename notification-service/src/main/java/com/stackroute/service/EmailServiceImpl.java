@@ -114,9 +114,9 @@ public class EmailServiceImpl implements EmailService{
             model.put("State",consumerEmail.getVenue().getAddress().getState());
             model.put("Country",consumerEmail.getVenue().getAddress().getCountry());
             model.put("Pincode",consumerEmail.getVenue().getAddress().getPincode());
-            model.put("totalSeats",consumerEmail.getNoOfSeats());
             model.put("totalTickerPrice",consumerEmail.getTicketPrice());
             model.put("listOfSeats",s1);
+            model.put("noOfSeats",consumerEmail.getNoOfSeats());
             String html= FreeMarkerTemplateUtils.processTemplateIntoString(template,model);
 
 

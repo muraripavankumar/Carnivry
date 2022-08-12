@@ -241,10 +241,12 @@ export class SeatingUIComponent implements OnInit {
     var successData = {
       image: this.eventdetails.posters[0],
       host: this.eventdetails.userEmailId,
-      email: 'fizhar8@gmail.com',
+      email:localStorage.getItem('email'),
+      username: localStorage.getItem('name'),
+      // email: 'fizhar8@gmail.com',
       eventId: this.eventdetails.eventId,
       amount: this.getTotal(),
-      username: 'hello',
+      // username: 'hello',
       NoOfSeats:this.selectedItems.length,
       title: this.eventdetails.title,
       description: this.eventdetails.eventDescription,
@@ -275,7 +277,8 @@ export class SeatingUIComponent implements OnInit {
     let signature: string;
     let ispaid = false;
     var bookData = {
-      email: 'abc@gmail.com',
+      email: localStorage.getItem('email'),
+      // email: 'abc@gmail.com',
       eventId: this.eventdetails.eventId,
       amount: this.getTotal(),
     };
