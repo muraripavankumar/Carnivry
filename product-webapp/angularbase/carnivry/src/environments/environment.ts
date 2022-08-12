@@ -7,7 +7,7 @@ export const environment = {
   baseUrl:'http://localhost:8080',
   // baseUrl: 'https://carnivry.stackroute.io',
   registerationBaseUrl: 'http://localhost:8085/api/v1',
-  socialUserBaseUrl: 'http://localhost:8085/api/v1/SocialUser'
+  socialUserBaseUrl: 'http://localhost:8085/api/v1/SocialUser',
 };
 
 /*

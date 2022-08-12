@@ -75,6 +75,7 @@ export class RegistrationComponent implements OnInit {
         console.log(error);
         if (error.status == 409) {
           this.failureMessage = "User Already Exists";
+          console.log(this.failureMessage);
           setTimeout((): void => {
             this.failureMessage = null;
             this.registerUserForm.reset();

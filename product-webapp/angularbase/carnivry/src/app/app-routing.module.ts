@@ -39,6 +39,7 @@ const routes: Routes = [
       { path: 'update', component: UpdateEventComponent },
     ]
   },
+  // {path:'add-preference',component:AddPreferenceComponent},
   {
     path: "registration",
     component: AppComponent,

@@ -1,13 +1,15 @@
 <div class="posted_events">
-    <a routerLink="/account"><button mat-raised-button class="back_button">
-            <mat-icon>keyboard_backspace</mat-icon>
-    </button></a>
+    <div class="butt_box">
+        <a routerLink="/account" ><button mat-raised-button class="butt">
+                <mat-icon>keyboard_backspace</mat-icon>
+        </button></a>
+        </div>
 
 
     <div class="container">
 
         <div class="heading">
-            <h1 mat-display-2 style="text-align: center;">Your Posted Events</h1>
+            Your Posted Events
         </div>
         <div class="">
             <div class="content">
@@ -19,8 +21,8 @@
 
                     <h3><b>Posters</b></h3>
                     <div class="images">
-                        <mat-card *ngFor="let image of e.posters">
-                            <img src="{{image}}" alt="image not found" class="image">
+                        <mat-card >
+                            <img src="{{e.posters[0]}}" alt="image not found" class="image">
                         </mat-card>
                     </div>
 
@@ -67,8 +69,8 @@
                     </h3> -->
                    
                     <hr>
-                    <div class="buttons">
-                        <button mat-raised-button class="button" (click)="view(e)">View/Update</button>
+                    <div class="butt_box">
+                        <button mat-raised-button class="butt" id="view_button" (click)="view(e)">View/Update</button>
                     </div>
                     
 
