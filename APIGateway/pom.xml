@@ -6,7 +6,7 @@
 		<groupId>com.stackroute</groupId>
 		<artifactId>Carnivry</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-<!--		<relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
+		<relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
 	<artifactId>APIGateway</artifactId>
@@ -49,11 +49,11 @@
         </dependency>
 
 		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
-		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt</artifactId>
-			<version>0.9.1</version>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>io.jsonwebtoken</groupId>-->
+<!--			<artifactId>jjwt</artifactId>-->
+<!--			<version>0.9.1</version>-->
+<!--		</dependency>-->
 
     </dependencies>
 	<dependencyManagement>
