@@ -250,7 +250,7 @@ export class SeatingUIComponent implements OnInit {
       eventId: this.eventdetails.eventId,
       amount: this.getTotal(),
       // username: 'hello',
-      NoOfSeats:this.selectedItems.length,
+      noOfSeats:this.selectedItems.length,
       title: this.eventdetails.title,
       description: this.eventdetails.eventDescription,
       venue: this.eventdetails.venue,

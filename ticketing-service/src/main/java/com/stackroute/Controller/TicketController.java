@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1")
+//@RequestMapping("ticket")
 @Slf4j
-@CrossOrigin("**")
+//@CrossOrigin("**")
 public class TicketController {
 
     private final TicketingService ticketingService;
@@ -32,7 +33,7 @@ public class TicketController {
         catch (EventNotFoundException e){
 
             log.error("Exception occured in TicketController->getEventByEventId");
-            return new ResponseEntity<>("The Event is not currently available. We will be back soon",HttpStatus.CONFLICT);
+            return new ResponseEntity<>("The Event is not currently available. We will be back soon"+e,HttpStatus.CONFLICT);
         }
         catch (Exception ex){
             log.error("Exception occured in TicketController->getEventByEventId" + ex);
