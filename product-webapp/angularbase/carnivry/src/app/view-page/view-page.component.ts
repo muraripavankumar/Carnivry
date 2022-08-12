@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ViewPageService } from '../service/view-page.service';
 import { Event } from '../model/event';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -18,7 +18,8 @@ import { timeout } from 'rxjs';
   templateUrl: './view-page.component.html',
   styleUrls: ['./view-page.component.css'],
 })
-export class ViewPageComponent implements OnInit {
+export class ViewPageComponent implements OnInit, OnChanges {
+
   constructor(
     private viewEvent: ViewPageService,
     private redirect: Router,
@@ -27,6 +28,13 @@ export class ViewPageComponent implements OnInit {
     private paymentService: PaymentService ,
     private _snackBar: MatSnackBar
   ) {}
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log("ng on change");
+    this.eventId= this.routeUrl.snapshot.paramMap.get('id');
+    console.log(this.routeUrl.snapshot.paramMap.get('id'));
+ 
+    this.display();
+  }
   eventdetails: any;
   url: string;
   posterUrl: string;
@@ -36,13 +44,18 @@ export class ViewPageComponent implements OnInit {
   noOfSeats = new FormControl('');
   selected: number = 0;
   soldout = false;
+
   durationInSeconds = 5;
   pdfhidden=false;
+
+  eventId:string='';
+
+
   
   display() {
-    console.log(this.routeUrl.snapshot.paramMap.get('id'));
-    const eventId: string = this.routeUrl.snapshot.paramMap.get('id');
-    this.viewEvent.getHostEventById(eventId).subscribe(
+    // console.log(this.routeUrl.snapshot.paramMap.get('id'));
+   
+    this.viewEvent.getHostEventById(this.eventId).subscribe(
       (result) => {
         console.log(this.eventdetails);
         this.eventdetails = result;
@@ -294,7 +307,12 @@ export class ViewPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.display();
+   
     this.url = this.routeUrl.snapshot.paramMap.get('id');
+    this.eventId= this.routeUrl.snapshot.paramMap.get('id');
+    // console.log(this.routeUrl.snapshot.paramMap.get('id'));
+  
+    this.display();
+
   }
 }

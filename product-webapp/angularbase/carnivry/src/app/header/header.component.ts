@@ -8,6 +8,7 @@ import { DialogBoxChooseCityComponent } from '../dialog-box-choose-city/dialog-b
 import { Router } from '@angular/router';
 import { map, startWith } from 'rxjs/operators';
 import { RegistrationService } from '../service/registration.service';
+import { environment } from 'src/environments/environment';
 
 
 
@@ -19,6 +20,11 @@ import { RegistrationService } from '../service/registration.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+
+  controllerUrl="/api/v1";
+  apiUrl="/suggestion";
+  baseUrl=environment.baseUrl;
+  suggestionUrl=this.baseUrl+this.apiUrl+this.controllerUrl;
 
   signIn = "";
   search: String;
@@ -109,9 +115,9 @@ export class HeaderComponent implements OnInit {
     this.searchText = searchValue;
     this.filteredList = [];
     this.titleList = [];
-    // console.log("Entered value"+ this.searchText);
+    console.log("Entered value"+ this.searchText);
 
-    this.http.get<Event[]>('http://localhost:8082/api/v1/all-events', this.headers)
+    this.http.get<Event[]>(this.suggestionUrl+'/all-events', this.headers)
       .subscribe(
         (data) => {
           this.allEventsList = data.body;
