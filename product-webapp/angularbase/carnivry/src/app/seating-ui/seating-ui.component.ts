@@ -51,8 +51,7 @@ export class SeatingUIComponent implements OnInit {
     '#fddbe5',
     '#dbfff8',
     '#e0e0ed',
-    '#afffa8',
-    
+    '#afffa8', 
     '#6495ED',
     '#d1fffa',
     '#DFFF00',
@@ -166,7 +165,6 @@ export class SeatingUIComponent implements OnInit {
         },
         (error) => {
           console.log(this.url);
-          alert('Ticket not available');
         }
       )
     }, i*1000)
@@ -217,7 +215,12 @@ export class SeatingUIComponent implements OnInit {
           console.log(s);
           seatsbooked++;
           if(this.selectedItems.length==seatsbooked){
-            this.openPDF();
+            console.log(this.selectedItems.length);
+            console.log(seatsbooked)
+            setTimeout(() => {
+              this.openPDF();
+            }, 2000);
+            
           }
         },
         (error) => {
