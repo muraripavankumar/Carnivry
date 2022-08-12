@@ -148,7 +148,7 @@ public class EventService {
             throw new EventNotFoundException();
         }
         else {
-            logger.info("All Events: " + eventsList);
+            logger.info("All Events: " + eventsList.size());
         }
         return eventsList;
     }

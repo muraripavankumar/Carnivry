@@ -20,6 +20,7 @@ public class AuthenticationServiceApplication {
 		SpringApplication.run(AuthenticationServiceApplication.class, args);
 	}
 
+
 //	@Bean
 //	public FilterRegistrationBean jwtFilter() {
 //		// which urls to be intercepted / filtered		//
@@ -27,20 +28,5 @@ public class AuthenticationServiceApplication {
 //		frb.setFilter(new JwtFilter());
 //		frb.addUrlPatterns("/api/v1/forgotPassword");
 //		return frb;
-//	}
-//	@Bean
-//	public FilterRegistrationBean filterRegistrationBean(){
-//		final CorsConfiguration config= new CorsConfiguration();
-//		config.setAllowCredentials(true);
-//		config.addAllowedOrigin("http://localhost:4200");
-//		config.addAllowedHeader("*");
-//		config.addAllowedMethod("*");
-//
-//		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//		source.registerCorsConfiguration("/**", config);
-//
-//		FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
-//		bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-//		return bean;
 //	}
 }

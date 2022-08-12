@@ -9,12 +9,21 @@ export class RefreshingService {
   constructor() { }
 
   public notify = new BehaviorSubject<any>('');
+  public notifyView=new BehaviorSubject<any>('');
 
   notifyObservable = this.notify.asObservable();
+  notifyViewObservable = this.notifyView.asObservable();
 
   public notifyOther(data: any) {
     if (data) {
       this.notify.next(data);
     }
   }
+
+  public notifyViewPage(data: any) {
+    if (data) {
+      this.notifyView.next(data);
+    }
+  }
+  
 }

@@ -1,6 +1,6 @@
 package com.stackroute;
 
-import com.stackroute.filter.JwtFilter;
+//import com.stackroute.filter.JwtFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,13 +17,13 @@ public class SuggestionServiceApplication {
 		SpringApplication.run(SuggestionServiceApplication.class, args);
 		log.info("SuggestionService Application RUNNING!");
 	}
-	@Bean
-	public FilterRegistrationBean jwtFilter(){
-		//mention the urls to be intercepted.filtered
-		FilterRegistrationBean frb=new FilterRegistrationBean();
-		frb.setFilter(new JwtFilter());
-		frb.addUrlPatterns("/api/*");//list of urls that are to be intercepted
-		return frb;
-	}
+//	@Bean
+//	public FilterRegistrationBean jwtFilter(){
+//		//mention the urls to be intercepted.filtered
+//		FilterRegistrationBean frb=new FilterRegistrationBean();
+//		frb.setFilter(new JwtFilter());
+//		frb.addUrlPatterns("/api/*");//list of urls that are to be intercepted
+//		return frb;
+//	}
 
 }

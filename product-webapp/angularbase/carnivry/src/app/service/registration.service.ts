@@ -14,16 +14,14 @@ export class RegistrationService {
   private githubAuthorizeEndpoint = '/registration/oauth2/authorization/github'
   private googleAuthorizeEndpoint = '/registration/oauth2/authorization/google'
 
-  private githubTokenEndpoint = '/login/oauth2/code/github';
-  private googleTokenEndpoint = '/login/oauth2/code/google';
+  private githubTokenEndpoint = '/registration/login/oauth2/code/github';
+  private googleTokenEndpoint = '/registration/login/oauth2/code/google';
 
   private baseUrl= environment.baseUrl;
-// <<<<<<< HEAD
+
   private controllerUrl="/api/v1";
   private registrationBaseUrl= environment.baseUrl+"/registration"+this.controllerUrl;
-// =======
-//   private registrationBaseUrl= environment.baseUrl+"/registration/api/v1";
-// >>>>>>> f1f6dde4c09d1c3c01c926533693aa2513f04a6f
+
 
 
   constructor(private myClient: HttpClient) { }
@@ -112,6 +110,8 @@ export class RegistrationService {
   }
 
   googleLogin(){
+    console.log("Inside googleLogin");
+    console.log(this.baseUrl + this.googleAuthorizeEndpoint);
     window.open(this.baseUrl + this.googleAuthorizeEndpoint, '_self');
   }
 
@@ -133,7 +133,7 @@ export class RegistrationService {
   }
 
   logout(): Observable<any> {
-    return this.myClient.post(this.registrationBaseUrl + '/logout', this.getToken());
+    return this.myClient.post('http://localhost:8080'+"/registration"+ '/logout', this.getToken());
   }
 
   updateToken(token: any) {
