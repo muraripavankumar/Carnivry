@@ -231,7 +231,7 @@ public class UserServiceImpl implements UserService{
         userRepository.save(carnivryUser);
 
         String url =
-                applicationUrl
+                "https://carnivry.stackroute.io/registration"
                         + "/api/v1/verifyRegistration?token="
                         + token
                         + "&email="

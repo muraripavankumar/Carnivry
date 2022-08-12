@@ -11,8 +11,8 @@ import { Ticket } from '../model/ticket';
 })
 export class RegistrationService {
 
-  private githubAuthorizeEndpoint = '/oauth2/authorization/github'
-  private googleAuthorizeEndpoint = '/oauth2/authorization/google'
+  private githubAuthorizeEndpoint = 'registration/oauth2/authorization/github'
+  private googleAuthorizeEndpoint = 'registration/oauth2/authorization/google'
 
   private githubTokenEndpoint = '/login/oauth2/code/github';
   private googleTokenEndpoint = '/login/oauth2/code/google';
