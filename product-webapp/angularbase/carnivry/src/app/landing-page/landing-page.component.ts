@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
@@ -25,6 +25,8 @@ export class LandingPageComponent implements OnInit {
   apiUrl="/suggestion";
   baseUrl=environment.baseUrl;
   suggestionUrl=this.baseUrl+this.apiUrl+this.controllerUrl;
+  reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + window.localStorage.getItem('token'));
+   
 
 
   @Input() controls= true;
@@ -59,7 +61,8 @@ export class LandingPageComponent implements OnInit {
   @ViewChild(MatAccordion) accordion: MatAccordion;
   title = 'Suggestion';
   headers = {
-    observe: 'response' as 'response'
+    observe: 'response' as 'response',
+    headers: this.reqHeader
   };
 
 
@@ -158,7 +161,7 @@ export class LandingPageComponent implements OnInit {
 
 
     //========================================== Upcoming events ===========================================
-    this.http.get<Event[]>(this.suggestionUrl+'/upcoming-events/maitymayukh23@gmail.com', this.headers)
+    this.http.get<Event[]>(this.suggestionUrl+'/upcoming-events', this.headers)
       .subscribe(
         (data) => {
           this.upcomingList=data.body;

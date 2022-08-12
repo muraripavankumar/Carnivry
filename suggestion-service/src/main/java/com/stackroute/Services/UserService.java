@@ -102,7 +102,7 @@ public class UserService {
             throw new UserNotfoundException();
         }
         else {
-            logger.info("All Users: " + userList);
+            logger.info("All Users: " + userList.size());
         }
         return userList;
     }
@@ -189,12 +189,19 @@ public class UserService {
             //list of wishlist of user
             List<Events> userWishlist = new ArrayList<>();
             List<String> eventId = user.getWishlist();
+            if(eventId==null){
+                logger.info("EventId is fetched null");
+            }
+            logger.info("EventId size : "+eventId);
+            if(eventId!=null){
+
+
             for (int i = 1; i < eventId.size(); i++) {
                 Events events = eventsRepo.findById(eventId.get(i)).get();
                 if (events.getEndDate().compareTo(date) >= 0) {
                     userWishlist.add(events);
                 }
-            }
+            }}
 
             //filter events in descending order of likes
             List<Events> filterByLikes = filteredListByDate;
@@ -306,7 +313,7 @@ public class UserService {
     }
 
     //retrieve upcoming events
-    public List<Events> getUpcomingEvents(String emailId) throws EventNotFoundException{
+    public List<Events> getUpcomingEvents() throws EventNotFoundException{
 
         logger.info("Date: "+date);
 
