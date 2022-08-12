@@ -10,12 +10,21 @@ import { map, shareReplay } from 'rxjs/operators';
 })
 export class NavigationComponent {
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.XLarge)
-    .pipe(
-      map(result => result.matches),
-      shareReplay()
-    );
+  // isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.XLarge)
+  //   .pipe(
+  //     map(result => result.matches),
+  //     shareReplay()
+  //   );
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  // constructor(private breakpointObserver: BreakpointObserver) {}
+
+   navList = document.getElementById("nav-lists");
+ Show() {
+   this.navList.classList.add("_Menus-show");
+}
+
+Hide(){
+  this.navList.classList.remove("_Menus-show");
+}
 
 }
