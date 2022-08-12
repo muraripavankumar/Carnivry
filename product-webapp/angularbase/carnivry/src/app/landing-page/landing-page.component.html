@@ -22,7 +22,8 @@
                       src={{item.poster}}></a>
                   <div class="likes">{{item.likes}} Likes
                     <mat-icon (click)="like(item.eventId)" class="likeImage">thumb_up</mat-icon>
-                    <mat-icon (click)="wishlist(item.eventId)" class="likeImage">favorite</mat-icon>
+                    <mat-icon class="wishlist" (click)="wishlist(item.eventId)" >favorite</mat-icon>
+                    <!-- [style.color]="isSelected ? 'red' : 'rgba(192, 40, 40, 0.575)'" -->
                     <!-- <img   src="../assets/like.png"> -->
                   </div>
                   <!-- <mat-card-header class="card-header"> -->
@@ -87,10 +88,6 @@
           <div class="btn-carousel btn-next">
             <i class="fas fa-arrow-circle-right icon-carousel icon-next" appNext></i>
           </div>
-          <!-- <div class="button-area">
-          <button type="button" class="prev" appPrev>Prev</button>
-          <button type="button" class="next" appNext>Next</button>
-        </div> -->
         </div>
       </div>
     </section>
@@ -192,17 +189,29 @@
 
       <div class="events">
         <h2>All Events</h2>
-        <mat-grid-list cols="4" rowHeight="3:5">
+        <div *ngIf="runningList.length<1"> No events found </div>
+        <mat-grid-list cols="4" rowHeight="3:6">
           <mat-grid-tile *ngFor="let eventImage of runningList">
             <a [routerLink]="['/view-page',eventImage.eventId]">
+
+              <!-- <mat-card class="example-card">
+                <a [routerLink]="['/view-page',eventImage.eventId]"><img class="image" mat-card-image
+                    src={{eventImage.poster}}></a>
+                <div>
+                  <mat-card-title>{{eventImage.title}}</mat-card-title>
+                  <mat-card-subtitle>Price: {{eventImage.price}}/-</mat-card-subtitle>
+                </div>
+              </mat-card> -->
+
+
+
+
               <mat-card class="event-card">
-                <img class="image" mat-card-image src={{eventImage.poster}}>
-                <!-- <mat-card-header class="card-header"> -->
+                <img class="all-images" mat-card-image src={{eventImage.poster}}>
                 <div>
                   <mat-card-title>{{eventImage.title}}</mat-card-title>
                   <mat-card-subtitle>{{eventImage.genre}}</mat-card-subtitle>
                 </div>
-                <!-- </mat-card-header> -->
               </mat-card>
             </a>
           </mat-grid-tile>
@@ -215,3 +224,5 @@
   </mat-tab>
 
 </mat-tab-group>
+
+

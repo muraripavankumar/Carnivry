@@ -1,0 +1,153 @@
+version: '3.3'
+services:
+  gatewayService:
+    image: gateway_image
+    container_name: gateway_container
+    build: APIGateway/
+    network_mode: host
+    ports:
+      - 8080:8080
+  #    depends_on:
+  #      - eurekaService
+
+  eurekaService:
+    image: eureka_image
+    container_name: eureka_container
+    build: EurekaServer/
+    network_mode: host
+    ports:
+      - 8761:8761
+
+  registrationService:
+    image: registration_image
+    container_name: registration_container
+    build: registration-service/
+    restart: always
+    network_mode: host
+    ports:
+      - 8085:8085
+#    depends_on:
+#      - mongoService
+#      - eurekaService
+
+  mongoService:
+    image: mongo:latest
+    container_name: mongo_container
+    ports:
+      - 27017:27017
+    network_mode: host
+
+  authenticationService:
+    image: authentication_image
+    container_name: authentication_container
+    build: authentication-service/
+    restart: always
+    network_mode: host
+    ports:
+      - 64200:64200
+  #    depends_on:
+  #      - mysqlService
+  #      - eurekaService
+
+  mysqlService:
+    image: mysql:latest
+    container_name: mysql_container
+    network_mode: host
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USERNAME: root
+      #      MYSQL_PASSWORD: root
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+
+  managementService:
+    image: management_image
+    container_name: management_container
+    build: management-service/
+    restart: always
+    network_mode: host
+    ports:
+      - 8081:8081
+  #   depends_on:
+  #     - mysqlService
+  #     - eurekaService
+
+  suggestionService:
+    image: suggestion_image
+    container_name: suggestion_container
+    build: suggestion-service/
+    restart: always
+    network_mode: host
+    ports:
+      - 8082:8082
+  #   depends_on:
+  #     - neo4jService
+  #     - eurekaService
+
+  neo4jService:
+    image: neo4j:latest
+    container_name: neo4j_container
+    network_mode: host
+    ports:
+      - 7687:7687
+    environment:
+      NEO4J_AUTH: neo4j/Password.0
+
+  notificationService:
+    image: notification_image
+    container_name: notification_container
+    build: notification-service/
+    restart: always
+    network_mode: host
+    ports:
+      - 8087:8087
+  #   depends_on:
+  #     - eurekaService
+
+  ticketingService:
+    image: ticketing_image
+    container_name: ticketing_container
+    build: ticketing-service/
+    restart: always
+    network_mode: host
+    ports:
+      - 5300:5300
+  #    depends_on:
+  #      - redisService
+  #      - eurekaService
+
+  paymentService:
+    image: payment_image
+    container_name: payment_container
+    build: payment-service/
+    restart: always
+    network_mode: host
+    ports:
+      - 9000:9000
+  #    depends_on:
+  #      - mysqlService
+  #      - eurekaService
+
+  redisService:
+    image: redis:6.2-alpine
+    container_name: redis_container
+    restart: always
+    network_mode: host
+    ports:
+      - 6379:6379
+
+  rabbitMqService:
+    image: rabbitmq:management
+    restart: always
+    ports:
+      - 15672:15672
+
+  productWebAppService:
+    image: productwebapp_image
+    container_name: productwebapp_container
+    build: product-webapp/
+    restart: always
+    network_mode: host
+    ports:
+      - 4200:4200

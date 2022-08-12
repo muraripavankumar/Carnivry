@@ -6,6 +6,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatAccordion } from '@angular/material/expansion';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Event } from '../model/event';
 
 interface carouselImage {
@@ -20,9 +21,15 @@ interface carouselImage {
   styleUrls: ['./landing-page.component.css']
 })
 export class LandingPageComponent implements OnInit {
+  controllerUrl="/api/v1";
+  apiUrl="/suggestion";
+  baseUrl=environment.baseUrl;
+  suggestionUrl=this.baseUrl+this.apiUrl+this.controllerUrl;
+
 
   @Input() controls= true;
 
+  
 
   images = [
     {
@@ -56,6 +63,8 @@ export class LandingPageComponent implements OnInit {
   };
 
 
+  isSelected: Boolean= false;
+
   flag: Boolean = false;
   english = false;
   hindi = false;
@@ -85,7 +94,7 @@ export class LandingPageComponent implements OnInit {
   appliedGenre: any = [];
   appliedPrice: any = [];
     city = sessionStorage.getItem('city');
-    emailId= localStorage.getItem('email');
+   emailId= localStorage.getItem('email')
 
   constructor(private http: HttpClient, public datePipe: DatePipe, private router: Router) {
 
@@ -93,7 +102,7 @@ export class LandingPageComponent implements OnInit {
 
     if(this.city=== null && this.emailId!=null){
       console.log("User logged in and no city");
-      this.http.get<Event[]>('http://localhost:8082/api/v1/suggest-events/'+this.emailId, this.headers)
+      this.http.get<Event[]>(this.suggestionUrl+'/suggest-events/'+this.emailId, this.headers)
       .subscribe(
         (data) => {
           this.recommendList = data.body;
@@ -109,9 +118,9 @@ export class LandingPageComponent implements OnInit {
         }
       )
     }
-    else if(this.city!=null && this.emailId==null){
+    else if(this.city!=null){
       console.log("User not logged in and city chosen");
-      this.http.get<Event[]>('http://localhost:8082/api/v1/suggestion/'+this.city, this.headers)
+      this.http.get<Event[]>(this.suggestionUrl+'/suggestion/'+this.city, this.headers)
       .subscribe(
         (data) => {
           this.recommendList = data.body;
@@ -130,7 +139,7 @@ export class LandingPageComponent implements OnInit {
     }
     else if(this.city==null && this.emailId==null){
       console.log("User not logged in and no city");
-      this.http.get<Event[]>('http://localhost:8082/api/v1/suggest-events/no-user', this.headers)
+      this.http.get<Event[]>(this.suggestionUrl+'/suggest-events/no-user', this.headers)
       .subscribe(
         (data) => {
           this.recommendList = data.body;
@@ -151,7 +160,7 @@ export class LandingPageComponent implements OnInit {
 
 
     //========================================== Upcoming events ===========================================
-    this.http.get<Event[]>('http://localhost:8082/api/v1/upcoming-events/gm@gmail.com', this.headers)
+    this.http.get<Event[]>(this.suggestionUrl+'/upcoming-events', this.headers)
       .subscribe(
         (data) => {
           this.upcomingList=data.body;
@@ -170,7 +179,7 @@ export class LandingPageComponent implements OnInit {
 
 
     //=============================================== fetch all events =======================================
-    this.http.get<Event[]>('http://localhost:8082/api/v1/all-events', this.headers)
+    this.http.get<Event[]>(this.suggestionUrl+'/all-events', this.headers)
       .subscribe(
         (data) => {
           this.modifiedAllEventsList=data.body;
@@ -203,18 +212,11 @@ export class LandingPageComponent implements OnInit {
     }
     else{
 
-    this.http.put('http://localhost:8082/api/v1/update-likes/'+this.emailId+'/'+eventId, this.headers)
-      .pipe(
-        tap(res => {
-          sessionStorage.setItem("like", JSON.stringify(res))
-          console.log(res);
-        }
-        )
-      )
+
+    this.http.put(this.suggestionUrl+'/update-likes/'+this.emailId+'/'+eventId, this.headers)
       .subscribe(
-        {
-          next: (response) => console.log(response),
-          error: (error) => console.log(error)
+        (data) => {
+          window.location.reload();
         }
       )
     }
@@ -385,9 +387,12 @@ export class LandingPageComponent implements OnInit {
         && (
           (((this.allEventsList[i].price >= this.appliedPrice[0]) && (this.allEventsList[i].price <= this.appliedPrice[1])) || (this.appliedPrice.length === 0))
         )
-      ) {
+      ) 
+      {
         this.runningList.push(this.allEventsList[i]);
       }
+
+      
     }
   }
 
@@ -422,12 +427,15 @@ export class LandingPageComponent implements OnInit {
 
 
   wishlist(eventId: any){
+    // this.isSelected=true;
+
+    // console.log("like selected: "+ this.isSelected);
     if(this.emailId==null){
       this.router.navigate(['/registration/register']);
     }
     else{
 
-    this.http.put('http://localhost:8082/api/v1/add-wishlist/'+this.emailId+'/'+eventId, this.headers)
+    this.http.put(this.suggestionUrl+'/add-wishlist/'+this.emailId+'/'+eventId, this.headers)
     .subscribe(
       (data)=> console.log(data)
     )

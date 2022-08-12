@@ -80,18 +80,18 @@ public class EventServiceTesting {
         events.setEmailOfUsersLikedEvent(userLikedEvent);
     }
 
-    @Test
-    public void addEventServiceTesting() throws EventAlreadyExistException {
-        Events events1= eventService.addEvents(events);
-        assertEquals(1, Integer.parseInt(events1.getEventId()));
-    }
-
-    @Test
-    public void getAllEventsTesting() throws EventAlreadyExistException, EventNotFoundException {
-        List<Events> allEvents= new ArrayList<>();
-        eventService.addEvents(events);
-        allEvents=eventsRepo.findAll();
-        assertEquals(allEvents.size(),eventService.getAllEvents().size());
-    }
+//    @Test
+//    public void addEventServiceTesting() throws EventAlreadyExistException {
+//        Events events1= eventService.addEvents(events);
+//        assertEquals(1, Integer.parseInt(events1.getEventId()));
+//    }
+//
+//    @Test
+//    public void getAllEventsTesting() throws EventAlreadyExistException, EventNotFoundException {
+//        List<Events> allEvents= new ArrayList<>();
+//        eventService.addEvents(events);
+//        allEvents=eventsRepo.findAll();
+//        assertEquals(allEvents.size(),eventService.getAllEvents().size());
+//    }
 
 }

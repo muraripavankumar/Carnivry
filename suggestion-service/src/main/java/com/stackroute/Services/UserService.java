@@ -306,7 +306,7 @@ public class UserService {
     }
 
     //retrieve upcoming events
-    public List<Events> getUpcomingEvents(String emailId) throws EventNotFoundException{
+    public List<Events> getUpcomingEvents() throws EventNotFoundException{
 
         logger.info("Date: "+date);
 

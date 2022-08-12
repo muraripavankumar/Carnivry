@@ -20,7 +20,7 @@ public class TicketingServiceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(TicketingServiceApplication.class, args);
-		log.info("Ticketing Service is started");
+		log.info("Ticketing Service is RUNNING!");
 	}
 
 
