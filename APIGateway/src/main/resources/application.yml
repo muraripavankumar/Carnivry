@@ -15,9 +15,16 @@ spring:
     name: APIGateway
   cloud:
     gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            exposedHeaders: "*"
       routes:
         - id: AuthenticationService
-          uri: http://localhost:64200/
+          uri: http://localhost:8086/
           predicates:
             - Path=/userauth/**
           filters:
@@ -35,7 +42,7 @@ spring:
           filters:
             - RewritePath=/management(?<segment>/?.*), $\{segment}
         - id: NotificationService
-          uri: http://localhost:64100/
+          uri: http://localhost:8087/
           predicates:
             - Path=/notification/**
           filters:
@@ -52,3 +59,15 @@ spring:
             - Path=/suggestion/**
           filters:
             - RewritePath=/suggestion(?<segment>/?.*), $\{segment}
+        - id: PaymentService
+          uri: http://localhost:9000/
+          predicates:
+            - Path=/payment/**
+          filters:
+            - RewritePath=/payment(?<segment>/?.*), $\{segment}
+        - id: productWebApp
+          uri: http://localhost:4200/
+          predicates:
+            - Path=/**
+          filters:
+            - RewritePath=(?<segment>/?.*), $\{segment}
