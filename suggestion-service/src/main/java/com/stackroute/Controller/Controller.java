@@ -69,10 +69,10 @@ public class Controller {
 
     //Retrieve upcoming events
     @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("/upcoming-events/{emailId}")
-    public ResponseEntity<?> upcomingEvents(@PathVariable String emailId){
+    @GetMapping("/upcoming-events")
+    public ResponseEntity<?> upcomingEvents(){
         try {
-            responseEntity = new ResponseEntity<List<Events>>(userService.getUpcomingEvents(emailId), HttpStatus.OK);
+            responseEntity = new ResponseEntity<List<Events>>(userService.getUpcomingEvents(), HttpStatus.OK);
         }
         catch (EventNotFoundException e){
             responseEntity = new ResponseEntity<String>("No Upcoming events found", HttpStatus.OK);

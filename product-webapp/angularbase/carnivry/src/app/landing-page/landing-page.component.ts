@@ -160,7 +160,7 @@ export class LandingPageComponent implements OnInit {
 
 
     //========================================== Upcoming events ===========================================
-    this.http.get<Event[]>(this.suggestionUrl+'/upcoming-events/maitymayukh23@gmail.com', this.headers)
+    this.http.get<Event[]>(this.suggestionUrl+'/upcoming-events', this.headers)
       .subscribe(
         (data) => {
           this.upcomingList=data.body;
@@ -212,18 +212,8 @@ export class LandingPageComponent implements OnInit {
     }
     else{
 
-<<<<<<< HEAD
-    this.http.put('http://localhost:8082/api/v1/update-likes/'+this.emailId+'/'+eventId, this.headers)
-=======
+
     this.http.put(this.suggestionUrl+'/update-likes/'+this.emailId+'/'+eventId, this.headers)
-      .pipe(
-        tap(res => {
-          sessionStorage.setItem("like", JSON.stringify(res))
-          console.log(res);
-        }
-        )
-      )
->>>>>>> c8671c86247b3b34c02dd579416a129627a2aec9
       .subscribe(
         (data) => {
           window.location.reload();
