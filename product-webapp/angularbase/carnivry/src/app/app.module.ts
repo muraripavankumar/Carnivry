@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { MatCard } from '@angular/material/card';
-import { MatCardContent } from '@angular/material/card';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -27,12 +25,11 @@ import { LoginComponent } from './login/login.component';
 import { EmailVerificationComponent } from './email-verification/email-verification.component';
 import { AddPreferenceComponent } from './add-preference/add-preference.component';
 import { CountdownModule } from 'ngx-countdown';
-
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { UpdateEventComponent } from './update-event/update-event.component';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { EmailLinkComponent } from './email-link/email-link.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { AddHeaderInterceptor } from './interceptor/add-header.interceptor';
@@ -53,14 +50,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
-
-
-
-// Added by Garima
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatExpansionModule} from '@angular/material/expansion';
-import {MatGridListModule} from '@angular/material/grid-list';
-import {MatMenuModule} from '@angular/material/menu';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatMenuModule } from '@angular/material/menu';
 import { DatePipe } from '@angular/common';
 import { CarouselModule } from './carousel/carousel.module';
 import { FooterComponent } from './footer/footer.component';
@@ -72,8 +65,13 @@ import { PrevDirective } from './prev.directive';
 import { SearchComponent } from './search/search.component';
 import { PastEventsComponent } from './past-events/past-events.component';
 import { UpcomingEventsComponent } from './upcoming-events/upcoming-events.component';
+import { TicketComponent } from './ticket/ticket.component';
+
+import { WishlistComponent } from './wishlist/wishlist.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 // import { FlexLayoutModule } from "@angular/flex-layout";
+
 
 
 @NgModule({
@@ -100,8 +98,19 @@ import { UpcomingEventsComponent } from './upcoming-events/upcoming-events.compo
     ViewPageComponent,
     NavigationComponent,
     SeatingUIComponent,
-    LandingPageComponent,         
-    FooterComponent, HeaderComponent, DialogBoxChooseCityComponent, NextDirective, PrevDirective, SearchComponent, PastEventsComponent, UpcomingEventsComponent     
+
+
+    LandingPageComponent,
+    FooterComponent,
+    HeaderComponent,
+    DialogBoxChooseCityComponent,
+    NextDirective,
+    PrevDirective,
+    SearchComponent,
+    PastEventsComponent,
+    UpcomingEventsComponent,
+    PageNotFoundComponent,
+    TicketComponent
   ],
   imports: [
     BrowserModule,
@@ -155,6 +164,7 @@ import { UpcomingEventsComponent } from './upcoming-events/upcoming-events.compo
     MatMenuModule,
     CarouselModule,
     FlexLayoutModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     {

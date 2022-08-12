@@ -45,14 +45,15 @@ public class EmailController {
     }
 
     @PostMapping("/sendingEmailToConsumer")
-    public MailResponse sendEmailtoConsumer(@RequestBody ConsumerEmail consumerEmail) throws MessagingException, TemplateException, IOException {
-//        try {
+    public ResponseEntity<?> sendEmailtoConsumer(@RequestBody ConsumerEmail consumerEmail) throws MessagingException, TemplateException, IOException {
+        try {
             log.debug("inside sendEmailtoConsumer() method");
-            return emailService.mailToConsumer(consumerEmail);
-//        }catch (Exception ex){
-//            log.error("Exception in EmailController class->sendEmailtoConsumer() method");
-//            return new ResponseEntity<>("error occurs due to exception case",HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
+            emailService.mailToConsumer(consumerEmail);
+            return new ResponseEntity<>("booking details have been sent successfullu",HttpStatus.OK);
+        }catch (Exception ex){
+            log.error("Exception in EmailController class->sendEmailtoConsumer() method");
+            return new ResponseEntity<>("error occurs due to exception case",HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
     }
 

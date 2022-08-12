@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/v1")
 @Slf4j
+@CrossOrigin("**")
 public class RegistrationController {
 
     private final UserService userService;
@@ -427,11 +427,28 @@ public class RegistrationController {
         }
     }
 
+    @GetMapping("/wishlist/{email}")
+    public ResponseEntity<?> getWishlist(@PathVariable String email){
+        try {
+            List<String> wishlist= userService.getWishlist(email);
+            log.info("Wishlist fetched for user with email id {}",email);
+
+                return new ResponseEntity<>(wishlist,HttpStatus.OK);
+        }catch (UserNotFoundException e)
+        {
+            log.error("User with email id {} not found",email);
+            return new ResponseEntity<>("User not found with email id "+email,HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            log.error("Internal server error {}",e.getMessage());
+            return new ResponseEntity<>("Unknown error occurred. Will fix this soon.",HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/pastEvents/{email}")
     public ResponseEntity<?> getPastEvents(@PathVariable String email){
         try {
             List<TicketDTO> pastEvents= userService.getPastEvents(email);
-            log.info("Username fetched for user with email id {}",email);
+            log.info("Past Events fetched for user with email id {}",email);
             if(pastEvents==null)
                 return new ResponseEntity<>(null, HttpStatus.OK);
             else
@@ -450,7 +467,7 @@ public class RegistrationController {
     public ResponseEntity<?> getUpcomingEvents(@PathVariable String email){
         try {
             List<TicketDTO> upcomingEvents= userService.getUpcomingEvents(email);
-            log.info("Username fetched for user with email id {}",email);
+            log.info("Upcoming Events fetched for user with email id {}",email);
             if(upcomingEvents==null)
                 return new ResponseEntity<>(null, HttpStatus.OK);
             else

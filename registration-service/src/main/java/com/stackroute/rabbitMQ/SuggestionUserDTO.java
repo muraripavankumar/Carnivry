@@ -18,7 +18,6 @@ public class SuggestionUserDTO {
     private String emailId;
     private String name;
     private List<String> wishlist;
-
     private List<Genre> likedGenre;
     private String city;
 }

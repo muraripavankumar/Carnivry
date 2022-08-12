@@ -14,6 +14,7 @@ export class PastEventsComponent implements OnInit {
   pastEvents: any;
   email:any;
   noEventMessage:any;
+  isSeat:boolean= false;
 
   constructor(private regService:RegistrationService,
      private router: Router) {
@@ -32,7 +33,7 @@ export class PastEventsComponent implements OnInit {
          this.noEventMessage= "No Events to Dispaly";
       else
       this.pastEvents.map((event:Ticket)=>{
-           
+        console.log(event.seats);   
         event.timings.startDate= event.timings.startDate.substring(0,10);
         event.timings.endDate= event.timings.endDate.substring(0,10);
        })

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { RazorpayOrder } from '../model/razorpay-order';
 import { RazorpaySuccess } from '../model/razorpay-success';
 
@@ -11,13 +12,19 @@ export class PaymentService {
 
   constructor(private myClient: HttpClient) { }
 
-  baseUrl= "http://localhost:9000/api/v1";
+// <<<<<<< HEAD
+  // baseUrl= environment.baseUrl+"payment/api/v1";
+  private controllerUrl="/api/v1";
+  private paymentUrl=environment.baseUrl+"/payment"+this.controllerUrl;
+// =======
+//   baseUrl= environment.baseUrl+"/payment/api/v1";
+// >>>>>>> f1f6dde4c09d1c3c01c926533693aa2513f04a6f
 
   createOrder(data: any):Observable<RazorpayOrder>{
-    return this.myClient.post<RazorpayOrder>(this.baseUrl+"/create_order",data, {responseType: 'json'});
+    return this.myClient.post<RazorpayOrder>(this.paymentUrl+"/create_order",data, {responseType: 'json'});
   }
 
   paymentSuccess(data:any){
-    return this.myClient.post(this.baseUrl+"/payment_success",data, {responseType: 'text'});
+    return this.myClient.post(this.paymentUrl+"/payment_success",data, {responseType: 'text'});
   }
 }

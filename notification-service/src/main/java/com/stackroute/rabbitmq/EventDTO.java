@@ -16,5 +16,5 @@ public class EventDTO {
     EventTiming eventTimings;
     Venue venue;
     int totalSeats;
-    
+
 }

@@ -6,4 +6,6 @@
     width: 50px;
     border-radius: 50%;
     border: 2px solid purple;
+    
+    background-image: url("src/assets/default_avatar.png");
 }

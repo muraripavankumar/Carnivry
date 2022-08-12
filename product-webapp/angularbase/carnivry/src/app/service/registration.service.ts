@@ -11,14 +11,19 @@ import { Ticket } from '../model/ticket';
 })
 export class RegistrationService {
 
-  private githubAuthorizeEndpoint = '/oauth2/authorization/github'
-  private googleAuthorizeEndpoint = '/oauth2/authorization/google'
+  private githubAuthorizeEndpoint = '/registration/oauth2/authorization/github'
+  private googleAuthorizeEndpoint = '/registration/oauth2/authorization/google'
 
   private githubTokenEndpoint = '/login/oauth2/code/github';
   private googleTokenEndpoint = '/login/oauth2/code/google';
 
   private baseUrl= environment.baseUrl;
-  private registrationBaseUrl= environment.registerationBaseUrl;
+// <<<<<<< HEAD
+  private controllerUrl="/api/v1";
+  private registrationBaseUrl= environment.baseUrl+"/registration"+this.controllerUrl;
+// =======
+//   private registrationBaseUrl= environment.baseUrl+"/registration/api/v1";
+// >>>>>>> f1f6dde4c09d1c3c01c926533693aa2513f04a6f
 
 
   constructor(private myClient: HttpClient) { }
@@ -128,7 +133,7 @@ export class RegistrationService {
   }
 
   logout(): Observable<any> {
-    return this.myClient.post(this.baseUrl + '/logout', this.getToken());
+    return this.myClient.post(this.registrationBaseUrl + '/logout', this.getToken());
   }
 
   updateToken(token: any) {

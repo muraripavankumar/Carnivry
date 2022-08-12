@@ -3,12 +3,9 @@
   <mat-toolbar-row>
 
     <!-- Logo -->
-    <div >
+    <div>
       <a> <img class="logo" src="assets\\logo.png" (click)="logo()"> </a>
     </div>
-
-
-
 
     <!-- Search box -->
     <app-search (searchTextChange)="onSearchTextEntered($event)"></app-search>
@@ -18,44 +15,30 @@
       </div>
     </div>
 
-
-
     <div style="margin-left: 200px;display: flex; width: 450px; height: 50px; align-items: center;">
 
       <!-- Add Event -->
       <div style="display: flex;">
-        
+
         <section>
           <button mat-button (click)="addEvent()">Add Event</button>
         </section>
 
         <!-- Choose city -->
         <section>
-          <button mat-button  (click)="openDialog()">{{city}}
+          <button mat-button (click)="openDialog()">{{city}}
             <mat-icon>location_city</mat-icon>
           </button>
-        
+
         </section>
 
- 
-        
         <!-- Home -->
         <section>
           <button mat-button (click)="home()">Home</button>
         </section>
 
-
         <!-- Sign In -->
-        
-          <div style="margin-left: 30px;" *ngIf="login">
-            <!-- <p>{{signIn}}</p> -->
-            <app-home></app-home>
-            <!-- <button mat-button [matMenuTriggerFor]="beforeMenu">{{signIn}}</button> -->
-          </div>
-        
-        <button style="border:1px solid black; border-radius: 10px; margin-left: 30px; background-color: white;" mat-button *ngIf="!login"
-          (click)="SignInLogin()">SignIn/Login</button>
-
+        <app-home></app-home>
       </div>
 
     </div>
@@ -63,6 +46,7 @@
 
 </mat-toolbar>
 
+<<<<<<< HEAD
 
 
 
@@ -74,6 +58,8 @@
 
 <!-- <app-landing-page></app-landing-page> -->
 
+=======
+>>>>>>> c8671c86247b3b34c02dd579416a129627a2aec9
 <router-outlet></router-outlet>
 <br>
 <app-footer></app-footer>

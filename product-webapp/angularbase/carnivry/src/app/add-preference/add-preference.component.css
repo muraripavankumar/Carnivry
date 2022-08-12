@@ -1,12 +1,65 @@
+.heading{
+    text-align: center;
+    margin: 30px auto;
+    margin-top: 30px;
+    width: 80%;
+    font-weight: 600;
+}
+#genre_heading{
+    margin: 10px auto;
+    width: 70%;
+    font-style: italic;
+    color:   #8b1ac4;
+    font-weight: 600;
+
+}
 .genres{
     text-align: center;
 }
 .genre_list{
-    width: 60%;
+    width: 65%;
+    border: 2px solid #8b1ac4;
+    padding: 25px;
+    border-radius: 20px;
+    -webkit-box-shadow: 0px 10px 41px -11px rgba(0, 0, 0, 0.7);
+    -moz-box-shadow: 0px 10px 41px -11px rgba(0, 0, 0, 0.7);
+    box-shadow: 0px 10px 41px -11px rgba(0, 0, 0, 0.7);
 }
-.buttons{
-    margin: auto ;
+.butt_box{
+    width: 100%;
+    height: auto;
+    margin-top: 30px;
     display: flex;
-    justify-content: space-evenly;
-    width: 60%;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
 }
+.butt{
+    background-image: linear-gradient(45deg, #f046ff, #9b00e8);
+    color: white;
+    border: 2px solid rgb(173, 8, 162);
+    border-radius: 25px;
+    margin: 0px;
+    padding: 0px;
+    width: 25%;
+    height: auto;
+    
+    -webkit-box-shadow: 0px 10px 41px -11px rgba(0, 0, 0, 0.7);
+    -moz-box-shadow: 0px 10px 41px -11px rgba(0, 0, 0, 0.7);
+    box-shadow: 0px 10px 41px -11px rgba(0, 0, 0, 0.7);
+}
+.butt:hover {
+    background: linear-gradient(45deg, #c85bff, #b726ff);
+    color: rgb(234, 211, 245);
+    width: 28%;
+    height: 45px;
+  }
+  .message{
+    width: 65%;
+    margin: 20px auto;
+    border: 2px solid red;
+    border-radius: 20px;
+    font-size: 15px;
+    font-weight: 500;
+  }

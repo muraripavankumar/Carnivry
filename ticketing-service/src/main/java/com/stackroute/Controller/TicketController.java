@@ -8,14 +8,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/ticket")
+@RequestMapping("/api/v1")
 @Slf4j
+@CrossOrigin("**")
 public class TicketController {
 
     private final TicketingService ticketingService;
@@ -32,6 +30,7 @@ public class TicketController {
             return new ResponseEntity<>(ticketingService.getEventById(eventId), HttpStatus.OK);
         }
         catch (EventNotFoundException e){
+
             log.error("Exception occured in TicketController->getEventByEventId");
             return new ResponseEntity<>("The Event is not currently available. We will be back soon",HttpStatus.CONFLICT);
         }

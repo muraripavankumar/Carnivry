@@ -1,5 +1,20 @@
+<<<<<<< HEAD
 <mat-sidenav-container class="sidenav-container" style="height: 10rem;">
   
+=======
+<!-- <mat-sidenav-container class="sidenav-container" style="height: 10rem;">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="false" style="background-image: linear-gradient(to bottom right, #c85bff,#9b00e8);">
+    <mat-toolbar >Menu</mat-toolbar>
+    <mat-nav-list >
+      <a mat-list-item href="#">Home</a>
+      <a mat-list-item href="/host-event">Host Event</a>
+      <a mat-list-item href="#">My Login</a>
+    </mat-nav-list>
+  </mat-sidenav>
+>>>>>>> c8671c86247b3b34c02dd579416a129627a2aec9
   <mat-sidenav-content>
     <mat-toolbar style="height: 10rem;background-image: linear-gradient(to right, #c85bff,#9b00e8);
      ">
@@ -18,6 +33,7 @@
     </mat-toolbar>
 
   </mat-sidenav-content>
+<<<<<<< HEAD
   <mat-sidenav #drawer class="sidenav" fixedInViewport
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
@@ -30,3 +46,31 @@
     </mat-nav-list>
   </mat-sidenav>
 </mat-sidenav-container>
+=======
+</mat-sidenav-container> -->
+
+
+
+<div class="container">
+  <div class="logo">
+      <a href="#"><img src="https://www.w3jar.com/wp-content/uploads/2019/05/microsoft.png" alt="logo"></a>
+  </div>
+<div class="navbar">
+
+<div class="icon-bar" onclick="Show()">
+  <i></i>
+  <i></i>
+  <i></i>
+</div>
+
+<ul id="nav-lists">
+  <li class="close"><span onclick="Hide()">×</span></li>
+  <li><a href="#">Home</a></li>
+  <li><a href="#">Blog</a></li>
+  <li><a href="#">About</a></li>
+  <li><a href="#">Contact</a></li>
+</ul>
+
+</div>
+</div>
+>>>>>>> c8671c86247b3b34c02dd579416a129627a2aec9

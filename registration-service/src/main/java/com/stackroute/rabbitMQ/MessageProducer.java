@@ -27,7 +27,7 @@ public class MessageProducer {
     }
 
 
-
+    //send new user data to Suggestion service
     public void sendMessageToSuggestionService(SuggestionUserDTO suggestionUserDTO)
     {
         rabbitTemplate.convertAndSend(exchange.getName(),"key3", suggestionUserDTO);

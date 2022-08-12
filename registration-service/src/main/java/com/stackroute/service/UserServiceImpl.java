@@ -1,6 +1,7 @@
 package com.stackroute.service;
 
 //import com.stackroute.config.TwilioConfig;
+
 import com.stackroute.entity.CarnivryUser;
 import com.stackroute.exception.UserAlreadyExistsException;
 import com.stackroute.exception.UserNotFoundException;
@@ -10,13 +11,10 @@ import com.stackroute.rabbitMQ.MessageProducer;
 import com.stackroute.rabbitMQ.SuggestionUserDTO;
 import com.stackroute.rabbitMQ.TicketDTO;
 import com.stackroute.repository.UserRepository;
-//import com.twilio.rest.api.v2010.account.Message;
-//import com.twilio.type.PhoneNumber;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.DecimalFormat;
 import java.util.*;
 
 @Service
@@ -28,17 +26,17 @@ public class UserServiceImpl implements UserService{
     private final EmailSenderService emailSenderService;
     private final MessageProducer messageProducer;
 //    private final TwilioConfig twilioConfig;
-    private final SmsSenderService smsSenderService;
+//    private final SmsSenderService smsSenderService;
     private static HashMap<String,String> passwords;
-    private static CarnivryUser carnivryUser;
+
 
    @Autowired
-   public UserServiceImpl(UserRepository userRepository, EmailSenderService emailSenderService, MessageProducer messageProducer, SmsSenderService smsSenderService) {
+   public UserServiceImpl(UserRepository userRepository, EmailSenderService emailSenderService, MessageProducer messageProducer) {
         this.userRepository = userRepository;
         this.emailSenderService = emailSenderService;
         this.messageProducer = messageProducer;
 
-       this.smsSenderService = smsSenderService;
+
    }
 
     private static  final int EXPIRATION_TIME = 10;
@@ -233,7 +231,7 @@ public class UserServiceImpl implements UserService{
         userRepository.save(carnivryUser);
 
         String url =
-                applicationUrl
+                "https://carnivry.stackroute.io/registration"
                         + "/api/v1/verifyRegistration?token="
                         + token
                         + "&email="
@@ -634,6 +632,16 @@ public class UserServiceImpl implements UserService{
         return upcomingEvents;
     }
 
+    @Override
+    public List<String> getWishlist(String email) throws UserNotFoundException {
+        if (userRepository.findById(email).isEmpty())
+        {
+            log.debug("User with email id {} not found",email);
+            throw new UserNotFoundException();
+        }
+        return userRepository.findById(email).get().getWishlist();
+    }
+
     private Date calculateExpirationDate(int expirationTime) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(new Date().getTime());
@@ -642,9 +650,9 @@ public class UserServiceImpl implements UserService{
         return new Date(calendar.getTime().getTime());
     }
 
-    private String generateOTP() {
-        return new DecimalFormat("000000")
-                .format(new Random().nextInt(999999));
-    }
+//    private String generateOTP() {
+//        return new DecimalFormat("000000")
+//                .format(new Random().nextInt(999999));
+//    }
 }
 

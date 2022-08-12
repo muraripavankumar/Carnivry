@@ -1,13 +1,13 @@
-package com.example.SuggestionService.Controller;
+package com.stackroute.Controller;
 
-import com.example.SuggestionService.Services.EventService;
-import com.example.SuggestionService.Services.UserService;
-import com.example.SuggestionService.entity.Events;
-import com.example.SuggestionService.entity.User;
-import com.example.SuggestionService.exception.EventAlreadyExistException;
-import com.example.SuggestionService.exception.EventNotFoundException;
-import com.example.SuggestionService.exception.UserAlreadyExistException;
-import com.example.SuggestionService.exception.UserNotfoundException;
+import com.stackroute.Services.EventService;
+import com.stackroute.Services.UserService;
+import com.stackroute.entity.Events;
+import com.stackroute.entity.User;
+import com.stackroute.exception.EventAlreadyExistException;
+import com.stackroute.exception.EventNotFoundException;
+import com.stackroute.exception.UserAlreadyExistException;
+import com.stackroute.exception.UserNotfoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
+@CrossOrigin("**")
 public class Controller {
 
 
@@ -42,29 +43,29 @@ public class Controller {
         return responseEntity;
     }
 
-    //add new event
-    @PostMapping("/add-event")
-    public ResponseEntity<?> addEvents(@RequestBody Events events){
-        try {
-            responseEntity = new ResponseEntity<Events>(eventService.addEvents(events), HttpStatus.OK);
-        }
-        catch (EventAlreadyExistException e){
-            responseEntity= new ResponseEntity<String >("Event already exist with the same Id", HttpStatus.ALREADY_REPORTED);
-        }
-        return responseEntity;
-    }
+//    //add new event
+//    @PostMapping("/add-event")
+//    public ResponseEntity<?> addEvents(@RequestBody Events events){
+//        try {
+//            responseEntity = new ResponseEntity<Events>(eventService.addEvents(events), HttpStatus.OK);
+//        }
+//        catch (EventAlreadyExistException e){
+//            responseEntity= new ResponseEntity<String >("Event already exist with the same Id", HttpStatus.ALREADY_REPORTED);
+//        }
+//        return responseEntity;
+//    }
 
     //update Event
-    @PutMapping("/update-event")
-    public ResponseEntity<?> updateEvents(@RequestBody Events events){
-        try {
-            responseEntity = new ResponseEntity<Events>(eventService.updateEvent(events), HttpStatus.OK);
-        }
-        catch (EventNotFoundException e){
-            responseEntity = new ResponseEntity<String >("Event not found", HttpStatus.OK);
-        }
-        return responseEntity;
-    }
+//    @PutMapping("/update-event")
+//    public ResponseEntity<?> updateEvents(@RequestBody Events events){
+//        try {
+//            responseEntity = new ResponseEntity<Events>(eventService.updateEvent(events), HttpStatus.OK);
+//        }
+//        catch (EventNotFoundException e){
+//            responseEntity = new ResponseEntity<String >("Event not found", HttpStatus.OK);
+//        }
+//        return responseEntity;
+//    }
 
     //Retrieve upcoming events
     @CrossOrigin(origins = "http://localhost:4200")

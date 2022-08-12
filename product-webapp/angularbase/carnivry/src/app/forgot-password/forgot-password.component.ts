@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Loginuser } from '../model/loginuser';
 import { LoginService } from '../service/login.service';
@@ -20,7 +21,7 @@ export class ForgotPasswordComponent implements OnInit {
   updatePasswordForm:FormGroup;
   newPassword:FormControl;
   cnewPassword:FormControl;
-  constructor(private builder:FormBuilder,private userservice:LoginService,public router:Router) { }
+  constructor(private builder:FormBuilder,private userservice:LoginService,public router:Router,private snackbar: MatSnackBar) { }
 
   ngOnInit(): void {
     //this.emailId=this.userservice.getMessage()
@@ -50,12 +51,17 @@ export class ForgotPasswordComponent implements OnInit {
      this.userservice.forgotPassword(this.logindata).subscribe(
        response => {
          console.log("Password updated successfully : ");
-         alert("Password updated successfully!! ")
+         this.snackbar.open('Password updated successfully !!', ' ', {
+          duration: 3000
+        });
          console.log(response);
          this.router.navigate(['/registration/login']);
        },
        error => {
         console.log(error);
+        this.snackbar.open('Sorry! Password could not be uploaded. Please try again. !!', ' ', {
+          duration: 3000
+        });
       });
   }
 

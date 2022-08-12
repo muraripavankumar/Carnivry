@@ -3,9 +3,10 @@
 <mat-card class="container-fluid">
   <mat-card-header>
     <mat-card-title>
-      <header *ngIf="!existingEventData.eventId">HOST NEW EVENT</header>
-      <header *ngIf="existingEventData.eventId && !isEventUpdatable">UPDATE EVENT</header>
-      <header *ngIf="isEventUpdatable">VIEW EVENT</header>
+      <header *ngIf="!existingEventData.eventId">Host New Event</header>
+      <header *ngIf="existingEventData.eventId && !isEventUpdatable">Update Event</header>
+      <header *ngIf="isEventUpdatable">View Event</header>
+      <br>
     </mat-card-title>
   </mat-card-header>
   <mat-card-content class="form-box">

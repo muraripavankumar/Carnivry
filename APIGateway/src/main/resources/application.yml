@@ -1,5 +1,5 @@
 server:
-  port: 8085
+  port: 8080
 
 eureka:
   client:
@@ -15,15 +15,22 @@ spring:
     name: APIGateway
   cloud:
     gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            exposedHeaders: "*"
       routes:
         - id: AuthenticationService
-          uri: http://localhost:64200/
+          uri: http://localhost:8086/
           predicates:
             - Path=/userauth/**
           filters:
             - RewritePath=/userauth(?<segment>/?.*), $\{segment}
         - id: RegistrationService
-          uri: http://localhost:8080/
+          uri: http://localhost:8085/
           predicates:
             - Path=/registration/**
           filters:
@@ -35,7 +42,7 @@ spring:
           filters:
             - RewritePath=/management(?<segment>/?.*), $\{segment}
         - id: NotificationService
-          uri: http://localhost:64100/
+          uri: http://localhost:8087/
           predicates:
             - Path=/notification/**
           filters:
@@ -52,3 +59,15 @@ spring:
             - Path=/suggestion/**
           filters:
             - RewritePath=/suggestion(?<segment>/?.*), $\{segment}
+        - id: PaymentService
+          uri: http://localhost:9000/
+          predicates:
+            - Path=/payment/**
+          filters:
+            - RewritePath=/payment(?<segment>/?.*), $\{segment}
+        - id: productWebApp
+          uri: http://localhost:4200/
+          predicates:
+            - Path=/**
+          filters:
+            - RewritePath=(?<segment>/?.*), $\{segment}

@@ -1,13 +1,15 @@
 <div class="past_events">
-    <a routerLink="/account"><button mat-raised-button class="back_button">
+    <div class="butt_box">
+    <a routerLink="/account" ><button mat-raised-button class="butt">
             <mat-icon>keyboard_backspace</mat-icon>
     </button></a>
+    </div>
 
 
     <div class="container">
 
         <div class="heading">
-            <h1 mat-display-2 style="text-align: center;">Your Past Attended Events</h1>
+            Your Past Attended Events
         </div>
 
         <div class="noEvent" *ngIf="noEventMessage">
@@ -38,6 +40,19 @@
                             </ul>
                         </i>
                     </h3>
+
+                    <h3 *ngIf="e.noOfSeats"><b>No. of Seats: </b><i>{{e.noOfSeats}}</i></h3>
+
+                    <div class="seats" *ngIf="e.seats.length">
+                    <h3>
+                        <i>
+                            <ul class="menu">
+                                <li><b>Seat Ids: </b></li>
+                                <li *ngFor="let a of e.seats">{{a.seatId}}, &emsp;</li>
+                            </ul>
+                        </i>
+                    </h3>
+                </div>
 
                     <h3><b>Started At: </b><i>{{e.timings.startDate}} &nbsp;&nbsp; {{e.timings.startTime}}</i></h3>
 

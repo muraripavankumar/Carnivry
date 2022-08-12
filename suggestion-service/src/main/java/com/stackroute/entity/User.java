@@ -1,4 +1,4 @@
-package com.example.SuggestionService.entity;
+package com.stackroute.entity;
 
 import lombok.*;
 import org.neo4j.ogm.annotation.GraphId;
@@ -20,13 +20,5 @@ public class User {
     private String name;
     private List<String> wishlist;
     private List<String> likedGenre;
-//    private List<String> likedArtists;
-//    private Preference preference;
-//    private Address address;
-    private String houseNo;
-    private String street;
-    private String landmark;
     private String city;
-    private String state;
-    private int pincode;
 }

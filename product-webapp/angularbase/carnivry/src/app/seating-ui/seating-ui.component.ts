@@ -11,9 +11,11 @@ import { Observable } from 'rxjs';
 import { CountdownConfig, CountdownEvent } from 'ngx-countdown';
 import { TicketingServiceService } from '../service/ticketing-service.service';
 import { PaymentService } from '../service/payment.service';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 const KEY = 'time';
-const DEFAULT = 20;
+const DEFAULT = 100;
 declare var Razorpay: any;
 @Component({
   selector: 'app-seating-ui',
@@ -38,16 +40,19 @@ export class SeatingUIComponent implements OnInit {
   categories: any[];
   config: CountdownConfig = { leftTime: DEFAULT, notify: 0 };
   timex = false;
+  pdfhidden=false;
   status: string;
-
+  Name="Me123";
+  EmailID="me123@gmail.com"
   seatCategoryOptions: string[] = ['Platinum', 'Gold', 'Silver', 'Common'];
   filteredSeatCategories: Observable<string[]>;
   priceCatogoryList: PriceCategory[] = [];
   colorPalate: string[] = [
     '#fddbe5',
     '#dbfff8',
-    '#dcffd9',
     '#e0e0ed',
+    '#afffa8',
+    
     '#6495ED',
     '#d1fffa',
     '#DFFF00',
@@ -150,8 +155,10 @@ export class SeatingUIComponent implements OnInit {
 
   holdBooking() {
     const request = new Event();
+    var inerval=1000;
     request.seats = [];
-    this.selectedItems.forEach((s: number) =>
+    this.selectedItems.forEach((s: number,i) =>
+    setTimeout(() => {
       this.ticketingService.getTicket1(this.url, s - 1).subscribe(
         (result) => {
           console.log(this.seat);
@@ -162,6 +169,8 @@ export class SeatingUIComponent implements OnInit {
           alert('Ticket not available');
         }
       )
+    }, i*1000)
+   
     );
 
     this.showBooking();
@@ -177,6 +186,9 @@ export class SeatingUIComponent implements OnInit {
     let value = +localStorage.getItem(KEY)!! ?? DEFAULT;
     if (value <= 0) value = DEFAULT;
     this.config = { ...this.config, leftTime: value };
+    setTimeout(function(){
+      window.location.reload();
+   }, 100000);
   }
 
   getTotal(): number {
@@ -194,20 +206,30 @@ export class SeatingUIComponent implements OnInit {
 
   bookticket() {
     const request = new Event();
+    var seatsbooked = 0;
     request.seats = [];
-    this.selectedItems.forEach((s: number) =>
+    this.selectedItems.forEach((s: number,i) =>
+    setTimeout(() => {
       this.ticketingService.bookseat(this.url, s - 1).subscribe(
         (result) => {
           this.status = result.status;
           console.log(result);
           console.log(s);
+          seatsbooked++;
+          if(this.selectedItems.length==seatsbooked){
+            this.openPDF();
+          }
         },
         (error) => {
           console.log(error);
           // alert("Ticket not available")
         }
-      )
+      )  
+    }, i*1000),
     );
+
+ 
+    
   }
 
   bookeddatadetails(orderId: any, paymentId: any, signature: any) {
@@ -220,11 +242,11 @@ export class SeatingUIComponent implements OnInit {
       image: this.eventdetails.posters[0],
       host: this.eventdetails.userEmailId,
       email:localStorage.getItem('email'),
-      
-      // email: 'abc@gmail.com',
+      username: localStorage.getItem('name'),
+      // email: 'fizhar8@gmail.com',
       eventId: this.eventdetails.eventId,
       amount: this.getTotal(),
-      username: localStorage.getItem('name'),
+      // username: 'hello',
       NoOfSeats:this.selectedItems.length,
       title: this.eventdetails.title,
       description: this.eventdetails.eventDescription,
@@ -240,6 +262,7 @@ export class SeatingUIComponent implements OnInit {
       (result) => {
         console.log('Payment Successful, data is transferred');
         console.log(successData)
+        this.pdfhidden=true;
         this.bookticket();
       },
       (error) => {
@@ -254,7 +277,8 @@ export class SeatingUIComponent implements OnInit {
     let signature: string;
     let ispaid = false;
     var bookData = {
-      email: 'abc@gmail.com',
+      email: localStorage.getItem('email'),
+      // email: 'abc@gmail.com',
       eventId: this.eventdetails.eventId,
       amount: this.getTotal(),
     };
@@ -344,6 +368,27 @@ export class SeatingUIComponent implements OnInit {
       }
     );
   }
+refreshpage(){
+  window.location.reload();
+}
+  public openPDF(): void {
+    let DATA: any = document.getElementById('htmlData');
+    html2canvas(DATA).then((canvas) => {
+      let fileWidth = 100;
+      let fileHeight = (canvas.height * fileWidth) / canvas.width;
+      const FILEURI = canvas.toDataURL('image/png');
+      let PDF = new jsPDF('p', 'mm', 'a4');
+      let position = 10;
+      
+      PDF.addImage(FILEURI, 'PNG', 40, position, fileWidth, fileHeight);
+      PDF.save('Carnivryticket.pdf');
+
+      setTimeout(() => {
+        this.refreshpage();
+      }, 3000);
+      
+    });
+  }
 
   ngOnInit(): void {
     let id = this.ActivatedRoute.snapshot.paramMap.get('id');
@@ -354,6 +399,8 @@ export class SeatingUIComponent implements OnInit {
     // this.onDisplay1();
   }
 
+  
+
   handleEvent(ev: CountdownEvent) {
     if (ev.action === 'notify') {
       // Save current value
@@ -361,3 +408,5 @@ export class SeatingUIComponent implements OnInit {
     }
   }
 }
+
+
