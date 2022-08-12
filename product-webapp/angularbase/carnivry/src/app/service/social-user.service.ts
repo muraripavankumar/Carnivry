@@ -9,7 +9,7 @@ import { RegistrationService } from './registration.service';
 })
 export class SocialUserService {
 
-  private socialUserBaseUrl= environment.socialUserBaseUrl;
+  private socialUserBaseUrl= environment.baseUrl+"/registration/api/v1/SocialUser";
 
   constructor(private myClient: HttpClient,
               private regService: RegistrationService) { }

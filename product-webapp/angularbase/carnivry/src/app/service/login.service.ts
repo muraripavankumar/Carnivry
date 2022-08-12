@@ -14,7 +14,7 @@ export class LoginService {
   constructor(private httpClient: HttpClient) { }
   //http://localhost:64200/api/v1/login
   userauthenticationbaseurl = "http://localhost:64200/api/v1";
-  baseUrl= environment.baseUrl+"userauth/api/v1"
+  baseUrl= environment.baseUrl+"/userauth/api/v1"
 
   logincheck(data: Loginuser) {
     return this.httpClient.post<any>(this.baseUrl + "/login", data);

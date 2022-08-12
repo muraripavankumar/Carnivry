@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { Event } from '../model/event';
 
 @Injectable({
@@ -12,7 +13,7 @@ export class ViewPageService {
 
   constructor(private httpClient: HttpClient) { }
 
-  viewEventurl="http://localhost:5300/ticket"
+  viewEventurl=environment.baseUrl+"/ticketservice/api/v1"
 
   getHostEventById(eventId:string) {
     return this.httpClient.get<any>(this.viewEventurl+ "/" + eventId);

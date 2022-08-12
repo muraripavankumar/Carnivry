@@ -11,7 +11,7 @@ export class TicketingServiceService {
 
   constructor(private httpClient: HttpClient) { }
 
-  viewEventurl=environment.baseUrl+"ticketservice/api/v1"
+  viewEventurl=environment.baseUrl+"/ticketservice/api/v1"
 
 
 

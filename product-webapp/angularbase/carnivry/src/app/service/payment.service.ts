@@ -12,7 +12,7 @@ export class PaymentService {
 
   constructor(private myClient: HttpClient) { }
 
-  baseUrl= environment.baseUrl+"payment/api/v1";
+  baseUrl= environment.baseUrl+"/payment/api/v1";
 
   createOrder(data: any):Observable<RazorpayOrder>{
     return this.myClient.post<RazorpayOrder>(this.baseUrl+"/create_order",data, {responseType: 'json'});

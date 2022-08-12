@@ -18,7 +18,7 @@ export class RegistrationService {
   private googleTokenEndpoint = '/login/oauth2/code/google';
 
   private baseUrl= environment.baseUrl;
-  private registrationBaseUrl= environment.registerationBaseUrl;
+  private registrationBaseUrl= environment.baseUrl+"/registration/api/v1";
 
 
   constructor(private myClient: HttpClient) { }

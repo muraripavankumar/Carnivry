@@ -10,7 +10,7 @@ export class ManagementService {
 
   constructor(private httpClient: HttpClient) { }
 
-  managementUrl = environment.baseUrl+"management/api/v1";
+  managementUrl = environment.baseUrl+"/management/api/v1";
 
   postHostEvent(eventData: Event) {
     return this.httpClient.post(this.managementUrl, eventData, { observe: 'response' });
