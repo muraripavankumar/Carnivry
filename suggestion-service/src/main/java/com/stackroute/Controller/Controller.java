@@ -68,7 +68,7 @@ public class Controller {
 //    }
 
     //Retrieve upcoming events
-//    @CrossOrigin(origins = "http://localhost:4200")
+
     @GetMapping("/upcoming-events")
     public ResponseEntity<?> upcomingEvents(){
         try {

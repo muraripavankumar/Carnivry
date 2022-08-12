@@ -66,6 +66,8 @@ export class LandingPageComponent implements OnInit {
   };
 
 
+  isSelected: Boolean= false;
+
   flag: Boolean = false;
   english = false;
   hindi = false;
@@ -95,7 +97,7 @@ export class LandingPageComponent implements OnInit {
   appliedGenre: any = [];
   appliedPrice: any = [];
     city = sessionStorage.getItem('city');
-    emailId= localStorage.getItem('email');
+   emailId= localStorage.getItem('email')
 
   constructor(private http: HttpClient, public datePipe: DatePipe, private router: Router) {
 
@@ -119,7 +121,7 @@ export class LandingPageComponent implements OnInit {
         }
       )
     }
-    else if(this.city!=null && this.emailId==null){
+    else if(this.city!=null){
       console.log("User not logged in and city chosen");
       this.http.get<Event[]>(this.suggestionUrl+'/suggestion/'+this.city, this.headers)
       .subscribe(
@@ -213,18 +215,11 @@ export class LandingPageComponent implements OnInit {
     }
     else{
 
+
     this.http.put(this.suggestionUrl+'/update-likes/'+this.emailId+'/'+eventId, this.headers)
-      .pipe(
-        tap(res => {
-          sessionStorage.setItem("like", JSON.stringify(res))
-          console.log(res);
-        }
-        )
-      )
       .subscribe(
-        {
-          next: (response) => console.log(response),
-          error: (error) => console.log(error)
+        (data) => {
+          window.location.reload();
         }
       )
     }
@@ -395,9 +390,12 @@ export class LandingPageComponent implements OnInit {
         && (
           (((this.allEventsList[i].price >= this.appliedPrice[0]) && (this.allEventsList[i].price <= this.appliedPrice[1])) || (this.appliedPrice.length === 0))
         )
-      ) {
+      ) 
+      {
         this.runningList.push(this.allEventsList[i]);
       }
+
+      
     }
   }
 
@@ -432,6 +430,9 @@ export class LandingPageComponent implements OnInit {
 
 
   wishlist(eventId: any){
+    // this.isSelected=true;
+
+    // console.log("like selected: "+ this.isSelected);
     if(this.emailId==null){
       this.router.navigate(['/registration/register']);
     }
