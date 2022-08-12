@@ -42,7 +42,7 @@
                 <br>
                 <div class="butt_box">
 
-                    <button mat-raised-button color="primary" class="butt" (click)="onSubmit()">Submit </button>
+                    <button mat-raised-button color="primary" mat-dialog-close class="butt" (click)="onSubmit()">Submit </button>
                 </div>
 
                 <p *ngIf="warning" class="alert alert-danger">{{warning}}</p>

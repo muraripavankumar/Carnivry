@@ -65,7 +65,13 @@ import { PrevDirective } from './prev.directive';
 import { SearchComponent } from './search/search.component';
 import { PastEventsComponent } from './past-events/past-events.component';
 import { UpcomingEventsComponent } from './upcoming-events/upcoming-events.component';
+import { TicketComponent } from './ticket/ticket.component';
+
+import { WishlistComponent } from './wishlist/wishlist.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
+// import { FlexLayoutModule } from "@angular/flex-layout";
+
 
 
 @NgModule({
@@ -92,6 +98,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ViewPageComponent,
     NavigationComponent,
     SeatingUIComponent,
+
+
     LandingPageComponent,
     FooterComponent,
     HeaderComponent,
@@ -101,7 +109,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     SearchComponent,
     PastEventsComponent,
     UpcomingEventsComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    TicketComponent
+
   ],
   imports: [
     BrowserModule,
