@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { map, startWith } from 'rxjs/operators';
 import { RegistrationService } from '../service/registration.service';
 import { environment } from 'src/environments/environment';
+import { RefreshingService } from '../service/refreshing.service';
 
 
 
@@ -48,7 +49,7 @@ export class HeaderComponent implements OnInit {
   myControl = new FormControl('');
   filteredOptions: Observable<string[]>;
 
-  constructor(public dialog: MatDialog, private router: Router, private registrationService: RegistrationService, private http: HttpClient) {
+  constructor(public dialog: MatDialog, private router: Router,private refreshingService:RefreshingService, private registrationService: RegistrationService, private http: HttpClient) {
 
     this.search = "";
 
@@ -147,6 +148,8 @@ export class HeaderComponent implements OnInit {
 
   openViewPage(eventId: any) {
     this.titleList = [];
+    console.log('refresh page emmiter');
+    this.refreshingService.notifyViewPage({refresh: true});
     this.router.navigate(['/view-page', eventId]);
   }
 
