@@ -11,7 +11,6 @@ import { HomeComponent } from './home/home.component';
 import { HostEventComponent } from './host-event/host-event.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { LoginComponent } from './login/login.component';
-import { NavigationComponent } from './navigation/navigation.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { PastEventsComponent } from './past-events/past-events.component';
 import { PostedEventsComponent } from './posted-events/posted-events.component';
@@ -32,9 +31,8 @@ const routes: Routes = [
       { path: "", redirectTo: "landing-page", pathMatch: 'full' },
       { path: "landing-page", component: LandingPageComponent },
       { path: 'host-event', component: HostEventComponent },
-   
-  { path: 'view-page/:id', component: ViewPageComponent, pathMatch: 'full' },
-  { path: 'seat-ui/:id', component: SeatingUIComponent },
+      { path: 'view-page/:id', component: ViewPageComponent, pathMatch: 'full' },
+      { path: 'seat-ui/:id', component: SeatingUIComponent },
       { path: 'account', component: ProfileComponent },
       { path: 'posted-events', component: PostedEventsComponent },
       { path: 'past-events', component: PastEventsComponent },
@@ -44,7 +42,7 @@ const routes: Routes = [
       { path: 'update', component: UpdateEventComponent },
     ]
   },
-  {path:'navigation',component:NavigationComponent},
+  // {path:'add-preference',component:AddPreferenceComponent},
   {
     path: "registration",
     component: AppComponent,
@@ -58,6 +56,7 @@ const routes: Routes = [
     ]
   },
 
+
   {
     path:'ticket',component:TicketComponent
   },
@@ -65,7 +64,7 @@ const routes: Routes = [
 
 ];
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {useHash: true})],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
