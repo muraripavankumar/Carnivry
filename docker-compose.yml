@@ -146,6 +146,7 @@ services:
     image: rabbitmq:management
     restart: always
     ports:
+      - 5672:5672
       - 15672:15672
 
   productWebAppService:
