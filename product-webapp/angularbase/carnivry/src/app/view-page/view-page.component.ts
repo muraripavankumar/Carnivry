@@ -6,7 +6,14 @@ import { FormControl } from '@angular/forms';
 import { TicketingServiceService } from '../service/ticketing-service.service';
 import { PaymentService } from '../service/payment.service';
 import { Seat } from '../model/seat';
+
+import { RefreshingService } from '../service/refreshing.service';
+
+import { MatSnackBar } from '@angular/material/snack-bar';
 declare var Razorpay: any;
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import { timeout } from 'rxjs';
 
 
 @Component({
@@ -14,22 +21,39 @@ declare var Razorpay: any;
   templateUrl: './view-page.component.html',
   styleUrls: ['./view-page.component.css'],
 })
-export class ViewPageComponent implements OnInit, OnChanges {
+export class ViewPageComponent implements OnInit{
 
   constructor(
     private viewEvent: ViewPageService,
     private redirect: Router,
     private ticketingService: TicketingServiceService,
     private routeUrl: ActivatedRoute,
-    private paymentService: PaymentService 
-  ) {}
+
+    private paymentService: PaymentService,
+    private  refreshingService: RefreshingService,
+    private _snackBar: MatSnackBar
+  ) {
+   
+  }
+ 
+
+  // ngOnInit(): void {
+  //   this.url = this.routeUrl.snapshot.paramMap.get('id');
+  //   this.display();
+  // }
   ngOnChanges(changes: SimpleChanges): void {
     console.log("ng on change");
     this.eventId= this.routeUrl.snapshot.paramMap.get('id');
     console.log(this.routeUrl.snapshot.paramMap.get('id'));
- 
+    // this.refreshingService.notifyViewObservable.subscribe(res => {
+    //   if (res.refresh) {
+    //     this.ngOnInit();
+    //   }
+    // });
     this.display();
+
   }
+
   eventdetails: any;
   url: string;
   posterUrl: string;
@@ -39,7 +63,12 @@ export class ViewPageComponent implements OnInit, OnChanges {
   noOfSeats = new FormControl('');
   selected: number = 0;
   soldout = false;
+
+  durationInSeconds = 5;
+  pdfhidden=false;
+
   eventId:string='';
+
 
   
   display() {
@@ -52,6 +81,11 @@ export class ViewPageComponent implements OnInit, OnChanges {
 
         this.posterUrl = this.eventdetails.posters[1];
         this.thumbnailurl= this.eventdetails.posters[0];
+       console.log(this.thumbnailurl+"HI");
+      //  if(this.posterUrl==null){
+      //   this.posterUrl="src\assets\carnivry_ev.jpg"
+      //  }
+       
         // document.getElementById('background-image').style.backgroundImage = "url('" + this.posterUrl + "')"
       },
       (error) => {
@@ -61,6 +95,13 @@ export class ViewPageComponent implements OnInit, OnChanges {
       }
     );
   }
+
+  openSnackBar() {
+    this._snackBar.open("Seats are not available"), {
+      duration: this.durationInSeconds * 1000,
+    };
+  }
+
 
   seatview(id: string) {
     if (this.eventdetails.seats[0].colm == 0) {
@@ -83,10 +124,14 @@ export class ViewPageComponent implements OnInit, OnChanges {
         for (var i = 0; i < this.selected; i++) {
           this.ticketingService.bookticket(this.eventdetails.eventId).subscribe(
             (result) => {
+              this.pdfhidden=true;
+              setTimeout(() => {
+                this.openPDF();
+              }, 3000);
               console.log(this.eventdetails.ticketsSold);
             },
             (error) => {
-              alert('Tickets are sold out');
+              this.openSnackBar();
             }
           );
         }
@@ -100,10 +145,16 @@ export class ViewPageComponent implements OnInit, OnChanges {
           .streamingBooking(this.eventdetails.eventId)
           .subscribe(
             (result) => {
+              this.pdfhidden=true;
+              setTimeout(() => {
+                this.openPDF();
+              }, 3000);
               console.log(this.eventdetails.ticketsSold);
             },
             (error) => {
-              alert('We are unavailable');
+              this._snackBar.open("Sorry, we are unavailable"), {
+                duration: this.durationInSeconds * 1000,
+              };
             }
           );
       }
@@ -116,6 +167,7 @@ export class ViewPageComponent implements OnInit, OnChanges {
 
   soldoutTix() {
     this.soldout = true;
+    this.openSnackBar();
     this.paymentDiv = false;
   }
 
@@ -125,11 +177,13 @@ export class ViewPageComponent implements OnInit, OnChanges {
     var successData = {
       image: this.eventdetails.posters[0],
       host: this.eventdetails.userEmailId,
-      email: 'abc@gmail.com',
+      email:localStorage.getItem('email'),
+      // email: 'abc@gmail.com',
       eventId: this.eventdetails.eventId,
-      NoOfSeats:this.selected,
+      noOfSeats:this.selected,
       amount: this.getTotal(),
-      username: 'hello1234',
+      username: localStorage.getItem('name'),
+      // username: 'hello1234',
       title: this.eventdetails.title,
       description: this.eventdetails.eventDescription,
       venue: this.eventdetails.venue,
@@ -250,6 +304,26 @@ export class ViewPageComponent implements OnInit, OnChanges {
         console.log(error);
       }
     );
+  }
+
+
+  public openPDF(): void {
+    let DATA: any = document.getElementById('htmlData');
+    html2canvas(DATA).then((canvas) => {
+      let fileWidth = 100;
+      let fileHeight = (canvas.height * fileWidth) / canvas.width;
+      const FILEURI = canvas.toDataURL('image/png');
+      let PDF = new jsPDF('p', 'mm', 'a4');
+      let position = 10;
+      
+      PDF.addImage(FILEURI, 'PNG', 40, position, fileWidth, fileHeight);
+      PDF.save('Carnivryticket.pdf');
+
+      setTimeout(() => {
+        window.location.reload;
+      }, 3000);
+      
+    });
   }
 
   ngOnInit(): void {

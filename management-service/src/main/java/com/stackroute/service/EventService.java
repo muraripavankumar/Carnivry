@@ -15,4 +15,5 @@ public interface EventService {
     List<Event> getAllEventsByUserEmailId(String userEmail) throws UserNotFoundException, Exception;
     List<Event> getPastEventsByUserEmailId(String userEmail) throws UserNotFoundException, Exception;
     List<Event> getUpcomingEventsByUserEmailId(String userEmail) throws UserNotFoundException, Exception;
+    void updateNoOfLikes(String eventId,boolean flag);
 }

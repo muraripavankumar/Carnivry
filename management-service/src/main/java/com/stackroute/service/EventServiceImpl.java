@@ -152,4 +152,9 @@ public class EventServiceImpl implements EventService{
         Date today=new Date();
         return allEvents.stream().filter(event -> event.getEventTimings().getEndDate().compareTo(today)>=0).collect(Collectors.toList());
     }
+
+    @Override
+    public void updateNoOfLikes(String eventId, boolean flag) {
+
+    }
 }
