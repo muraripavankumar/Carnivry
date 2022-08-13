@@ -5,6 +5,7 @@ services:
     container_name: gateway_container
     build: APIGateway/
     network_mode: host
+    restart: always
     ports:
       - 8080:8080
   #    depends_on:
@@ -14,6 +15,7 @@ services:
     image: eureka_image
     container_name: eureka_container
     build: EurekaServer/
+    restart: always
     network_mode: host
     ports:
       - 8761:8761
@@ -33,6 +35,7 @@ services:
   mongoService:
     image: mongo:latest
     container_name: mongo_container
+    restart: always
     ports:
       - 27017:27017
     network_mode: host
@@ -53,6 +56,7 @@ services:
     image: mysql:latest
     container_name: mysql_container
     network_mode: host
+    restart: always
     ports:
       - 3306:3306
     environment:
@@ -89,6 +93,7 @@ services:
     image: neo4j:latest
     container_name: neo4j_container
     network_mode: host
+    restart: always
     ports:
       - 7687:7687
     environment:
