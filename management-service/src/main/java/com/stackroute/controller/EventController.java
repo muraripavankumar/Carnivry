@@ -24,7 +24,7 @@ public class EventController {
     //getEventByUserEmailId         =GET = /{userEmail}
     //getPastEventsByUserEmailId    =GET = /past/{userEmail}
     //getUpcomingEventByUserEmailId =GET = /upcoming/{userEmail}
-    //updateLikes
+    //updateLikes                   =PATCH = /likes/{eventId}/{flag}
 
 
 
@@ -126,6 +126,18 @@ public class EventController {
             return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.CONFLICT);
         } catch (Exception e) {
             log.error("Exception occurred in EventController -> getPastEventsByUserEmailId()");
+            return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PatchMapping("/likes/{eventId}/{flag}")
+    public ResponseEntity<?> updateNoOfLikes(@PathVariable String eventId,@PathVariable boolean flag) throws Exception{
+        try {
+            return new ResponseEntity<>(eventService.updateNoOfLikes(eventId,flag),HttpStatus.OK);
+        } catch (EventNotFoundException e) {
+            log.error("EventNotFoundException occurred in EventController -> updateNoOfLikes(), {}",e.getMessage());
+            return new ResponseEntity<>("Soory for inconvenience!",HttpStatus.CONFLICT);
+        }catch (Exception e) {
+            log.error("Exception occurred in EventController -> updateNoOfLikes()");
             return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

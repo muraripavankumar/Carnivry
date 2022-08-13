@@ -110,6 +110,7 @@ export class HeaderComponent implements OnInit {
       sessionStorage.clear();
       this.router.navigate(['/landing-page']);
     });
+    // window.location.reload();
   }
 
   onSearchTextEntered(searchValue: string) {
@@ -151,6 +152,7 @@ export class HeaderComponent implements OnInit {
     console.log('refresh page emmiter');
     this.refreshingService.notifyViewPage({refresh: true});
     this.router.navigate(['/view-page', eventId]);
+    window.location.reload();
   }
 
 

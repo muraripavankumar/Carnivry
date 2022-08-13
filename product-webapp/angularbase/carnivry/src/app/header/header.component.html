@@ -11,7 +11,7 @@
     <app-search (searchTextChange)="onSearchTextEntered($event)"></app-search>
     <div class="suggestion-box">
       <div style="width:100% ;" *ngFor="let event of titleList">
-        <div (click)="openViewPage(event.eventId)" class="suggestions">{{event.title}}</div>
+      <div (click)="openViewPage(event.eventId)" class="suggestions">{{event.title}}</div>
       </div>
     </div>
 

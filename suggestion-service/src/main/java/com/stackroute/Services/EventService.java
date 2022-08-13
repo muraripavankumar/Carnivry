@@ -112,17 +112,16 @@ public class EventService {
     }
 
     //update likes of the event
-    public String updateEventLikes(String emailId, String eventId) throws Exception {
+    public Events updateEventLikes(String emailId, String eventId) throws Exception {
 
         String response="";
+        Events events=eventsRepo.findById(eventId).get();;
 
         if(emailId==null){
             response="Please log in before liking an event";
         }
 
         else {
-            Events events = eventsRepo.findById(eventId).get();
-
             if (events.getEmailOfUsersLikedEvent().contains(emailId)) {
                 response = "You have already liked this event";
                 throw new Exception();
@@ -138,8 +137,9 @@ public class EventService {
                 response = "Likes upadated";
             }
         }
-        return response;
+        return events;
     }
+
 
     //get all events
     public List<Events> getAllEvents() throws EventNotFoundException {

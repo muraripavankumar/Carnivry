@@ -4,10 +4,12 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatAccordion } from '@angular/material/expansion';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Event } from '../model/event';
+import { ManagementService } from '../service/management.service';
 
 interface carouselImage {
   imageSrc: string;
@@ -99,7 +101,7 @@ export class LandingPageComponent implements OnInit {
     city = sessionStorage.getItem('city');
    emailId= localStorage.getItem('email')
 
-  constructor(private http: HttpClient, public datePipe: DatePipe, private router: Router) {
+  constructor(private http: HttpClient, public datePipe: DatePipe, private router: Router, private snackbar:MatSnackBar,private managementService:ManagementService) {
 
     //===================================== Recommended events ==============================================
 
@@ -219,6 +221,7 @@ export class LandingPageComponent implements OnInit {
     this.http.put(this.suggestionUrl+'/update-likes/'+this.emailId+'/'+eventId, this.headers)
       .subscribe(
         (data) => {
+          this.managementService.updateNoOfLikes(eventId,true);//adding 1 like to the event in management service DB 
           window.location.reload();
         }
       )
@@ -429,21 +432,21 @@ export class LandingPageComponent implements OnInit {
   }
 
 
-  wishlist(eventId: any){
-    // this.isSelected=true;
-
-    // console.log("like selected: "+ this.isSelected);
+  wishlist(eventId: any, title: string){
     if(this.emailId==null){
       this.router.navigate(['/registration/register']);
+    console.log("'emaild id null");
     }
     else{
-
+      console.log("'email id not null");
     this.http.put(this.suggestionUrl+'/add-wishlist/'+this.emailId+'/'+eventId, this.headers)
     .subscribe(
       (data)=> console.log(data)
     )
+    this.snackbar.open(title+' added into your wishlist', ' ', {
+      duration: 3000
+    });
     }
-
   }
 
 }
