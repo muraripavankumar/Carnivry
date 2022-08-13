@@ -22,6 +22,7 @@ export class RefreshingService {
 
   public notifyViewPage(data: any) {
     if (data) {
+      console.log('refresh controller');
       this.notifyView.next(data);
     }
   }

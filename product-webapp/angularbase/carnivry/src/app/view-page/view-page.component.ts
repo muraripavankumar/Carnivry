@@ -6,6 +6,7 @@ import { FormControl } from '@angular/forms';
 import { TicketingServiceService } from '../service/ticketing-service.service';
 import { PaymentService } from '../service/payment.service';
 import { Seat } from '../model/seat';
+import { RefreshingService } from '../service/refreshing.service';
 declare var Razorpay: any;
 
 
@@ -14,22 +15,34 @@ declare var Razorpay: any;
   templateUrl: './view-page.component.html',
   styleUrls: ['./view-page.component.css'],
 })
-export class ViewPageComponent implements OnInit, OnChanges {
+export class ViewPageComponent implements OnInit{
 
   constructor(
     private viewEvent: ViewPageService,
     private redirect: Router,
     private ticketingService: TicketingServiceService,
     private routeUrl: ActivatedRoute,
-    private paymentService: PaymentService 
-  ) {}
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log("ng on change");
+    private paymentService: PaymentService,
+    private  refreshingService: RefreshingService
+  ) {
+   
+  }
+ 
+
+  ngOnInit(): void {
+   
+    this.url = this.routeUrl.snapshot.paramMap.get('id');
     this.eventId= this.routeUrl.snapshot.paramMap.get('id');
     console.log(this.routeUrl.snapshot.paramMap.get('id'));
- 
+    // this.refreshingService.notifyViewObservable.subscribe(res => {
+    //   if (res.refresh) {
+    //     this.ngOnInit();
+    //   }
+    // });
     this.display();
+
   }
+
   eventdetails: any;
   url: string;
   posterUrl: string;
@@ -252,13 +265,5 @@ export class ViewPageComponent implements OnInit, OnChanges {
     );
   }
 
-  ngOnInit(): void {
-   
-    this.url = this.routeUrl.snapshot.paramMap.get('id');
-    this.eventId= this.routeUrl.snapshot.paramMap.get('id');
-    // console.log(this.routeUrl.snapshot.paramMap.get('id'));
-  
-    this.display();
-
-  }
+ 
 }
