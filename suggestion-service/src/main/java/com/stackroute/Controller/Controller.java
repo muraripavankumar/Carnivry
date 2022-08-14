@@ -110,7 +110,7 @@ public class Controller {
     @PutMapping("/update-likes/{emailId}/{eventId}")
     public ResponseEntity<?> updateEventLikes(@PathVariable String emailId, @PathVariable String eventId){
         try {
-            responseEntity = new ResponseEntity<String>(eventService.updateEventLikes(emailId, eventId), HttpStatus.OK);
+            responseEntity = new ResponseEntity<Events>(eventService.updateEventLikes(emailId, eventId), HttpStatus.OK);
         }
         catch (Exception e){
             responseEntity = new ResponseEntity<String>("Some other exception occurred", HttpStatus.OK);

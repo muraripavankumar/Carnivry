@@ -10,14 +10,10 @@ export class ManagementService {
 
   constructor(private httpClient: HttpClient) { }
 
-// <<<<<<< HEAD
+  
+  private cotrollerUrl = "/api/v1";
+  private managementUrl = environment.baseUrl + "/management" + this.cotrollerUrl;
 
-  // managementUrl = "http://localhost:8081/api/v1";
-  private cotrollerUrl="/api/v1";
-  private managementUrl = environment.baseUrl+"/management"+this.cotrollerUrl;
-// =======
-//   managementUrl = environment.baseUrl+"/management/api/v1";
-// >>>>>>> f1f6dde4c09d1c3c01c926533693aa2513f04a6f
 
   postHostEvent(eventData: Event) {
     var reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + window.localStorage.getItem('token'));
@@ -47,5 +43,9 @@ export class ManagementService {
   getUpcomingEventsByUserEmailId(userEmail: string) {
     var reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + window.localStorage.getItem('token'));
     return this.httpClient.get<Event[]>(this.managementUrl + '/upcoming/' + userEmail, { 'headers': reqHeader });
+  }
+  updateNoOfLikes(eventId: string, flag: boolean) {
+    var reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + window.localStorage.getItem('token'));
+    return this.httpClient.patch<any>(this.managementUrl + '/likes/' + eventId + '/' + flag, { 'headers': reqHeader });
   }
 }

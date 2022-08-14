@@ -6,6 +6,9 @@ import { FormControl } from '@angular/forms';
 import { TicketingServiceService } from '../service/ticketing-service.service';
 import { PaymentService } from '../service/payment.service';
 import { Seat } from '../model/seat';
+
+import { RefreshingService } from '../service/refreshing.service';
+
 import { MatSnackBar } from '@angular/material/snack-bar';
 declare var Razorpay: any;
 import jsPDF from 'jspdf';
@@ -18,23 +21,39 @@ import { timeout } from 'rxjs';
   templateUrl: './view-page.component.html',
   styleUrls: ['./view-page.component.css'],
 })
-export class ViewPageComponent implements OnInit, OnChanges {
+export class ViewPageComponent implements OnInit{
 
   constructor(
     private viewEvent: ViewPageService,
     private redirect: Router,
     private ticketingService: TicketingServiceService,
     private routeUrl: ActivatedRoute,
-    private paymentService: PaymentService ,
+
+    private paymentService: PaymentService,
+    private  refreshingService: RefreshingService,
     private _snackBar: MatSnackBar
-  ) {}
+  ) {
+   
+  }
+ 
+
+  // ngOnInit(): void {
+  //   this.url = this.routeUrl.snapshot.paramMap.get('id');
+  //   this.display();
+  // }
   ngOnChanges(changes: SimpleChanges): void {
     console.log("ng on change");
     this.eventId= this.routeUrl.snapshot.paramMap.get('id');
     console.log(this.routeUrl.snapshot.paramMap.get('id'));
- 
+    // this.refreshingService.notifyViewObservable.subscribe(res => {
+    //   if (res.refresh) {
+    //     this.ngOnInit();
+    //   }
+    // });
     this.display();
+
   }
+
   eventdetails: any;
   url: string;
   posterUrl: string;
@@ -286,6 +305,7 @@ export class ViewPageComponent implements OnInit, OnChanges {
       }
     );
   }
+
 
   public openPDF(): void {
     let DATA: any = document.getElementById('htmlData');

@@ -152,4 +152,23 @@ public class EventServiceImpl implements EventService{
         Date today=new Date();
         return allEvents.stream().filter(event -> event.getEventTimings().getEndDate().compareTo(today)>=0).collect(Collectors.toList());
     }
+
+    @Override
+    public boolean updateNoOfLikes(String eventId, boolean flag) throws EventNotFoundException {
+        if(eventRepository.findById(eventId).isPresent()){
+        Event result=eventRepository.findById(eventId).get();
+        //if flag is true, increment the number of likes by 1
+        if(flag){
+            result.setLikes(result.getLikes()+1);
+            eventRepository.save(result);
+            return true;
+        }
+        //if flag is false, decrement the number of likes by 1
+        else {
+            result.setLikes(result.getLikes()-1);
+            eventRepository.save(result);
+            return true;
+        }}
+        throw new EventNotFoundException();
+    }
 }
