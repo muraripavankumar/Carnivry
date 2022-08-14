@@ -223,14 +223,6 @@
     margin-top: 1.5rem;
    }
 }
-.content-card{
-    margin-top: 9rem;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    letter-spacing: 0.3rem;
-    margin-right: 2rem;
-    display: flex;
-    line-height: 4rem;
-}
 
 
 .description{
@@ -285,17 +277,33 @@
 .timing-content{
     position: relative;
    
-    font-family: 'Josefin Sans', sans-serif;
-    font-size: 2rem;
-    font-weight: 600;
+    /* font-family: 'Josefin Sans', sans-serif; */
+    font-family:  "Helvetica Neue", sans-serif;
+    
+    font-size: 2.3rem;
+    font-weight: 400;
     margin-top: 5rem;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 2rem;
+    margin-left: 10%;
+    margin-right: auto; 
+    /* padding-left: 2rem;*/
+   
    /* padding-right: 4rem; */
     line-height: 3.3rem;
-    display: flex;
+    display: block;
 }
+
+
+.material-symbols-outlined {
+    color: #01a5c2;
+
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 700,
+  'GRAD' 200,
+  'opsz' 48
+}
+
+
 .tc{
     margin-top: 3rem;
 }
@@ -310,7 +318,7 @@
     font-family: 'Josefin Sans', sans-serif;
     font-size: 1.8rem;
     font-weight: 600;
-    background-image: linear-gradient(to right,#11212b,#161616);
+    background-image: linear-gradient(to right,#277aad,#073249);
     /* margin: 1.5rem; */
     margin-left:1.3rem;
     margin-bottom: 1rem;
@@ -346,44 +354,18 @@
 }
 
 .genres{
-/* 
-    display: inline-flex;
-    padding: 1rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    width: max-content;
-    font-family: 'Josefin Sans', sans-serif;
-    font-size: 2rem;
-    font-weight: 600;
-    /* background-image: linear-gradient(to right,#121f28,#5d5d5d); 
-    margin: 2rem;
-    margin-top: 2rem;
-    padding-left: auto;
-    padding-right: auto;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    background-image: linear-gradient(to right,#11212b,#161616);
-    /* margin: 1.5rem; 
-    margin-left:1.3rem;
-    margin-bottom: 1rem;
-    color: white; */
-    /* color: white; */
-    /* border: 5px solid;
-    border-image-slice: 1;
-    border-width: 2px;
-    border-image-source: linear-gradient(to left, #fa0404, #181717);
-    box-shadow: 5px 4px #000000; */
+
 
     display: inline-flex;
     width: max-content;
     
-    padding: 1rem;
+    padding: 1.1rem;
     padding-left: 2rem;
     padding-right: 2rem;
     font-family: 'Josefin Sans', sans-serif;
     font-size: 1.8rem;
     font-weight: 600;
-    background-image: linear-gradient(to right,#11212b,#161616);
+    background-image: linear-gradient(to right,#277aad,#073249);
     /* margin: 1.5rem; */
     margin-left:1.3rem;
     margin-bottom: 1rem;
@@ -505,10 +487,9 @@
  }
 
  .buttons{
-    justify-content: center;
+    margin-left: 5%;
     align-content: center;
-    margin-left: auto; 
- margin-right: auto; 
+
 
  }
 .book-button{
@@ -878,7 +859,7 @@ margin-bottom: 6rem;
 .descr{
     display:flex;
     margin-left: 13%;
-  white-space: initial;
+  
   overflow: hidden;
  margin-right:10%;
  font-family: 'Roboto', sans-serif;
@@ -887,7 +868,10 @@ margin-bottom: 6rem;
  font-size: 1.7rem;
  line-height: 1.75rem;
  height: 3em;
+ max-width: 50ch;
+ white-space: initial;
  text-overflow: ellipsis;
+
   color: rgb(255, 255, 255);
  
   
@@ -900,7 +884,6 @@ margin-bottom: 6rem;
     justify-content: center;
     margin-top: 3rem;
     width: fit-content;
-    font-family: 'Josefin Sans', sans-serif;
     color: rgb(255, 255, 255);
     font-size: 2.2rem; padding: 1rem; 
     border: 3px solid;
@@ -1112,7 +1095,7 @@ margin-bottom: 6rem;
     justify-content: center;
     margin-top: 1rem;
     width: fit-content;
-    font-family: 'Josefin Sans', sans-serif;
+    /* font-family: 'Josefin Sans', sans-serif; */
     color: rgb(255, 255, 255);
     font-size: 1.7rem; padding: 1rem; 
     border: 3px solid;
@@ -1220,7 +1203,7 @@ margin-bottom: 6rem;
         white-space: initial;
         overflow: hidden;
         /* margin-right: 10%; */
-        font-family: 'Roboto', sans-serif;
+        /* font-family: 'Roboto', sans-serif; */
         font-style: italic;
         font-size: 1rem;
         line-height: 2rem;
@@ -1239,7 +1222,7 @@ margin-bottom: 6rem;
     margin-top: -0.5rem;
     margin-bottom: 0;
     width: fit-content;
-    font-family: 'Josefin Sans', sans-serif;
+    /* font-family: 'Josefin Sans', sans-serif; */
     color: rgb(255, 255, 255);
     font-size: 1.4rem; padding: 0.7rem; 
     border: 3px solid;
@@ -1346,7 +1329,7 @@ margin-bottom: 6rem;
         white-space: initial;
         overflow: hidden;
         /* margin-right: 10%; */
-        font-family: 'Roboto', sans-serif;
+        /* font-family: 'Roboto', sans-serif; */
         font-style: italic;
         font-size: 1.2rem;
         line-height: 2rem;
@@ -1365,7 +1348,7 @@ margin-bottom: 6rem;
     margin-top: 1rem;
     margin-bottom: 0;
     width: fit-content;
-    font-family: 'Josefin Sans', sans-serif;
+    /* font-family: 'Josefin Sans', sans-serif; */
     color: rgb(255, 255, 255);
     font-size: 1.7rem; padding: 1rem; 
     border: 3px solid;
@@ -1388,7 +1371,7 @@ margin-bottom: 6rem;
     margin-top: 3%;
     color: black;
 
-    box-shadow: 3px 3px 15px 3px rgb(57, 57, 57);
+   box-shadow: 3px 3px 15px 3px rgb(163, 163, 163);
     border: 1px solid rgb(0, 0, 0);
     border-radius: 10px;
    
@@ -1406,7 +1389,8 @@ margin-bottom: 6rem;
 .text-details{
     position: relative;
     margin-top: 1.5rem;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+     font-family: 
+     'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size:2rem;
     margin-left: auto;
     margin-right: auto;
@@ -1417,7 +1401,7 @@ margin-bottom: 6rem;
 }
 .grid-container{
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(40rem, 1fr));
     grid-gap: 1rem;
 
 }
@@ -1432,11 +1416,11 @@ margin-bottom: 6rem;
 }
 
 .add-cont{
-    display: grid;
-    grid-template-columns: auto auto auto auto auto auto;
-justify-content: center;
-    margin-left: auto;
-    margin-right: auto;
+    display: flex;
+    /* grid-template-columns: auto auto auto auto auto; */
+/* justify-content: center; */
+    /* margin-left: auto;
+    margin-right: auto; */
 }
 
 
@@ -1453,7 +1437,7 @@ justify-content: center;
     /* background-image: linear-gradient(to right,#0b0808,#413d3d); */
     border-radius: 10px;
     min-height: 30rem;
-    box-shadow: 3px 3px 15px 3px rgb(57, 57, 57);
+   box-shadow: 3px 3px 15px 3px rgb(163, 163, 163);
     border: 1px solid rgb(0, 0, 0);
     border-radius: 10px;
 }
@@ -1482,14 +1466,14 @@ justify-content: center;
     /* background-image: linear-gradient(to right,#080808,#555555); */
     border-radius: 10px;
     max-height: 18rem;
-    box-shadow: 3px 3px 15px 3px rgb(57, 57, 57);
+    box-shadow: 3px 3px 15px 3px rgb(163, 163, 163);
     border: 1px solid rgb(0, 0, 0);
     border-radius: 10px;
 }
 
 .genre:hover{
     transform:scale(1.05) ;
-    box-shadow: 3px 3px 15px 3px rgb(134, 134, 134);
+    box-shadow: 3px 3px 15px 3px rgb(183, 182, 182);
 }
 
 
@@ -1497,7 +1481,6 @@ justify-content: center;
     width: 90%;
     margin-top: 2rem;
     /* margin: 2rem; */
-    overflow: scroll;
     margin-left: auto;
     margin-right: auto;
     grid-row-start: 1;
@@ -1505,7 +1488,7 @@ justify-content: center;
     /* background-image: linear-gradient(to right,#080808,#555555); */
     border-radius: 10px;
     max-height: 18rem;
-    box-shadow: 3px 3px 15px 3px rgb(57, 57, 57);
+   box-shadow: 3px 3px 15px 3px rgb(163, 163, 163);
     border: 1px solid rgb(0, 0, 0);
     border-radius: 10px;
     
@@ -1524,10 +1507,10 @@ justify-content: center;
     padding: 1rem;
     padding-left: 1rem;
     padding-right: 1rem;
-    font-family: 'Josefin Sans', sans-serif;
+    /* font-family: 'Josefin Sans', sans-serif; */
     font-size: 1.6rem;
     font-weight: 600;
-    background-image: linear-gradient(to right,#11212b,#161616);
+    background-image: linear-gradient(to right,#277aad,#073249);
     /* margin: 1.5rem; */
     margin-left:1rem;
     margin-bottom: 1rem;
@@ -1546,17 +1529,20 @@ justify-content: center;
 .venue{
     line-height: 2.2rem;
     font-size: 2.1rem;
-    width: fit-content;
-    height: min-content;
+    font-weight: lighter;
+    width: max-content;
+    height: max-content;
     /* padding: 2rem; */
     border-radius: 10px;
-    margin-top: 2rem;
+    margin-top: 3rem;
+    margin-left: auto;
+    margin-right: auto;
     /* background-image: linear-gradient(to right,#080808,#555555); */
     /* color: white; */
-    box-shadow: 3px 3px 15px 3px rgb(57, 57, 57);
-    grid-column-start: 3;
-    grid-column-end: 5;
-    justify-items: center;
+   box-shadow: 3px 3px 15px 3px rgb(163, 163, 163);
+     /* grid-column-start: 3;
+    grid-column-end: 5;  */
+    /* justify-items: center; */
     border: 1px solid rgb(0, 0, 0);
     border-radius: 10px;
 
@@ -1564,7 +1550,6 @@ justify-content: center;
     
 }
 .link{
-    font-family: 'Josefin Sans', sans-serif;
     font-size: 2.5rem;
     color: red;
     line-height: 2.2rem;
@@ -1579,12 +1564,13 @@ justify-content: center;
     /* margin: 3rem; */
     margin-top: 2rem;
     margin-bottom: 0;
-    width: 100%;
+    /* width: 100%; */
     line-height: 2.2rem;
-    font-weight: 600;
-    padding: 2rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
     border-radius: 10px;
     justify-items: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     /* background-image: linear-gradient(to right,#080808,#555555); */
     /* color: white; */
 
@@ -1595,12 +1581,11 @@ justify-content: center;
     /* box-shadow: 5px 2px #4e4e4f; */
 }
 .venue12{
-    font-family: 'Josefin Sans', sans-serif;
+   
     font-size: 2rem;
     line-height: 2.2rem;
-    font-weight: 600;
-    justify-items: center;
-    justify-content: center;
+    /* justify-items: center;
+    justify-content: center; */
 }
 
 @media only screen and (min-width:1600px){
