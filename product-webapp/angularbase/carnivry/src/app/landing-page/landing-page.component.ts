@@ -23,17 +23,17 @@ interface carouselImage {
   styleUrls: ['./landing-page.component.css']
 })
 export class LandingPageComponent implements OnInit {
-  controllerUrl="/api/v1";
-  apiUrl="/suggestion";
-  baseUrl=environment.baseUrl;
-  suggestionUrl=this.baseUrl+this.apiUrl+this.controllerUrl;
+  controllerUrl = "/api/v1";
+  apiUrl = "/suggestion";
+  baseUrl = environment.baseUrl;
+  suggestionUrl = this.baseUrl + this.apiUrl + this.controllerUrl;
   reqHeader = new HttpHeaders().set('Authorization', 'Bearer ' + window.localStorage.getItem('token'));
-   
 
 
-  @Input() controls= true;
 
-  
+  @Input() controls = true;
+
+
 
   images = [
     {
@@ -68,7 +68,7 @@ export class LandingPageComponent implements OnInit {
   };
 
 
-  isSelected: Boolean= false;
+  isSelected: Boolean = false;
 
   flag: Boolean = false;
   english = false;
@@ -98,83 +98,83 @@ export class LandingPageComponent implements OnInit {
   appliedLanguage: any = [];
   appliedGenre: any = [];
   appliedPrice: any = [];
-    city = sessionStorage.getItem('city');
-   emailId= localStorage.getItem('email')
+  city = sessionStorage.getItem('city');
+  emailId = localStorage.getItem('email')
 
-  constructor(private http: HttpClient, public datePipe: DatePipe, private router: Router, private snackbar:MatSnackBar,private managementService:ManagementService) {
+  constructor(private http: HttpClient, public datePipe: DatePipe, private router: Router, private snackbar: MatSnackBar, private managementService: ManagementService) {
 
     //===================================== Recommended events ==============================================
 
-    if(this.city=== null && this.emailId!=null){
+    if (this.city === null && this.emailId != null) {
       console.log("User logged in and no city");
-      this.http.get<Event[]>(this.suggestionUrl+'/suggest-events/'+this.emailId, this.headers)
-      .subscribe(
-        (data) => {
-          this.recommendList = data.body;
-          this.modifiedRecommendList=data.body;
-          console.log("Recommended events in landing page: " + this.recommendList.length);
-          for(var i=0; i<this.modifiedRecommendList.length;i++){
-            if(this.modifiedRecommendList[i].title.length>10){
-              for(var j=0; j<10; j++){
-                this.modifiedRecommendList[i].title=this.modifiedRecommendList[i].title.substring(0,10)+"...";
+      this.http.get<Event[]>(this.suggestionUrl + '/suggest-events/' + this.emailId, this.headers)
+        .subscribe(
+          (data) => {
+            this.recommendList = data.body;
+            this.modifiedRecommendList = data.body;
+            console.log("Recommended events in landing page: " + this.recommendList.length);
+            for (var i = 0; i < this.modifiedRecommendList.length; i++) {
+              if (this.modifiedRecommendList[i].title.length > 10) {
+                for (var j = 0; j < 10; j++) {
+                  this.modifiedRecommendList[i].title = this.modifiedRecommendList[i].title.substring(0, 10) + "...";
+                }
               }
             }
           }
-        }
-      )
+        )
     }
-    else if(this.city!=null){
+    else if (this.city != null) {
       console.log("User not logged in and city chosen");
-      this.http.get<Event[]>(this.suggestionUrl+'/suggestion/'+this.city, this.headers)
-      .subscribe(
-        (data) => {
-          this.recommendList = data.body;
-          this.modifiedRecommendList=data.body;
+      this.http.get<Event[]>(this.suggestionUrl + '/suggestion/' + this.city, this.headers)
+        .subscribe(
+          (data) => {
+            this.recommendList = data.body;
+            this.modifiedRecommendList = data.body;
             console.log("City is not blank");
-          console.log("Recommended events by city in landing page: " + this.recommendList.length);
-          for(var i=0; i<this.modifiedRecommendList.length;i++){
-            if(this.modifiedRecommendList[i].title.length>10){
-              for(var j=0; j<10; j++){
-                this.modifiedRecommendList[i].title=this.modifiedRecommendList[i].title.substring(0,10)+"...";
+            console.log("Recommended events by city in landing page: " + this.recommendList.length);
+            for (var i = 0; i < this.modifiedRecommendList.length; i++) {
+              if (this.modifiedRecommendList[i].title.length > 10) {
+                for (var j = 0; j < 10; j++) {
+                  this.modifiedRecommendList[i].title = this.modifiedRecommendList[i].title.substring(0, 10) + "...";
+                }
               }
             }
           }
-        }
-      )
+        )
     }
-    else if(this.city==null && this.emailId==null){
+    else if (this.city == null && this.emailId == null) {
       console.log("User not logged in and no city");
-      this.http.get<Event[]>(this.suggestionUrl+'/suggest-events/no-user', this.headers)
-      .subscribe(
-        (data) => {
-          this.recommendList = data.body;
-          this.modifiedRecommendList=data.body;
+      this.http.get<Event[]>(this.suggestionUrl + '/suggest-events/no-user', this.headers)
+        .subscribe(
+          (data) => {
+            this.recommendList = data.body;
+            this.modifiedRecommendList = data.body;
             console.log("City is not blank");
-          console.log("Recommended events by city in landing page: " + this.recommendList.length);
-          for(var i=0; i<this.modifiedRecommendList.length;i++){
-            if(this.modifiedRecommendList[i].title.length>10){
-              for(var j=0; j<10; j++){
-                this.modifiedRecommendList[i].title=this.modifiedRecommendList[i].title.substring(0,10)+"...";
+            console.log("Recommended events by city in landing page: " + this.recommendList.length);
+            for (var i = 0; i < this.modifiedRecommendList.length; i++) {
+              if (this.modifiedRecommendList[i].title.length > 10) {
+                for (var j = 0; j < 10; j++) {
+                  this.modifiedRecommendList[i].title = this.modifiedRecommendList[i].title.substring(0, 10) + "...";
+                }
               }
             }
           }
-        }
-      )
+        )
     }
 
 
 
     //========================================== Upcoming events ===========================================
-    this.http.get<Event[]>(this.suggestionUrl+'/upcoming-events', this.headers)
+    this.http.get<Event[]>(this.suggestionUrl + '/upcoming-events', this.headers)
       .subscribe(
         (data) => {
-          this.upcomingList=data.body;
+          this.upcomingList = data.body;
           this.modifiedUpcomingList = data.body;
           console.log("Upcoming events in landing page: " + this.upcomingList.length);
-          for(var i=0; i<this.modifiedUpcomingList.length;i++){
-            if(this.modifiedUpcomingList[i].title.length>10){
-              for(var j=0; j<10; j++){
-                this.modifiedUpcomingList[i].title=this.modifiedUpcomingList[i].title.substring(0,10)+"...";
+          for (var i = 0; i < this.modifiedUpcomingList.length; i++) {
+            if (this.modifiedUpcomingList[i].title.length > 10) {
+              for (var j = 0; j < 10; j++) {
+                this.modifiedUpcomingList[i].title = this.modifiedUpcomingList[i].title.substring(0, 10) + "...";
               }
             }
           }
@@ -184,23 +184,23 @@ export class LandingPageComponent implements OnInit {
 
 
     //=============================================== fetch all events =======================================
-    this.http.get<Event[]>(this.suggestionUrl+'/all-events', this.headers)
+    this.http.get<Event[]>(this.suggestionUrl + '/all-events', this.headers)
       .subscribe(
         (data) => {
-          this.modifiedAllEventsList=data.body;
+          this.modifiedAllEventsList = data.body;
           this.runningList = data.body;
           this.allEventsList = this.runningList;
           console.log("All events in landing page: " + this.runningList.length);
-          for(var i=0; i<this.modifiedAllEventsList.length;i++){
-            if(this.modifiedAllEventsList[i].title.length>10){
-              for(var j=0; j<10; j++){
-                this.modifiedAllEventsList[i].title=this.modifiedAllEventsList[i].title.substring(0,10)+"...";
+          for (var i = 0; i < this.modifiedAllEventsList.length; i++) {
+            if (this.modifiedAllEventsList[i].title.length > 10) {
+              for (var j = 0; j < 10; j++) {
+                this.modifiedAllEventsList[i].title = this.modifiedAllEventsList[i].title.substring(0, 10) + "...";
               }
             }
           }
         }
       )
-      console.log("All events outside subscribe: " +this.allEventsList);
+    console.log("All events outside subscribe: " + this.allEventsList);
 
   }
 
@@ -212,19 +212,19 @@ export class LandingPageComponent implements OnInit {
   //user likes an event
   like(eventId: any) {
 
-    if(this.emailId==null){
+    if (this.emailId == null) {
       this.router.navigate(['/registration/register']);
     }
-    else{
+    else {
+      console.log('in likes() else part');
+      this.managementService.updateNoOfLikes(eventId, true).subscribe();//adding 1 like to the event in management service DB 
 
-
-    this.http.put(this.suggestionUrl+'/update-likes/'+this.emailId+'/'+eventId, this.headers)
-      .subscribe(
-        (data) => {
-          this.managementService.updateNoOfLikes(eventId,true);//adding 1 like to the event in management service DB 
-          window.location.reload();
-        }
-      )
+      this.http.put(this.suggestionUrl + '/update-likes/' + this.emailId + '/' + eventId, this.headers)
+        .subscribe(
+          (data) => {
+            window.location.reload();
+          }
+        )
     }
   }
 
@@ -393,29 +393,28 @@ export class LandingPageComponent implements OnInit {
         && (
           (((this.allEventsList[i].price >= this.appliedPrice[0]) && (this.allEventsList[i].price <= this.appliedPrice[1])) || (this.appliedPrice.length === 0))
         )
-      ) 
-      {
+      ) {
         this.runningList.push(this.allEventsList[i]);
       }
 
-      
+
     }
   }
 
   ifContains(list1: String[], list2: String[]): Boolean {
 
-    var l1: any[]=[];
-    var l2: any[]=[];
+    var l1: any[] = [];
+    var l2: any[] = [];
 
 
-    for(var i=0; i<list1.length; i++){
-      l1.push(list1[i].toLowerCase( ));
+    for (var i = 0; i < list1.length; i++) {
+      l1.push(list1[i].toLowerCase());
     }
-    for(var j=0; j<list2.length; j++){
-      l2.push(list2[j].toLowerCase( ));
+    for (var j = 0; j < list2.length; j++) {
+      l2.push(list2[j].toLowerCase());
     }
-    console.log("l1: "+l1);
-    console.log("l2: "+l2);
+    console.log("l1: " + l1);
+    console.log("l2: " + l2);
 
     var res: boolean = false;
     console.log("list1: " + l1.length + " list2: " + l2.length);
@@ -432,20 +431,20 @@ export class LandingPageComponent implements OnInit {
   }
 
 
-  wishlist(eventId: any, title: string){
-    if(this.emailId==null){
+  wishlist(eventId: any, title: string) {
+    if (this.emailId == null) {
       this.router.navigate(['/registration/register']);
-    console.log("'emaild id null");
+      console.log("'emaild id null");
     }
-    else{
+    else {
       console.log("'email id not null");
-    this.http.put(this.suggestionUrl+'/add-wishlist/'+this.emailId+'/'+eventId, this.headers)
-    .subscribe(
-      (data)=> console.log(data)
-    )
-    this.snackbar.open(title+' added into your wishlist', ' ', {
-      duration: 3000
-    });
+      this.http.put(this.suggestionUrl + '/add-wishlist/' + this.emailId + '/' + eventId, this.headers)
+        .subscribe(
+          (data) => console.log(data)
+        )
+      this.snackbar.open(title + ' added into your wishlist', ' ', {
+        duration: 3000
+      });
     }
   }
 

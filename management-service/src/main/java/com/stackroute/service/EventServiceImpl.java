@@ -160,11 +160,13 @@ public class EventServiceImpl implements EventService{
         //if flag is true, increment the number of likes by 1
         if(flag){
             result.setLikes(result.getLikes()+1);
+            eventRepository.save(result);
             return true;
         }
         //if flag is false, decrement the number of likes by 1
         else {
             result.setLikes(result.getLikes()-1);
+            eventRepository.save(result);
             return true;
         }}
         throw new EventNotFoundException();

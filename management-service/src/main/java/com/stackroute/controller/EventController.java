@@ -132,6 +132,7 @@ public class EventController {
     @PatchMapping("/likes/{eventId}/{flag}")
     public ResponseEntity<?> updateNoOfLikes(@PathVariable String eventId,@PathVariable boolean flag) throws Exception{
         try {
+            log.info("updating the number of likes");
             return new ResponseEntity<>(eventService.updateNoOfLikes(eventId,flag),HttpStatus.OK);
         } catch (EventNotFoundException e) {
             log.error("EventNotFoundException occurred in EventController -> updateNoOfLikes(), {}",e.getMessage());
