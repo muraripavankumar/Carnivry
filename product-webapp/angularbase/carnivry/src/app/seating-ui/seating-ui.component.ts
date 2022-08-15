@@ -15,7 +15,7 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
 const KEY = 'time';
-const DEFAULT = 100;
+const DEFAULT = 180;
 declare var Razorpay: any;
 @Component({
   selector: 'app-seating-ui',
@@ -25,6 +25,7 @@ declare var Razorpay: any;
     '[class.card]': `true`,
     '[class.text-center]': `true`,
   },
+  
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SeatingUIComponent implements OnInit {
@@ -51,8 +52,7 @@ export class SeatingUIComponent implements OnInit {
     '#fddbe5',
     '#dbfff8',
     '#e0e0ed',
-    '#afffa8',
-    
+    '#afffa8', 
     '#6495ED',
     '#d1fffa',
     '#DFFF00',
@@ -155,7 +155,7 @@ export class SeatingUIComponent implements OnInit {
 
   holdBooking() {
     const request = new Event();
-    var inerval=1000;
+    var interval=1000;
     request.seats = [];
     this.selectedItems.forEach((s: number,i) =>
     setTimeout(() => {
@@ -166,7 +166,6 @@ export class SeatingUIComponent implements OnInit {
         },
         (error) => {
           console.log(this.url);
-          alert('Ticket not available');
         }
       )
     }, i*1000)
@@ -183,12 +182,11 @@ export class SeatingUIComponent implements OnInit {
 
   showtimer() {
     this.timex = true;
-    let value = +localStorage.getItem(KEY)!! ?? DEFAULT;
-    if (value <= 0) value = DEFAULT;
+    let value  = DEFAULT;
     this.config = { ...this.config, leftTime: value };
     setTimeout(function(){
       window.location.reload();
-   }, 100000);
+   }, 180000);
   }
 
   getTotal(): number {
@@ -217,7 +215,12 @@ export class SeatingUIComponent implements OnInit {
           console.log(s);
           seatsbooked++;
           if(this.selectedItems.length==seatsbooked){
-            this.openPDF();
+            console.log(this.selectedItems.length);
+            console.log(seatsbooked)
+            setTimeout(() => {
+              this.openPDF();
+            }, 2000);
+            
           }
         },
         (error) => {
@@ -247,7 +250,7 @@ export class SeatingUIComponent implements OnInit {
       eventId: this.eventdetails.eventId,
       amount: this.getTotal(),
       // username: 'hello',
-      NoOfSeats:this.selectedItems.length,
+      noOfSeats:this.selectedItems.length,
       title: this.eventdetails.title,
       description: this.eventdetails.eventDescription,
       venue: this.eventdetails.venue,

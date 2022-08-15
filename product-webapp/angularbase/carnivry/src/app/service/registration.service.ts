@@ -18,12 +18,10 @@ export class RegistrationService {
   private googleTokenEndpoint = '/registration/login/oauth2/code/google';
 
   private baseUrl= environment.baseUrl;
-// <<<<<<< HEAD
+
   private controllerUrl="/api/v1";
   private registrationBaseUrl= environment.baseUrl+"/registration"+this.controllerUrl;
-// =======
-//   private registrationBaseUrl= environment.baseUrl+"/registration/api/v1";
-// >>>>>>> f1f6dde4c09d1c3c01c926533693aa2513f04a6f
+
 
 
   constructor(private myClient: HttpClient) { }
@@ -126,8 +124,10 @@ export class RegistrationService {
     return this.myClient.get(this.registrationBaseUrl+"/getProfilePic/"+email,{responseType: 'text'} );
   }
 
+
   addEventToWishlist(obj:any){
     return this.myClient.post(this.registrationBaseUrl+"/WishlistAddition",obj),{responseType: 'text'};
+
   }
 
   getWishlist(email:string):Observable<Event[]>{
@@ -140,7 +140,9 @@ export class RegistrationService {
   }
 
   logout(): Observable<any> {
+
     return this.myClient.post(this.baseUrl+"/registration" + '/logout', this.getToken());
+
   }
 
   updateToken(token: any) {

@@ -112,7 +112,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     UpcomingEventsComponent,
     PageNotFoundComponent,
     TicketComponent
-
   ],
   imports: [
     BrowserModule,

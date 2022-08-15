@@ -350,15 +350,13 @@ input[type="checkbox"]+ label {
 
 .description1{
     
-  border: 8px solid;
-  border-image-slice: 1;
-  border-width: 3px;
-  border-image-source: linear-gradient(to left, #0616f4, #06acf9);
+
+  border: 1px solid black;
   width: fit-content;
   /* background-image: linear-gradient(to right, #1f3ebc, #01a5c2); */
   padding: 0.7rem;
   /* color: white; */
-  box-shadow: 3px 3px 15px 3px rgb(134, 134, 134);
+  box-shadow: 3px 3px 5px 3px rgb(203, 203, 203);
 
 }
 @media only screen and (min-width:100px) and (max-width:600px){
@@ -527,9 +525,11 @@ margin-right: auto;
   border-image-slice: 1;
   border-width: 3px;
   border-image-source: linear-gradient(to left, #f98c43, #fbe53f);
-  background-image: linear-gradient(to right, #f98c43, #fbe53f);
+  /* background-image: linear-gradient(to right, #f98c43, #fbe53f); */
   box-shadow: 3px 3px 15px 3px rgb(134, 134, 134);
 }
+
+
 
 @media only screen and (min-width:100px) and (max-width:600px){
   .totalPay{

@@ -17,6 +17,11 @@ spring:
           auth: true
           ssl:
             trust: smtp.gmail.com
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 
 eureka:
   client:

@@ -28,17 +28,13 @@ export class ProfileComponent implements OnInit {
   avatarUrl:any;
   name:any;
   profilePic:string;
+  
 
   ngOnInit(): void {
     this.email=this.regService.getEmail();
     this.regService.getProfilePic(this.email).subscribe(r=>this.profilePic=r);
 
-    this.refreshingService.notifyObservable.subscribe(res => {
-      if (res.refresh) {
-        this.ngOnInit();
-      }
-    });
-
+   
     if(this.profilePic==='' || this.profilePic===undefined || this.profilePic===null){
       this.avatarUrl=this.regService.getAvatarUrl();
       this.profilePic=this.avatarUrl;
@@ -53,6 +49,8 @@ export class ProfileComponent implements OnInit {
 
     
   }
+ 
+
 
   updateEmailId(){
     let openDuration= '3000ms';
@@ -70,6 +68,13 @@ export class ProfileComponent implements OnInit {
     profilePicUpdation.afterClosed().subscribe(res=>{
       console.log("New Pofile Picture",res);
     })
+    // this.refreshingService.notifyObservable.subscribe(res => {
+    //   if (res.refresh) {
+    //     console.log('refreshing profile page');
+    //     this.ngOnInit();
+    //   }
+    // });
+    window.location.reload;
   }
 
   updateDOB(){

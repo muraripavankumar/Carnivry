@@ -11,7 +11,6 @@ import { HomeComponent } from './home/home.component';
 import { HostEventComponent } from './host-event/host-event.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { LoginComponent } from './login/login.component';
-import { NavigationComponent } from './navigation/navigation.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { PastEventsComponent } from './past-events/past-events.component';
 import { PostedEventsComponent } from './posted-events/posted-events.component';
@@ -45,7 +44,7 @@ const routes: Routes = [
       { path: 'update', component: UpdateEventComponent },
     ]
   },
-  {path:'navigation',component:NavigationComponent},
+  // {path:'add-preference',component:AddPreferenceComponent},
   {
     path: "registration",
     component: AppComponent,

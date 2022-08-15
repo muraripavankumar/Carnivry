@@ -8,6 +8,8 @@ import { DialogBoxChooseCityComponent } from '../dialog-box-choose-city/dialog-b
 import { Router } from '@angular/router';
 import { map, startWith } from 'rxjs/operators';
 import { RegistrationService } from '../service/registration.service';
+import { environment } from 'src/environments/environment';
+import { RefreshingService } from '../service/refreshing.service';
 
 
 
@@ -19,6 +21,11 @@ import { RegistrationService } from '../service/registration.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+
+  controllerUrl="/api/v1";
+  apiUrl="/suggestion";
+  baseUrl=environment.baseUrl;
+  suggestionUrl=this.baseUrl+this.apiUrl+this.controllerUrl;
 
   signIn = "";
   search: String;
@@ -42,7 +49,7 @@ export class HeaderComponent implements OnInit {
   myControl = new FormControl('');
   filteredOptions: Observable<string[]>;
 
-  constructor(public dialog: MatDialog, private router: Router, private registrationService: RegistrationService, private http: HttpClient) {
+  constructor(public dialog: MatDialog, private router: Router,private refreshingService:RefreshingService, private registrationService: RegistrationService, private http: HttpClient) {
 
     this.search = "";
 
@@ -103,15 +110,16 @@ export class HeaderComponent implements OnInit {
       sessionStorage.clear();
       this.router.navigate(['/landing-page']);
     });
+    // window.location.reload();
   }
 
   onSearchTextEntered(searchValue: string) {
     this.searchText = searchValue;
     this.filteredList = [];
     this.titleList = [];
-    // console.log("Entered value"+ this.searchText);
+    console.log("Entered value"+ this.searchText);
 
-    this.http.get<Event[]>('http://localhost:8082/api/v1/all-events', this.headers)
+    this.http.get<Event[]>(this.suggestionUrl+'/all-events', this.headers)
       .subscribe(
         (data) => {
           this.allEventsList = data.body;
@@ -141,7 +149,10 @@ export class HeaderComponent implements OnInit {
 
   openViewPage(eventId: any) {
     this.titleList = [];
+    console.log('refresh page emmiter');
+    this.refreshingService.notifyViewPage({refresh: true});
     this.router.navigate(['/view-page', eventId]);
+    window.location.reload();
   }
 
 

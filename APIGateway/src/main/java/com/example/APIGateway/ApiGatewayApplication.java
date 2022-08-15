@@ -1,7 +1,7 @@
 package com.example.APIGateway;
 
 //import com.example.APIGateway.filter.JwtFilter;
-import lombok.extern.slf4j.Slf4j;
+//import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -15,12 +15,12 @@ import org.springframework.web.filter.CorsFilter;
 
 @SpringBootApplication
 @EnableEurekaClient
-@Slf4j
+//@Slf4j
 public class ApiGatewayApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ApiGatewayApplication.class, args);
-		log.info("ApiGatewayApplication is RUNNING!");
+//		log.info("ApiGatewayApplication is RUNNING!");
 	}
 //	@Bean
 //	public FilterRegistrationBean filterRegistrationBean(){
