@@ -11,13 +11,11 @@ import { RazorpaySuccess } from '../model/razorpay-success';
 export class PaymentService {
   constructor(private myClient: HttpClient) {}
 
-  // <<<<<<< HEAD
+
   // baseUrl= environment.baseUrl+"payment/api/v1";
   private controllerUrl = '/api/v1';
   private paymentUrl = environment.baseUrl + '/payment' + this.controllerUrl;
-  // =======
-  //   baseUrl= environment.baseUrl+"/payment/api/v1";
-  // >>>>>>> f1f6dde4c09d1c3c01c926533693aa2513f04a6f
+
 
   createOrder(data: any): Observable<RazorpayOrder> {
     return this.myClient.post<RazorpayOrder>(

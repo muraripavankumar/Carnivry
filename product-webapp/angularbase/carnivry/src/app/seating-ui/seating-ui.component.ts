@@ -15,7 +15,7 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
 const KEY = 'time';
-const DEFAULT = 100;
+const DEFAULT = 180;
 declare var Razorpay: any;
 @Component({
   selector: 'app-seating-ui',
@@ -25,6 +25,7 @@ declare var Razorpay: any;
     '[class.card]': `true`,
     '[class.text-center]': `true`,
   },
+  
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SeatingUIComponent implements OnInit {
@@ -154,7 +155,7 @@ export class SeatingUIComponent implements OnInit {
 
   holdBooking() {
     const request = new Event();
-    var inerval=1000;
+    var interval=1000;
     request.seats = [];
     this.selectedItems.forEach((s: number,i) =>
     setTimeout(() => {
@@ -181,12 +182,11 @@ export class SeatingUIComponent implements OnInit {
 
   showtimer() {
     this.timex = true;
-    let value = +localStorage.getItem(KEY)!! ?? DEFAULT;
-    if (value <= 0) value = DEFAULT;
+    let value  = DEFAULT;
     this.config = { ...this.config, leftTime: value };
     setTimeout(function(){
       window.location.reload();
-   }, 100000);
+   }, 180000);
   }
 
   getTotal(): number {

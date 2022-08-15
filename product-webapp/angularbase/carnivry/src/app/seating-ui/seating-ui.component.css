@@ -529,6 +529,8 @@ margin-right: auto;
   box-shadow: 3px 3px 15px 3px rgb(134, 134, 134);
 }
 
+
+
 @media only screen and (min-width:100px) and (max-width:600px){
   .totalPay{
     font-size:1.4rem;
