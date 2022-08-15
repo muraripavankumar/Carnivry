@@ -22,8 +22,10 @@ export class CallbackComponent implements OnInit {
       this.route.queryParams.subscribe(p => {
           
         console.log(localStorage.getItem("authProvider"));
+        console.log("code= ",p['code']);
 
           if(localStorage.getItem("authProvider")==='github'){
+             
             
             this.regService.githubFetchToken(p['code'], p['state']).subscribe(data => {
               this.regService.updateToken(data.accessToken);
@@ -56,6 +58,7 @@ export class CallbackComponent implements OnInit {
             });
           }
           else if(localStorage.getItem("authProvider")==='google'){
+            
             
             this.regService.googleFetchToken(p['code'], p['state']).subscribe(data => {
               this.regService.updateToken(data.accessToken);

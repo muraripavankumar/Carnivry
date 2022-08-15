@@ -126,13 +126,21 @@ export class RegistrationService {
     return this.myClient.get(this.registrationBaseUrl+"/getProfilePic/"+email,{responseType: 'text'} );
   }
 
+  addEventToWishlist(obj:any){
+    return this.myClient.post(this.registrationBaseUrl+"/WishlistAddition",obj),{responseType: 'text'};
+  }
+
+  getWishlist(email:string):Observable<Event[]>{
+    return this.myClient.get<Event[]>(this.registrationBaseUrl+"/wishlist/"+email);
+  }
+
   isLoggedIn(): boolean {
     const token = this.getToken();
     return token != null;
   }
 
   logout(): Observable<any> {
-    return this.myClient.post(this.registrationBaseUrl + '/logout', this.getToken());
+    return this.myClient.post(this.baseUrl+"/registration" + '/logout', this.getToken());
   }
 
   updateToken(token: any) {

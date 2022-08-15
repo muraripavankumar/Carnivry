@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequestMapping("/api/v1")
-@CrossOrigin("**")
+//@CrossOrigin("**")
 //http://localhost:8081/api/v1
 public class EventController {
     //addEvent                      = POST =

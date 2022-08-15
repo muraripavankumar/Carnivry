@@ -41,7 +41,7 @@ public class CarnivryUser {
 
     private List<Event> postedEvents;
 
-    private List<String> wishlist;
+    private List<Event> wishlist;
 
     private String profilePic;
 
