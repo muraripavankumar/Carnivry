@@ -24,7 +24,7 @@
                       src={{item.poster}}></a>
                   <div class="likes">{{item.likes}} Likes
                     <mat-icon (click)="like(item.eventId)" class="likeImage">thumb_up</mat-icon>
-                    <mat-icon class="wishlist" (click)="wishlist(item.eventId)" >favorite</mat-icon>
+                    <mat-icon class="wishlist" (click)="wishlist(item.eventId, item.title)" >favorite</mat-icon>
                     <!-- [style.color]="isSelected ? 'red' : 'rgba(192, 40, 40, 0.575)'" -->
                     <!-- <img   src="../assets/like.png"> -->
                   </div>
@@ -69,7 +69,8 @@
                       src={{item.poster}}></a>
                   <div class="likes">{{item.likes}} Likes
                     <mat-icon (click)="like(item.eventId)" class="likeImage">thumb_up</mat-icon>
-                    <mat-icon (click)="wishlist(item.eventId)" class="likeImage">favorite</mat-icon>
+                    <mat-icon class="wishlist" (click)="wishlist(item.eventId, item.title)" >favorite</mat-icon>
+
                     <!-- <img (click)="like(item.eventId)" class="likeImage" src="../assets/like.png"> -->
                   </div>
                   <!-- <mat-card-header class="card-header"> -->
@@ -119,7 +120,7 @@
               <mat-date-range-picker #picker></mat-date-range-picker>
             </mat-form-field>
 
-            <p>Selected range: {{range.value | json}}</p>
+            <!-- <p>Selected range: {{range.value | json}}</p> -->
 
             <!-- <mat-form-field appearance="fill">
                 <mat-label>Enter date</mat-label>
@@ -214,6 +215,7 @@
                   <mat-card-title>{{eventImage.title}}</mat-card-title>
                   <mat-card-subtitle>{{eventImage.genre}}</mat-card-subtitle>
                 </div>
+               
               </mat-card>
             </a>
           </mat-grid-tile>

@@ -40,6 +40,10 @@ public class UserService {
         }
         else {
             //save the user
+            if(user.getWishlist()==null){
+                logger.info("wishlist is null when the user is added");
+                user.setWishlist(new ArrayList<String>());
+            }
             userRepo.save(user);
 
             //get all the events
@@ -78,19 +82,23 @@ public class UserService {
             List<String> userWishlist = user.getWishlist();
 //        System.out.println("Wishlist: "+userWishlist);
             logger.info("Wishlist: " + userWishlist);
-            if (userWishlist.contains(event)) {
-                response = "You have already added this event in wishlist";
+            if(userWishlist!=null) {
+                logger.info("'wishlist is not null");
+                if (userWishlist.contains(event)) {
+                    response = "You have already added this event in wishlist";
 //            System.out.println("You have already added this event in wishlist");
-                logger.info("You have already added this event in wishlist");
-                throw new EventAlreadyExistException();
-            } else {
-                userWishlist.add(event);
-                user.setWishlist(userWishlist);
+                    logger.info("You have already added this event in wishlist");
+                    throw new EventAlreadyExistException();
+                } else {
+                    userWishlist.add(event);
+                    user.setWishlist(userWishlist);
 //            System.out.println("Updated wishlist: " + user.getWishlist());
-                logger.info("Updated wishlist: " + user.getWishlist());
-                userRepo.save(user);
-                response = "Event saved in wishlist";
+                    logger.info("Updated wishlist: " + user.getWishlist());
+                    userRepo.save(user);
+                    response = "Event saved in wishlist";
+                }
             }
+
         }
         return response;
     }
@@ -251,11 +259,32 @@ public class UserService {
             }
 
             if (suggestionEventsList.isEmpty()) {
-                throw new EventNotFoundException();
-            } else {
+                List<Events> likesFilter = allEvents;
+                List<Integer> likeLlist = new ArrayList<>();
+                for (int i = 0; i < likesFilter.size(); i++) {
+                    likeLlist.add(likesFilter.get(i).getLikes());
+                }
+//        System.out.println("Likes list: "+likes);
+                logger.info("Likes list: " + likeLlist);
+                int temp1 = 0;
+                for (int i = 0; i < likeLlist.size(); i++) {
+                    for (int j = i + 1; j < likeLlist.size(); j++) {
+                        if (likeLlist.get(i) < likeLlist.get(j)) {
+                            temp1 = likeLlist.get(i);
+                            likeLlist.set(i, likeLlist.get(j));
+                            likeLlist.set(j, temp);
+
+                            temp1 = likesFilter.get(i).getLikes();
+                            likesFilter.get(i).setLikes(likesFilter.get(j).getLikes());
+                            likesFilter.get(j).setLikes(temp);
+                        }
+                    }
+                }
+                suggestionEventsList=likesFilter;
+            }
                 logger.info("Suggestion list: " + suggestionList.size());
                 logger.info("Suggestion Event List: " + suggestionEventsList.size());
-            }
+
         }
 
         return suggestionEventsList;

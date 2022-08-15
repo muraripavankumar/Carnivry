@@ -39,7 +39,10 @@ export class HostEventComponent implements OnInit {
   filteredLanguages: Observable<string[]>;
   filteredGenres: Observable<string[]>;
   allGenres: string[] = ['ADVENTURE', 'ART', 'ASTROLOGY', 'BUSINESS', 'COMEDY', 'CEREMONY', 'DANCE', 'DRAMA', 'EDUCATION', 'FOOD', 'GAMES', 'HEALTH_N_FITNESS', 'KIDS', 'LITERATURE', 'MOVIE', 'MUSIC', 'RELIGION', 'SEMINAR', 'SOCIAL', 'SPIRITUAL', 'SPORTS', 'TECHNOLOGY', 'THRILLER', 'MISCELLANEOUS'];
-  countries: string[] = ['Bangladesh', 'China', 'India', 'Nepal', 'Pakistan'];
+  // countries: string[] = ['Bangladesh', 'China', 'India', 'Nepal', 'Pakistan'];
+  countries:string[] = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua & Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia & Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central Arfrican Republic","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cuba","Curacao","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar","Namibia","Nauro","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","North Korea","Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre & Miquelon","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","St Kitts & Nevis","St Lucia","St Vincent","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad & Tobago","Tunisia","Turkey","Turkmenistan","Turks & Caicos","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States of America","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"];
+  filteredCountries:Observable<String[]>;
+  filteredCountriesCtrl=new FormControl('');
   posterPic: any;
   thumbnailPosterPicDataUrl: string = "";
   landscapePosterPicDataUrl: string = "";
@@ -62,33 +65,6 @@ export class HostEventComponent implements OnInit {
   hostUserName:string=localStorage.getItem('name');
   hostEmailId:string=localStorage.getItem('email');
 
-
-  constructor(private fb: FormBuilder, private managementService: ManagementService, private snackbar: MatSnackBar, private updateEventService: UpdateEventService,private router:Router) {
-    this.eventData = new Event();
-  }
-
-  ngOnInit(): void {
-    this.updateEventService.obj.subscribe((data) => this.existingEventData = data);
-    this.filteredGenres = this.genreCtrl.valueChanges.pipe(
-      startWith(''),
-      map((genre: string | '') => (genre ? this._filter(genre) : this.allGenres.slice())),
-    );
-
-    this.filteredLanguages = this.languageCtrl.valueChanges.pipe(
-      startWith(''),
-      map((language: string | '') => (language ? this.filterLanguages(language) : this.allLanguages.slice()))
-    );
-
-    this.filteredSeatCategories = this.seatCategoryCtrl.valueChanges.pipe(
-      startWith(''),
-      map(value => this.filterSeatCategory(value || '')),
-    );
-
-
-
-    this.onUpdateMode();
-
-  }
 
   hostEventForm = this.fb.group({
     eventId: [''],
@@ -123,6 +99,38 @@ export class HostEventComponent implements OnInit {
     seats: this.fb.array([]),
     totalSeats: ['']
   });
+
+
+  constructor(private fb: FormBuilder, private managementService: ManagementService, private snackbar: MatSnackBar, private updateEventService: UpdateEventService,private router:Router) {
+    this.eventData = new Event();
+  }
+
+  ngOnInit(): void {
+    this.updateEventService.obj.subscribe((data) => this.existingEventData = data);
+    this.filteredGenres = this.genreCtrl.valueChanges.pipe(
+      startWith(''),
+      map((genre: string | '') => (genre ? this._filter(genre) : this.allGenres.slice())),
+    );
+
+    this.filteredLanguages = this.languageCtrl.valueChanges.pipe(
+      startWith(''),
+      map((language: string | '') => (language ? this.filterLanguages(language) : this.allLanguages.slice()))
+    );
+
+    this.filteredSeatCategories = this.seatCategoryCtrl.valueChanges.pipe(
+      startWith(''),
+      map(value => this.filterSeatCategory(value || '')),
+    );
+    this.filteredCountries=this.hostEventForm.get('venue.address.country').valueChanges.pipe(
+      startWith(''),
+      map(value=> this.filterCountry(value || ''))
+    );
+    
+    this.onUpdateMode();
+
+  }
+
+ 
 
   //////////////////  Initializing component for Update Event  ////////////////////
   //when component is being used to update the event,
@@ -160,15 +168,10 @@ export class HostEventComponent implements OnInit {
       // incoming date format is in ISO format, so extracting the date separately, to avoid format mismatch.
       const sDate = this.existingEventData.eventTimings.startDate.split('T')[0];
       const eDate = this.existingEventData.eventTimings.endDate.split('T')[0];
-      //console.log("sDate :"+sDate);
-      //console.log("eDate :"+eDate);
       this.hostEventForm.get('eventTimings.startDate').setValue(sDate);
       this.hostEventForm.get('eventTimings.endDate').setValue(eDate);
 
-
-      // this.hostEventForm.get('eventTimings.startDate').setValue(this.existingEventData.eventTimings.startDate);
-      // this.hostEventForm.get('eventTimings.endDate').setValue(this.existingEventData.eventTimings.endDate);
-      this.hostEventForm.get('eventTimings.startTime').setValue(this.existingEventData.eventTimings.startTime);
+this.hostEventForm.get('eventTimings.startTime').setValue(this.existingEventData.eventTimings.startTime);
       this.hostEventForm.get('eventTimings.endTime').setValue(this.existingEventData.eventTimings.endTime);
       this.hostEventForm.get('venue').setValue(this.existingEventData.venue);
 
@@ -397,7 +400,11 @@ export class HostEventComponent implements OnInit {
       this.seatType = 'yes';
     }
   }
-
+  /////////////////  Country Input  //////////////////////
+  private filterCountry(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.countries.filter(option => option.toLowerCase().includes(filterValue));
+  }
 
   /////////////////  Seat Input  //////////////////////
   seatType: string = 'yes';

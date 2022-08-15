@@ -1,8 +1,9 @@
 <!-- <div class="container-fluid" style="background-color: red;"> -->
 <!-- <div class="col-xs-12" style="background-color: blue;"> -->
-<mat-card class="container-fluid">
+<mat-card class="container-fluid" style="padding-bottom: 100px;">
   <mat-card-header>
-    <mat-card-title>
+    
+    <mat-card-title style="padding-top: 20px;">
       <header *ngIf="!existingEventData.eventId">Host New Event</header>
       <header *ngIf="existingEventData.eventId && !isEventUpdatable">Update Event</header>
       <header *ngIf="isEventUpdatable">View Event</header>
@@ -168,13 +169,28 @@
                     [readonly]="isEventUpdatable">
                 </mat-form-field>
 
-                <mat-form-field class="col-sm-3 col-md-3 country-field">
+                <!-- <mat-form-field class="col-sm-3 col-md-3 country-field">
                   <mat-label>Country</mat-label>
                   <mat-select formControlName="country" [disabled]="isEventUpdatable">
                     <mat-option *ngFor="let c of countries" [value]="c">
                       {{c}}
                     </mat-option>
                   </mat-select>
+                </mat-form-field> -->
+                <mat-form-field class="col-sm-3 col-md-3 country-field">
+                  <mat-label>Country of Origin</mat-label>
+                  <input type="text"
+                         placeholder="Pick one"
+                         aria-label="Country"
+                         matInput
+                         formControlName="country"
+                         
+                         [matAutocomplete]="auto4">
+                  <mat-autocomplete autoActiveFirstOption #auto4="matAutocomplete">
+                    <mat-option *ngFor="let option of filteredCountries | async" [value]="option">
+                      {{option}}
+                    </mat-option>
+                  </mat-autocomplete>
                 </mat-form-field>
 
               </div>
@@ -288,7 +304,7 @@
                       <div class="box" *ngFor="let e of eventData.seats; index as x;">
                         <div id="d.{{x}}" style="border: 0.2rem solid black;" [style.backgroundColor]=' getColor(e)'
                           (mouseenter)="checkDiv($event)">
-                          <label for="{{x}}">{{e.seatId}}</label>
+                          <label class="unselectable" for="{{x}}">{{e.seatId}}</label>
                           <input type="checkbox" name="" id="{{x}}" (change)="fieldChange(x)" value="{{e.seatId}}"
                             [disabled]="e.seatPrice!= 0.0001" style="display: none;">
                         </div>
