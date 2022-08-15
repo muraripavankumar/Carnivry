@@ -486,10 +486,10 @@ public class RegistrationController {
     private String applicationUrl(HttpServletRequest request) {
 //        System.out.println(request.getHeader("Referer"));
         log.debug("application url generated");
-        return "http://" +
-                request.getServerName() +
-                ":" +
-                request.getServerPort() +
-                request.getContextPath();
+        return "http://" + "carnivry.stackroute.io/registration";
+//                request.getServerName() +
+//                ":" +
+//                request.getServerPort() +
+//                request.getContextPath();
     }
 }

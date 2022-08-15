@@ -14,8 +14,8 @@ export class RegistrationService {
   private githubAuthorizeEndpoint = '/registration/oauth2/authorization/github'
   private googleAuthorizeEndpoint = '/registration/oauth2/authorization/google'
 
-  private githubTokenEndpoint = '/login/oauth2/code/github';
-  private googleTokenEndpoint = '/login/oauth2/code/google';
+  private githubTokenEndpoint = '/registration/login/oauth2/code/github';
+  private googleTokenEndpoint = '/registration/login/oauth2/code/google';
 
   private baseUrl= environment.baseUrl;
 // <<<<<<< HEAD
@@ -27,6 +27,21 @@ export class RegistrationService {
 
 
   constructor(private myClient: HttpClient) { }
+  googleLogin(){
+    window.open(this.baseUrl + this.googleAuthorizeEndpoint, '_self');
+  }
+
+  githubLogin() {
+    window.open(this.baseUrl + this.githubAuthorizeEndpoint, '_self');
+  }
+
+  googleFetchToken(code: any, state: any): Observable<any> {
+    return this.myClient.get(this.baseUrl + this.googleTokenEndpoint + '?code=' + code + '&state=' + state);
+  }
+  
+  githubFetchToken(code: any, state: any): Observable<any> {
+    return this.myClient.get(this.baseUrl + this.githubTokenEndpoint + '?code=' + code + '&state=' + state);
+  }
 
   register(user:PostUser):Observable<any>{
     return this.myClient.post(this.registrationBaseUrl+"/registration",user);
@@ -109,22 +124,6 @@ export class RegistrationService {
 
   getProfilePic(email:string){
     return this.myClient.get(this.registrationBaseUrl+"/getProfilePic/"+email,{responseType: 'text'} );
-  }
-
-  googleLogin(){
-    window.open(this.baseUrl + this.googleAuthorizeEndpoint, '_self');
-  }
-
-  githubLogin() {
-    window.open(this.baseUrl + this.githubAuthorizeEndpoint, '_self');
-  }
-
-  googleFetchToken(code: any, state: any): Observable<any> {
-    return this.myClient.get(this.baseUrl + this.googleTokenEndpoint + '?code=' + code + '&state=' + state);
-  }
-  
-  githubFetchToken(code: any, state: any): Observable<any> {
-    return this.myClient.get(this.baseUrl + this.githubTokenEndpoint + '?code=' + code + '&state=' + state);
   }
 
   isLoggedIn(): boolean {
