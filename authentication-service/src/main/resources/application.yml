@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: AuthenticationService
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: carnivry2022@gmail.com
+    password: byxqowufgtlginxh
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            trust: smtp.gmail.com
+          starttls:
+            enable: true
+  profiles:
+    active: dev
+  config:
+    import: "configserver:"

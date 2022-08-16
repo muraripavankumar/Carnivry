@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: ManagementService
+  profiles:
+    active: dev
+  config:
+    import: "configserver:"

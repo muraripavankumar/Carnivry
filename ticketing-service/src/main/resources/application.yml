@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: TicketingService
+  profiles:
+    active: dev
+  config:
+    import: "configserver:"
