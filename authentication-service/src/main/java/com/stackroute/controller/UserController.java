@@ -38,25 +38,20 @@ public class UserController {
         this.javaMailSender = javaMailSender;
     }
 
-    //    method for adding new user details to the database
-    // http://localhost:64200/api/v1/register   [post]
-    @PostMapping("/register")
-    public ResponseEntity<?> registration(@RequestBody User user) throws UserAlreadyExistsException {
-        try {
-            log.debug("inside registerUser() method");
-            userService.saveUser(user);
-            return new ResponseEntity<>("new user registered successfully", HttpStatus.CREATED);
-        }
-        catch (Exception e){
-            log.error("Exception in UserController class->registerUser() method");
-            return new ResponseEntity<>("error occurs due to exception case",HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @GetMapping
-    public String testMethos(){
-        return "hello world";
-    }
+//    //    method for adding new user details to the database
+//    // http://localhost:64200/api/v1/register   [post]
+//    @PostMapping("/register")
+//    public ResponseEntity<?> registration(@RequestBody User user) throws UserAlreadyExistsException {
+//        try {
+//            log.debug("inside registerUser() method");
+//            userService.saveUser(user);
+//            return new ResponseEntity<>("new user registered successfully", HttpStatus.CREATED);
+//        }
+//        catch (Exception e){
+//            log.error("Exception in UserController class->registerUser() method");
+//            return new ResponseEntity<>("error occurs due to exception case",HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 
     //    method for login to the carnivry application
     // http://localhost:64200/api/v1/login   [post]
@@ -80,23 +75,23 @@ public class UserController {
         }
     }
 
-    // http://localhost:64200/api/v1/getallusers   [get]
-    @GetMapping("/getallusers")
-    public ResponseEntity<?> getAllUsers(){
-        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.FOUND);
-    }
-
-    //    method for fetching userdetails
-    // http://localhost:64200/userservice/getuser/{emailId}   [get]
-    @GetMapping("/getuser/{email}")
-    public ResponseEntity<?> getUser(@PathVariable("email") String email) throws UserNotFoundException {
-        try {
-            User user=userService.getUser(email);
-            return new ResponseEntity<>(user,HttpStatus.OK);
-        }catch (UserNotFoundException E){
-            throw new UserNotFoundException();
-        }
-    }
+//    // http://localhost:64200/api/v1/getallusers   [get]
+//    @GetMapping("/getallusers")
+//    public ResponseEntity<?> getAllUsers(){
+//        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.FOUND);
+//    }
+//
+//    //    method for fetching userdetails
+//    // http://localhost:64200/userservice/getuser/{emailId}   [get]
+//    @GetMapping("/getuser/{email}")
+//    public ResponseEntity<?> getUser(@PathVariable("email") String email) throws UserNotFoundException {
+//        try {
+//            User user=userService.getUser(email);
+//            return new ResponseEntity<>(user,HttpStatus.OK);
+//        }catch (UserNotFoundException E){
+//            throw new UserNotFoundException();
+//        }
+//    }
 
     //    method for resetting the password if forgotten
     // http://localhost:64200/api/v1/forgotPassword   [put]
@@ -126,7 +121,9 @@ public class UserController {
             User result = userService.emailLink(email);
             map= securityTokenGenerator.generateToken(result);
 //            String str = map.toString();
-            String link="http://localhost:4200/registration/forgot-password";
+//            String link="http://localhost:4200/registration/forgot-password";
+//            String link="http://localhost:8080/registration/forgot-password";
+           String link="carnivry.stackroute.io/#/registration/forgot-password";
             sendEmail(email,link);
             return new ResponseEntity<>(map,HttpStatus.OK);
         }
