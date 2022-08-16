@@ -27,6 +27,7 @@
     "jspdf": "^2.5.1",
     "moment": "^2.29.4",
     "ngx-countdown": "^13.0.0",
+    "node-snackbar": "^0.1.16",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

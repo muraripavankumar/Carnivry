@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1")
+//@RequestMapping("/ticket")
 @Slf4j
 public class PaymentController {
 
