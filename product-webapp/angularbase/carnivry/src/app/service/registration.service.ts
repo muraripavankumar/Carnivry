@@ -140,9 +140,7 @@ export class RegistrationService {
   }
 
   logout(): Observable<any> {
-
-    return this.myClient.post(this.baseUrl+"/registration" + '/logout', this.getToken());
-
+    return this.myClient.post(this.baseUrl+"/registration"+ '/logout', this.getToken());
   }
 
   updateToken(token: any) {
