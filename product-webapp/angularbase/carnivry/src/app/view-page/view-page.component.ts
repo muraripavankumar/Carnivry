@@ -129,6 +129,9 @@ export class ViewPageComponent implements OnInit{
                 this.openPDF();
               }, 3000);
               console.log(this.eventdetails.ticketsSold);
+              this._snackBar.open("Ticket Successfully booked"), {
+                duration: this.durationInSeconds * 1000,
+              };
             },
             (error) => {
               this.openSnackBar();
@@ -150,6 +153,9 @@ export class ViewPageComponent implements OnInit{
                 this.openPDF();
               }, 3000);
               console.log(this.eventdetails.ticketsSold);
+              this._snackBar.open("Ticket Successfully booked"), {
+                duration: this.durationInSeconds * 1000,
+              };
             },
             (error) => {
               this._snackBar.open("Sorry, we are unavailable"), {

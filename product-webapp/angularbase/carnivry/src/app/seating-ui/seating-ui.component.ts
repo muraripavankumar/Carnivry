@@ -4,7 +4,7 @@ import { Seat } from '../model/seat';
 import { Event } from '../model/event';
 import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PriceCategory } from '../model/price-category';
 import { Observable } from 'rxjs';
 
@@ -13,6 +13,7 @@ import { TicketingServiceService } from '../service/ticketing-service.service';
 import { PaymentService } from '../service/payment.service';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 const KEY = 'time';
 const DEFAULT = 180;
@@ -42,6 +43,7 @@ export class SeatingUIComponent implements OnInit {
   config: CountdownConfig = { leftTime: DEFAULT, notify: 0 };
   timex = false;
   pdfhidden=false;
+  pdfshow = false;
   status: string;
   Name="Me123";
   EmailID="me123@gmail.com"
@@ -64,7 +66,9 @@ export class SeatingUIComponent implements OnInit {
     private viewEvent: ViewPageService,
     private ActivatedRoute: ActivatedRoute,
     private ticketingService: TicketingServiceService,
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private redirect: Router,
+    private _snackBar: MatSnackBar
   ) {
     this.email = localStorage.getItem('email');
   }
@@ -177,6 +181,7 @@ export class SeatingUIComponent implements OnInit {
 
   showBooking() {
     this.paymentDiv = true;
+    
     this.showtimer();
   }
 
@@ -198,14 +203,23 @@ export class SeatingUIComponent implements OnInit {
     return sum;
   }
 
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action,{
+      duration: 3000
+    });
+  }
+ 
   cancel() {
-    console.log('Add routing here');
+    
+     history.back()
   }
 
   bookticket() {
     const request = new Event();
     var seatsbooked = 0;
     request.seats = [];
+    this.pdfshow = true;
+    console.log(this.pdfshow)
     this.selectedItems.forEach((s: number,i) =>
     setTimeout(() => {
       this.ticketingService.bookseat(this.url, s - 1).subscribe(
@@ -224,8 +238,9 @@ export class SeatingUIComponent implements OnInit {
           }
         },
         (error) => {
+          this.openSnackBar("Ticket Booking Unsuccessfull","Hmmmm");
           console.log(error);
-          // alert("Ticket not available")
+          
         }
       )  
     }, i*1000),
@@ -265,8 +280,10 @@ export class SeatingUIComponent implements OnInit {
       (result) => {
         console.log('Payment Successful, data is transferred');
         console.log(successData)
-        this.pdfhidden=true;
-        this.bookticket();
+        document.getElementById('htmlData').style.display= "block"
+          this.bookticket();
+        
+        
       },
       (error) => {
         console.log('Payment successful, data is not transferred');
@@ -375,6 +392,8 @@ refreshpage(){
   window.location.reload();
 }
   public openPDF(): void {
+    // this.pdfshow = true;
+    
     let DATA: any = document.getElementById('htmlData');
     html2canvas(DATA).then((canvas) => {
       let fileWidth = 100;
@@ -385,10 +404,10 @@ refreshpage(){
       
       PDF.addImage(FILEURI, 'PNG', 40, position, fileWidth, fileHeight);
       PDF.save('Carnivryticket.pdf');
-
-      setTimeout(() => {
-        this.refreshpage();
-      }, 3000);
+      this.openSnackBar("Ticket is successfully booked","Yay");
+      // setTimeout(() => {
+      //   this.refreshpage();
+      // }, 3000);
       
     });
   }
