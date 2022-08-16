@@ -176,14 +176,7 @@
   <hr style="border: 1px solid black" />
 
   <div class="buttons" fxLayout="row">
-    <button
-      mat-raised-button
-      class="book-button"
-      (click)="holdBooking()"
-      *ngIf="selectedItems.length > 0"
-    >
-      Proceed
-    </button>
+ 
     <button
       mat-raised-button
       class="book-button"
@@ -192,6 +185,15 @@
     >
       Go Back
     </button>
+
+    <button
+    mat-raised-button
+    class="book-button"
+    (click)="holdBooking()"
+    *ngIf="selectedItems.length > 0"
+  >
+    Proceed
+  </button>
   </div>
 </div>
 
