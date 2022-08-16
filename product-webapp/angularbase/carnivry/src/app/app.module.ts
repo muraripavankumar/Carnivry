@@ -98,6 +98,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ViewPageComponent,
     NavigationComponent,
     SeatingUIComponent,
+    WishlistComponent,
 
 
     LandingPageComponent,
@@ -111,7 +112,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     UpcomingEventsComponent,
     PageNotFoundComponent,
     TicketComponent
-
   ],
   imports: [
     BrowserModule,

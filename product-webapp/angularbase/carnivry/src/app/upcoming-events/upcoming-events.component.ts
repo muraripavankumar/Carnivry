@@ -28,7 +28,7 @@ export class UpcomingEventsComponent implements OnInit {
       this.upcomingEvents= res;
       console.log(this.upcomingEvents);
 
-      if(res===null)
+      if(res.length===0)
          this.noEventMessage= "No Events to Dispaly";
       else
       this.upcomingEvents.map((event:Ticket)=>{

@@ -21,6 +21,7 @@ import { TicketComponent } from './ticket/ticket.component';
 import { UpcomingEventsComponent } from './upcoming-events/upcoming-events.component';
 import { UpdateEventComponent } from './update-event/update-event.component';
 import { ViewPageComponent } from './view-page/view-page.component';
+import { WishlistComponent } from './wishlist/wishlist.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,7 @@ const routes: Routes = [
       { path: 'account', component: ProfileComponent },
       { path: 'posted-events', component: PostedEventsComponent },
       { path: 'past-events', component: PastEventsComponent },
+      { path: 'wishlist', component: WishlistComponent },
       { path: 'upcoming-events', component: UpcomingEventsComponent },
       { path: 'add-preference', component: AddPreferenceComponent },
       { path: 'home', component: HomeComponent },

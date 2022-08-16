@@ -29,7 +29,7 @@ export class PastEventsComponent implements OnInit {
       this.pastEvents= res;
       console.log(this.pastEvents);
 
-      if(res===null)
+      if(res.length===0)
          this.noEventMessage= "No Events to Dispaly";
       else
       this.pastEvents.map((event:Ticket)=>{

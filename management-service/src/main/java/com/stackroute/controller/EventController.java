@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequestMapping("/api/v1")
+//@CrossOrigin("**")
 //http://localhost:8081/api/v1
 public class EventController {
     //addEvent                      = POST =
@@ -23,6 +24,7 @@ public class EventController {
     //getEventByUserEmailId         =GET = /{userEmail}
     //getPastEventsByUserEmailId    =GET = /past/{userEmail}
     //getUpcomingEventByUserEmailId =GET = /upcoming/{userEmail}
+    //updateLikes                   =PATCH = /likes/{eventId}/{flag}
 
 
 
@@ -124,6 +126,19 @@ public class EventController {
             return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.CONFLICT);
         } catch (Exception e) {
             log.error("Exception occurred in EventController -> getPastEventsByUserEmailId()");
+            return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PatchMapping("/likes/{eventId}/{flag}")
+    public ResponseEntity<?> updateNoOfLikes(@PathVariable String eventId,@PathVariable boolean flag) throws Exception{
+        try {
+            log.info("updating the number of likes");
+            return new ResponseEntity<>(eventService.updateNoOfLikes(eventId,flag),HttpStatus.OK);
+        } catch (EventNotFoundException e) {
+            log.error("EventNotFoundException occurred in EventController -> updateNoOfLikes(), {}",e.getMessage());
+            return new ResponseEntity<>("Soory for inconvenience!",HttpStatus.CONFLICT);
+        }catch (Exception e) {
+            log.error("Exception occurred in EventController -> updateNoOfLikes()");
             return new ResponseEntity<>("Sorry for inconvenience! We will be back soon.",HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

@@ -1,5 +1,6 @@
 package com.stackroute;
 
+import com.stackroute.filter.JwtFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,20 +21,28 @@ public class ManagementServiceApplication {
 		SpringApplication.run(ManagementServiceApplication.class, args);
 		log.info("Management-Service Application is RUNNING!");
 	}
+//	@Bean
+//	public FilterRegistrationBean filterRegistrationBean(){
+//		final CorsConfiguration config= new CorsConfiguration();
+//		config.setAllowCredentials(true);
+//		config.addAllowedOrigin("http://localhost:4200");
+//		config.addAllowedHeader("*");
+//		config.addAllowedMethod("*");
+//
+//		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//		source.registerCorsConfiguration("/**", config);
+//
+//		FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+//		bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+//		return bean;
+//	}
 	@Bean
-	public FilterRegistrationBean filterRegistrationBean(){
-		final CorsConfiguration config= new CorsConfiguration();
-		config.setAllowCredentials(true);
-		config.addAllowedOrigin("http://localhost:4200");
-		config.addAllowedHeader("*");
-		config.addAllowedMethod("*");
-
-		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", config);
-
-		FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
-		bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-		return bean;
+	public FilterRegistrationBean jwtFilter(){
+		//mention the urls to be intercepted.filtered
+		FilterRegistrationBean frb=new FilterRegistrationBean();
+		frb.setFilter(new JwtFilter());
+		frb.addUrlPatterns("/api/*");//list of urls that are to be intercepted
+		return frb;
 	}
 
 }

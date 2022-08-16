@@ -13,11 +13,18 @@ export class LoginService {
   
   constructor(private httpClient: HttpClient) { }
   //http://localhost:64200/api/v1/login
-  userauthenticationbaseurl = "http://localhost:64200/api/v1";
-  baseUrl= environment.baseUrl+"/userauth/api/v1"
+// <<<<<<< HEAD
+  // userauthenticationbaseurl = "http://localhost:64200/api/v1";
+  // baseUrl= environment.baseUrl+"/userauth/api/v1";
+  private controllerUrl="/api/v1";
+  private loginUrl= environment.baseUrl+"/userauth"+this.controllerUrl;
+// =======
+//   userauthenticationbaseurl = "http://localhost:64200/api/v1";
+//   baseUrl= environment.baseUrl+"/userauth/api/v1"
+// >>>>>>> f1f6dde4c09d1c3c01c926533693aa2513f04a6f
 
   logincheck(data: Loginuser) {
-    return this.httpClient.post<any>(this.baseUrl + "/login", data);
+    return this.httpClient.post<any>(this.loginUrl + "/login", data);
   }
 
   
@@ -26,14 +33,15 @@ export class LoginService {
 
   forgotPassword(data:Loginuser) {
     // console.log(window.localStorage.getItem('tgt'));
-   return this.httpClient.put<any>(this.baseUrl + "/forgotPassword",data);
+    var reqHeader=new HttpHeaders().set('Authorization','Bearer '+window.localStorage.getItem('token'));
+   return this.httpClient.put<any>(this.loginUrl + "/forgotPassword",data,{'headers':reqHeader});
   }
 
   //http://localhost:64200/api/v1/forgot-password 
   baseurl = "http://localhost:64200/api/v1";
 
   emailLink(data:String){
-    return this.httpClient.post<any>(this.baseUrl + "/emailLink/"+data, data);
+    return this.httpClient.post<any>(this.loginUrl + "/emailLink/"+data, data);
   }
 
   updatePassword(password:string,token:string){}

@@ -16,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
+//@CrossOrigin("**")
 public class Controller {
 
 
@@ -67,11 +68,11 @@ public class Controller {
 //    }
 
     //Retrieve upcoming events
-    @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("/upcoming-events/{emailId}")
-    public ResponseEntity<?> upcomingEvents(@PathVariable String emailId){
+
+    @GetMapping("/upcoming-events")
+    public ResponseEntity<?> upcomingEvents(){
         try {
-            responseEntity = new ResponseEntity<List<Events>>(userService.getUpcomingEvents(emailId), HttpStatus.OK);
+            responseEntity = new ResponseEntity<List<Events>>(userService.getUpcomingEvents(), HttpStatus.OK);
         }
         catch (EventNotFoundException e){
             responseEntity = new ResponseEntity<String>("No Upcoming events found", HttpStatus.OK);
@@ -92,7 +93,7 @@ public class Controller {
     }
 
     //retrieve all the events
-    @CrossOrigin(origins = "http://localhost:4200")
+//    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/all-events")
     public ResponseEntity<?> getAllEvents() {
         try {
@@ -105,11 +106,11 @@ public class Controller {
     }
 
     //update the number of likes of event
-    @CrossOrigin(origins = "http://localhost:4200")
+//    @CrossOrigin(origins = "http://localhost:4200")
     @PutMapping("/update-likes/{emailId}/{eventId}")
     public ResponseEntity<?> updateEventLikes(@PathVariable String emailId, @PathVariable String eventId){
         try {
-            responseEntity = new ResponseEntity<String>(eventService.updateEventLikes(emailId, eventId), HttpStatus.OK);
+            responseEntity = new ResponseEntity<Events>(eventService.updateEventLikes(emailId, eventId), HttpStatus.OK);
         }
         catch (Exception e){
             responseEntity = new ResponseEntity<String>("Some other exception occurred", HttpStatus.OK);
@@ -118,7 +119,7 @@ public class Controller {
     }
 
     //update the wishlist of the user
-    @CrossOrigin(origins = "http://localhost:4200")
+//    @CrossOrigin(origins = "http://localhost:4200")
     @PutMapping("/add-wishlist/{emailId}/{eventId}")
     public ResponseEntity<?> updateUserWishlist(@PathVariable String emailId, @PathVariable String eventId){
         try {
@@ -131,7 +132,7 @@ public class Controller {
     }
 
     //retrieve recommended events for particular user
-    @CrossOrigin(origins = "http://localhost:4200")
+//    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/suggest-events/{emailId}")
     public ResponseEntity<?> getSuggestedEvents(@PathVariable String emailId){
         try {
@@ -144,7 +145,7 @@ public class Controller {
     }
 
     //retrieve recommended events for particular log out session
-    @CrossOrigin(origins = "http://localhost:4200")
+//    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/suggest-events/no-user")
     public ResponseEntity<?> getSuggestedEventsForLogout(){
         try {
@@ -157,7 +158,7 @@ public class Controller {
     }
 
     //retrieve recommended events for particular city
-    @CrossOrigin(origins = "http://localhost:4200")
+//    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/suggestion/{city}")
     public ResponseEntity<?> getSuggestedEventsByCity(@PathVariable String city){
         try {

@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -527,17 +528,17 @@ public class UserServiceImpl implements UserService{
             throw new UserNotFoundException();
         }
         CarnivryUser carnivryUser= userRepository.findById(addWishlist.getEmail()).get();
-        List<String> wl= carnivryUser.getWishlist();
+        List<Event> wl= carnivryUser.getWishlist();
         if(wl==null)
             wl= new ArrayList<>();
-        wl.add(addWishlist.getEventId());
+        wl.add(addWishlist.getEvent());
         carnivryUser.setWishlist(wl);
         userRepository.save(carnivryUser);
 
         sendDataToSuggestionService(carnivryUser);
 
         log.info("Event with eventId {} added to the wishlist of user with email id {}"
-                ,addWishlist.getEventId(),addWishlist.getEmail());
+                ,addWishlist.getEvent().getEventId(),addWishlist.getEmail());
     }
 
     @Override
@@ -564,7 +565,8 @@ public class UserServiceImpl implements UserService{
         SuggestionUserDTO suggestionUserDTO= new SuggestionUserDTO();
         suggestionUserDTO.setEmailId(carnivryUser.getEmail());
         suggestionUserDTO.setName(carnivryUser.getName());
-        suggestionUserDTO.setWishlist(carnivryUser.getWishlist());
+        List<String> wl= carnivryUser.getWishlist().stream().map(Event::getEventId).collect(Collectors.toList());
+        suggestionUserDTO.setWishlist(wl);
         Preferences preferences= carnivryUser.getPreferences();
         if(preferences!=null)
         {
@@ -633,7 +635,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<String> getWishlist(String email) throws UserNotFoundException {
+    public List<Event> getWishlist(String email) throws UserNotFoundException {
         if (userRepository.findById(email).isEmpty())
         {
             log.debug("User with email id {} not found",email);

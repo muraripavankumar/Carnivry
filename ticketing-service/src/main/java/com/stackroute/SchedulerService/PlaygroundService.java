@@ -18,7 +18,7 @@ public class PlaygroundService {
         final TimerInfo info = new TimerInfo();
         info.setTotalFireCount(1);
 
-        info.setInitialOffsetMs(60000);
+        info.setInitialOffsetMs(174000);
         info.setCallbackData(id);
         info.setSeatId(nid);
 

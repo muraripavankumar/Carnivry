@@ -11,17 +11,35 @@ import { Ticket } from '../model/ticket';
 })
 export class RegistrationService {
 
-  private githubAuthorizeEndpoint = '/oauth2/authorization/github'
-  private googleAuthorizeEndpoint = '/oauth2/authorization/google'
+  private githubAuthorizeEndpoint = '/registration/oauth2/authorization/github'
+  private googleAuthorizeEndpoint = '/registration/oauth2/authorization/google'
 
-  private githubTokenEndpoint = '/login/oauth2/code/github';
-  private googleTokenEndpoint = '/login/oauth2/code/google';
+  private githubTokenEndpoint = '/registration/login/oauth2/code/github';
+  private googleTokenEndpoint = '/registration/login/oauth2/code/google';
 
   private baseUrl= environment.baseUrl;
-  private registrationBaseUrl= environment.baseUrl+"/registration/api/v1";
+
+  private controllerUrl="/api/v1";
+  private registrationBaseUrl= environment.baseUrl+"/registration"+this.controllerUrl;
+
 
 
   constructor(private myClient: HttpClient) { }
+  googleLogin(){
+    window.open(this.baseUrl + this.googleAuthorizeEndpoint, '_self');
+  }
+
+  githubLogin() {
+    window.open(this.baseUrl + this.githubAuthorizeEndpoint, '_self');
+  }
+
+  googleFetchToken(code: any, state: any): Observable<any> {
+    return this.myClient.get(this.baseUrl + this.googleTokenEndpoint + '?code=' + code + '&state=' + state);
+  }
+  
+  githubFetchToken(code: any, state: any): Observable<any> {
+    return this.myClient.get(this.baseUrl + this.githubTokenEndpoint + '?code=' + code + '&state=' + state);
+  }
 
   register(user:PostUser):Observable<any>{
     return this.myClient.post(this.registrationBaseUrl+"/registration",user);
@@ -106,20 +124,14 @@ export class RegistrationService {
     return this.myClient.get(this.registrationBaseUrl+"/getProfilePic/"+email,{responseType: 'text'} );
   }
 
-  googleLogin(){
-    window.open(this.baseUrl + this.googleAuthorizeEndpoint, '_self');
+
+  addEventToWishlist(obj:any){
+    return this.myClient.post(this.registrationBaseUrl+"/WishlistAddition",obj),{responseType: 'text'};
+
   }
 
-  githubLogin() {
-    window.open(this.baseUrl + this.githubAuthorizeEndpoint, '_self');
-  }
-
-  googleFetchToken(code: any, state: any): Observable<any> {
-    return this.myClient.get(this.baseUrl + this.googleTokenEndpoint + '?code=' + code + '&state=' + state);
-  }
-  
-  githubFetchToken(code: any, state: any): Observable<any> {
-    return this.myClient.get(this.baseUrl + this.githubTokenEndpoint + '?code=' + code + '&state=' + state);
+  getWishlist(email:string):Observable<Event[]>{
+    return this.myClient.get<Event[]>(this.registrationBaseUrl+"/wishlist/"+email);
   }
 
   isLoggedIn(): boolean {
@@ -128,7 +140,9 @@ export class RegistrationService {
   }
 
   logout(): Observable<any> {
-    return this.myClient.post(this.baseUrl + '/logout', this.getToken());
+
+    return this.myClient.post(this.baseUrl+"/registration" + '/logout', this.getToken());
+
   }
 
   updateToken(token: any) {
