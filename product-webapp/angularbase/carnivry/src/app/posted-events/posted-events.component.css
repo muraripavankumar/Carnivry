@@ -16,14 +16,15 @@
     display: inline;
 }
 .content{
-    width: 280px;
+    margin-top: 30px;
+    width: 100%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-evenly;
 }
 .event{
-    width: 30%;
+    width: 280px;
 }
 
 .butt_box{
@@ -43,12 +44,27 @@
     background: linear-gradient(45deg, #c85bff, #b726ff);
     color: rgb(234, 211, 245);
   }
+  .buttons{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+
+  }
 #view_button{
     width: 50%;
     height: auto;
     border-radius: 25px;
-    background: linear-gradient(45deg, #c85bff, #b726ff);
-    color: rgb(234, 211, 245);
+    background-image: linear-gradient(45deg, #f046ff, #9b00e8);
+    color: white;
 
 }
+#view_button:hover{
+    background: linear-gradient(45deg, #c85bff, #b726ff);
+    color: rgb(234, 211, 245);
+  }
+
+
 

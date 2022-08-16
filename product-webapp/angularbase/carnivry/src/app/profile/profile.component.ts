@@ -112,6 +112,9 @@ export class ProfileComponent implements OnInit {
  getUpcomingEvents(){
   this.router.navigate(['/upcoming-events']);
 }
+getWishlist(){
+  this.router.navigate(['/wishlist']);
+}
 
   
 }

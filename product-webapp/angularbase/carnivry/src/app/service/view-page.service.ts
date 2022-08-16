@@ -14,9 +14,9 @@ export class ViewPageService {
   constructor(private httpClient: HttpClient) { }
 
 // <<<<<<< HEAD
-  // viewEventurl="http://localhost:5300/ticket";
+ // viewEventurl="http://localhost:5300/ticket";
   private controllerUrl="/api/v1";
-  private viewEventurl=environment.baseUrl+"/ticketservice"+this.controllerUrl;
+ private viewEventurl=environment.baseUrl+"/ticketservice"+this.controllerUrl;
 // =======
 //   viewEventurl=environment.baseUrl+"/ticketservice/api/v1"
 // >>>>>>> f1f6dde4c09d1c3c01c926533693aa2513f04a6f

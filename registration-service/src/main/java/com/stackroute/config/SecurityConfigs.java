@@ -54,6 +54,7 @@ public class SecurityConfigs extends WebSecurityConfigurerAdapter {
             "/api/v1/username/*",
             "/api/v1/userCheck/**",
             "/api/v1/WishlistAddition",
+            "/api/v1/wishlist/*",
             "/api/v1/pastEvents/*",
             "/api/v1/upcomingEvents/*",
             "/oauth2/**", "/login**"

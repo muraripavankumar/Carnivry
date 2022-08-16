@@ -83,7 +83,7 @@ export class HomeComponent implements OnInit {
     this.regService.logout().subscribe(() => {
       localStorage.clear();
       this.ngOnInit();
-      this.router.navigate(['/landing-page']);
+      window.location.href = "/#/landing-page";
     });
   }
 

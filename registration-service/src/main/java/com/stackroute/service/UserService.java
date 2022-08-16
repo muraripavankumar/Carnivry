@@ -65,5 +65,5 @@ public interface UserService {
 
     List<TicketDTO> getUpcomingEvents(String email) throws UserNotFoundException;
 
-    List<String> getWishlist(String email) throws UserNotFoundException;
+    List<Event> getWishlist(String email) throws UserNotFoundException;
 }

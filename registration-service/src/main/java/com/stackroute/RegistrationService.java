@@ -17,7 +17,7 @@ import org.springframework.web.filter.CorsFilter;
 import javax.annotation.PostConstruct;
 
 @SpringBootApplication
-@EnableEurekaClient
+//@EnableEurekaClient
 @Slf4j
 public class RegistrationService {
 

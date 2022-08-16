@@ -430,7 +430,7 @@ public class RegistrationController {
     @GetMapping("/wishlist/{email}")
     public ResponseEntity<?> getWishlist(@PathVariable String email){
         try {
-            List<String> wishlist= userService.getWishlist(email);
+            List<Event> wishlist= userService.getWishlist(email);
             log.info("Wishlist fetched for user with email id {}",email);
 
                 return new ResponseEntity<>(wishlist,HttpStatus.OK);
@@ -486,7 +486,9 @@ public class RegistrationController {
     private String applicationUrl(HttpServletRequest request) {
 //        System.out.println(request.getHeader("Referer"));
         log.debug("application url generated");
-        return "http://" +
+        return
+                "http://" +
+//                "https://carnivry.stackroute.io/registration"";
                 request.getServerName() +
                 ":" +
                 request.getServerPort() +

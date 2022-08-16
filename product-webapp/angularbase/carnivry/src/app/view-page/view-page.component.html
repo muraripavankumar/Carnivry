@@ -1,6 +1,6 @@
 <div class="document">
 
-<p>
+<!-- <p>
     <mat-toolbar style="background-image: linear-gradient(to right,rgb(46, 1, 1),rgb(248, 52, 52));justify-content: center;
     height: 7rem;" class="toolbar">
       <span style="font-family: 'Marcellus SC', serif;;
@@ -8,36 +8,7 @@
       font-weight: bolder; color: white;" class="toolbar1">
          {{eventdetails.title}}</span>
     </mat-toolbar>
-  </p>
-<!-- 
-  <mat-card class="Poster-card ">
-
-    <img mat-card-image [src]="posterUrl"  class="Poster-image border-background border-background-gradient">
-  
-    <hr style="border: 2px solid black;"> 
-    <mat-card-title class="title">
-      <div class="border-background border-background-gradient eventtitle">
-        {{eventdetails.title}}
-      </div>
-      <mat-card-content class="content-card like" style="padding-top: -2rem; position: relative; padding-bottom: 1rem;" >
-        <i class="fa fa-heart fa-7x" style="color: red; margin-top: 2rem;" aria-hidden="true"></i>
-        <p style="font-size: 3rem; padding: 2rem; padding-top: -2rem; ">
-          {{eventdetails.likes}} users have liked this Carnivral
-        </p>
-
-      </mat-card-content>
-      <mat-card-content class="content-card timing" >
-
-        <p style="font-size: 3rem; padding: 2rem; margin-left: auto; margin-right: auto; margin-top: -5rem ; background-color: black;"
-        class="border-background border-background-gradient">
-          Starts on: {{eventdetails.eventTimings.startDate | date}}
-        </p>
-      </mat-card-content>
-    </mat-card-title>
-
-  </mat-card> -->
-
-  <!-- -------------------------------------------------------------------------------------------------------------------------------- -->
+  </p> -->
 
 
 
@@ -73,7 +44,7 @@
 <div class="descriptionnew">
   <mat-card class="description-card">
     <mat-card-title>
-      <h1 class="description2 description1">Full Description</h1>
+      <h1 class="description2 description1">Description</h1>
      </mat-card-title>
      <mat-card-content class="text-details" >
        {{eventdetails.
@@ -92,21 +63,30 @@
   <mat-card class="description2 Timings" >
     <mat-card-title>
       <h1 class="description description1 description2">
-        Carnival Timings
+        Event Timings
       </h1>
 
-    </mat-card-title>
+    </mat-card-title >
       <mat-card-content class="timing-content">
 
-          Launch Date: {{eventdetails.eventTimings.startDate | date}}
-
-          <hr style="margin-left: 1.5rem; margin-right: 1.5rem; height: 2.5rem; border: 1px solid black;">
+        <span class="material-symbols-outlined">
+          event
+          </span> Launch Date: {{eventdetails.eventTimings.startDate | date}}
+         <br>
+          <span class="material-symbols-outlined">
+            event
+            </span>
         Ends On: {{eventdetails.eventTimings.endDate | date}}
       </mat-card-content>
   <mat-card-content class="timing-content tc">
-
+    <span class="material-symbols-outlined">
+      schedule
+      </span>
         Event starts at: {{eventdetails.eventTimings.startTime}}
-        <hr style="margin-left: 1rem; margin-right: 1rem; height: 2.5rem; border: 1px solid black;">
+       <br>
+        <span class="material-symbols-outlined">
+          schedule
+          </span>
         Event ends at: {{eventdetails.eventTimings.endTime}}
 </mat-card-content>
   </mat-card>
@@ -136,16 +116,6 @@
 
 </div>
 
-  <!-- <mat-card  class="description2 art" fxFlex="45%" >
-    <mat-card-title>
-      <h1 class="description description1">
-        Artists
-      </h1>
-    </mat-card-title>
-    <mat-card *ngFor="let artists of eventdetails.artists" class="artists">
-      {{artists}}
-        </mat-card>
-  </mat-card> -->
 
  <div class="add-cont">
 
@@ -154,10 +124,15 @@
   <mat-card  class="description venue">
     <mat-card-title>
       <h1 class="description description2" *ngIf="eventdetails.venue.address.state!='-NA-'">
-        Venue
+        <span class="material-symbols-outlined">
+          home
+          </span> Venue
       </h1>
 
       <h1 class="description description2" *ngIf="eventdetails.venue.address.state=='-NA-'">
+        <span class="material-symbols-outlined">
+          devices
+          </span>
        Website
       </h1>
       <div class="venue1" *ngIf="eventdetails.venue.address.state=='-NA-'">
@@ -202,14 +177,13 @@
 
 
    
-  <div class="buttons" fxLayout="row">
+  <div class="buttons" fxLayout="row" fxLayoutAlign="center center">
     <div>
       <button mat-raised-button class="book-button" routerLink="" > Go Back</button>
      </div>
      
     <div>
       <button mat-raised-button class="book-button" (click)="seatview(eventdetails.eventId)"> Book Ticket</button>
-
     </div>
    
    
@@ -222,7 +196,8 @@
   <div class="payed"  >
 
  
-  <mat-card class=" description description1" style="width: fit-content; margin: auto; margin-left:2rem ;">
+  <mat-card class=" description description1" style="width: fit-content; margin: auto; margin-left:2rem ;  
+   box-shadow: 3px 3px 15px 3px rgb(217, 217, 217); border: 1px solid black;">
           Confirmation
   </mat-card>
   <mat-card class="evt-name">
@@ -272,7 +247,7 @@
 </mat-card>
 
 
-<!-- ------------------------------------------------------------------------------------------------------------------------------------ --> -->
+<!-- ------------------------------------------------------------------------------------------------------------------------------------ -->
 <!-- Ticket -->
 
 <div class="l-col-right ticket-wrap" aria-label="Ticket for Carnivry Event" 

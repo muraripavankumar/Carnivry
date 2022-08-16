@@ -48,3 +48,9 @@
     background: linear-gradient(45deg, #c85bff, #b726ff);
     color: rgb(234, 211, 245);
   }
+.noEvent{
+    width: 100%;
+    margin: 10vh auto;
+    font-size: 40px;
+    font-style: italic;
+}
