@@ -299,11 +299,11 @@
                       {{r}}</div>
                   </div>
 
-                  <div class="scrollable">
-                    <div class="cont" id="parent" (mousedown)="mouseDownEvent()" (mouseup)="mouseUpEvent()">
-                      <div class="box" *ngFor="let e of eventData.seats; index as x;">
+                  <div class="scrollable" style="background-color: red;">
+                    <div class="cont" id="parent" (mousedown)="mouseDownEvent()" (mouseup)="mouseUpEvent()" style="background-color: yellow;">
+                      <div class="box" *ngFor="let e of eventData.seats; index as x;" style="background-color: green;">
                         <div id="d.{{x}}" style="border: 0.2rem solid black;" [style.backgroundColor]=' getColor(e)'
-                          (mouseenter)="checkDiv($event)">
+                          (mouseenter)="checkDiv($event)"  style="background-color: blue;">
                           <label class="unselectable" for="{{x}}">{{e.seatId}}</label>
                           <input type="checkbox" name="" id="{{x}}" (change)="fieldChange(x)" value="{{e.seatId}}"
                             [disabled]="e.seatPrice!= 0.0001" style="display: none;">
