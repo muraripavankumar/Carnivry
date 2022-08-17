@@ -46,6 +46,7 @@
 		<module>product-webapp</module>
 		<module>APIGateway</module>
 		<module>EurekaServer</module>
+
 	</modules>
 	<build>
 		<plugins>
